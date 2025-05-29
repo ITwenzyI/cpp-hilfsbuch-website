@@ -1,0 +1,1889 @@
+[
+  {
+    "category": "Grundlagen",
+    "subtopics": [
+      {
+        "title": "Console Ausgabe UTF-8 Windows",
+        "content": {
+          "text": [
+            "\n\n### === Console Ausgabe UTF-8 in Clion Windows ===\n\n\n",
+            "In Clion auf Windows, zeigt die Console keine Ü,Ä,Ö usw. an, wenn man nicht bestimmte Dinge beachtet und einstellt.\n\n",
+            "### FONT Einstellen:",
+            "Zudem ist zu empfehlen, die Schriftart umzustellen, damit keine Formatierungsfehler erscheinen.\n",
+            "In Clion: Einstellungen/Editor/General/Font dort Font: Consolar Size: 13.0 Line height: 1.2\n\n\n",
+            "### CODE in main.lua:"
+          ],
+          "code": [
+            "#include <windows.h> \n#include <io.h> \n#include <fcntl.h> \n\n\nint main() {\n SetConsoleOutputCP(CP_UTF8); \n return 0; \n}"
+          ]
+        }
+      },
+      {
+        "title": "Begriffe",
+        "content": {
+          "text": [
+          "### === Wichtige Begriffe in C++ erklärt ===\n",
+          "Hier findest du eine Übersicht zentraler Begriffe in der C++-Programmierung, kompakt erklärt.\n",
+          "\n",
+          "#### Compiler\n",
+          "- Übersetzt C++-Code in Maschinenprogramm, das dein Computer ausführen kann\n",
+          "\n",
+          "#### Präprozessor\n",
+          "- Führt Anweisungen wie `#include` und `#define` vor dem Kompilieren aus\n",
+          "\n",
+          "#### Header-Datei\n",
+          "- Datei mit Deklarationen von Funktionen, Klassen oder Konstanten (meist `.h` oder `.hpp`)\n",
+          "\n",
+          "#### Deklaration vs. Definition\n",
+          "- Deklaration: Nur Ankündigung (z. B. `int x;`)\n",
+          "- Definition: Speicher wird wirklich zugewiesen (z. B. `int x = 5;`)\n",
+          "\n",
+          "#### Variable\n",
+          "- Speicherstelle mit Namen, die Daten aufnehmen kann (z. B. `int zahl = 10;`)\n",
+          "\n",
+          "#### Funktion\n",
+          "- Codeblock, der mehrfach ausführbar ist – mit `return`-Wert und Parametern\n",
+          "\n",
+          "#### Rückgabewert\n",
+          "- Der Wert, den eine Funktion mit `return` zurückliefert\n",
+          "\n",
+          "#### Parameter vs. Argument\n",
+          "- Parameter: Platzhalter in der Funktionsdefinition (`int add(int a, int b)`)\n",
+          "- Argument: Konkreter Wert beim Aufruf (`add(5, 7)` → 5 und 7)\n",
+          "\n",
+          "#### Block / Scope\n",
+          "- Bereich mit `{}` – darin gelten lokale Variablen\n",
+          "\n",
+          "#### Gültigkeitsbereich (Scope)\n",
+          "- Gibt an, wo im Code eine Variable sichtbar/nutzbar ist (z. B. lokal vs. global)\n",
+          "\n",
+          "#### Initialisierung\n",
+          "- Erstmalige Zuweisung eines Werts an eine Variable (`int x = 5;`)\n",
+          "\n",
+          "#### Operatoren\n",
+          "- Rechenzeichen oder Symbole zur Verarbeitung (`+`, `-`, `==`, `&&`, `++`, `<<`)\n",
+          "\n",
+          "#### Kontrollstrukturen\n",
+          "- Anweisungen zur Ablaufsteuerung: `if`, `while`, `for`, `switch`\n",
+          "\n",
+          "#### Schleife\n",
+          "- Wiederholt Anweisungen: `while`, `for`, `do-while`\n",
+          "\n",
+          "#### Bedingung\n",
+          "- Ausdruck, der `true` oder `false` ergibt (z. B. `x > 5`)\n",
+          "\n",
+          "#### Klasse / Objekt\n",
+          "- Klasse: Bauplan für Objekte (enthält Daten + Funktionen)\n",
+          "- Objekt: Konkrete Instanz einer Klasse\n",
+          "\n",
+          "#### Konstruktor / Destruktor\n",
+          "- Konstruktor: Wird beim Erzeugen eines Objekts automatisch aufgerufen\n",
+          "- Destruktor: Wird beim Löschen automatisch aufgerufen (`~Klassenname()`)\n",
+          "\n",
+          "#### this-Zeiger\n",
+          "- Zeigt innerhalb einer Klasse auf das aktuelle Objekt (`this->variable`)\n",
+          "\n",
+          "#### new / delete\n",
+          "- `new`: Reserviert Speicher auf dem Heap (`int* p = new int;`)\n",
+          "- `delete`: Gibt diesen Speicher wieder frei\n",
+          "\n",
+          "#### Referenz (&)\n",
+          "- Alias auf eine bestehende Variable (z. B. `int& r = x;`)\n",
+          "\n",
+          "#### Zeiger (*)\n",
+          "- Variable, die eine Speicheradresse speichert (`int* p = &x;`)\n",
+          "\n",
+          "#### nullptr\n",
+          "- Null-Zeiger, zeigt auf „nichts“ (`int* p = nullptr;`)\n",
+          "\n",
+          "#### Überladung\n",
+          "- Mehrere Funktionen mit gleichem Namen, aber unterschiedlicher Signatur\n",
+          "\n",
+          "#### Vererbung\n",
+          "- Eine Klasse übernimmt Eigenschaften einer anderen Klasse\n",
+          "\n",
+          "#### Polymorphie\n",
+          "- Fähigkeit, Objekte über gemeinsame Schnittstellen unterschiedlich zu behandeln\n",
+          "\n",
+          "#### Template\n",
+          "- Ermöglicht generischen Code (z. B. Funktionen für beliebige Typen)\n",
+          "\n",
+          "#### Lambda\n",
+          "- Anonyme Funktion, oft für kurze Aktionen in `std::for_each`, `sort`, ...\n",
+          "\n",
+          "#### Iterator\n",
+          "- Zeiger-ähnliches Objekt zum Durchlaufen von Containern (`v.begin()`, `v.end()`)\n"
+        ],
+          "code": [
+            "#include <iostream>\n\n\nint main() {\n  std::cout << \"NICHTS ZU KOPIEREN :C\" << std::endl;\n  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Typen",
+        "content": {
+          "text": [
+            "### === Datentypen in C++ ===\n",
+            "C++ kennt viele eingebaute Typen und erlaubt die Definition eigener Typen.\n",
+            "\n",
+            "### Standard-Datentypen\n",
+            "- `int`: Ganzzahl (z. B. `int x = 5;`)\n",
+            "- `float`: Fließkommazahl mit einfacher Genauigkeit\n",
+            "- `double`: Fließkommazahl mit doppelter Genauigkeit\n",
+            "- `char`: Einzelnes Zeichen (z. B. `'A'`)\n",
+            "- `bool`: Wahrheitswert (`true` / `false`)\n",
+            "- `void`: Kein Rückgabewert (z. B. bei `void funktion()`)\n",
+            "\n",
+            "### Erweiterte Grundtypen\n",
+            "- `long`, `long long`, `unsigned`, `short`: Varianten von `int`\n",
+            "- `wchar_t`, `char16_t`, `char32_t`: Unicode-Zeichentypen\n",
+            "- `std::string`: String-Klasse (aus `<string>`)\n",
+            "- `std::size_t`: Unsigned Ganzzahl für Größen (z. B. `v.size()`)\n",
+            "- `nullptr_t`: Typ des Literals `nullptr`\n",
+            "\n",
+            "### Automatische Typableitung\n",
+            "- `auto`: Typ wird automatisch aus dem Ausdruck ermittelt\n",
+            "- `decltype(...)`: Liefert den Typ eines Ausdrucks\n",
+            "- Beispiel:\n",
+            "```cpp\nint x = 5;\nauto y = x * 2;         // y ist int\ndecltype(y) z = 10;      // z ist auch int\n```\n",
+            "\n",
+            "### Eigene Typen\n",
+            "- `struct`: Für einfache Strukturen mit mehreren Feldern\n",
+            "- `class`: Für Klassen mit Methoden und Zugriffskontrolle (public/private)\n",
+            "- `enum`: Für aufzählbare Werte\n",
+            "\n",
+            "#### `enum` Erklärung:\n",
+            "- `enum` erstellt eigene ganzzahlige Werte (standardmäßig beginnend bei 0)\n",
+            "- Beispiel:\n",
+            "```cpp\nenum Farbe { Rot, Gruen, Blau };  // Rot = 0, Gruen = 1, Blau = 2\n```\n",
+            "- Man kann Werte auch selbst zuweisen:\n",
+            "```cpp\nenum Status { OK = 1, FEHLER = 404, NICHT_GEFUNDEN = 4040 };\n```\n",
+            "- Zugriff auf Zahlwert mit `static_cast<int>(enumWert)`:\n",
+            "```cpp\nStatus s = FEHLER;\nstd::cout << static_cast<int>(s);  // Ausgabe: 404\n```\n",
+            "- `enum class` (modernes C++): Streng typisiert, Zugriff nur mit `Status::FEHLER`\n",
+            "\n",
+            "- `typedef` (alt) und `using` (modern): Eigene Namen für bestehende Typen\n",
+            "- Beispiel:\n",
+            "```cpp\ntypedef unsigned int uint;\nusing Score = double;\n```",
+            "\n",
+            "### Typumwandlung (Casting)\n",
+            "- `static_cast<T>(wert)`: Sicherer Cast zwischen kompatiblen Typen\n",
+            "- `reinterpret_cast<T>`: Für Low-Level-Zugriff (meist vermeiden!)\n",
+            "- `const_cast<T>`: Entfernt `const`\n",
+            "- `dynamic_cast<T>`: Für Vererbung und Polymorphie (mit RTTI)\n",
+            "\n",
+            "👉 Für sichere Typprüfung: `typeid(variable).name()` (aus `<typeinfo>`) oder `std::is_same<T, U>()` (aus `<type_traits>`)\n"
+          ],
+          "code": [
+            "#include <iostream>\n#include <string>\n#include <typeinfo>\n\n// Eigene Struktur\nstruct Person {\n    std::string name;\n    int alter;\n};\n\n// Typalias\nusing Zahl = unsigned int;\n\nenum Farbe { Rot, Gruen, Blau };           // Rot = 0, Gruen = 1, Blau = 2\nenum Status { OK = 1, FEHLER = 404 };      // eigene Werte\n\nint main() {\n    int a = 10;\n    auto b = 3.14;                          // automatisch double\n    decltype(a) c = 5;                      // ebenfalls int\n\n    Person p = {\"Kilian\", 21};\n    Zahl punkte = 150;\n\n    Farbe f = Gruen;\n    Status s = FEHLER;\n\n    std::cout << \"Name: \" << p.name << \", Alter: \" << p.alter << std::endl;         // Ausgabe: Name: Kilian, Alter: 21\n    std::cout << \"Punkte: \" << punkte << std::endl;                                  // Ausgabe: Punkte: 150\n    std::cout << \"Typ von b: \" << typeid(b).name() << std::endl;                     // Ausgabe: Typ von b: double (compilerabhängig)\n    std::cout << \"Fehlercode: \" << static_cast<int>(s) << std::endl;                // Ausgabe: Fehlercode: 404\n\n    return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Header",
+        "content": {
+          "text": [
+            "### === Wichtige Header-Dateien in C++ ===\n",
+            "Header-Dateien enthalten Deklarationen von Funktionen, Klassen und Datentypen. Standard-Header kommen aus der C++-Standardbibliothek, eigene erstellt man selbst.\n",
+            "\n",
+            "### Arten von `#include`\n",
+            "- `#include <...>`: Für Standardbibliothek (z. B. `<iostream>`, `<vector>`, ...)\n",
+            "- `#include \"...\"`: Für eigene Dateien (z. B. `\"meinmodul.hpp\"`)\n",
+            "\n",
+            "### Eigene Header-Dateien\n",
+            "- Eigene Header enden meist auf `.h` oder `.hpp`\n",
+            "- Sie enthalten **Deklarationen**, keine Implementierungen\n",
+            "- Die zugehörige `.cpp`-Datei enthält dann die **Definitionen**\n",
+            "\n",
+            "#### Beispiel – Header-Datei: `meinmodul.h`\n",
+            "```cpp\n#ifndef MEINMODUL_H\n#define MEINMODUL_H\n\nvoid begruessung(); // Funktionsdeklaration\n\n#endif\n```\n",
+            "\n",
+            "#### Beispiel – Implementierung: `meinmodul.cpp`\n",
+            "```cpp\n#include <iostream>\n#include \"meinmodul.h\"\n\nvoid begruessung() {\n    std::cout << \"Hallo!\";\n}\n```\n",
+            "\n",
+            "#### In `main.cpp` verwenden:\n",
+            "```cpp\n#include \"meinmodul.h\"\n\nint main() {\n    begruessung();\n    return 0;\n}\n```\n",
+            "\n",
+            "👉 Vorteil: strukturierter Code, Wiederverwendbarkeit und Trennung von Schnittstelle & Implementierung\n",
+            "\n",
+            "### Include Guards (Schutz vor Mehrfacheinbindung)\n",
+            "- Jeder eigene Header sollte mit einem **Include Guard** versehen werden:\n",
+            "```cpp\n#ifndef MEIN_HEADER_H\n#define MEIN_HEADER_H\n\n// Inhalte des Headers\n\n#endif\n```\n",
+            "- Verhindert doppelte Definitionen beim mehrfachen Einbinden\n",
+            "\n",
+            "### Übersicht wichtiger Standard-Header:\n",
+            "\n",
+            "#### Ein- und Ausgabe\n",
+            "- `<iostream>`: `std::cin`, `std::cout`, `std::cerr`\n",
+            "- `<iomanip>`: `std::setw`, `std::setprecision`, `std::fixed`, `std::put_time`\n",
+            "- `<fstream>`: Datei-I/O mit `ifstream`, `ofstream`, `fstream`\n",
+            "\n",
+            "#### Strings und Streams\n",
+            "- `<string>`: `std::string`\n",
+            "- `<sstream>`: `std::stringstream` für String-Parsing und Umwandlungen\n",
+            "\n",
+            "#### Mathematisches\n",
+            "- `<cmath>`: `sqrt`, `pow`, `abs`, `round`, `sin`, `log`\n",
+            "- `<cstdlib>`: `rand`, `srand`, `atoi`, `atof`\n",
+            "- `<limits>`: `numeric_limits<T>::max()` / `min()`\n",
+            "\n",
+            "#### Zeit und Threads\n",
+            "- `<ctime>`: `std::time`, `std::localtime`\n",
+            "- `<chrono>`: Zeitmessung (z. B. `high_resolution_clock`)\n",
+            "- `<thread>`: `std::this_thread::sleep_for()`\n",
+            "\n",
+            "#### Container & Algorithmen\n",
+            "- `<vector>`, `<array>`, `<set>`, `<map>`\n",
+            "- `<stack>`, `<queue>`\n",
+            "- `<algorithm>`: `sort`, `find`, `remove`, `for_each`, ...\n",
+            "- `<iterator>`: Iteratorfunktionen wie `begin()`/`end()`\n",
+            "\n",
+            "#### Weitere nützliche Header\n",
+            "- `<exception>`: `std::exception`, `std::runtime_error`\n",
+            "- `<functional>`: Funktionsobjekte, Lambdas, `std::function`\n",
+            "- `<typeinfo>`: Laufzeittypinfo (`typeid`)\n",
+            "- `<cassert>`: `assert()` für Debug-Checks\n",
+            "- `<bitset>`: binäre Felder\n",
+            "- `<utility>`: `std::pair`, `std::swap`, `std::move`\n",
+            "- `<memory>`: Smart Pointers wie `unique_ptr`, `shared_ptr`\n"
+          ],
+          "code": [
+            "#ifndef MEINMODUL_H \n#define MEINMODUL_H \n\nvoid begruessung(); // Funktionsdeklaration \n\n#endif",
+            "void begruessung() {\n   std::cout << \"Hallo!\"; \n}\n",
+            "#include \"meinmodul.h\"\n"
+          ]
+        }
+      },
+      {
+  "title": "Initialisierung  : vs. {}",
+  "content": {
+    "text": [
+      "### === Initialisierung mit `:` vs. `{}` in C++ ===\n",
+      "C++ bietet verschiedene Möglichkeiten, wie Variablen und Klassenmitglieder initialisiert werden können. Besonders wichtig sind:\n",
+      "- `:` → Initialisierungsliste bei Konstruktoren\n",
+      "- `{}` → Einheitliche Initialisierung (Brace-Initialization / Uniform Initialization)\n",
+      "\n",
+      "### Initialisierungsliste mit `:`\n",
+      "- Wird in Konstruktoren verwendet, um Member **direkt zu initialisieren**, bevor der Body ausgeführt wird\n",
+      "- **Effizienter** als Zuweisung im Konstruktorblock (insbesondere bei `const`- oder Referenz-Membern)\n",
+      "\n",
+      "```cpp\nclass Auto {\nprivate:\n    int ps;\npublic:\n    Auto(int p) : ps(p) {}   // Initialisierung mit Doppelpunkten\n};\n```\n",
+      "\n",
+      "### Warum `:` statt `=` im Body?\n",
+      "- `:` initialisiert direkt beim Erzeugen → **vermeidet unnötige Standardinitialisierung + spätere Zuweisung**\n",
+      "- Pflicht bei `const` oder Referenzen:\n",
+      "```cpp\nclass Test {\n    const int wert;\npublic:\n    Test(int w) : wert(w) {}  // Muss so gemacht werden\n};\n```\n",
+      "\n",
+      "### Einheitliche Initialisierung mit `{}`\n",
+      "- Eingeführt mit C++11\n",
+      "- Kann **Konstruktoren**, **Arrays**, **STL-Container** und **structs** initialisieren\n",
+      "- **Vermeidet Verwechslungen** mit Funktionsdeklarationen (Most Vexing Parse)\n",
+      "\n",
+      "```cpp\nint a{5};                  // Direktinitialisierung\nstd::vector<int> zahlen{1, 2, 3};\nAuto b{150};                // ruft Konstruktor mit `int` auf\n```\n",
+      "\n",
+      "### Kombination\n",
+      "- Beides lässt sich kombinieren:\n",
+      "```cpp\nclass Zahl {\n    int wert;\npublic:\n    Zahl(int w) : wert{w} {}  // Doppelt sicher: Initialisierungsliste + {}\n};\n```\n",
+      "\n",
+      "👉 Faustregel:\n",
+      "- **Konstruktoren mit `:` initialisieren Member**\n",
+      "- **`{}` ist sicherer, universeller Stil ab C++11**\n"
+    ],
+    "code": [
+      "#include <iostream>\n#include <vector>\n\nclass Beispiel {\nprivate:\n    const int wert;\n    std::vector<int> zahlen;\n\npublic:\n    // Initialisierung mit : und {}\n    Beispiel(int w) : wert(w), zahlen{1, 2, 3} {}\n\n    void anzeigen() {\n        std::cout << \"Wert: \" << wert << \" | Erster Wert: \" << zahlen[0] << std::endl;\n    }\n};\n\nint main() {\n    Beispiel b{42};      // Konstruktor-Aufruf mit {} Initialisierung\n    b.anzeigen();         // Ausgabe: Wert: 42 | Erster Wert: 1\n\n    int x{10};            // Brace-Initialisierung einer einfachen Variable\n    std::cout << \"x: \" << x << std::endl;\n\n    return 0;\n}"
+    ]
+  }
+}
+
+    ]
+  },
+  {
+    "category": "Ein-/Ausgabe",
+    "subtopics": [
+      {
+        "title": "Eingabe",
+        "content": {
+          "text": [
+            "### === Benutzereingabe in C++ ===\n",
+            "Für die Eingabe in C++ wird meist `std::cin` verwendet. Dabei wird direkt aus der Konsole gelesen.\n",
+            "\n",
+            "### `std::cin`\n",
+            "- Liest eine Eingabe **bis zum ersten Leerzeichen**\n",
+            "- Nur für einzelne Wörter oder Zahlen geeignet\n",
+            "\n",
+            "### `std::getline`\n",
+            "- Liest eine ganze **Zeile** (inklusive Leerzeichen)\n",
+            "- Ideal für Namen, Adressen, ganze Sätze usw.\n",
+            "- Wichtig: vorher `std::cin.ignore()` nutzen, wenn zuvor `cin` verwendet wurde\n",
+            "\n",
+            "### `std::cin.ignore()`\n",
+            "- Leert den Eingabepuffer, z. B. nach `cin` vor `getline`\n",
+            "- Typisch: `std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\\n');`\n",
+            "\n",
+            "### `std::stringstream`\n",
+            "- Konvertiert zwischen Strings und Zahlen\n",
+            "- Nützlich für Eingaben mit vielen Werten in einer Zeile\n"
+          ],
+          "code": [
+            "#include <iostream>\n#include <string>\n#include <sstream>\n#include <limits> // für std::numeric_limits\n\nint main() {\n  std::string name;\n  int alter;\n\n  // Eingabe eines einzelnen Werts\n  std::cout << \"Wie alt bist du? \";\n  std::cin >> alter;\n\n  // Eingabepuffer leeren (wichtig vor getline)\n  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\\n');\n\n  // Eingabe einer ganzen Zeile\n  std::cout << \"Wie heißt du? \";\n  std::getline(std::cin, name);\n\n  std::cout << \"Hallo \" << name << \", du bist \" << alter << \" Jahre alt.\" << std::endl;\n\n  // Stringstream Beispiel\n  std::string eingabe = \"23 42 99\";\n  std::stringstream ss(eingabe);\n  int zahl1, zahl2, zahl3;\n  ss >> zahl1 >> zahl2 >> zahl3;\n  std::cout << \"Zahlen aus dem String: \" << zahl1 << \", \" << zahl2 << \", \" << zahl3 << std::endl;\n\n  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Ausgabe",
+        "content": {
+          "text": [
+            "### === Ausgabe mit `std::cout` in C++ ===\n",
+            "`std::cout` ist der Standardausgabestrom in C++ und wird für Konsolenausgaben verwendet.\n",
+            "\n",
+            "### Grundlegende Ausgabe\n",
+            "`std::cout << \"Text\" << variable;`\n",
+            "- Die `<<`-Operatoren hängen Inhalte aneinander\n",
+            "- Mit `\\n` oder `std::endl` wird eine Zeile beendet\n",
+            "\n",
+            "### Formatierung mit `<iomanip>`\n",
+            "- `std::setw(n)`: Feldbreite setzen\n",
+            "- `std::setprecision(n)`: Genauigkeit für Nachkommastellen\n",
+            "- `std::fixed`: Kommazahlen mit fester Nachkommastellenzahl\n",
+            "- `std::left` / `std::right`: Ausrichtung\n",
+            "\n",
+            "### Fehlerausgabe mit `std::cerr` und `std::clog`\n",
+            "- `std::cerr`: Wird für **Fehlermeldungen** verwendet (ungespeichert)\n",
+            "- `std::clog`: Wird für **Logmeldungen** verwendet (gepuffert)\n",
+            "- Beide gehen wie `std::cout` in die Konsole, können aber **umgeleitet** werden\n",
+            "\n",
+            "### Zahlenformat: `dec`, `hex`, `oct`\n",
+            "- `std::dec`: Ausgabe als Dezimalzahl (Standard)\n",
+            "- `std::hex`: Ausgabe als Hexadezimalzahl\n",
+            "- `std::oct`: Ausgabe als Oktalzahl\n",
+            "- Wichtig bei Binärformaten, Flags oder Speicheradressen\n"
+          ],
+          "code": [
+            "#include <iostream>\n#include <iomanip>\n\nint main() {\n  std::string name = \"Kilian\";\n  int alter = 21;\n  double kontostand = 1234.56789;\n\n  // Einfache Begrüßung\n  std::cout << \"Hallo, \" << name << \"!\\n\"; // Ausgabe: Hallo, Kilian!\n\n  // Formatierte Tabelle\n  std::cout << std::left << std::setw(10) << \"Name\"\n            << std::right << std::setw(10) << \"Alter\"\n            << std::setw(15) << \"Kontostand\" << std::endl; // Ausgabe: Name           Alter     Kontostand\n\n  std::cout << std::left << std::setw(10) << name\n            << std::right << std::setw(10) << alter\n            << std::setw(15) << std::fixed << std::setprecision(2) << kontostand << std::endl; // Ausgabe: Kilian             21         1234.57\n\n  // Zahlenformat\n  int zahl = 42;\n  std::cout << \"Dezimal: \" << std::dec << zahl << std::endl;       // Ausgabe: Dezimal: 42\n  std::cout << \"Hexadezimal: \" << std::hex << zahl << std::endl;  // Ausgabe: Hexadezimal: 2a\n  std::cout << \"Oktal: \" << std::oct << zahl << std::endl;         // Ausgabe: Oktal: 52\n\n  // Fehlermeldung und Logausgabe\n  std::cerr << \"Dies ist eine Fehlermeldung!\" << std::endl; // Ausgabe (in stderr): Dies ist eine Fehlermeldung!\n  std::clog << \"Dies ist eine Logmeldung.\" << std::endl;    // Ausgabe (in clog): Dies ist eine Logmeldung.\n\n  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Datei",
+        "content": {
+          "text": [
+            "### === Datei-Ein-/Ausgabe in C++ ===\n",
+            "Für das Lesen und Schreiben von Dateien verwendet man `<fstream>`.\n",
+            "\n",
+            "### Typen aus `<fstream>`\n",
+            "- `std::ofstream`: Schreiben (`output file stream`)\n",
+            "- `std::ifstream`: Lesen (`input file stream`)\n",
+            "- `std::fstream`: Beides\n",
+            "\n",
+            "### Datei öffnen\n",
+            "- `std::ofstream f(\"name.txt\");` – zum Schreiben (überschreibt!)\n",
+            "- `std::ofstream f(\"name.txt\", std::ios::app);` – **zum Anhängen** (append)\n",
+            "- `std::ifstream f(\"name.txt\");` – zum Lesen\n",
+            "\n",
+            "### Datei prüfen\n",
+            "- Mit `.is_open()` oder über `if (stream)`\n",
+            "\n",
+            "### Zeilenweise lesen\n",
+            "- Mit `std::getline(stream, zeile)` liest man eine Datei Zeile für Zeile\n",
+            "- Praktisch zum Bearbeiten einzelner Inhalte\n",
+            "\n",
+            "### Dateiinhalt verändern (Schritt 4)\n",
+            "- Gelesene Zeilen z. B. in `std::vector<std::string>` speichern\n",
+            "- Dann gezielt Zeilen ändern, z. B. `inhalt[1] = \"[GEÄNDERT] \" + inhalt[1];`\n",
+            "- Index 1 entspricht der **zweiten Zeile** (0-basiert)\n",
+            "- Vorher prüfen, ob die Zeile existiert: `inhalt.size() >= 2`\n",
+            "\n",
+            "### Datei neu schreiben (Schritt 5)\n",
+            "- Danach wird die Datei **neu geöffnet im Schreibmodus** (überschreibt alten Inhalt)\n",
+            "- Mit einer Schleife schreibt man alle bearbeiteten Zeilen zurück:\n",
+            "```cpp\n for (const std::string& z : inhalt) {\n   datei << z << \"\\n\";\n }\n```\n",
+            "- Das ist der gängige Weg, um gezielt Inhalte zu verändern\n"
+          ],
+          "code": [
+            "#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n\nint main() {\n  // 1. Neue Datei anlegen und Zeilen reinschreiben\n  std::ofstream out(\"daten.txt\");\n  if (out.is_open()) {\n    out << \"Zeile 1\\n\";                  // erste Zeile\n    out << \"Zeile 2\\n\";                  // zweite Zeile\n    out << \"Zeile 3\\n\";                  // dritte Zeile\n    out.close();\n    std::cout << \"Datei erstellt.\" << std::endl; // Ausgabe: Datei erstellt.\n  } else {\n    std::cerr << \"Fehler beim Schreiben!\" << std::endl;\n  }\n\n  // 2. Zeile anhängen (append-Modus)\n  std::ofstream anhang(\"daten.txt\", std::ios::app);\n  if (anhang) {\n    anhang << \"Neue Zeile am Ende\\n\";      // wird angehängt\n    anhang.close();\n    std::cout << \"Zeile angehängt.\" << std::endl; // Ausgabe: Zeile angehängt.\n  }\n\n  // 3. Datei zeilenweise einlesen\n  std::ifstream lesen(\"daten.txt\");\n  std::string zeile;\n  std::vector<std::string> inhalt;           // Zwischenspeicher für Zeilen\n\n  if (lesen) {\n    std::cout << \"Dateiinhalt:\" << std::endl; // Ausgabe: Dateiinhalt:\n    while (std::getline(lesen, zeile)) {\n      std::cout << zeile << std::endl;        // Ausgabe: Zeile n\n      inhalt.push_back(zeile);                // Zeile speichern\n    }\n    lesen.close();\n  } else {\n    std::cerr << \"Fehler beim Lesen der Datei!\" << std::endl;\n  }\n\n  // 4. Zeile 2 bearbeiten (Index 1 prüfen)\n  if (inhalt.size() >= 2) {\n    inhalt[1] = \"[GEÄNDERT] \" + inhalt[1];    // Zeile 2 verändern\n  } else {\n    std::cerr << \"Nicht genug Zeilen zum Bearbeiten!\" << std::endl;\n  }\n\n  // 5. Datei neu schreiben mit bearbeiteten Inhalten\n  std::ofstream neu(\"daten.txt\");\n  if (neu) {\n    for (const std::string& z : inhalt) {\n      neu << z << \"\\n\";                       // Zeilen zurückschreiben\n    }\n    neu.close();\n    std::cout << \"Datei aktualisiert.\" << std::endl; // Ausgabe: Datei aktualisiert.\n  } else {\n    std::cerr << \"Fehler beim Überschreiben der Datei!\" << std::endl;\n  }\n\n  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Date/Time",
+        "content": {
+          "text": [
+            "### === Datum und Uhrzeit in C++ ===\n",
+            "C++ bietet mehrere Möglichkeiten, um mit Datum und Zeit zu arbeiten.\n",
+            "\n",
+            "### `std::time` & `std::localtime`\n",
+            "- `std::time(nullptr)` liefert aktuelle Zeit (Sekunden seit 01.01.1970)\n",
+            "- `std::localtime()` wandelt sie in eine `tm`-Struktur für lesbares Datum um\n",
+            "\n",
+            "### `std::put_time()` (aus `<iomanip>`) für Formatierung\n",
+            "- `std::put_time()` funktioniert wie `strftime`\n",
+            "- Beispiel-Formate: `%d.%m.%Y`, `%H:%M:%S`, `%Y-%m-%d_%H-%M`\n",
+            "- Mit `std::ostringstream` kann man Datum/Zeit auch als `std::string` speichern\n",
+            "\n",
+            "### Zeitmessung mit `<chrono>`\n",
+            "- Nutze `std::chrono::high_resolution_clock` für präzise Messungen\n",
+            "- `std::this_thread::sleep_for(...)` pausiert das Programm gezielt\n"
+          ],
+          "code": [
+            "#include <iostream>\n#include <ctime>        // time, localtime\n#include <iomanip>      // put_time\n#include <sstream>      // ostringstream für string-Formate\n#include <chrono>       // chrono für Zeitmessung\n#include <thread>       // sleep_for\n\nint main() {\n  // 1. Aktuelle Uhrzeit formatieren und anzeigen\n  std::time_t jetzt = std::time(nullptr);               // Sekunden seit 1970\n  std::tm* lokal = std::localtime(&jetzt);              // lokale Zeitstruktur\n\n  std::cout << \"Aktuelle Uhrzeit: \"\n            << std::put_time(lokal, \"%d.%m.%Y %H:%M:%S\") << std::endl; // Ausgabe: 28.05.2025 19:45:12\n\n  // 2. Zeit als String speichern\n  std::ostringstream oss;\n  oss << std::put_time(lokal, \"%Y-%m-%d_%H-%M-%S\");\n  std::string zeitString = oss.str();\n  std::cout << \"Als String gespeichert: \" << zeitString << std::endl; // Ausgabe: 2025-05-28_19-45-12\n\n  // 3. Kurze Pause (Thread schlafen lassen)\n  std::cout << \"Warte 1 Sekunde...\" << std::endl;\n  std::this_thread::sleep_for(std::chrono::seconds(1)); // Pause für 1 Sekunde\n  std::cout << \"Weiter!\" << std::endl; // Ausgabe: Weiter!\n\n  // 4. Zeitmessung mit chrono\n  auto start = std::chrono::high_resolution_clock::now();\n\n  std::this_thread::sleep_for(std::chrono::milliseconds(500)); // 0,5 Sek warten\n\n  auto ende = std::chrono::high_resolution_clock::now();\n  auto dauer = std::chrono::duration_cast<std::chrono::milliseconds>(ende - start);\n\n  std::cout << \"Verstrichene Zeit: \" << dauer.count() << \" ms\" << std::endl; // Ausgabe: Verstrichene Zeit: 500 ms\n\n  return 0;\n}"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "category": "Container",
+    "subtopics": [
+      {
+        "title": "Strings",
+        "content": {
+          "text": [
+            "### === String-Funktionen in C++ ===\n",
+            "",
+            "```cpp",
+            "std::string example = \"Hello, World\";\n",
+            "std::string number = \"42\";",
+            "```\n",
+            "",
+            "-> `.size()` – Gibt die Länge des Strings zurück\n",
+            "```cpp",
+            "example.size(); // 12",
+            "```\n",
+            "",
+            "-> `.substr(start, length)` – Teilstring ab Startindex\n",
+            "```cpp",
+            "example.substr(3, 5); // \"lo, W\"",
+            "```\n",
+            "",
+            "-> `.replace(start, count, string)` – Ersetzt einen Teil des Strings\n",
+            "```cpp",
+            "example.replace(7, 5, \"Universe\"); // Hello, Universe",
+            "```\n",
+            "",
+            "-> `.empty()` – Prüft ob der String leer ist\n",
+            "-> `example[1]` – Zugriff auf Zeichen an Position\n",
+            "-> `.find(\"text\")` – Sucht ein Teilwort im String\n",
+            "",
+            "### === String <-> Zahl ===\n",
+            "",
+            "```cpp",
+            "int i = std::stoi(\"42\");     // → 42\n",
+            "double d = std::stod(\"3.14\"); // → 3.14\n",
+            "std::string s = std::to_string(100); // → \"100\"",
+            "```\n",
+            "",
+            "### === String-Konkatenation & Vergleich ===\n",
+            "",
+            "```cpp",
+            "std::string s1 = \"Hello\";\n",
+            "std::string s2 = \"World\";\n",
+            "std::string s3 = s1 + \" \" + s2; // \"Hello World\"\n",
+            "s1.compare(s2); // < 0 → s1 < s2",
+            "```\n",
+            "",
+            "### === Groß- und Kleinschreibung ===\n",
+            "",
+            "-> `#include <cctype>`, `#include <algorithm>` für toupper/tolower\n",
+            "",
+            "```cpp",
+            "std::transform(str.begin(), str.end(), str.begin(), ::toupper);\n",
+            "std::transform(str.begin(), str.end(), str.begin(), ::tolower);",
+            "```\n",
+            "",
+            "-> Einzelzeichen:\n",
+            "```cpp",
+            "std::toupper('a'); // → 'A'\n",
+            "std::islower('B'); // → false\n",
+            "std::isalpha('x'); // → true\n",
+            "std::isdigit('9'); // → true",
+            "```\n",
+            "",
+            "### === istringstream: String analysieren ===\n",
+            "",
+            "```cpp",
+            "#include <sstream>\n",
+            "std::string zeile = \"3 Apfel 1.99\";\n",
+            "std::istringstream iss(zeile);\n",
+            "int menge; std::string produkt; double preis;\n",
+            "iss >> menge >> produkt >> preis;\n",
+            "// menge = 3, produkt = Apfel, preis = 1.99",
+            "```\n",
+            "",
+            "### === ostringstream: String zusammensetzen ===\n",
+            "",
+            "```cpp",
+            "#include <sstream>\n",
+            "std::ostringstream oss;\n",
+            "oss << menge << \" \" << produkt << \" kosten \" << (menge * preis);\n",
+            "std::string ausgabe = oss.str();",
+            "```"
+          ],
+          "code": [
+            "#include <iostream>\n#include <string>",
+            
+            "int main() {\n  std::string text = \"C++ macht Spaß!\";",
+            
+            "  // Länge\n  std::cout << \"Länge: \" << text.length() << std::endl; // Ausgabe: 15",
+            
+            "  // Teilstring\n  std::string teil = text.substr(4, 5);\n  std::cout << \"Teilstring: \" << teil << std::endl; // Ausgabe: macht",
+            
+            "  // finden\n  size_t pos = text.find(\"Spaß\");\n  if (pos != std::string::npos)\n    std::cout << \"\\\"Spaß\\\" gefunden an Position: \" << pos << std::endl; // Ausgabe: 11",
+            
+            "  // ersetzen\n  text.replace(4, 5, \"ist cool\");\n  std::cout << \"Nach replace: \" << text << std::endl; // Ausgabe: C++ ist cool Spaß!",
+            
+            "  // anhängen\n  text += \" :)\";\n  std::cout << \"Nach Anfügen: \" << text << std::endl; // Ausgabe: C++ ist cool Spaß! :)",
+            
+            "  // einfügen\n  text.insert(0, \"[INFO] \");\n  std::cout << \"Mit Prefix: \" << text << std::endl; // Ausgabe: [INFO] C++ ist cool Spaß! :)",
+            
+            "  // löschen\n  text.erase(0, 7);\n  std::cout << \"Ohne Prefix: \" << text << std::endl; // Ausgabe: C++ ist cool Spaß! :)",
+            
+            "  // vergleichen\n  std::string a = \"Apfel\", b = \"Banane\";\n  if (a.compare(b) < 0)\n    std::cout << a << \" kommt vor \" << b << std::endl; // Ausgabe: Apfel kommt vor Banane",
+            
+            "  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Vektor",
+        "content": {
+          "text": [
+            "### === Vector-Funktionen in C++ ===\n",
+            "-> `std::vector<int> zahlen = {5, 3, 8, 1};` // Initialisierung eines Vektors\n",
+            "-> `zahlen.push_back(element);` // Fügt ein Element hinten an (kopiert oder verschiebt es)\n",
+            "-> `zahlen.emplace_back(argumente);` // Baut das Element direkt im Vektor (konstruiert es vor Ort)\n",
+            "### Unterschied `push_back` und `emplace_back`",
+            "`push_back` erwartet ein fertiges Objekt,\n",
+            "`emplace_back` übernimmt die Konstruktion direkt im Speicher des Vektors.\n",
+            "Besonders nützlich bei komplexen Typen wie `std::pair` oder eigenen Klassen.\n",
+            "```cpp",
+            "Beispiel: v.emplace_back(\"Text\", 42); statt: v.push_back(std::make_pair(\"Text\", 42));",
+            "```\n",
+            "-> `zahlen.size();` // Gibt die Anzahl der Elemente im Vektor zurück\n",
+            "-> `zahlen[2];` // Greift direkt auf das Element mit Index 2 zu (kein Bounds-Check)\n",
+            "-> `zahlen.at(1);` // Greift sicher auf Index 1 zu (mit Bounds-Check)\n",
+            "-> `zahlen.front();` // Gibt das erste Element im Vektor zurück\n",
+            "-> `zahlen.back();` // Gibt das letzte Element im Vektor zurück\n",
+            "-> `zahlen.empty();` // Prüft, ob der Vektor leer ist (true/false)\n",
+            "-> `std::find(zahlen.begin(), zahlen.end(), 3);` // Sucht nach Wert 3 im Vektor\n",
+            "-> `zahlen.insert(zahlen.begin() + 1, 42);` // Fügt 42 an Position 1 ein\n",
+            "-> `std::sort(zahlen.begin(), zahlen.end());` // Sortiert den Vektor aufsteigend\n",
+            "-> `std::reverse(zahlen.begin(), zahlen.end());` // Dreht die Reihenfolge um\n",
+            "\n",
+            "-> `zahlen.erase(zahlen.begin());` // Löscht das erste Element\n",
+            "-> `zahlen.erase(zahlen.begin(), zahlen.begin() + 2);` // Löscht die ersten zwei Elemente\n",
+            "-> `zahlen.erase(zahlen.begin() + 2);` // Löscht das Element an Index 2\n",
+            "-> `zahlen.clear();` // Löscht alle Elemente aus dem Vektor\n",
+            "-> `zahlen.pop_back();` // Entfernt das letzte Element im Vektor\n",
+            "\n",
+            "-> `zahlen.assign(5, 7);` // Setzt den Vektor auf 5 Elemente mit dem Wert 7\n",
+            "-> `std::remove(zahlen.begin(), zahlen.end(), 5);` // Entfernt alle Vorkommen von 5 (nutzt erase danach!)\n",
+            "-> `std::for_each(zahlen.begin(), zahlen.end(), [](int x){ std::cout << x; });` // Wendet eine Funktion auf alle Elemente an\n",
+            "\n",
+            "### === 2D Vektor in C++ ===\n",
+            "-> `std::vector<std::vector<int>> v3 = {{1}, {2, 3}, {4, 5, 6}};` // 2D vector\n",
+            "Erstellt 2D-Vektor (Vektoren von Vektoren)\n",
+            "`v3` hat drei Zeilen: `v3[0] = {1}; v3[1] = {2, 3}; v3[2] = {4, 5, 6}`\n",
+            "`v3[2][2]` gibt `6` zurück (Zeile 3, Spalte 3)\n"
+          ],
+          "code": [
+            "#include <iostream>\n#include <vector>\n#include <algorithm> // für sort()",
+            
+            "int main() {\n  // Vektor mit Werten initialisieren\n  std::vector<int> zahlen = {4, 2, 7};",
+            
+            "  // Element hinzufügen\n  zahlen.push_back(5); // Vektor = {4, 2, 7, 5}",
+            
+            "  // Größe des Vektors\n  std::cout << \"Anzahl Elemente: \" << zahlen.size() << std::endl; // Ausgabe: 4",
+            
+            "  // Zugriff auf Elemente\n  std::cout << \"Erstes Element: \" << zahlen[0] << std::endl; // Ausgabe: 4\n  std::cout << \"Zweites Element: \" << zahlen.at(1) << std::endl; // Ausgabe: 2\n  std::cout << \"Letztes Element: \" << zahlen.back() << std::endl; // Ausgabe: 5",
+            
+            "  // Ausgabe mit Schleife\n  std::cout << \"Alle Elemente: \";\n  for (int x : zahlen) {\n    std::cout << x << \" \";\n  } // Ausgabe: 4 2 7 5\n  std::cout << std::endl;",
+            
+            "  // Element entfernen (letztes)\n  zahlen.pop_back(); // entfernt 5\n\n  // sortieren\n  std::sort(zahlen.begin(), zahlen.end()); // Vektor = {2, 4, 7}",
+            
+            "  // Ausgabe nach Sortierung\n  std::cout << \"Sortiert: \";\n  for (size_t i = 0; i < zahlen.size(); ++i) {\n    std::cout << zahlen[i] << \" \";\n  } // Ausgabe: 2 4 7\n  std::cout << std::endl;",
+            
+            "  // leeren Vektor prüfen\n  if (!zahlen.empty()) {\n    std::cout << \"Vektor ist NICHT leer\" << std::endl;\n  }",
+            
+            "  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Sets",
+        "content": {
+          "text": [
+            "### === Sets in C++ ===\n",
+            "-> `#include <set>`       // Für std::set\n",
+            "\n",
+            "**--- Grundlagen ---**\n",
+            "-> `std::set<char> s1 = {'H', 'E', 'L', 'L', 'O'};`\n",
+            "   Ein Set speichert nur eindeutige Elemente – doppelte 'L' werden entfernt\n",
+            "   Ergebnis: `{ 'E', 'H', 'L', 'O' }` (automatisch sortiert nach ASCII)\n",
+            "-> `s1.size()` Gibt die Anzahl der eindeutigen Elemente zurück → 4\n",
+            "-> `s1.contains('E')` Prüft, ob 'E' im Set enthalten ist → true (1)\n",
+            "-> `s1.contains('X')` Prüft, ob 'X' im Set enthalten ist → false (0)\n",
+            "\n",
+            "**--- Elemente hinzufügen/entfernen ---**\n",
+            "-> `s1.insert('!')` Fügt ein neues Element hinzu → `{ '!', 'E', 'H', 'L', 'O' }`\n",
+            "-> `s1.erase('O')` Entfernt das Element 'O' aus dem Set\n",
+            "-> `s1.clear()` Entfernt alle Elemente aus dem Set\n",
+            "-> `s1.empty()` Prüft, ob das Set leer ist → true (1)\n",
+            "\n",
+            "**--- Vergleich von Sets ---**\n",
+            "-> `std::set<int> a = {1, 2};`\n",
+            "-> `std::set<int> b = {2, 1};`\n",
+            "-> `a == b` → true (1), Reihenfolge ist egal, nur Inhalte zählen\n",
+            "\n",
+            "-> `std::set<int> c = {1, 2, 2};`\n",
+            "-> `std::set<int> d = {1, 1, 2};`\n",
+            "-> `c == d` → true (1), da doppelte Einträge ignoriert werden\n",
+            "\n",
+            "_Hinweis: `std::set` speichert die Elemente automatisch sortiert,_\n",
+            "_Erlaubt keine Duplikate und bietet schnellen Zugriff._\n"
+          ],
+          "code": [
+            "#include <iostream>\n#include <set>",
+            
+            "int main() {\n  // Set mit Ganzzahlen\n  std::set<int> zahlen;",
+            
+            "  // Elemente einfügen (werden automatisch sortiert)\n  zahlen.insert(5);\n  zahlen.insert(2);\n  zahlen.insert(8);\n  zahlen.insert(2); // Duplikat – wird ignoriert",
+            
+            "  // Ausgabe der Elemente\n  std::cout << \"Inhalt des Sets: \";\n  for (int x : zahlen) {\n    std::cout << x << \" \";\n  } // Ausgabe: 2 5 8\n  std::cout << std::endl;",
+            
+            "  // Prüfen, ob ein Element enthalten ist\n  if (zahlen.count(5) > 0) {\n    std::cout << \"5 ist enthalten\" << std::endl;\n  }",
+            
+            "  // Alternative mit find()\n  if (zahlen.find(3) == zahlen.end()) {\n    std::cout << \"3 ist NICHT enthalten\" << std::endl;\n  }",
+            
+            "  // Anzahl der Elemente\n  std::cout << \"Set-Größe: \" << zahlen.size() << std::endl; // Ausgabe: 3",
+            
+            "  // Element löschen\n  zahlen.erase(2);\n  std::cout << \"Nach Löschen von 2: \";\n  for (int x : zahlen) std::cout << x << \" \"; // Ausgabe: 5 8\n  std::cout << std::endl;",
+            
+            "  // Set leeren\n  zahlen.clear();\n  std::cout << \"Nach clear(): Größe = \" << zahlen.size() << std::endl; // Ausgabe: 0",
+            
+            "  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Maps",
+        "content": {
+          "text": [
+            "### === Maps in C++ ===\n",
+            "-> `#include <map>`       // Für std::map\n",
+            "-> `#include <string>`    // Für std::string als Schlüssel/Wert\n",
+            "\n",
+            "**--- Grundlagen ---**\n",
+            "-> `std::map<std::string, int> m1;` Leere Map von string → int\n",
+            "-> `m1[\"C++\"] = 100;` Fügt Schlüssel \"C++\" mit Wert 100 ein\n",
+            "-> `m1[\"Java\"] = 90; m1[\"Python\"] = 85;` Weitere Einträge\n",
+            "   Map speichert Schlüssel-Wert-Paare, automatisch sortiert nach Schlüssel\n",
+            "\n",
+            "**--- Zugriff & Erstellung ---**\n",
+            "-> `std::map<std::string, std::string> m2 = {{\"de\", \"Berlin\"}, {\"fr\", \"Paris\"}, {\"opf\", \"Regensburg\"}};`\n",
+            "-> `m2.size()` → Anzahl der Paare in der Map → 3\n",
+            "-> `m2[\"de\"]` → Zugriff auf den Wert zu \"de\" → \"Berlin\"\n",
+            "-> `m2[\"en\"]` → Nicht vorhanden → erstellt Eintrag mit leerem String als Wert\n",
+            "\n",
+            "**--- Sichere Abfrage mit at() ---**\n",
+            "-> `m1.at(\"C++\")` → Gibt den Wert zu \"C++\" zurück → 100\n",
+            "`// m1.at(\"C\")` würde abstürzen (throw std::out_of_range), wenn Schlüssel nicht existiert!\n",
+            "\n",
+            "**--- Existenz prüfen mit count() ---**\n",
+            "-> `m1.count(\"Java\")` → Gibt 1 zurück, wenn vorhanden\n",
+            "-> `m1.count(\"Cobol\")` → Gibt 0 zurück, wenn nicht vorhanden\n",
+            "\n",
+            "**--- Entfernen & Prüfen ---**\n",
+            "-> `m1.clear()` → Entfernt alle Schlüssel-Wert-Paare\n",
+            "-> `m1.empty()` → Prüft, ob Map leer ist → true (1)\n",
+            "\n",
+            "**--- Vergleich von Maps ---**\n",
+            "-> `std::map<int, char> mA = {{1, 'x'}, {2, 'y'}};`\n",
+            "-> `std::map<int, char> mB = {{1, 'x'}, {2, 'z'}};`\n",
+            "-> `mA == mB` → false, da Werte unterschiedlich\n",
+            "\n",
+            "-> `std::map<int, char> mC = {{1, 'x'}, {2, 'y'}};`\n",
+            "-> `std::map<int, char> mD = {{2, 'y'}, {1, 'x'}};`\n",
+            "-> `mC == mD` → true, Reihenfolge ist egal, Inhalte gleich\n",
+            "\n",
+            "-> `std::map<int, char> mE = {{2, 'y'}, {1, 'x'}, {1, 'x'}};`\n",
+            "-> `mC == mE` → true, mehrfacher identischer Eintrag zählt nicht doppelt\n",
+            "\n",
+            "_Hinweis: `std::map` speichert die Schlüssel automatisch sortiert — bei `int` aufsteigend (1, 2, 3, ...), bei `string` alphabetisch (a, b, c, ...) und erlaubt keine Duplikate._\n"
+          ],
+          "code": [
+            "#include <iostream>\n#include <map>\n#include <string>",
+            
+            "int main() {\n  // Map von Namen zu Alter\n  std::map<std::string, int> personen;",
+            
+            "  // Einträge hinzufügen\n  personen[\"Anna\"] = 23;\n  personen[\"Bob\"] = 30;\n  personen.insert({\"Clara\", 27});",
+            
+            "  // Werte lesen\n  std::cout << \"Anna ist \" << personen[\"Anna\"] << \" Jahre alt.\" << std::endl; // Ausgabe: Anna ist 23 Jahre alt.",
+            
+            "  // Map durchgehen (automatisch sortiert nach Schlüssel)\n  std::cout << \"Alle Einträge:\\n\";\n  for (const auto& eintrag : personen) {\n    std::cout << eintrag.first << \": \" << eintrag.second << std::endl;\n  } // Ausgabe: Anna: 23 / Bob: 30 / Clara: 27 (alphabetisch)",
+            
+            "  // Existenz prüfen\n  if (personen.count(\"Bob\") > 0) {\n    std::cout << \"Bob ist vorhanden.\" << std::endl; // Ausgabe: Bob ist vorhanden.\n  }",
+            
+            "  // Mit find() prüfen und Zugriff\n  auto it = personen.find(\"Dora\");\n  if (it == personen.end()) {\n    std::cout << \"Dora ist NICHT vorhanden.\" << std::endl;\n  }",
+            
+            "  // Wert ändern\n  personen[\"Anna\"] = 24; // Anna hat jetzt Geburtstag\n\n  // Eintrag löschen\n  personen.erase(\"Bob\");",
+            
+            "  // Ausgabe nach Änderungen\n  std::cout << \"Nach Änderungen:\\n\";\n  for (const auto& p : personen) {\n    std::cout << p.first << \": \" << p.second << std::endl;\n  } // Ausgabe: Anna: 24 / Clara: 27",
+            
+            "  // Größe der Map\n  std::cout << \"Anzahl Personen: \" << personen.size() << std::endl; // Ausgabe: 2\n\n  // Map leeren\n  personen.clear();\n  std::cout << \"Nach clear(): \" << personen.size() << std::endl; // Ausgabe: 0",
+            
+            "  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Stack/Queue",
+        "content": {
+          "text": [
+            "### === Stack/Queue in C++ ===\n",
+            "-> `#include <stack>`   // Für std::stack\n",
+            "-> `#include <queue>`   // Für std::queue\n",
+            "-> `#include <string>`  // Für std::string\n",
+            "\n",
+            "**--- STACK (LIFO - Last In, First Out) ---**\n",
+            "-> `std::stack<std::string> s1;` Erstellt einen leeren Stack vom Typ std::string\n",
+            "-> `s1.push(\"Hello\");` Fügt 'Hello' oben auf den Stack\n",
+            "-> `s1.push(\"World\");` Fügt 'World' oben auf den Stack\n",
+            "   Stack-Inhalt (von unten nach oben): [`Hello`, `World`]\n",
+            "-> `s1.top();` Gibt das oberste Element zurück → \"World\"\n",
+            "-> `s1.pop();` Entfernt das oberste Element (\"World\")\n",
+            "-> `s1.size();` Gibt die Anzahl der Elemente im Stack zurück → 1\n",
+            "-> `s1.empty();` Prüft, ob der Stack leer ist (true/false)\n",
+            "\n",
+            "**--- QUEUE (FIFO - First In, First Out) ---**\n",
+            "-> `std::queue<std::string> q1;` Erstellt eine leere Queue für std::string\n",
+            "-> `q1.push(\"Hello\");` Fügt 'Hello' hinten in die Queue ein\n",
+            "-> `q1.push(\"World\");` Fügt 'World' hinten in die Queue ein\n",
+            "   Reihenfolge: front → back = [`Hello`, `World`]\n",
+            "-> `q1.front();` Gibt das erste (älteste) Element zurück → \"Hello\"\n",
+            "-> `q1.back();` Gibt das letzte (neueste) Element zurück → \"World\"\n",
+            "-> `q1.pop();` Entfernt das erste Element (\"Hello\")\n",
+            "-> `q1.size();` Gibt die Anzahl der Elemente in der Queue zurück → 1\n",
+            "-> `q1.empty();` Prüft, ob die Queue leer ist (true/false)\n"
+          ],
+          "code": [
+            "#include <iostream>\n#include <stack>\n#include <queue>\n#include <string>",
+            
+            "int main() {",
+            
+            "  // -------- STACK (LIFO) --------\n  std::stack<int> stapel;\n  stapel.push(10);\n  stapel.push(20);\n  stapel.push(30); // Stapel: 10, 20, 30 (oben)",
+            
+            "  std::cout << \"[STACK] Oberstes Element: \" << stapel.top() << std::endl; // Ausgabe: 30\n  stapel.pop();\n  std::cout << \"[STACK] Nach pop(): \" << stapel.top() << std::endl; // Ausgabe: 20",
+            
+            "  std::cout << \"[STACK] Größe: \" << stapel.size() << std::endl; // Ausgabe: 2\n  if (!stapel.empty()) {\n    std::cout << \"[STACK] Nicht leer.\" << std::endl;\n  }",
+            
+            "  // -------- QUEUE (FIFO) --------\n  std::queue<std::string> warteschlange;\n  warteschlange.push(\"Anna\");\n  warteschlange.push(\"Bob\");\n  warteschlange.push(\"Clara\"); // Reihenfolge: Anna, Bob, Clara",
+            
+            "  std::cout << \"[QUEUE] Vorne: \" << warteschlange.front() << std::endl; // Ausgabe: Anna\n  std::cout << \"[QUEUE] Hinten: \" << warteschlange.back() << std::endl; // Ausgabe: Clara",
+            
+            "  warteschlange.pop();\n  std::cout << \"[QUEUE] Nach pop(): Vorne ist jetzt \" << warteschlange.front() << std::endl; // Ausgabe: Bob",
+            
+            "  std::cout << \"[QUEUE] Größe: \" << warteschlange.size() << std::endl; // Ausgabe: 2\n  if (!warteschlange.empty()) {\n    std::cout << \"[QUEUE] Nicht leer.\" << std::endl;\n  }",
+            
+            "  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Pairs/Tuples",
+        "content": {
+          "text": [
+            "### === Pairs & Tuples in C++ ===\n",
+            "-> `#include <utility>`   // Für std::pair\n",
+            "-> `#include <tuple>`     // Für std::tuple\n",
+            "-> `#include <string>`    // Für std::string\n",
+            "-> `#include <vector>`    // Für std::vector\n",
+            "\n",
+            "**--- std::pair ---**\n",
+            "-> `std::pair<std::string, int> p1 = std::make_pair(\"Regensburg\", 199000);`\n",
+            "-> `std::pair<std::string, int> p2 = std::make_pair(\"Weiden\", 43000);`\n",
+            "-> `std::pair<std::string, int> p3 = std::make_pair(\"Amberg\", 42000);`\n",
+            "   Ein Pair enthält genau zwei Werte unterschiedlichen Typs\n",
+            "-> `p1.first` → Gibt das erste Element zurück → \"Regensburg\"\n",
+            "-> `p1.second` → Gibt das zweite Element zurück → 199000\n",
+            "-> `std::vector<std::pair<std::string, int>> cities = {p1, p2, p3};` // Liste von Städten mit Einwohnern\n",
+            "-> `cities[1].first` → Zugriff auf den Namen der zweiten Stadt → \"Weiden\"\n",
+            "\n",
+            "**--- std::tuple ---**\n",
+            "-> `std::tuple<std::string, int, double> t1 = std::make_tuple(\"Lisa\", 123, 1.0);`\n",
+            "-> `std::tuple<std::string, int, double> t2 = std::make_tuple(\"Bart\", 456, 3.7);`\n",
+            "-> `std::tuple<std::string, int, double> t3 = std::make_tuple(\"Nelson\", 666, 5.0);`\n",
+            "   Ein Tuple kann beliebig viele Werte enthalten\n",
+            "-> `std::get<0>(t1)` → Zugriff auf das erste Element → \"Lisa\"\n",
+            "-> `std::get<1>(t2)` → Zugriff auf das zweite Element → 456\n",
+            "-> `std::get<2>(t3)` → Zugriff auf das dritte Element → 5.0\n",
+            "\n",
+            "`std::tuple<T1, T2, T3>`: Bei Tuples muss der Index zur Compilezeit bekannt sein → `std::get<1>(...)`\n",
+            "   Das bedeutet: `std::get<0>(...)` gibt das erste Element vom Typ `T1` zurück\n"
+          ],
+          "code": [
+            "#include <iostream>\n#include <string>\n#include <utility>  // für pair, make_pair\n#include <tuple>    // für tuple, make_tuple, get, tie",
+            
+            "int main() {",
+            
+            "  // -------- PAIR --------\n  std::pair<std::string, int> person = {\"Anna\", 25};\n  std::cout << \"[PAIR] Name: \" << person.first << \", Alter: \" << person.second << std::endl; // Ausgabe: Anna, 25",
+            
+            "  // Alternative mit make_pair\n  auto student = std::make_pair(\"Bob\", 30);\n  std::cout << \"[PAIR] Student: \" << student.first << \" - \" << student.second << std::endl;",
+            
+            "  // Vergleich\n  std::pair<int, int> a = {1, 2};\n  std::pair<int, int> b = {1, 3};\n  if (a < b) {\n    std::cout << \"[PAIR] a < b (lexikografisch)\" << std::endl;\n  }",
+            
+            "  // -------- TUPLE --------\n  std::tuple<std::string, int, double> daten = {\"Clara\", 28, 1.65};",
+            
+            "  std::cout << \"\\n[TUPLE] Name: \" << std::get<0>(daten)\n            << \", Alter: \" << std::get<1>(daten)\n            << \", Größe: \" << std::get<2>(daten) << std::endl; // Ausgabe: Clara, 28, 1.65",
+            
+            "  // Alternative mit make_tuple\n  auto eintrag = std::make_tuple(\"David\", 32, 1.80);",
+            
+            "  // Entpacken mit tie\n  std::string name;\n  int alter;\n  double groesse;\n  std::tie(name, alter, groesse) = eintrag;\n  std::cout << \"[TUPLE] Entpackt: \" << name << \", \" << alter << \", \" << groesse << std::endl;",
+            
+            "  // Größe des Tupels\n  std::cout << \"[TUPLE] Anzahl Elemente: \" << std::tuple_size<decltype(eintrag)>::value << std::endl; // Ausgabe: 3",
+            
+            "  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Iteratoren",
+        "content": {
+          "text": [
+            "### === Iteratoren in C++ ===\n",
+            "-> `#include <vector>`   // Für std::vector\n",
+            "-> `#include <list>`     // Für std::list\n",
+            "-> `#include <set>`      // Für std::set\n",
+            "-> `#include <algorithm>`// Für std::copy, std::sort, std::merge\n",
+            "-> `#include <iterator>` // Für std::back_inserter\n",
+            "\n",
+            "**=== Iteratoren – Grundlagen in C++ ===**\n",
+            "-> Iteratoren sind bewegliche Zeiger, die auf ein Element eines Containers zeigen.\n",
+            "-> Typbeispiel: `std::vector<std::string>::iterator`\n",
+            "\n",
+            "**--- Iterator-Zugriff & Navigation ---**\n",
+            "-> `container.begin()` → Iterator auf das erste Element\n",
+            "-> `container.end()` → Iterator auf das Element *nach* dem letzten\n",
+            "-> `*it` → aktuelles Element\n",
+            "-> `it->member` entspricht `(*it).member`\n",
+            "-> `++it`, `--it` → nächstes/vorheriges Element (nur rückwärts bei bidirektional)\n",
+            "-> `it += x` → x Schritte vor (nur Random-Access, z.B. bei `std::vector`)\n",
+            "\n",
+            "**--- Iterator-Vergleich ---**\n",
+            "-> `it == it2`, `it != it2` → Vergleich\n",
+            "-> `it < it2` → Nur bei Random-Access möglich\n",
+            "\n",
+            "**--- Iterator-Arten nach Container ---**\n",
+            "`std::vector`, `std::array` → Random-Access\n",
+            "`std::list`, `std::set`, `std::map` → Bidirektional\n",
+            "`std::forward_list` → Forward-only\n",
+            "\n",
+            "**--- Klassischer Iterator-Loop ---**\n",
+            "```cpp\nstd::vector<int> v = {1, 2, 3};\nfor (auto it = v.begin(); it != v.end(); ++it)\n  std::cout << *it << std::endl;\n```\n",
+            "\n",
+            "**--- Laufindex (C-Style) ---**\n",
+            "```cpp\nfor (int i = 0; i < v.size(); i++) std::cout << v[i];\n```\n",
+            "\n",
+            "**--- Range-based for loop ---**\n",
+            "```cpp\nfor (int vi : v) std::cout << vi;\n```\n",
+            "\n",
+            "**--- Iterator für jedes 2. Element ---**\n",
+            "```cpp\nfor (auto it = v.begin() + 1; it < v.end(); it += 2)\n  std::cout << *it;\n```\n",
+            "\n",
+            "**--- Iterator für Kopieren, Sortieren ---**\n",
+            "```cpp\nstd::copy(v.begin(), v.end(), std::back_inserter(l));\nv.erase(v.begin() + 3);\nstd::sort(v.begin() + 1, v.end() - 1);\n```\n",
+            "\n",
+            "**--- Iterator bei set: find() ---**\n",
+            "```cpp\nstd::set<int> s = {2, 4, 6};\nauto it = s.find(4);\nif (it != s.end()) std::cout << *it;\n```\n",
+            "-> `find()` gibt `end()` zurück, wenn das Element nicht vorhanden ist\n",
+            "-> Sets haben keine Indexe, nur Iteratoren\n",
+            "\n",
+            "**--- std::merge (zwei Container zusammenführen) ---**\n",
+            "```cpp\nstd::merge(s.begin(), s.end(), v.begin(), v.end(), std::back_inserter(l));\n```\n",
+            "-> Fügt sortiert alle Elemente aus `s` und `v` in `l` ein\n"
+          ],
+          "code": [
+            "#include <iostream>\n#include <vector>\n#include <iterator>  // für advance, distance\n#include <algorithm>",
+
+            "int main() {\n  std::vector<int> zahlen = {10, 20, 30, 40, 50};",
+            
+            "  // Iteration mit explizitem Iterator\n  std::cout << \"Normale Iteration: \";\n  for (std::vector<int>::iterator it = zahlen.begin(); it != zahlen.end(); ++it) {\n    std::cout << *it << \" \";\n  } // Ausgabe: 10 20 30 40 50\n  std::cout << std::endl;",
+            
+            "  // Iteration mit auto\n  std::cout << \"Mit auto: \";\n  for (auto it = zahlen.begin(); it != zahlen.end(); ++it) {\n    std::cout << *it << \" \";\n  }\n  std::cout << std::endl;",
+            
+            "  // Rückwärts iterieren\n  std::cout << \"Rückwärts: \";\n  for (auto rit = zahlen.rbegin(); rit != zahlen.rend(); ++rit) {\n    std::cout << *rit << \" \";\n  } // Ausgabe: 50 40 30 20 10\n  std::cout << std::endl;",
+            
+            "  // Zugriff & Änderung über Iterator\n  auto it = zahlen.begin();\n  *it = 100; // Ändert erstes Element\n  std::cout << \"Nach Änderung: \" << zahlen[0] << std::endl; // Ausgabe: 100",
+            
+            "  // std::advance: verschiebe Iterator um 3 Positionen\n  std::advance(it, 3);\n  std::cout << \"Iterator +3: \" << *it << std::endl; // Ausgabe: 40",
+            
+            "  // std::distance: Abstand zwischen zwei Iteratoren\n  int abstand = std::distance(zahlen.begin(), it);\n  std::cout << \"Abstand: \" << abstand << std::endl; // Ausgabe: 3",
+            
+            "  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Allgemein",
+        "content": {
+          "text": [
+            "### === Allgemeine Funktionen für STL-Container ===\n",
+            "-> `begin()`: Gibt Iterator zum ersten Element zurück.\n",
+            "   Beispiel: `auto it = container.begin();`\n",
+            "-> `end()`: Iterator hinter dem letzten Element.\n",
+            "   Beispiel: `for (auto it = c.begin(); it != c.end(); ++it)`\n",
+            "-> `size()`: Gibt Anzahl der Elemente zurück.\n",
+            "   Beispiel: `std::cout << v.size();`\n",
+            "-> `empty()`: Prüft, ob Container leer ist.\n",
+            "   Beispiel: `if (v.empty()) std::cout << \"leer\";`\n",
+            "-> `clear()`: Löscht alle Elemente.\n",
+            "   Beispiel: `v.clear();`\n",
+            "-> `erase()`: Entfernt ein Element (Iterator oder Wert).\n",
+            "   Beispiel: `v.erase(v.begin());`\n",
+            "-> `insert()`: Fügt Element(e) hinzu.\n",
+            "   Beispiel: `s.insert(42);`\n",
+            "-> `find()`: Sucht Element (bei set/map).\n",
+            "   Beispiel: `if (s.find(3) != s.end()) { ... }`\n",
+            "-> `front()`: Erstes Element (z. B. bei vector, queue).\n",
+            "   Beispiel: `std::cout << v.front();`\n",
+            "-> `back()`: Letztes Element (z. B. bei vector).\n",
+            "   Beispiel: `std::cout << v.back();`\n",
+            "-> `at()`: Zugriff mit Bounds-Check.\n",
+            "   Beispiel: `v.at(2);`\n",
+            "-> `operator[]`: Zugriff ohne Check (nur bei vector, string, map).\n",
+            "   Beispiel: `v[0] = 42;`\n",
+            "-> `swap()`: Tauscht Inhalt zweier Container.\n",
+            "   Beispiel: `v1.swap(v2);`\n",
+            "-> `assign()`: Ersetzt Inhalt (z. B. bei vector oder string).\n",
+            "   Beispiel: `v.assign(5, 0); // 5 Nullen`\n",
+            "-> `resize()`: Größe ändern (nur bei Sequenzcontainern).\n",
+            "   Beispiel: `v.resize(10);`\n"
+          ],
+          "code": [
+            "#include <iostream>\n#include <set>",
+            
+            "int main() {\n  std::set<int> s = {1, 2, 3};",
+            
+            "  // empty()\n  if (!s.empty()) {\n    std::cout << \"Set ist NICHT leer\" << std::endl; // Ausgabe: Set ist NICHT leer\n  }",
+            
+            "  // size()\n  std::cout << \"Anzahl Elemente: \" << s.size() << std::endl; // Ausgabe: 3",
+            
+            "  // insert()\n  s.insert(4);\n  s.insert(2); // 2 ist bereits enthalten, wird ignoriert",
+            
+            "  // erase()\n  s.erase(3); // entfernt 3, falls vorhanden",
+            
+            "  // find()\n  auto it = s.find(2);\n  if (it != s.end()) {\n    std::cout << \"2 gefunden\" << std::endl;\n  }",
+            
+            "  // count()\n  if (s.count(5) == 0) {\n    std::cout << \"5 ist NICHT enthalten\" << std::endl;\n  }",
+            
+            "  // swap()\n  std::set<int> s2 = {10, 20};\n  s.swap(s2); // jetzt enthält s die Elemente von s2",
+            
+            "  std::cout << \"Nach swap(): Set enthält: \";\n  for (int x : s) std::cout << x << \" \"; // Ausgabe: 10 20\n  std::cout << std::endl;",
+            
+            "  // clear()\n  s.clear();\n  std::cout << \"Nach clear(): Größe = \" << s.size() << std::endl; // Ausgabe: 0",
+            
+            "  return 0;\n}"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "category": "Klassen",
+    "subtopics": [
+      {
+        "title": "Allgemein",
+        "content": {
+          "text": [
+            "### === Klassen in C++ ===\n",
+            "Eine Klasse ist ein Bauplan für Objekte. Sie definiert Eigenschaften (Attribute) und Fähigkeiten (Methoden), die ein Objekt haben kann.\n",
+            "-> Mit einer Klasse kann man eigene Datentypen erstellen, die sowohl Daten als auch Funktionen enthalten.\n",
+            "-> Klassen helfen beim Strukturieren von Code und sind ein zentrales Konzept der objektorientierten Programmierung.\n",
+            "\n",
+            "### Aufbau einer Klasse\n",
+            "`class Klassenname { ... };` definiert eine Klasse. Darin legt man Member-Variablen (Attribute) und Member-Funktionen (Methoden) fest.\n",
+            "Die Sichtbarkeit wird mit `public`, `private` oder `protected` gesteuert:\n",
+            "- `private`: Nur innerhalb der Klasse sichtbar (Standard)\n",
+            "- `public`: Von außen sichtbar\n",
+            "\n",
+            "### Objekt-Erzeugung\n",
+            "Mit `Klassenname objektname;` wird ein Objekt erstellt. Danach kann man mit `objektname.funktion()` Methoden aufrufen.\n",
+            "\n",
+            "### Konstruktor\n",
+            "Ein Konstruktor ist eine spezielle Methode, die automatisch beim Erzeugen eines Objekts aufgerufen wird. Er trägt den Namen der Klasse.\n",
+            "\n",
+            "### this-Zeiger\n",
+            "`this` ist ein Zeiger auf das aktuelle Objekt. Wird oft in Methoden verwendet, wenn man auf die eigene Instanz zugreifen möchte.\n"
+          ],
+            "code": [
+            "#include <iostream>\n\n// Definition einer Klasse\nclass Auto {\nprivate:\n  std::string marke;\n  int baujahr;\n\npublic:\n  // Konstruktor\n  Auto(std::string m, int bj) {\n    marke = m;\n    baujahr = bj;\n  }\n\n  // Methode zur Ausgabe\n  void anzeigen() {\n    std::cout << \"Marke: \" << marke << \", Baujahr: \" << baujahr << std::endl;\n  }\n};",
+            "int main() {\n  // Objekt erzeugen\n  Auto meinAuto(\"BMW\", 2020);\n  meinAuto.anzeigen(); // Ausgabe: Marke: BMW, Baujahr: 2020\n\n  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Public / Private",
+        "content": {
+          "text": [
+            "### === Zugriffsmodifizierer: `public` & `private` ===\n",
+            "In C++ bestimmt man mit Zugriffsmodifizierern, welche Teile einer Klasse von außen sichtbar oder geschützt sind.\n",
+            "-> Standard in 'class' ist: private (bei 'struct' dagegen public)\n",
+            "\n",
+            "### `private:` (Standard)\n",
+            "-> Elemente mit `private` sind **nur innerhalb der Klasse selbst** sichtbar.\n",
+            "-> Ideal für Attribute, die nicht direkt von außen verändert werden sollen (Kapselung).\n",
+            "\n",
+            "### `public:`\n",
+            "-> Elemente mit `public` sind **von außen frei zugänglich**.\n",
+            "-> Wird meist für Methoden verwendet, die von außen benutzt werden sollen.\n",
+            "\n",
+            "### Warum das wichtig ist:\n",
+            "- `private` schützt den internen Zustand eines Objekts.\n",
+            "- `public` bietet eine kontrollierte Schnittstelle (Interface) nach außen.\n",
+            "- So bleibt die Klasse robust und leicht wartbar.\n"
+          ],
+          "code": [
+            "#include <iostream>\n\nclass Konto {\nprivate:\n  double kontostand; // nicht direkt von außen veränderbar\n\npublic:\n  // Konstruktor\n  Konto(double startwert) {\n    kontostand = startwert;\n  }\n\n  // Methode zum Einzahlen\n  void einzahlen(double betrag) {\n    kontostand += betrag;\n  }\n\n  // Methode zur Abfrage\n  void anzeigen() {\n    std::cout << \"Kontostand: \" << kontostand << \" EUR\" << std::endl;\n  }\n};",
+            "int main() {\n  Konto meinKonto(100.0);\n  meinKonto.einzahlen(50.0);\n  meinKonto.anzeigen(); // Ausgabe: Kontostand: 150 EUR\n\n  // meinKonto.kontostand = 1000; // Fehler: 'kontostand' ist private\n\n  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Konstruktor / Destruktor",
+        "content": {
+          "text": [
+            "### === Konstruktoren & Destruktoren in C++ ===\n",
+            "Konstruktoren und Destruktoren sind spezielle Methoden, die automatisch beim Erzeugen bzw. Zerstören eines Objekts aufgerufen werden.\n",
+            "\n",
+            "### Konstruktor\n",
+            "-> Wird beim Erzeugen eines Objekts aufgerufen\n",
+            "-> Hat den **gleichen Namen wie die Klasse**, kein Rückgabewert (auch kein `void`)\n",
+            "-> Wird oft verwendet, um Startwerte zu setzen oder Ressourcen zu reservieren\n",
+            "\n",
+            "### Destruktor\n",
+            "-> Wird beim Löschen eines Objekts aufgerufen (z. B. am Ende des Gültigkeitsbereichs)\n",
+            "-> Hat den gleichen Namen wie die Klasse, aber mit einem **Tilde-Zeichen `~`** davor\n",
+            "-> Wird genutzt, um Ressourcen wie Speicher oder Dateien freizugeben\n",
+            "\n",
+            "### Wichtig\n",
+            "- Es kann mehrere Konstruktoren geben (Überladung), aber **nur einen Destruktor** pro Klasse\n",
+            "- In modernen C++-Projekten ist der Destruktor vor allem bei dynamischem Speicher wichtig\n"
+          ],
+          "code": [
+            "#include <iostream>\n\nclass Tier {\nprivate:\n  std::string name;\n\npublic:\n  // Konstruktor\n  Tier(std::string n) {\n    name = n;\n    std::cout << \"Tier erstellt: \" << name << std::endl;\n  }\n\n  // Destruktor\n  ~Tier() {\n    std::cout << \"Tier gelöscht: \" << name << std::endl;\n  }\n\n  void sprich() {\n    std::cout << name << \" macht Geräusche.\" << std::endl;\n  }\n};",
+            "int main() {\n  Tier katze(\"Miezi\");\n  katze.sprich();\n\n  // Am Ende von main wird automatisch der Destruktor aufgerufen\n  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Friend",
+        "content": {
+          "text": [
+            "### === `friend` in C++ ===\n",
+            "Ein `friend` erlaubt einer Funktion oder einer anderen Klasse den **Zugriff auf private oder protected Member** einer Klasse.\n",
+            "Damit kann gezielt und kontrolliert eine Ausnahme von der Kapselung gemacht werden.\n",
+            "\n",
+            "### friend-Funktion\n",
+            "-> Wird **außerhalb** der Klasse definiert,\n",
+            "-> hat aber Zugriff auf private Member,\n",
+            "-> muss **innerhalb** der Klasse mit `friend` deklariert werden.\n",
+            "\n",
+            "### friend-Klasse\n",
+            "-> Eine ganze Klasse kann als `friend` einer anderen Klasse deklariert werden,\n",
+            "-> Sie bekommt vollen Zugriff auf alle privaten Elemente der Klasse.\n",
+            "\n",
+            "### Wann verwendet man `friend`?\n",
+            "- Wenn bestimmte Funktionen eng mit der Klasse zusammenarbeiten müssen,\n",
+            "- z. B. für Vergleichsfunktionen oder externe Operatorüberladungen.\n",
+            "- Sollte **sparsam und gezielt** verwendet werden, da es die Kapselung aufbricht.\n"
+          ],
+          "code": [
+            "#include <iostream>\n\nclass Geheimnis {\nprivate:\n  int geheimerWert = 42;\n\n  // friend-Funktion erlauben\n  friend void zeigeGeheimnis(const Geheimnis& g);\n};\n\n// Definition der friend-Funktion\nvoid zeigeGeheimnis(const Geheimnis& g) {\n  std::cout << \"Geheimer Wert: \" << g.geheimerWert << std::endl;\n}",
+            "int main() {\n  Geheimnis objekt;\n  zeigeGeheimnis(objekt); // Ausgabe: Geheimer Wert: 42\n  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Vererbung",
+        "content": {
+          "text": [
+            "### === Vererbung in C++ ===\n",
+            "Vererbung ist ein zentrales Konzept der objektorientierten Programmierung.\n",
+            "Damit kann eine neue Klasse (`Kindklasse`) die Eigenschaften und Methoden einer bestehenden Klasse (`Basisklasse`) übernehmen.\n",
+            "\n",
+            "### Vorteile\n",
+            "- Code-Wiederverwendung\n",
+            "- Erweiterbarkeit\n",
+            "- Strukturierte Hierarchien\n",
+            "\n",
+            "### Syntax\n",
+            "`class Kindklasse : public Basisklasse { ... };`\n",
+            "-> `public` bedeutet: öffentliche Mitglieder der Basisklasse bleiben auch in der Kindklasse öffentlich.\n",
+            "\n",
+            "### Konstruktoren in Vererbung\n",
+            "-> Konstruktor der Basisklasse wird **automatisch zuerst** aufgerufen.\n",
+            "-> Kann im Initialisierungsbereich der Kindklasse explizit aufgerufen werden.\n"
+          ],
+          "code": [
+            "#include <iostream>\n\n// Basisklasse\nclass Tier {\nprotected:\n  std::string name;\n\npublic:\n  Tier(std::string n) {\n    name = n;\n  }\n\n  void sprich() {\n    std::cout << name << \" macht ein Geräusch.\" << std::endl;\n  }\n};\n\n// Abgeleitete Klasse\nclass Hund : public Tier {\npublic:\n  Hund(std::string n) : Tier(n) {}\n\n  void bell() {\n    std::cout << name << \" bellt.\" << std::endl;\n  }\n};",
+            "int main() {\n  Hund rex(\"Rex\");\n  rex.sprich(); // Ausgabe: Rex macht ein Geräusch.\n  rex.bell();   // Ausgabe: Rex bellt.\n\n  return 0;\n}"
+          ]
+        }
+      },
+{
+  "title": "Copy Constructor & Assignment",
+  "content": {
+    "text": [
+      "### === Copy Constructor & Copy Assignment ===\n",
+      "Wenn Objekte kopiert oder zugewiesen werden, kommen spezielle Funktionen ins Spiel:\n",
+      "\n",
+      "- **Copy Constructor**: Wird aufgerufen bei z. B. `Objekt b = a;`\n",
+      "- **Copy Assignment Operator**: Wird aufgerufen bei `b = a;`, wenn `b` schon existiert\n",
+      "\n",
+      "### Warum ist das wichtig?\n",
+      "Standardmäßig macht C++ eine **flache Kopie** (Shallow Copy):\n",
+      "- Zeiger werden 1:1 übernommen\n",
+      "- Führt bei `delete` oft zu Abstürzen oder doppelt gelöschtem Speicher\n",
+      "\n",
+      "Daher sollte man bei dynamischem Speicher (z. B. `new`) eine **tiefe Kopie (Deep Copy)** schreiben:\n",
+      "- Es wird ein **neuer Speicher** erstellt und der Inhalt kopiert\n",
+      "\n",
+      "### Die Rule of 3:\n",
+      "Wenn du eins dieser 3 selbst schreibst, solltest du alle schreiben:\n",
+      "- Destruktor (`~Klasse()`)\n",
+      "- Copy Constructor\n",
+      "- Copy Assignment Operator\n",
+      "\n",
+      "👉 Ab C++11 gibt es auch die Rule of 5 (inkl. Move Constructor und Move Assignment)\n",
+      "\n",
+      "### ❗ `if (this != &other)` – warum?\n",
+      "Beim Zuweisungsoperator **kann es passieren**, dass ein Objekt sich selbst zugewiesen wird:\n",
+      "```cpp\nobj = obj;\n```\n",
+      "Ohne `if (this != &other)` würde man:\n",
+      "- Speicher **löschen**, der gleich danach **benutzt** wird → ❌ Absturz!\n",
+      "- Oder unnötig neu kopieren\n",
+      "✅ Mit dem Vergleich wird sichergestellt, dass bei **Selbstzuweisung** nichts passiert."
+    ],
+    "code": [
+      "#include <iostream>\n#include <cstring>\n\nclass Person {\nprivate:\n    char* name;\n\npublic:\n    // Konstruktor\n    Person(const char* n) {\n        name = new char[strlen(n) + 1];\n        strcpy(name, n);\n    }\n\n    // Destruktor\n    ~Person() {\n        delete[] name;\n    }\n\n    // Copy Constructor (tiefe Kopie)\n    Person(const Person& andere) {\n        name = new char[strlen(andere.name) + 1];\n        strcpy(name, andere.name);\n    }\n\n    // Copy Assignment Operator (tiefe Kopie)\n    Person& operator=(const Person& andere) {\n        if (this != &andere) { // wichtig bei Selbstzuweisung!\n            delete[] name;\n            name = new char[strlen(andere.name) + 1];\n            strcpy(name, andere.name);\n        }\n        return *this;\n    }\n\n    void anzeigen() {\n        std::cout << \"Name: \" << name << std::endl;\n    }\n};\n\nint main() {\n    Person p1(\"Kilian\");\n    Person p2 = p1;         // Copy Constructor wird genutzt\n    Person p3(\"Test\");\n    p3 = p1;                // Copy Assignment wird genutzt\n\n    p1.anzeigen();          // Name: Kilian\n    p2.anzeigen();          // Name: Kilian\n    p3.anzeigen();          // Name: Kilian\n\n    p1 = p1;                // Selbstzuweisung → geschützt durch `this != &andere`\n\n    return 0;\n}"
+    ]
+  }
+},
+{
+  "title": "Move Constructor & Rvalue-Referenz",
+  "content": {
+    "text": [
+      "### === Rvalue-Referenzen & Move Constructor (C++11+) ===\n",
+      "Mit C++11 wurde die **Move-Semantik** eingeführt, um unnötige Kopien zu vermeiden – besonders bei temporären Objekten.\n",
+      "\n",
+      "### Was ist eine Rvalue-Referenz (`T&&`)?\n",
+      "- `T&&` akzeptiert ein **temporäres Objekt** (z. B. Rückgabewert einer Funktion)\n",
+      "- Ermöglicht das **Übernehmen von Ressourcen**, statt sie zu kopieren\n",
+      "\n",
+      "### Move Constructor\n",
+      "- Wird aufgerufen bei z. B. `Objekt b = std::move(a);`\n",
+      "- **\"klaut\"** den Speicher von `a`, statt ihn zu kopieren\n",
+      "\n",
+      "### Move Assignment Operator\n",
+      "- Wird bei `b = std::move(a);` aufgerufen (wenn `b` schon existiert)\n",
+      "- Wie Zuweisung, aber mit Übernahme statt Kopie\n",
+      "\n",
+      "### Wann sinnvoll?\n",
+      "- Große Objekte (z. B. Strings, Container)\n",
+      "- Temporäre Rückgaben (`return obj;`)\n",
+      "\n",
+      "### Wichtig:\n",
+      "- Danach ist das Objekt im \"moved-from\"-Zustand → es darf **nicht mehr normal verwendet**, aber **zerstört** werden\n",
+      "- Rvalue-Referenz erkennt man meist mit `std::move(var)`\n",
+      "\n",
+      "👉 Wer Copy Constructor, Copy Assignment, Destruktor UND Move-Funktionen schreibt, folgt der **Rule of 5**\n",
+      "\n",
+      "### ❗ Auch bei Move Assignment: `if (this != &andere)`\n",
+      "Bei `obj = std::move(obj);` kann es zu **Selbst-Zuweisung** kommen!\n",
+      "- Ohne Prüfung: Speicher wird gelöscht **bevor** er übertragen wird → ❌ Absturz!\n",
+      "- Mit Prüfung: Zuweisung wird übersprungen → ✅ korrekt\n"
+    ],
+    "code": [
+      "#include <iostream>\n#include <cstring>\n\nclass Person {\nprivate:\n    char* name;\n\npublic:\n    // Konstruktor\n    Person(const char* n) {\n        name = new char[strlen(n) + 1];\n        strcpy(name, n);\n        std::cout << \"Konstruktor\\n\";\n    }\n\n    // Destruktor\n    ~Person() {\n        delete[] name;\n        std::cout << \"Destruktor\\n\";\n    }\n\n    // Copy Constructor\n    Person(const Person& andere) {\n        name = new char[strlen(andere.name) + 1];\n        strcpy(name, andere.name);\n        std::cout << \"Copy Constructor\\n\";\n    }\n\n    // Copy Assignment\n    Person& operator=(const Person& andere) {\n        if (this != &andere) {\n            delete[] name;\n            name = new char[strlen(andere.name) + 1];\n            strcpy(name, andere.name);\n        }\n        std::cout << \"Copy Assignment\\n\";\n        return *this;\n    }\n\n    // Move Constructor\n    Person(Person&& andere) noexcept {\n        name = andere.name;\n        andere.name = nullptr;\n        std::cout << \"Move Constructor\\n\";\n    }\n\n    // Move Assignment\n    Person& operator=(Person&& andere) noexcept {\n        if (this != &andere) { // wichtig bei Selbst-Zuweisung!\n            delete[] name;\n            name = andere.name;\n            andere.name = nullptr;\n        }\n        std::cout << \"Move Assignment\\n\";\n        return *this;\n    }\n\n    void anzeigen() {\n        std::cout << \"Name: \" << (name ? name : \"[leer]\") << std::endl;\n    }\n};\n\nPerson erzeugePerson() {\n    return Person(\"Kilian\");\n}\n\nint main() {\n    Person p1 = erzeugePerson();    // Move Constructor\n    Person p2(\"Test\");\n    p2 = std::move(p1);             // Move Assignment\n\n    p2.anzeigen();                  // Name: Kilian\n    p1.anzeigen();                  // Name: [leer]\n\n    p2 = std::move(p2);             // Selbstzuweisung → geschützt durch `this != &andere`\n\n    return 0;\n}"
+    ]
+  }
+},
+{
+  "title": "Rule of 5",
+  "content": {
+    "text": [
+      "### === Rule of 5 (C++11+) ===\n",
+      "Die **Rule of 5** beschreibt, welche Funktionen du in einer Klasse mit Ressourcen (z. B. `new`) implementieren solltest.\n",
+      "\n",
+      "Sie erweitert die **Rule of 3** (Copy Constructor, Copy Assignment, Destruktor) um zwei neue Funktionen:\n",
+      "\n",
+      "### Die fünf Funktionen:\n",
+      "1. **Destruktor** (`~Klasse()`)\n",
+      "2. **Copy Constructor** (`Klasse(const Klasse&)`)\n",
+      "3. **Copy Assignment Operator** (`operator=(const Klasse&)`)\n",
+      "4. **Move Constructor** (`Klasse(Klasse&&)`)\n",
+      "5. **Move Assignment Operator** (`operator=(Klasse&&)`)\n",
+      "\n",
+      "### Warum das Ganze?\n",
+      "- Wenn du eine Funktion manuell schreibst (z. B. Copy Constructor), deaktiviert C++ die automatische Generierung der anderen → du musst sie selbst implementieren\n",
+      "- Besonders bei dynamischem Speicher wichtig (deep copy & safe move)\n",
+      "\n",
+      "### Wann ist die Rule of 5 wichtig?\n",
+      "- Wenn deine Klasse **Zeiger oder Ressourcen verwaltet** (z. B. mit `new`, `malloc`, Datei-Handles)\n",
+      "- Wenn du **Kopie und Verschiebung erlauben oder verhindern** willst\n",
+      "\n",
+      "👉 Alternativen: **Rule of 0** bei reinem Value-Semantik-Code (z. B. `std::vector`, keine `new`) oder Rule of 6 (mit `operator==()`)\n"
+    ],
+    "code": [
+      "#include <iostream>\n#include <cstring>\n\nclass Person {\nprivate:\n    char* name;\n\npublic:\n    // Konstruktor\n    Person(const char* n) {\n        name = new char[strlen(n) + 1];\n        strcpy(name, n);\n        std::cout << \"Konstruktor\\n\";\n    }\n\n    // Destruktor\n    ~Person() {\n        delete[] name;\n        std::cout << \"Destruktor\\n\";\n    }\n\n    // Copy Constructor\n    Person(const Person& andere) {\n        name = new char[strlen(andere.name) + 1];\n        strcpy(name, andere.name);\n        std::cout << \"Copy Constructor\\n\";\n    }\n\n    // Copy Assignment\n    Person& operator=(const Person& andere) {\n        if (this != &andere) {\n            delete[] name;\n            name = new char[strlen(andere.name) + 1];\n            strcpy(name, andere.name);\n        }\n        std::cout << \"Copy Assignment\\n\";\n        return *this;\n    }\n\n    // Move Constructor\n    Person(Person&& andere) noexcept {\n        name = andere.name;\n        andere.name = nullptr;\n        std::cout << \"Move Constructor\\n\";\n    }\n\n    // Move Assignment\n    Person& operator=(Person&& andere) noexcept {\n        if (this != &andere) {\n            delete[] name;\n            name = andere.name;\n            andere.name = nullptr;\n        }\n        std::cout << \"Move Assignment\\n\";\n        return *this;\n    }\n};\n\nint main() {\n    Person a(\"Max\");\n    Person b = a;             // Copy Constructor\n    Person c(\"Test\");\n    c = a;                    // Copy Assignment\n    Person d = std::move(a);  // Move Constructor\n    b = std::move(c);         // Move Assignment\n    return 0;\n}"
+    ]
+  }
+},
+{
+  "title": "Implizite Klassenbestandteile & = delete",
+  "content": {
+    "text": [
+      "### === Implizite Klassenbestandteile in C++ ===\n",
+      "C++ erzeugt für jede Klasse automatisch bestimmte Methoden, wenn du sie nicht selbst definierst:\n",
+      "\n",
+      "### Diese Methoden werden (standardmäßig) automatisch generiert:\n",
+      "- Standard-Konstruktor (`MyClass()`)\n",
+      "- Destruktor (`~MyClass()`)\n",
+      "- Copy Constructor (`MyClass(const MyClass&)`)\n",
+      "- Copy Assignment (`operator=(const MyClass&)`)\n",
+      "- Move Constructor (`MyClass(MyClass&&)`) *(ab C++11)*\n",
+      "- Move Assignment (`operator=(MyClass&&)`) *(ab C++11)*\n",
+      "\n",
+      "### Warum `= delete`?\n",
+      "- Verhindert, dass eine bestimmte Methode automatisch generiert oder verwendet wird\n",
+      "- Beispiel: Kopieren verhindern (z. B. bei Singleton- oder Handle-Klassen)\n",
+      "```cpp\nMyClass(const MyClass&) = delete;\nMyClass& operator=(const MyClass&) = delete;\n```\n",
+      "\n",
+      "### Warum `= default`?\n",
+      "- Erzwingt die automatische Standard-Erstellung (z. B. wenn du trotzdem was anderes schreibst)\n",
+      "```cpp\nMyClass() = default;\n```\n",
+      "\n",
+      "### Wann ist das wichtig?\n",
+      "- Wenn deine Klasse z. B. Zeiger enthält und **tiefe Kopie nötig** ist\n",
+      "- Wenn du **kopieren bewusst verbieten** willst\n",
+      "- Wenn du eine Methode **nur deklarieren willst, aber ohne eigene Logik** (z. B. bei APIs)\n",
+      "\n",
+      "👉 Moderne Klassen (z. B. mit Ressourcenbesitz) sollten Copy/Move bewusst steuern\n",
+      "👉 In Prüfungen wird oft gefragt: \"Was macht `= delete`?\" oder \"Was wird implizit generiert?\"\n"
+    ],
+    "code": [
+      "#include <iostream>\n\nclass Beispiel {\npublic:\n    Beispiel() = default; // Standard-Konstruktor explizit erlaubt\n\n    // Copy-Vorgänge deaktivieren\n    Beispiel(const Beispiel&) = delete;\n    Beispiel& operator=(const Beispiel&) = delete;\n\n    void hallo() {\n        std::cout << \"Hallo!\" << std::endl;\n    }\n};\n\nint main() {\n    Beispiel b1;      // OK\n    b1.hallo();\n\n    // Beispiel b2 = b1;        // Fehler: Copy Constructor ist gelöscht\n    // Beispiel b3;\n    // b3 = b1;                  // Fehler: Copy Assignment ist gelöscht\n\n    return 0;\n}"
+    ]
+  }
+},
+{
+  "title": "Struct vs. Class",
+  "content": {
+    "text": [
+      "### === struct vs. class in C++ ===\n",
+      "`struct` und `class` sind sich in C++ sehr ähnlich – beide können Memberfunktionen, Konstruktoren, Vererbung und vieles mehr enthalten.\n",
+      "Der **einzige technische Unterschied** ist die **Standard-Sichtbarkeit**:\n",
+      "\n",
+      "| Merkmal                     | `struct` (Standard: public)   | `class` (Standard: private)   |\n",
+      "| Standard-Sichtbarkeit       | `public`                      | `private`                    |\n",
+      "| Wird verwendet für...       | Datencontainer, PODs          | OOP-Klassen, Kapselung       |\n",
+      "| Methoden möglich?           | ✅ Ja                          | ✅ Ja                         |\n",
+      "| Vererbung möglich?          | ✅ Ja                          | ✅ Ja                         |\n",
+      "| Konstruktoren, Operatoren?  | ✅ Ja                          | ✅ Ja                         |\n",
+      "\n",
+      "### Beispiel: Unterschied in der Sichtbarkeit\n",
+      "```cpp\nstruct A {\n    int x;       // automatisch public\n};\n\nclass B {\n    int x;       // automatisch private\n};\n\nint main() {\n    A a;\n    a.x = 10;    // ✅ erlaubt\n\n    B b;\n    // b.x = 10; // ❌ Fehler: x ist private\n    return 0;\n}\n```\n",
+      "\n",
+      "### Merksatz:\n",
+      "- Verwende `struct`, wenn du **nur Daten speichern willst** (wie bei C-Strukturen)\n",
+      "- Verwende `class`, wenn du **Verhalten, Kapselung, Logik** einbauen willst\n",
+      "\n",
+      "👉 Aber technisch gesehen sind beide fast identisch – nur der Standardzugriff unterscheidet sich!"
+    ],
+    "code": [
+      "#include <iostream>\n\nstruct Punkt {\n    int x;\n    int y;\n\n    void anzeigen() {\n        std::cout << \"x: \" << x << \", y: \" << y << std::endl;\n    }\n};\n\nclass Person {\nprivate:\n    std::string name;\npublic:\n    Person(const std::string& n) : name(n) {}\n    void anzeigen() {\n        std::cout << \"Name: \" << name << std::endl;\n    }\n};\n\nint main() {\n    Punkt p = {3, 5};\n    p.anzeigen();   // x: 3, y: 5\n\n    Person pers(\"Kilian\");\n    pers.anzeigen(); // Name: Kilian\n\n    return 0;\n}"
+    ]
+  }
+}
+
+    ]
+  },
+  {
+    "category": "Überladung",
+    "subtopics": [
+      {
+        "title": "Funktionen",
+        "content": {
+          "text": [
+            "### === Funktionsüberladung in C++ ===\n",
+            "Funktionsüberladung bedeutet, dass mehrere Funktionen **denselben Namen**, aber **unterschiedliche Parameterlisten** haben können.\n",
+            "\n",
+            "Der Compiler wählt beim Aufruf die passende Funktion anhand der übergebenen Argumente.\n",
+            "\n",
+            "### Regeln\n",
+            "- Funktionen müssen sich in der Anzahl oder dem Typ der Parameter unterscheiden\n",
+            "- Rückgabewert allein reicht **nicht** zur Unterscheidung!\n",
+            "\n",
+            "### Vorteile\n",
+            "- Lesbarkeit: Gleicher Funktionsname für ähnliche Aufgaben\n",
+            "- Flexibilität: Funktion kann mit verschiedenen Datentypen arbeiten\n"
+          ],
+          "code": [
+            "#include <iostream>\n\n// Funktionsüberladungen\nvoid begruessung() {\n  std::cout << \"Hallo!\" << std::endl;\n}\n\nvoid begruessung(std::string name) {\n  std::cout << \"Hallo, \" << name << \"!\" << std::endl;\n}\n\nvoid begruessung(int stunde) {\n  if (stunde < 12)\n    std::cout << \"Guten Morgen!\" << std::endl;\n  else\n    std::cout << \"Guten Tag!\" << std::endl;\n}",
+            "int main() {\n  begruessung();              // Ausgabe: Hallo!\n  begruessung(\"Kilian\");     // Ausgabe: Hallo, Kilian!\n  begruessung(9);             // Ausgabe: Guten Morgen!\n\n  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Operatoren",
+        "content": {
+          "text": [
+            "### === Operatorüberladung in C++ ===\n",
+            "Operatorüberladung erlaubt es, **eigene Klassen** so zu definieren, dass Standard-Operatoren (`+`, `==`, `<<`, usw.) auch mit diesen Klassen funktionieren.\n",
+            "\n",
+            "### Warum Operatoren überladen?\n",
+            "- Mehr Lesbarkeit: `a + b` statt `a.addiere(b)`\n",
+            "- Natürlichere Verwendung eigener Typen\n",
+            "\n",
+            "### Syntax\n",
+            "`Rückgabetyp operator<OPERATOR>(Parameter)`\n",
+            "-> Wird innerhalb oder außerhalb der Klasse definiert\n",
+            "-> Kann fast jeder Operator überladen werden (außer z. B. `.` oder `::`)\n"
+          ],
+          "code": [
+            "#include <iostream>\n\nclass Punkt {\nprivate:\n  int x, y;\n\npublic:\n  Punkt(int x, int y) : x(x), y(y) {}\n\n  // Operatorüberladung für +\n  Punkt operator+(const Punkt& other) {\n    return Punkt(x + other.x, y + other.y);\n  }\n\n  // Ausgabeoperator überladen (als friend)\n  friend std::ostream& operator<<(std::ostream& os, const Punkt& p) {\n    os << \"(\" << p.x << \", \" << p.y << \")\";\n    return os;\n  }\n};",
+            "int main() {\n  Punkt a(2, 3);\n  Punkt b(4, 1);\n  Punkt c = a + b;\n\n  std::cout << \"a + b = \" << c << std::endl; // Ausgabe: a + b = (6, 4)\n\n  return 0;\n}"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "category": "Extras",
+    "subtopics": [
+    {
+  "title": "Casting",
+  "content": {
+    "text": [
+      "### === Casting in C++ ===\n",
+      "Casting ist die Umwandlung eines Ausdrucks von einem Datentyp in einen anderen.\n",
+      "In C++ gibt es sowohl **C-Style Casts** als auch **C++-spezifische Casts**:\n",
+      "\n",
+      "### 🟥 C-Style Cast (unsicher!)\n",
+      "```cpp\nint x = (int)3.14;   // Ergebnis: 3\n```\n",
+      "- Alt, kompakt, aber **unsicher**\n",
+      "- Kann **gefährliche Typumwandlungen** stillschweigend zulassen\n",
+      "\n",
+      "### ✅ C++ Casts (sicherer & spezifischer):\n",
+      "\n",
+      "#### 🔹 static_cast<T>(expr)\n",
+      "- Für **sichere, logische Konvertierungen** (z. B. `double` → `int`, `Base*` → `Derived*` bei Vererbung ohne RTTI)\n",
+      "```cpp\nint x = static_cast<int>(3.7);  // x = 3\n```\n",
+      "\n",
+      "#### 🔹 dynamic_cast<T>(expr)\n",
+      "- Für **sichere Konvertierung bei Vererbung** mit `virtual`\n",
+      "- Funktioniert nur mit **Polymorphie** (mind. eine `virtual`-Methode)\n",
+      "- Gibt `nullptr` zurück, wenn Cast fehlschlägt\n",
+      "```cpp\nBase* b = new Derived();\nDerived* d = dynamic_cast<Derived*>(b);  // OK\n```\n",
+      "\n",
+      "#### 🔹 reinterpret_cast<T>(expr)\n",
+      "- Für **rohe Speicherumwandlungen**, z. B. zwischen Zeigertypen\n",
+      "- Sehr gefährlich – nur mit großem Verständnis verwenden\n",
+      "```cpp\nint* p = reinterpret_cast<int*>(0x1234);\n```\n",
+      "\n",
+      "#### 🔹 const_cast<T>(expr)\n",
+      "- Entfernt oder fügt `const` hinzu (z. B. um schreibende Funktion auf `const`-Objekte anzuwenden)\n",
+      "- Nur erlaubt, wenn Ursprungsobjekt nicht wirklich `const` war\n",
+      "```cpp\nconst int* p = ...;\nint* mod = const_cast<int*>(p);\n```\n",
+      "\n",
+      "### 👇 Empfehlung:\n",
+      "- Verwende **`static_cast` für fast alles**, wenn du den Typ kennst\n",
+      "- **Vermeide `reinterpret_cast` und `C-Style`-Casts**, wenn möglich\n",
+      "- **Nutze `dynamic_cast` nur bei Vererbung**, sonst bringt es nichts\n",
+      "- **Vermeide `const_cast`**, außer in Spezialfällen\n"
+    ],
+    "code": [
+      "#include <iostream>\n\nclass Base {\npublic:\n    virtual void show() { std::cout << \"Base\" << std::endl; }\n};\n\nclass Derived : public Base {\npublic:\n    void show() override { std::cout << \"Derived\" << std::endl; }\n};\n\nint main() {\n    double pi = 3.14;\n    int x = static_cast<int>(pi);               // static_cast: 3\n    std::cout << \"x: \" << x << std::endl;\n\n    Base* base = new Derived();\n    Derived* d = dynamic_cast<Derived*>(base);  // dynamic_cast: OK\n    if (d) d->show();                           // Ausgabe: Derived\n\n    const int a = 42;\n    int* b = const_cast<int*>(&a);              // const_cast: ⚠️ gefährlich\n    std::cout << \"b: \" << *b << std::endl;\n\n    delete base;\n    return 0;\n}"
+    ]
+  }
+},
+      {
+        "title": "Algorithmen",
+        "content": {
+          "text": [
+            "### === STL-Algorithmen in C++ ===\n",
+            "Die Standard Template Library (STL) bietet viele nützliche Algorithmen zur Bearbeitung von Containern wie `vector`, `set`, `map`, etc.\n",
+            "\n",
+            "### Wichtige Algorithmen:\n",
+            "- `std::sort`: Sortiert Elemente (benötigt `<algorithm>`)\n",
+            "- `std::reverse`: Dreht die Reihenfolge um\n",
+            "- `std::find`: Sucht ein bestimmtes Element\n",
+            "- `std::count`: Zählt, wie oft ein bestimmter Wert vorkommt\n",
+            "- `std::for_each`: Führt eine Funktion auf jedem Element aus\n",
+            "- `std::remove`: Entfernt (logisch) ein Element – mit `erase` kombinieren\n",
+            "\n",
+            "### Allgemein\n",
+            "- Alle Algorithmen arbeiten mit **Iteratoren** (z. B. `begin()` / `end()`)\n",
+            "- STL-Algorithmen verändern nicht den Container direkt (außer `sort`, `reverse`, etc.)\n",
+            "- Viele Algorithmen nutzen **Lambdas** oder Funktionsobjekte\n"
+          ],
+          "code": [
+            "#include <iostream>\n#include <vector>\n#include <algorithm> // für sort, find, etc.\n\nint main() {\n  std::vector<int> zahlen = {4, 2, 7, 2, 9};\n\n  // sortieren\n  std::sort(zahlen.begin(), zahlen.end());\n\n  // ausgeben\n  std::cout << \"Sortiert: \";\n  for (int z : zahlen) std::cout << z << \" \";\n  std::cout << std::endl; // Ausgabe: 2 2 4 7 9\n\n  // zählen\n  int anz = std::count(zahlen.begin(), zahlen.end(), 2);\n  std::cout << \"Die Zahl 2 kommt \" << anz << \" mal vor.\" << std::endl;\n\n  // suchen\n  auto it = std::find(zahlen.begin(), zahlen.end(), 7);\n  if (it != zahlen.end()) {\n    std::cout << \"7 gefunden an Position \" << (it - zahlen.begin()) << std::endl; //(it - zahlen.begin()) == Abstand im Container\n  }\n\n  // for_each mit Lambda\n  std::cout << \"Alle Werte verdoppelt: \";\n  std::for_each(zahlen.begin(), zahlen.end(), [](int x){ std::cout << x * 2 << \" \"; });\n  std::cout << std::endl;\n\n  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Templates",
+        "content": {
+          "text": [
+            "### === Templates in C++ ===\n",
+            "Templates ermöglichen es, **generischen Code** zu schreiben, der mit beliebigen Datentypen funktioniert.\n",
+            "\n",
+            "### Warum Templates?\n",
+            "- Wiederverwendbarkeit: gleiche Funktion/Klasse für viele Datentypen\n",
+            "- Flexibilität: z. B. `int`, `double`, `std::string`, eigene Typen\n",
+            "- Kein mehrfacher Code nötig für unterschiedliche Typen\n",
+            "\n",
+            "### Funktions-Template\n",
+            "```cpp\n template <typename T>\n T max(T a, T b) {\n   return (a > b) ? a : b;\n }\n```\n",
+            "`T` ist ein Platzhalter für einen beliebigen Typ.\n",
+            "Beim Aufruf wird automatisch der passende Typ eingesetzt (Typinferenz).\n",
+            "\n",
+            "### Einschränkung bei Operatoren\n",
+            "Ein Funktions-Template wie `addiere(T a, T b)` funktioniert **nur, wenn für `T` der `+`-Operator definiert ist**.\n",
+            "Beispiele, wo es funktioniert:\n",
+            "- `int`, `double`, `std::string`\n",
+            "Bei eigenen Typen (z. B. `struct Person`) musst du den `operator+` **selbst überladen**, damit das Template funktioniert.\n",
+            "\n",
+            "### Klassen-Template\n",
+            "```cpp\n template <typename T>\n class Box {\n   T inhalt;\n   // ...\n };\n```\n",
+            "Auch Klassen lassen sich so für beliebige Typen definieren.\n"
+          ],
+          "code": [
+            "#include <iostream>\n\n// Funktions-Template\ntemplate <typename T>\nT addiere(T a, T b) {\n  return a + b;\n}",
+            "// Klassen-Template\ntemplate <typename T>\nclass Behälter {\nprivate:\n  T wert;\n\npublic:\n  Behälter(T w) : wert(w) {}\n\n  void anzeigen() {\n    std::cout << \"Wert: \" << wert << std::endl;\n  }\n};",
+            "int main() {\n  std::cout << \"Summe: \" << addiere(3, 4) << std::endl;         // int\n  std::cout << \"Summe: \" << addiere(2.5, 1.2) << std::endl;     // double\n  std::cout << \"Summe: \" << addiere(std::string(\"Hi \"), \"Kilian\") << std::endl; // string\n\n  Behälter<int> b1(42);\n  Behälter<std::string> b2(\"Text\");\n\n  b1.anzeigen();  // Ausgabe: Wert: 42\n  b2.anzeigen();  // Ausgabe: Wert: Text\n\n  return 0;\n}"
+          ]
+        }
+      },
+            {
+        "title": "Lambdas",
+        "content": {
+          "text": [
+            "### === Lambda-Ausdrücke in C++ ===\n",
+            "Ein Lambda ist eine **anonyme Funktion**, die direkt im Code definiert und z. B. an Algorithmen übergeben werden kann.\n",
+            "\n",
+            "### Warum Lambdas?\n",
+            "- Wenn man **kleine Funktionen nur einmalig** braucht (z. B. in `sort`, `for_each`), ist es **unnötig**, extra eine benannte Funktion zu schreiben.\n",
+            "- Lambdas machen den Code **kürzer, klarer und direkt an Ort und Stelle**.\n",
+            "- Sie lassen sich auch mit lokalen Variablen verknüpfen (über `[]`-Capture).\n",
+            "\n",
+            "### Syntax\n",
+            "`[capture](parameter) -> rückgabetyp { body }`\n",
+            "- `capture`: Welche Variablen von außen verwendet werden dürfen (z. B. `[x]`, `[&]`, `[=]`, `[]`)\n",
+            "- `parameter`: Übergabeparameter wie bei normalen Funktionen\n",
+            "- `rückgabetyp` ist optional (oft automatisch erkannt)\n",
+            "\n",
+            "### Beispiel – einfache Lambda-Funktion\n",
+            "`auto quadrat = [](int x) { return x * x; };`\n",
+            "`quadrat(5); // ergibt 25`\n",
+            "\n",
+            "### Lambdas mit Algorithmen\n",
+            "Sehr praktisch in Verbindung mit `std::for_each`, `std::sort`, usw.\n",
+            "```cpp\n std::for_each(v.begin(), v.end(), [](int x){ std::cout << x << \" \"; });\n```\n"
+          ],
+          "code": [
+            "#include <iostream>\n#include <vector>\n#include <algorithm> // für for_each, sort\n\nint main() {\n  std::vector<int> zahlen = {5, 2, 8, 1};\n\n  // Lambda speichern und benutzen\n  auto quadrat = [](int x) { return x * x; };\n  std::cout << \"Quadrat von 4: \" << quadrat(4) << std::endl; // Ausgabe: 16\n\n  // for_each mit Lambda\n  std::cout << \"Zahlen: \";\n  std::for_each(zahlen.begin(), zahlen.end(), [](int x){ std::cout << x << \" \"; });\n  std::cout << std::endl;\n\n  // sortieren mit Lambda (absteigend)\n  std::sort(zahlen.begin(), zahlen.end(), [](int a, int b){ return a > b; });\n\n  std::cout << \"Absteigend sortiert: \";\n  for (int z : zahlen) std::cout << z << \" \"; // Ausgabe: 8 5 2 1\n  std::cout << std::endl;\n\n  return 0;\n}"
+          ]
+        }
+      },
+      {
+        "title": "Exceptions",
+        "content": {
+          "text": [
+            "### === Exceptions in C++ ===\n",
+            "Exceptions (Ausnahmen) dienen der **kontrollierten Fehlerbehandlung** zur Laufzeit.\n",
+            "Statt einen Fehler mit `if` zu prüfen, kann ein Fehler als Exception „geworfen“ werden und mit `try`/`catch` behandelt werden.\n",
+            "\n",
+            "### Warum Exceptions?\n",
+            "- Trennen normalen Code von Fehlerbehandlung\n",
+            "- Sorgen für sauberen und robusten Code\n",
+            "- Besonders nützlich bei Funktionen, die fehlschlagen können (z. B. Datei öffnen, Division durch 0, Eingabe prüfen)\n",
+            "\n",
+            "### Grundstruktur\n",
+            "```cpp\n try {\n   // Code, der eine Ausnahme werfen kann\n } catch (Typ der Ausnahme) {\n   // Fehlerbehandlung\n }\n```\n",
+            "-> Mit `throw` wirft man eine Ausnahme\n",
+            "-> Mit `catch` fängt man sie ab\n",
+            "\n",
+            "### Typen\n",
+            "- Beliebige Datentypen möglich: `int`, `std::string`, eigene Klassen\n",
+            "- Meist verwendet: `std::exception` (und Unterklassen wie `std::runtime_error`)\n",
+            "\n",
+            "### `ex.what()` erklärt\n",
+            "- Wenn du im `catch`-Block `std::exception& ex` abfängst, kannst du `ex.what()` aufrufen\n",
+            "- `what()` gibt eine **Fehlermeldung als Text (const char\\*)** zurück\n",
+            "- Beispiel:\n",
+            "```cpp\n throw std::runtime_error(\"Fehler beim Laden der Datei\");\n // später:\n catch (const std::exception& ex) {\n   std::cout << ex.what(); // Ausgabe: Fehler beim Laden der Datei\n }\n```\n",
+            "- Eigene Klassen müssen `what()` selbst definieren, wenn du diesen Mechanismus nutzen willst\n"
+          ],
+          "code": [
+            "#include <iostream>\n#include <stdexcept> // für std::runtime_error\n\nint teile(int a, int b) {\n  if (b == 0) {\n    throw std::runtime_error(\"Division durch 0 nicht erlaubt\");\n  }\n  return a / b;\n}",
+            "int main() {\n  try {\n    int ergebnis = teile(10, 0);\n    std::cout << \"Ergebnis: \" << ergebnis << std::endl;\n  } catch (const std::exception& ex) {\n    std::cerr << \"Fehler: \" << ex.what() << std::endl;\n  }\n\n  return 0;\n}"
+          ]
+        }
+      },
+       {
+        "title": "Doxygen",
+        "content": {
+          "text": [
+      "### === Doxygen – Automatische Dokumentation für C++ ===\n",
+      "Doxygen ist ein Tool, mit dem man aus speziell kommentiertem C++-Code automatisch eine HTML- oder PDF-Dokumentation erzeugen kann – ähnlich wie Javadoc bei Java.\n",
+      "\n",
+      "### Vorteile von Doxygen:\n",
+      "- Übersichtliche Dokumentation für große Projekte\n",
+      "- Besseres Verständnis für andere Entwickler (oder dich selbst später)\n",
+      "- Funktioniert direkt aus dem C++-Quellcode\n",
+      "\n",
+      "### Grundprinzip:\n",
+      "- Man kommentiert Klassen, Funktionen, Variablen mit speziellen `/** ... */`- oder `///`-Blöcken\n",
+      "- Doxygen liest diese Kommentare und erzeugt daraus eine strukturierte Dokumentation\n",
+      "\n",
+      "### Wichtige Doxygen-Kommentare:\n",
+      "- `@brief`: Kurzbeschreibung\n",
+      "- `@param`: Beschreibung eines Parameters\n",
+      "- `@return`: Rückgabewert\n",
+      "- `@author`, `@version`, `@date`, ...\n",
+      "\n",
+      "### Beispiel für eine dokumentierte Funktion:\n",
+      "```cpp\n/**\n * @brief Addiert zwei Zahlen\n * @param a Erste Zahl\n * @param b Zweite Zahl\n * @return Summe von a und b\n */\nint addiere(int a, int b) {\n    return a + b;\n}\n```\n",
+      "\n",
+      "### So benutzt du Doxygen:\n",
+      "1. Lade dir Doxygen von https://www.doxygen.nl/download.html herunter\n",
+      "2. Starte das Tool (`doxygen -g`) und bearbeite die `Doxyfile`\n",
+      "3. Füge deinen Projektpfad ein\n",
+      "4. Führe Doxygen aus: `doxygen Doxyfile`\n",
+      "5. Dokumentation wird im `html/` oder `latex/`-Ordner erstellt\n",
+      "\n",
+      "👉 Doxygen wird besonders im Beruf, in Open-Source-Projekten oder bei Bibliotheken verwendet\n",
+      "👉 Du kannst es auch lokal nutzen, um dein Projekt ordentlich zu strukturieren"
+    ],
+          "code": []
+        }
+      }
+    ]
+  },
+
+  {
+    "category": "Struktur",
+    "subtopics": [
+                  {
+   "title": "Namespaces",
+   "content": {
+   "text": [
+      "### === Namespaces in C++ ===\n",
+      "`namespace` dient zur Gruppierung von Funktionen, Klassen und Variablen unter einem gemeinsamen Namen, um Namenskonflikte zu vermeiden.\n",
+      "\n",
+      "### Warum Namespaces?\n",
+      "- Zwei Funktionen mit gleichem Namen können in unterschiedlichen Namespaces existieren\n",
+      "- Große Projekte (oder Bibliotheken wie `std`) nutzen Namespaces zur Trennung von Modulen\n",
+      "\n",
+      "### Verwendung von Namespaces\n",
+      "- Definition:\n",
+      "```cpp\nnamespace Mathe {\n    int addiere(int a, int b) {\n        return a + b;\n    }\n}\n```\n",
+      "- Aufruf:\n",
+      "```cpp\nint ergebnis = Mathe::addiere(3, 4);\n```\n",
+      "\n",
+      "### `using namespace` (nicht immer empfohlen)\n",
+      "- Mit `using namespace std;` kann man `std::cout` einfach als `cout` schreiben\n",
+      "- Nachteil: Alle Namen des Namespace werden global sichtbar → Konfliktgefahr\n",
+      "- Besser: Nur gezielt importieren\n",
+      "```cpp\nusing std::cout;\nusing std::endl;\n```\n",
+      "\n",
+      "### Anonyme Namespaces (Datei-spezifisch)\n",
+      "- Alles in einem anonymen Namespace ist **nur in der aktuellen Datei sichtbar**\n",
+      "```cpp\nnamespace {\n    int geheim() { return 42; }\n}\n```\n",
+      "\n",
+      "### Verschachtelte Namespaces (modernes C++)\n",
+      "```cpp\nnamespace Projekt::Modul {\n    void machWas() {}\n}\n```\n",
+      "\n",
+      "👉 `std` ist das bekannteste Beispiel: `std::cout`, `std::string`, `std::vector`, ...\n",
+      "👉 Namespaces verbessern Struktur, Lesbarkeit und Wartbarkeit von Code\n"
+    ],
+    "code": [
+            "#include <iostream>\n\n// Eigener Namespace\nnamespace Mathe {\n    int addiere(int a, int b) {\n        return a + b;\n    }\n}\n\n// Verschachtelter Namespace\nnamespace Projekt::Modul {\n    void info() {\n        std::cout << \"Modul aktiv\" << std::endl;\n    }\n}\n\nint main() {\n    int summe = Mathe::addiere(3, 4);\n    std::cout << \"Summe: \" << summe << std::endl;          // Ausgabe: Summe: 7\n\n    Projekt::Modul::info();                                 // Ausgabe: Modul aktiv\n\n    // using-Anweisung (gezielt)\n    using std::cout;\n    using std::endl;\n    cout << \"Hallo aus main()\" << endl;                      // Ausgabe: Hallo aus main()\n\n    return 0;\n}"
+          ]
+        }
+      },
+      {
+      "title": "Namespace vs. Class",
+      "content": {
+      "text": [
+            "### === Unterschied: Namespace vs. Class ===\n",
+            "`namespace` und `class` dienen beide zur Strukturierung, haben aber völlig unterschiedliche Funktionen:\n",
+            "\n",
+            "| Merkmal              | `namespace`                            | `class` / `struct`                        |\n",
+            "|----------------------|-----------------------------------------|-------------------------------------------|\n",
+            "| Zweck                | Gruppierung von Code                   | Bauplan für Objekte (Daten + Methoden)    |\n",
+            "| Objekte erzeugbar?   | ❌ Nein                                 | ✅ Ja                                      |\n",
+            "| Zugriff              | `Mathe::addiere()`                     | `objekt.methode()` oder `Klasse::static()`|\n",
+            "| Sichtbarkeit         | Alles `public`                         | Zugriffskontrolle mit `public/private`    |\n",
+            "| Typ im Code?         | Kein eigener Typ                       | Eigener Datentyp                          |\n",
+            "| Nutzung              | Organisation, Modularisierung          | Modellierung realer Dinge                 |\n",
+            "\n",
+            "### Beispiel zur Verdeutlichung:\n",
+            "```cpp\nnamespace Mathe {\n    int addiere(int a, int b) {\n        return a + b;\n    }\n}\n\nclass Person {\npublic:\n    std::string name;\n    int alter;\n};\n\nint main() {\n    int summe = Mathe::addiere(2, 3);       // Namespace-Funktion\n    Person p = {\"Kilian\", 22};              // Objekt einer Klasse\n    return 0;\n}\n```\n",
+            "\n",
+            "👉 Merksatz: `namespace` ist **eine Ordnungsbox**, `class` ist **der Inhalt mit Logik und Zustand**."
+          ],
+          "code": []
+        }
+      },
+      {
+  "title": "Zeiger & this-Zeiger",
+  "content": {
+    "text": [
+      "### === Zeiger in C++ ===\n",
+      "Ein Zeiger ist eine Variable, die die Adresse eines anderen Objekts speichert.\n",
+      "\n",
+      "### Zeiger-Grundlagen:\n",
+      "- `int* ptr;` → zeigt auf eine `int`-Variable\n",
+      "- `*ptr` → greift auf den Wert zu\n",
+      "- `&x` → gibt die Adresse von `x` zurück\n",
+      "\n",
+      "```cpp\nint x = 10;\nint* ptr = &x;\n*ptr = 20;  // x wird geändert\n```\n",
+      "\n",
+      "### Dynamischer Speicher:\n",
+      "- Mit `new` wird Speicher auf dem Heap reserviert\n",
+      "- Mit `delete` muss er wieder freigegeben werden\n",
+      "```cpp\nint* p = new int(5);\ndelete p;\n```\n",
+      "\n",
+      "### Zeiger auf Objekte:\n",
+      "- Klassenobjekte können ebenfalls per Zeiger angesprochen werden\n",
+      "- Zugriff über `->`\n",
+      "```cpp\nPerson* p = new Person(\"Kilian\");\np->anzeigen();\ndelete p;\n```\n",
+      "\n",
+      "### === `this`-Zeiger ===\n",
+      "- Jede Memberfunktion hat automatisch Zugriff auf `this`\n",
+      "- `this` ist ein Zeiger auf das **aktuelle Objekt**\n",
+      "- Wird z. B. für Vergleich, Rückgabe oder Methodenkette genutzt\n",
+      "\n",
+      "```cpp\nclass Test {\n    int wert;\npublic:\n    Test(int w) : wert(w) {}\n\n    Test& setWert(int w) {\n        this->wert = w;\n        return *this;\n    }\n};\n```\n",
+      "\n",
+      "👉 So kann man z. B. Methoden verkettet aufrufen: `obj.setWert(5).setWert(10);`\n"
+    ],
+    "code": [
+      "#include <iostream>\n\nclass Zahl {\nprivate:\n    int wert;\n\npublic:\n    Zahl(int w) : wert(w) {}\n\n    void verdoppeln() {\n        wert *= 2;\n        std::cout << \"[this: \" << this << \"] Wert: \" << wert << std::endl;\n    }\n\n    Zahl& setze(int w) {\n        this->wert = w;\n        return *this;\n    }\n};\n\nint main() {\n    int x = 5;\n    int* ptr = &x;\n    std::cout << \"Zeiger: \" << *ptr << std::endl;  // 5\n\n    *ptr = 10;\n    std::cout << \"x: \" << x << std::endl;           // 10\n\n    Zahl z(7);\n    z.verdoppeln();          // 14\n    z.setze(3).verdoppeln(); // 6\n\n    return 0;\n}"
+    ]
+  }
+},
+{
+  "title": "Smart Pointer",
+  "content": {
+    "text": [
+      "### === Smart Pointer in C++ ===\n",
+      "Smart Pointer verwalten dynamischen Speicher **automatisch** und verhindern typische Fehler wie **Speicherlecks**, **doppelte `delete`s** oder **Zugriffe auf ungültige Speicherbereiche**.\n",
+      "Sie gehören zum Header `<memory>` und sind seit **C++11** verfügbar.\n",
+      "\n",
+      "### Warum Smart Pointer?\n",
+      "- Kein manuelles `delete` nötig\n",
+      "- Klare Besitzverhältnisse\n",
+      "- Automatische Speicherfreigabe beim Verlassen des Scopes\n",
+      "\n",
+      "### 🔹 `std::unique_ptr<T>`\n",
+      "- **Exklusiver Besitz**: Nur ein Zeiger kann auf das Objekt zeigen\n",
+      "- **Nicht kopierbar**, aber **verschiebbar** (`std::move`)\n",
+      "- Objekt wird beim Verlassen des Scopes automatisch gelöscht\n",
+      "```cpp\nstd::unique_ptr<int> ptr = std::make_unique<int>(10);\nptr.reset(); // manuelles Löschen möglich\n```\n",
+      "\n",
+      "### 🔹 `std::shared_ptr<T>`\n",
+      "- **Mehrere Besitzer** teilen sich das Objekt\n",
+      "- Automatische Löschung, wenn **alle Kopien** verschwinden\n",
+      "- Intern wird ein **Referenzzähler** verwaltet (`use_count()`)\n",
+      "```cpp\nstd::shared_ptr<int> a = std::make_shared<int>(5);\nstd::shared_ptr<int> b = a; // b zeigt ebenfalls auf das Objekt\nstd::cout << a.use_count(); // 2\nb.reset(); // b gibt das Objekt frei\nstd::cout << a.use_count(); // 1\n```\n",
+      "- `reset()` löscht den eigenen Bezug, nicht das Objekt, solange noch andere `shared_ptr` existieren\n",
+      "\n",
+      "### 🔹 `std::weak_ptr<T>`\n",
+      "- Beobachtet ein Objekt von `shared_ptr`, **ohne den Zähler zu erhöhen**\n",
+      "- Kann ungültig werden → **immer mit `.lock()` prüfen**\n",
+      "```cpp\nstd::weak_ptr<int> w = a;\nif (auto sp = w.lock()) { std::cout << *sp; }\n```\n",
+      "\n",
+      "### 🔍 Vergleichstabelle:\n",
+      "| Typ           | Besitz       | Kopierbar? | Besonderheit                     |\n",
+      "| `unique_ptr`  | exklusiv     | ❌ nein     | nur mit `std::move` übertragbar  |\n",
+      "| `shared_ptr`  | gemeinsam    | ✅ ja       | Zähler zählt aktive Referenzen   |\n",
+      "| `weak_ptr`    | kein Besitz  | ✅ ja       | Beobachtet ohne mitzuzählen      |\n"
+    ],
+    "code": [
+      "#include <iostream>\n#include <memory>\n\nclass Beispiel {\npublic:\n    Beispiel() { std::cout << \"Konstruktor\\n\"; }\n    ~Beispiel() { std::cout << \"Destruktor\\n\"; }\n    void anzeigen() { std::cout << \"Hallo Welt\\n\"; }\n};\n\nint main() {\n    // unique_ptr\n    std::unique_ptr<Beispiel> up = std::make_unique<Beispiel>();\n    up->anzeigen(); // Hallo Welt\n    up.reset();     // Speicher freigeben\n\n    // shared_ptr\n    std::shared_ptr<Beispiel> sp1 = std::make_shared<Beispiel>();\n    std::shared_ptr<Beispiel> sp2 = sp1; // Referenzzähler = 2\n    std::cout << \"shared_ptr Zähler: \" << sp1.use_count() << std::endl; // 2\n\n    sp2.reset(); // sp2 gibt das Objekt frei\n    std::cout << \"nach reset Zähler: \" << sp1.use_count() << std::endl; // 1\n\n    // weak_ptr\n    std::weak_ptr<Beispiel> wp = sp1;\n    if (auto temp = wp.lock()) {\n        temp->anzeigen(); // Hallo Welt\n    }\n\n    sp1.reset(); // Letzter shared_ptr gibt frei → Destruktor wird aufgerufen\n\n    return 0;\n}"
+    ]
+  }
+},
+{
+  "title": "const",
+  "content": {
+    "text": [
+      "### === `const` in C++ ===\n",
+      "`const` schützt vor ungewollten Änderungen – je nach Position bedeutet es etwas anderes:\n",
+      "\n",
+      "### 🔹 `const` bei Variablen:\n",
+      "- Der Wert darf **nicht verändert** werden\n",
+      "```cpp\nconst int x = 5;\n// x = 10; // ❌ Fehler\n```\n",
+      "\n",
+      "### 🔹 `const` bei Funktionsparametern:\n",
+      "- Verhindert Änderungen am Übergabewert\n",
+      "```cpp\nvoid zeige(const std::string& text);\n```\n",
+      "- spart **Kopieraufwand** + schützt Daten\n",
+      "\n",
+      "### 🔹 `const`-Methoden:\n",
+      "- Garantie, dass innerhalb der Methode **nichts verändert wird**\n",
+      "```cpp\nclass Person {\n    std::string name;\npublic:\n    std::string getName() const; // ❌ darf name nicht ändern\n};\n```\n",
+      "\n",
+      "### 🔹 `const` bei Zeigern:\n",
+      "| Schreibweise           | Bedeutung                               |\n",
+      "| `const int* p`        | Zeiger auf **konstante Daten**           |\n",
+      "| `int* const p`        | **Konstanter Zeiger** auf Daten          |\n",
+      "| `const int* const p`  | **Beides konstant**                      |\n",
+      "\n",
+      "```cpp\nconst int* p = &x;   // *p darf nicht geändert werden\nint* const q = &x;   // q darf nicht woanders hinzeigen\n```\n",
+      "\n",
+      "### 🔹 `const` bei Rückgabewerten:\n",
+      "- Schutz vor Modifikation des Rückgabewerts\n",
+      "```cpp\nconst std::string& getName() const;  // Rückgabe nicht modifizierbar\n```\n",
+      "\n",
+      "### Merksatz:\n",
+      "- Lies `const` **von rechts nach links**:\n",
+      "    - `int* const` = konstanter Zeiger auf int\n",
+      "    - `const int*` = Zeiger auf konstantes int\n",
+      "\n",
+      "👉 `const` hilft, **Bugs zu vermeiden**, **Lesbarkeit zu erhöhen** und ist **Best Practice** in modernem C++\n"
+    ],
+    "code": [
+      "#include <iostream>\n#include <string>\n\nclass Person {\nprivate:\n    std::string name;\n\npublic:\n    Person(const std::string& n) : name(n) {}\n\n    // const-Methode: darf nichts verändern\n    std::string getName() const {\n        return name;\n    }\n\n    // const-Rückgabe + const-Parameter\n    void begruessung(const std::string& begrussung) const {\n        std::cout << begrussung << \", \" << name << \"!\" << std::endl;\n    }\n};\n\nint main() {\n    const int x = 5;\n    // x = 10; // ❌ nicht erlaubt\n\n    const int* ptr1 = &x;    // Zeiger auf konstanten Wert\n    // *ptr1 = 20; // ❌ nicht erlaubt\n\n    int y = 8;\n    int* const ptr2 = &y;    // Konstanter Zeiger\n    *ptr2 = 12;              // ✅ erlaubt\n\n    Person p(\"Kilian\");\n    p.begruessung(\"Hallo\");\n    std::cout << \"Name: \" << p.getName() << std::endl;\n\n    return 0;\n}"
+    ]
+  }
+},
+{
+  "title": "static",
+  "content": {
+    "text": [
+      "### === `static` in C++ ===\n",
+      "`static` hat in C++ mehrere Bedeutungen – je nachdem, **wo** es verwendet wird:\n",
+      "\n",
+      "### 🔹 `static` innerhalb einer Funktion:\n",
+      "- Variable wird **nur einmal erstellt** (beim ersten Aufruf)\n",
+      "- Bleibt zwischen Aufrufen **erhalten**\n",
+      "```cpp\nvoid zähler() {\n    static int x = 0;\n    x++;\n    std::cout << x << std::endl;\n}\n```\n",
+      "\n",
+      "### 🔹 `static` in Klassen (statisch für alle Objekte):\n",
+      "- Mitglied gehört **zur Klasse, nicht zum Objekt**\n",
+      "- Wird **außerhalb der Klasse** definiert\n",
+      "```cpp\nclass Test {\npublic:\n    static int anzahl;\n};\n\nint Test::anzahl = 0;  // Definition außerhalb\n```\n",
+      "\n",
+      "### 🔹 `static` bei Funktionen (außerhalb von Klassen):\n",
+      "- Macht die Funktion **nur in dieser Datei sichtbar** (interne Verlinkung)\n",
+      "- Wird bei Modularisierung genutzt\n",
+      "\n",
+      "### Unterschiede im Verhalten:\n",
+      "| Kontext         | Bedeutung                                               |\n",
+      "| In Funktion     | Lebensdauer über Funktionsaufrufe hinaus                 |\n",
+      "| In Klasse       | Gleicher Wert für **alle Objekte**                       |\n",
+      "| Außerhalb       | Nur in derselben Datei sichtbar (file-scope)             |\n",
+      "\n",
+      "👉 `static` hilft, **Lebensdauer zu steuern**, **Speicher zu sparen** und **Zugriff zu begrenzen**\n"
+    ],
+    "code": [
+      "#include <iostream>\n\nclass Test {\npublic:\n    static int zähler;  // Deklaration\n    void erhöhen() {\n        zähler++;\n    }\n};\n\nint Test::zähler = 0;   // Definition außerhalb der Klasse\n\nvoid funktionMitStatic() {\n    static int x = 0;    // bleibt erhalten über mehrere Aufrufe\n    x++;\n    std::cout << \"static in Funktion: \" << x << std::endl;  // 1, dann 2\n}\n\nint main() {\n    Test a, b;\n    a.erhöhen();\n    b.erhöhen();\n    std::cout << \"static in Klasse: \" << Test::zähler << std::endl;  // 2\n\n    funktionMitStatic();  // static in Funktion: 1\n    funktionMitStatic();  // static in Funktion: 2\n\n    return 0;\n}"
+    ]
+  }
+}
+
+    ]
+  },
+
+  {
+    "category": "Speicherverwaltung",
+    "subtopics": [
+      {
+  "title": "Heap (new / new[])",
+  "content": {
+    "text": [
+      "### === Heap-Speicher in C++ (new / delete) ===\n",
+      "Mit `new` kann man in C++ **manuell Speicher auf dem Heap** anfordern. Dieser bleibt bestehen, **bis er explizit mit `delete` freigegeben wird**.\n",
+      "\n",
+      "### 🔹 Warum Heap?\n",
+      "- Stack ist nur für **kurzlebige, kleine** Daten\n",
+      "- Heap erlaubt **dynamische Größe** und **längere Lebenszeit**\n",
+      "- Wird manuell mit `new` / `delete` oder automatisch mit Smart Pointern verwaltet\n",
+      "\n",
+      "### 🔸 `new` für EIN Objekt:\n",
+      "```cpp\nint* zahl = new int(42);\n*zahl = 100;\ndelete zahl; // wichtig!\n```\n",
+      "- Speicher für genau **ein Objekt** wird angefordert\n",
+      "- **`delete`** muss aufgerufen werden, um den Speicher freizugeben\n",
+      "\n",
+      "### 🔸 `new[]` für MEHRERE Objekte (Array):\n",
+      "```cpp\nint* arr = new int[5];\narr[0] = 1; arr[1] = 2;\ndelete[] arr; // wichtig!\n```\n",
+      "- Reserviert **zusammenhängenden Speicherplatz** für mehrere Objekte\n",
+      "- Muss mit **`delete[]`** freigegeben werden!\n",
+      "\n",
+      "### ❗ Vorsicht bei falscher Kombination:\n",
+      "- `new[]` → `delete[]`\n",
+      "- `new` → `delete`\n",
+      "- Niemals `delete[]` auf `new` oder umgekehrt!\n",
+      "\n",
+      "### 🔹 Klassen & Konstruktoren:\n",
+      "```cpp\nclass Punkt {\npublic:\n    Punkt() { std::cout << \"Punkt erstellt\\n\"; }\n    ~Punkt() { std::cout << \"Punkt gelöscht\\n\"; }\n};\n\nPunkt* p1 = new Punkt;      // 1x Konstruktor\nPunkt* p2 = new Punkt[3];   // 3x Konstruktor\n\ndelete p1;      // 1x Destruktor\ndelete[] p2;    // 3x Destruktor\n```\n",
+      "\n",
+      "### 🔹 Wann `new[]` statt `new`?\n",
+      "- Wenn du mehrere gleichartige Objekte brauchst → `new[]`\n",
+      "- Wenn du nur ein einzelnes Objekt brauchst → `new`\n",
+      "\n",
+      "### ❗ Besser: `std::vector`, `std::unique_ptr<T[]>`, `std::make_shared<T[]>`\n",
+      "👉 Manuelles `new[]` sollte **nur ausnahmsweise** genutzt werden\n"
+    ],
+    "code": [
+      "#include <iostream>\n\nclass Punkt {\npublic:\n    Punkt() { std::cout << \"Punkt erstellt\\n\"; }\n    ~Punkt() { std::cout << \"Punkt gelöscht\\n\"; }\n};\n\nint main() {\n    // new für EIN Objekt\n    int* zahl = new int(42);\n    std::cout << \"Einzelwert: \" << *zahl << std::endl; // 42\n    delete zahl; // Speicher freigeben\n\n    // new[] für MEHRERE Objekte\n    int* array = new int[3];\n    array[0] = 10;\n    array[1] = 20;\n    array[2] = 30;\n    std::cout << \"Array[1]: \" << array[1] << std::endl; // 20\n    delete[] array; // korrekt löschen\n\n    // new / delete mit Klassen\n    Punkt* p1 = new Punkt();    // Punkt erstellt\n    Punkt* pArr = new Punkt[2]; // 2x Punkt erstellt\n\n    delete p1;      // Punkt gelöscht\n    delete[] pArr;  // 2x Punkt gelöscht\n\n    return 0;\n}"
+    ]
+  }
+},
+{
+  "title": "Speicherverwaltung: Heap vs. Stack",
+  "content": {
+    "text": [
+      "### === Speicherverwaltung in C++: Stack vs. Heap ===\n",
+      "In C++ unterscheidet man bei der Speichervergabe zwischen **Stack** und **Heap**:\n",
+      "\n",
+      "### 🔹 Stack-Speicher (automatisch)\n",
+      "- Wird für **lokale Variablen** verwendet\n",
+      "- Speicher wird **automatisch** freigegeben, wenn der Block verlassen wird\n",
+      "- Sehr schnell & sicher, aber begrenzt (Stack Overflow bei großen Arrays)\n",
+      "\n",
+      "```cpp\nvoid funktion() {\n    int a = 10;        // auf dem Stack\n} // a wird automatisch gelöscht\n```\n",
+      "\n",
+      "### 🔹 Heap-Speicher (dynamisch)\n",
+      "- Wird bei Bedarf mit `new` reserviert und mit `delete` freigegeben\n",
+      "- Muss **manuell** verwaltet werden → Gefahr von Speicherlecks\n",
+      "- Größer, aber langsamer als der Stack\n",
+      "\n",
+      "```cpp\nint* ptr = new int(5);  // Speicher im Heap\n*ptr = 42;\ndelete ptr;             // Speicher freigeben\n```\n",
+      "\n",
+      "### 🔹 Vergleich:\n",
+      "| Merkmal     | Stack                     | Heap                          |\n",
+      "| Geschwindigkeit | Sehr schnell              | Langsamer                    |\n",
+      "| Lebensdauer | Block-lokal (automatisch) | Manuell, bis `delete`        |\n",
+      "| Speichergröße | Begrenzter Speicher       | Größerer Speicher verfügbar  |\n",
+      "| Fehlerquellen | Stack Overflow möglich    | Speicherlecks, Dangling Ptr  |\n",
+      "\n",
+      "### 🔸 Modern C++ Tipp:\n",
+      "- Statt `new` / `delete` → besser `std::unique_ptr`, `std::shared_ptr`\n",
+      "- Smart Pointer übernehmen Speicherverwaltung automatisch\n"
+    ],
+    "code": [
+      "#include <iostream>\n#include <memory> // für Smart Pointer\n\nvoid stackBeispiel() {\n    int zahl = 10;                    // Stack-Speicher\n    std::cout << \"Stack: \" << zahl << std::endl;\n} // zahl wird automatisch gelöscht\n\nvoid heapBeispiel() {\n    int* ptr = new int(42);           // Heap-Speicher\n    std::cout << \"Heap: \" << *ptr << std::endl;\n    delete ptr;                       // manuell löschen\n}\n\nvoid smartPointerBeispiel() {\n    std::unique_ptr<int> sp = std::make_unique<int>(100);\n    std::cout << \"SmartPointer: \" << *sp << std::endl;\n} // wird automatisch gelöscht\n\nint main() {\n    stackBeispiel();\n    heapBeispiel();\n    smartPointerBeispiel();\n    return 0;\n}"
+    ]
+  }
+}
+
+    ]
+  }
+  
+]
+
