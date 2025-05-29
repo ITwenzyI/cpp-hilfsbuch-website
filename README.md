@@ -1,4 +1,4 @@
-# C++ Learning Companion – Interactive Helpbook
+# C++ Learning Website – Interactive Helpbook
 
 This is a personal interactive helpbook for learning and revising C++ programming concepts.  
 It was created by Kilian during my studies in Medical Informatics, with a strong focus on clarity, structure, and practical code examples.
@@ -17,12 +17,16 @@ It was created by Kilian during my studies in Medical Informatics, with a strong
 
 ---
 
-📌 About This Project
+## 🔗 Live Demo with Netlify
+- https://helpbookcpp.netlify.app/
+- https://683873506b7579514399040b--helpbookcpp.netlify.app/
+
+## 📌 About This Project
 
 The content in themen.json (topics, explanations, and code examples) was entirely written by me.
 The website logic and layout were supported by ChatGPT based on my structure and idea.
 **This project is for educational purposes only and not officially affiliated with any university or course.**
 
-🙋‍♂️ Author
+## 🙋‍♂️ Author
 **Kilian – Student of Medical Informatics**
 Learning enthusiast | Passionate about C++ & Cybersecurity
