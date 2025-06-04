@@ -22,8 +22,8 @@ It was created by Kilian during my studies in Medical Informatics, with a strong
 
 ## 📌 About This Project
 
-The content in themen.json (topics, explanations, and code examples) was entirely written by me.
-The website logic and layout were supported by ChatGPT based on my structure and idea.
+This website was not created entirely by me.  
+Some parts were developed with the help of external support and resources.
 **This project is for educational purposes only and not officially affiliated with any university or course.**
 
 ## 🙋‍♂️ Author
