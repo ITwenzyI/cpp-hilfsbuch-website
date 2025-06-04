@@ -24,6 +24,7 @@ It was created by Kilian during my studies in Medical Informatics, with a strong
 
 This website was not created entirely by me.  
 Some parts were developed with the help of external support and resources.
+
 **This project is for educational purposes only and not officially affiliated with any university or course.**
 
 ## 🙋‍♂️ Author
