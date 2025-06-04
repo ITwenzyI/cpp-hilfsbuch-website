@@ -1373,11 +1373,10 @@
       "Der Modus bestimmt, **wie die Zugriffsrechte** (`public` / `protected` / `private`) der Basisklasse in der abgeleiteten Klasse weitervererbt werden.\n",
       "\n",
       "### Vergleichstabelle:\n",
-      "| Basisklassen-Mitglied | `public` vererbt als | `protected` vererbt als | `private` vererbt als |\n",
-      "|------------------------|------------------------|--------------------------|------------------------|\n",
-      "| public                 | public                 | protected                | private                |\n",
-      "| protected              | protected              | protected                | private                |\n",
-      "| private                | — (nicht vererbt)      | —                        | —                      |\n",
+      "| Basisklassen-Member | public-Vererbung | protected-Vererbung | private-Vererbung |\n",
+      "| `public`            | `public`         | `protected`          | `private`         |\n",
+      "| `protected`         | `protected`      | `protected`          | `private`         |\n",
+      "| `private`           | nicht geerbt     | nicht geerbt         | nicht geerbt      |\n",
       "\n",
       "👉 **private Mitglieder werden nie vererbt**, egal welcher Modus.\n",
       "\n",
@@ -1392,124 +1391,78 @@
   }
 },
 {
-  "title": "Konstruktor Vererbung / Übernahme",
+  "title": "Konstruktorvererbung & -übernahme",
   "content": {
     "text": [
-      "### === Vererbung in C++ ===\n",
-      "Vererbung ist ein zentrales Konzept der objektorientierten Programmierung.\n",
-      "Damit kann eine neue Klasse (`Kindklasse`) die Eigenschaften und Methoden einer bestehenden Klasse (`Basisklasse`) übernehmen.\n",
+      "### === Konstruktorvererbung & -weitergabe in C++ ===\n",
+      "Normalerweise werden Konstruktoren **nicht automatisch** an abgeleitete Klassen vererbt.\n",
+      "Das bedeutet: Die Unterklasse muss eigene Konstruktoren definieren und dabei die Konstruktoren der Basisklasse explizit aufrufen.\n",
       "\n",
-      "### Vorteile\n",
-      "- Code-Wiederverwendung\n",
-      "- Erweiterbarkeit\n",
-      "- Strukturierte Hierarchien\n",
+      "### 🔧 Konstruktorweitergabe mit Initialisierungsliste\n",
+      "- Ein Konstruktor der Unterklasse kann per `: Basisklasse(...)` den Konstruktor der Oberklasse aufrufen.\n",
       "\n",
-      "### Syntax\n",
-      "`class Kindklasse : public Basisklasse { ... };`\n",
-      "-> `public` bedeutet: öffentliche Mitglieder der Basisklasse bleiben auch in der Kindklasse öffentlich.\n",
-      "-> `protected` bedeutet: öffentliche Mitglieder der Basisklasse werden in der Kindklasse protected.\n",
-      "-> `private` bedeutet: öffentliche Mitglieder der Basisklasse werden in der Kindklasse private.\n",
+      "```cpp\nclass Tier {\npublic:\n  Tier(std::string name) {\n    std::cout << name << \" wird erschaffen.\" << std::endl;\n  }\n};\n\nclass Hund : public Tier {\npublic:\n  Hund(std::string name) : Tier(name) {}\n};\n```\n",
       "\n",
-      "### Konstruktoren in Vererbung\n",
-      "-> Konstruktor der Basisklasse wird **automatisch zuerst** aufgerufen.\n",
-      "-> Kann im Initialisierungsbereich der Kindklasse explizit aufgerufen werden.\n",
+      "### 🔁 Konstruktorvererbung mit `using` (ab C++11)\n",
+      "- Mit `using Basisklasse::Basisklasse;` können Konstruktoren **automatisch übernommen** werden.\n",
+      "- Spart Schreibaufwand, wenn man nichts zusätzlich initialisieren muss.\n",
       "\n",
-      "### Vererbungsmodi in C++\n",
-      "C++ kennt drei Vererbungsmodi: `public`, `protected` und `private`.\n",
-      "- Sie bestimmen, wie sich die Sichtbarkeit von geerbten Attributen und Methoden in der abgeleiteten Klasse verändert.\n",
-      "- Der Modus ist eine **obere Schranke**: `public` lässt alles wie es ist, `private` versteckt fast alles.\n",
-      "\n",
-      "| Basisklassen-Member | public-Vererbung | protected-Vererbung | private-Vererbung |\n",
-      "| `public`            | `public`         | `protected`          | `private`         |\n",
-      "| `protected`         | `protected`      | `protected`          | `private`         |\n",
-      "| `private`           | nicht geerbt     | nicht geerbt         | nicht geerbt      |\n",
-      "\n"
+      "👉 Achtung: Funktioniert **nicht**, wenn die Unterklasse zusätzliche Member initialisieren muss oder andere Logik enthält.\n"
     ],
-"code": [
-  "#include <iostream>\n\n// Basisklasse\nclass Tier {\nprotected:\n  std::string name;\n\npublic:\n  Tier(std::string n) {\n    name = n;\n  }\n\n  void sprich() {\n    std::cout << name << \" macht ein Geräusch.\" << std::endl;\n  }\n};\n\n// Abgeleitete Klasse\nclass Hund : public Tier {\npublic:\n  Hund(std::string n) : Tier(n) {}\n\n  void bell() {\n    std::cout << name << \" bellt.\" << std::endl;\n  }\n};\n\nint main() {\n  Hund rex(\"Rex\");\n  rex.sprich(); // Ausgabe: Rex macht ein Geräusch.\n  rex.bell();   // Ausgabe: Rex bellt.\n\n  return 0;\n}",
-  "// Zusätzliche Beispiele zur Vererbungsart:\n\nclass base {\npublic:\n  void f() {}\nprotected:\n  void g() {}\nprivate:\n  int x;\n};\n\nclass derived_1 : public base {\n  // f() bleibt public\n  // g() bleibt protected\n  // x ist nicht zugreifbar\n};\n\nclass derived_2 : protected base {\n  // f() wird protected\n  // g() bleibt protected\n  // x ist nicht zugreifbar\n};\n\nclass derived_3 : private base {\n  // f() wird private\n  // g() wird private\n  // x ist nicht zugreifbar\n};"
-]
-        }
+    "code": [
+      "#include <iostream>\n#include <string>\n\nclass Tier {\npublic:\n  Tier(std::string name) {\n    std::cout << name << \" wird erschaffen.\" << std::endl;\n  }\n};\n\nclass Hund : public Tier {\npublic:\n  // Weitergabe an Basiskonstruktor\n  Hund(std::string name) : Tier(name) {\n    std::cout << \"Hund-Konstruktor läuft.\" << std::endl;\n  }\n};\n\nclass Katze : public Tier {\npublic:\n  // Konstruktorvererbung ab C++11\n  using Tier::Tier;\n};\n\nint main() {\n  Hund rex(\"Rex\");\n  // Ausgabe:\n  // Rex wird erschaffen.\n  // Hund-Konstruktor läuft.\n\n  Katze mimi(\"Mimi\");\n  // Ausgabe:\n  // Mimi wird erschaffen.\n\n  return 0;\n}"
+    ]
+  }
 },
 {
-  "title": "Redefiniton Memberfunktionen",
+  "title": "Redefinition von Memberfunktionen",
   "content": {
     "text": [
-      "### === Vererbung in C++ ===\n",
-      "Vererbung ist ein zentrales Konzept der objektorientierten Programmierung.\n",
-      "Damit kann eine neue Klasse (`Kindklasse`) die Eigenschaften und Methoden einer bestehenden Klasse (`Basisklasse`) übernehmen.\n",
+      "### === Redefinition von Memberfunktionen ===\n",
+      "In der objektorientierten Programmierung mit C++ ist es möglich, **Funktionen in Unterklassen neu zu definieren**.\n",
+      "Dabei überschreibt die Unterklasse die gleichnamige Funktion der Oberklasse. Das nennt man auch **„Redefinition“** oder **„Überschreiben“** (nicht zu verwechseln mit Überladung).\n",
       "\n",
-      "### Vorteile\n",
-      "- Code-Wiederverwendung\n",
-      "- Erweiterbarkeit\n",
-      "- Strukturierte Hierarchien\n",
+      "### Wann macht man das?\n",
+      "- Wenn eine abgeleitete Klasse ein **eigenes Verhalten** für eine Methode braucht\n",
+      "- Beispiel: `Tier` hat `sprich()`, aber `Hund` bellt und `Katze` miaut\n",
       "\n",
-      "### Syntax\n",
-      "`class Kindklasse : public Basisklasse { ... };`\n",
-      "-> `public` bedeutet: öffentliche Mitglieder der Basisklasse bleiben auch in der Kindklasse öffentlich.\n",
-      "-> `protected` bedeutet: öffentliche Mitglieder der Basisklasse werden in der Kindklasse protected.\n",
-      "-> `private` bedeutet: öffentliche Mitglieder der Basisklasse werden in der Kindklasse private.\n",
+      "### Ohne `virtual` = statisch gebunden\n",
+      "- Wenn die Methode **nicht** als `virtual` deklariert ist, entscheidet sich beim **Compilieren**, welche Funktion verwendet wird (statisch)\n",
       "\n",
-      "### Konstruktoren in Vererbung\n",
-      "-> Konstruktor der Basisklasse wird **automatisch zuerst** aufgerufen.\n",
-      "-> Kann im Initialisierungsbereich der Kindklasse explizit aufgerufen werden.\n",
+      "### Mit `virtual` = dynamisch gebunden\n",
+      "- Nur wenn die Methode in der Basisklasse als `virtual` markiert ist, wird sie **zur Laufzeit** (dynamisch) aufgelöst – wichtig für **Polymorphie**\n",
       "\n",
-      "### Vererbungsmodi in C++\n",
-      "C++ kennt drei Vererbungsmodi: `public`, `protected` und `private`.\n",
-      "- Sie bestimmen, wie sich die Sichtbarkeit von geerbten Attributen und Methoden in der abgeleiteten Klasse verändert.\n",
-      "- Der Modus ist eine **obere Schranke**: `public` lässt alles wie es ist, `private` versteckt fast alles.\n",
-      "\n",
-      "| Basisklassen-Member | public-Vererbung | protected-Vererbung | private-Vererbung |\n",
-      "| `public`            | `public`         | `protected`          | `private`         |\n",
-      "| `protected`         | `protected`      | `protected`          | `private`         |\n",
-      "| `private`           | nicht geerbt     | nicht geerbt         | nicht geerbt      |\n",
-      "\n"
+      "👉 `virtual` sollte bei der Basisklasse verwendet werden, wenn man möchte, dass Unterklassen eigene Versionen implementieren\n"
     ],
-"code": [
-  "#include <iostream>\n\n// Basisklasse\nclass Tier {\nprotected:\n  std::string name;\n\npublic:\n  Tier(std::string n) {\n    name = n;\n  }\n\n  void sprich() {\n    std::cout << name << \" macht ein Geräusch.\" << std::endl;\n  }\n};\n\n// Abgeleitete Klasse\nclass Hund : public Tier {\npublic:\n  Hund(std::string n) : Tier(n) {}\n\n  void bell() {\n    std::cout << name << \" bellt.\" << std::endl;\n  }\n};\n\nint main() {\n  Hund rex(\"Rex\");\n  rex.sprich(); // Ausgabe: Rex macht ein Geräusch.\n  rex.bell();   // Ausgabe: Rex bellt.\n\n  return 0;\n}",
-  "// Zusätzliche Beispiele zur Vererbungsart:\n\nclass base {\npublic:\n  void f() {}\nprotected:\n  void g() {}\nprivate:\n  int x;\n};\n\nclass derived_1 : public base {\n  // f() bleibt public\n  // g() bleibt protected\n  // x ist nicht zugreifbar\n};\n\nclass derived_2 : protected base {\n  // f() wird protected\n  // g() bleibt protected\n  // x ist nicht zugreifbar\n};\n\nclass derived_3 : private base {\n  // f() wird private\n  // g() wird private\n  // x ist nicht zugreifbar\n};"
-]
-        }
+    "code": [
+      "#include <iostream>\n\nclass Tier {\npublic:\n  void sprich() {\n    std::cout << \"Ein Tier macht ein Geräusch.\" << std::endl;\n  }\n};\n\nclass Hund : public Tier {\npublic:\n  void sprich() { // überschreibt, aber nicht virtuell\n    std::cout << \"Ein Hund bellt.\" << std::endl;\n  }\n};\n\nint main() {\n  Hund h;\n  h.sprich(); // Ausgabe: Ein Hund bellt.\n\n  Tier* t = new Hund();\n  t->sprich(); // Ausgabe: Ein Tier macht ein Geräusch. (weil kein virtual!)\n\n  delete t;\n  return 0;\n}"
+    ]
+  }
 },
 {
   "title": "Virtuelle Funktionen",
   "content": {
     "text": [
-      "### === Vererbung in C++ ===\n",
-      "Vererbung ist ein zentrales Konzept der objektorientierten Programmierung.\n",
-      "Damit kann eine neue Klasse (`Kindklasse`) die Eigenschaften und Methoden einer bestehenden Klasse (`Basisklasse`) übernehmen.\n",
+      "### === Virtuelle Funktionen ===\n",
+      "Virtuelle Funktionen ermöglichen es in C++, dass die **richtige Funktion zur Laufzeit aufgerufen wird**, wenn mit Zeigern oder Referenzen auf Basisklassen gearbeitet wird.\n",
       "\n",
-      "### Vorteile\n",
-      "- Code-Wiederverwendung\n",
-      "- Erweiterbarkeit\n",
-      "- Strukturierte Hierarchien\n",
+      "👉 Dieses Verhalten nennt man **dynamisches Binden** oder **Laufzeit-Polymorphie**.\n",
       "\n",
-      "### Syntax\n",
-      "`class Kindklasse : public Basisklasse { ... };`\n",
-      "-> `public` bedeutet: öffentliche Mitglieder der Basisklasse bleiben auch in der Kindklasse öffentlich.\n",
-      "-> `protected` bedeutet: öffentliche Mitglieder der Basisklasse werden in der Kindklasse protected.\n",
-      "-> `private` bedeutet: öffentliche Mitglieder der Basisklasse werden in der Kindklasse private.\n",
+      "### Was passiert ohne `virtual`?\n",
+      "- Es wird immer die Funktion der **Basisklasse** aufgerufen, selbst wenn das Objekt eigentlich zur Unterklasse gehört.\n",
       "\n",
-      "### Konstruktoren in Vererbung\n",
-      "-> Konstruktor der Basisklasse wird **automatisch zuerst** aufgerufen.\n",
-      "-> Kann im Initialisierungsbereich der Kindklasse explizit aufgerufen werden.\n",
+      "### Mit `virtual`:\n",
+      "- Die Entscheidung, **welche Funktion** aufgerufen wird, erfolgt **zur Laufzeit** (dynamisch), basierend auf dem tatsächlichen Objekttyp.\n",
+      "- Ideal für Oberklassen mit gemeinsamem Interface, das von Unterklassen **spezialisiert** wird.\n",
       "\n",
-      "### Vererbungsmodi in C++\n",
-      "C++ kennt drei Vererbungsmodi: `public`, `protected` und `private`.\n",
-      "- Sie bestimmen, wie sich die Sichtbarkeit von geerbten Attributen und Methoden in der abgeleiteten Klasse verändert.\n",
-      "- Der Modus ist eine **obere Schranke**: `public` lässt alles wie es ist, `private` versteckt fast alles.\n",
-      "\n",
-      "| Basisklassen-Member | public-Vererbung | protected-Vererbung | private-Vererbung |\n",
-      "| `public`            | `public`         | `protected`          | `private`         |\n",
-      "| `protected`         | `protected`      | `protected`          | `private`         |\n",
-      "| `private`           | nicht geerbt     | nicht geerbt         | nicht geerbt      |\n",
-      "\n"
+      "### Wichtig:\n",
+      "- Wird in einer Klasse `virtual` verwendet, sollte in abgeleiteten Klassen `override` verwendet werden (seit C++11).\n",
+      "- Der Destruktor einer Basisklasse sollte fast immer `virtual` sein, wenn Vererbung verwendet wird!"
     ],
-"code": [
-  "#include <iostream>\n\n// Basisklasse\nclass Tier {\nprotected:\n  std::string name;\n\npublic:\n  Tier(std::string n) {\n    name = n;\n  }\n\n  void sprich() {\n    std::cout << name << \" macht ein Geräusch.\" << std::endl;\n  }\n};\n\n// Abgeleitete Klasse\nclass Hund : public Tier {\npublic:\n  Hund(std::string n) : Tier(n) {}\n\n  void bell() {\n    std::cout << name << \" bellt.\" << std::endl;\n  }\n};\n\nint main() {\n  Hund rex(\"Rex\");\n  rex.sprich(); // Ausgabe: Rex macht ein Geräusch.\n  rex.bell();   // Ausgabe: Rex bellt.\n\n  return 0;\n}",
-  "// Zusätzliche Beispiele zur Vererbungsart:\n\nclass base {\npublic:\n  void f() {}\nprotected:\n  void g() {}\nprivate:\n  int x;\n};\n\nclass derived_1 : public base {\n  // f() bleibt public\n  // g() bleibt protected\n  // x ist nicht zugreifbar\n};\n\nclass derived_2 : protected base {\n  // f() wird protected\n  // g() bleibt protected\n  // x ist nicht zugreifbar\n};\n\nclass derived_3 : private base {\n  // f() wird private\n  // g() wird private\n  // x ist nicht zugreifbar\n};"
-]
-        }
+    "code": [
+      "#include <iostream>\n\nclass Tier {\npublic:\n  virtual void sprich() {\n    std::cout << \"Ein Tier macht ein Geräusch.\" << std::endl;\n  }\n\n  virtual ~Tier() {}\n};\n\nclass Hund : public Tier {\npublic:\n  void sprich() override {\n    std::cout << \"Ein Hund bellt.\" << std::endl;\n  }\n};\n\nclass Katze : public Tier {\npublic:\n  void sprich() override {\n    std::cout << \"Eine Katze miaut.\" << std::endl;\n  }\n};\n\nint main() {\n  Tier* t1 = new Hund();\n  Tier* t2 = new Katze();\n\n  t1->sprich(); // Ausgabe: Ein Hund bellt.\n  t2->sprich(); // Ausgabe: Eine Katze miaut.\n\n  delete t1;\n  delete t2;\n  return 0;\n}"
+    ]
+  }
 },
 {
   "title": "Statisches/Dynamisches Binden",
