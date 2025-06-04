@@ -1,6 +1,6 @@
 [
   {
-    "category": "Grundlagen123",
+    "category": "Grundlagen",
     "subtopics": [
       {
         "title": "Console Ausgabe UTF-8 Windows",
@@ -1004,6 +1004,7 @@
             "Die Sichtbarkeit wird mit `public`, `private` oder `protected` gesteuert:\n",
             "- `private`: Nur innerhalb der Klasse sichtbar (Standard)\n",
             "- `public`: Von außen sichtbar\n",
+            "- `protected`: Kein Zugriff von z.B main. Zugriff aus abgeleiteten Klassen und aus eigener Klasse ist erlaubt.\n",
             "\n",
             "### Objekt-Erzeugung\n",
             "Mit `Klassenname objektname;` wird ein Objekt erstellt. Danach kann man mit `objektname.funktion()` Methoden aufrufen.\n",
@@ -1020,33 +1021,42 @@
           ]
         }
       },
-      {
-        "title": "Public / Private",
-        "content": {
-          "text": [
-            "### === Zugriffsmodifizierer: `public` & `private` ===\n",
-            "In C++ bestimmt man mit Zugriffsmodifizierern, welche Teile einer Klasse von außen sichtbar oder geschützt sind.\n",
-            "-> Standard in 'class' ist: private (bei 'struct' dagegen public)\n",
-            "\n",
-            "### `private:` (Standard)\n",
-            "-> Elemente mit `private` sind **nur innerhalb der Klasse selbst** sichtbar.\n",
-            "-> Ideal für Attribute, die nicht direkt von außen verändert werden sollen (Kapselung).\n",
-            "\n",
-            "### `public:`\n",
-            "-> Elemente mit `public` sind **von außen frei zugänglich**.\n",
-            "-> Wird meist für Methoden verwendet, die von außen benutzt werden sollen.\n",
-            "\n",
-            "### Warum das wichtig ist:\n",
-            "- `private` schützt den internen Zustand eines Objekts.\n",
-            "- `public` bietet eine kontrollierte Schnittstelle (Interface) nach außen.\n",
-            "- So bleibt die Klasse robust und leicht wartbar.\n"
-          ],
-          "code": [
-            "#include <iostream>\n\nclass Konto {\nprivate:\n  double kontostand; // nicht direkt von außen veränderbar\n\npublic:\n  // Konstruktor\n  Konto(double startwert) {\n    kontostand = startwert;\n  }\n\n  // Methode zum Einzahlen\n  void einzahlen(double betrag) {\n    kontostand += betrag;\n  }\n\n  // Methode zur Abfrage\n  void anzeigen() {\n    std::cout << \"Kontostand: \" << kontostand << \" EUR\" << std::endl;\n  }\n};",
-            "int main() {\n  Konto meinKonto(100.0);\n  meinKonto.einzahlen(50.0);\n  meinKonto.anzeigen(); // Ausgabe: Kontostand: 150 EUR\n\n  // meinKonto.kontostand = 1000; // Fehler: 'kontostand' ist private\n\n  return 0;\n}"
-          ]
-        }
-      },
+{
+  "title": "Public / Private / Protected",
+  "content": {
+    "text": [
+      "### === Zugriffsmodifizierer: `public`, `private`, `protected` ===\n",
+      "In C++ bestimmt man mit Zugriffsmodifizierern, welche Teile einer Klasse **von außen sichtbar** oder **geschützt** sind.\n",
+      "\n",
+      "-> **Standard in `class`** ist: `private` (bei `struct` dagegen `public`)\n",
+      "\n",
+      "### 🔒 `private:` (Standard)\n",
+      "- Nur innerhalb der Klasse sichtbar\n",
+      "- Gut für: Datenkapselung, interne Logik\n",
+      "- Nicht sichtbar in Unterklassen\n",
+      "\n",
+      "### 🔓 `public:`\n",
+      "- Frei von überall zugänglich\n",
+      "- Wird verwendet für Schnittstellen (z. B. Methoden wie `anzeigen()`)\n",
+      "\n",
+      "### 🟨 `protected:`\n",
+      "- Wie `private`, aber auch **in Unterklassen sichtbar**\n",
+      "- Von **außen weiterhin nicht zugreifbar**\n",
+      "- Gut, wenn **abgeleitete Klassen** auf interne Daten zugreifen sollen\n",
+      "\n",
+      "### ➕ Vergleich:\n",
+      "| Modifizierer | Sichtbar in Klasse | Sichtbar in Unterklasse | Sichtbar außerhalb |\n",
+      "| private      | ✅                 | ❌                       | ❌                  |\n",
+      "| protected    | ✅                 | ✅                       | ❌                  |\n",
+      "| public       | ✅                 | ✅                       | ✅                  |\n",
+      "\n",
+      "👉 `protected` wird v. a. bei Vererbung verwendet, wenn man Unterklassen erweiterten, aber kontrollierten Zugriff geben möchte."
+    ],
+    "code": [
+      "#include <iostream>\n\nclass Konto {\nprivate:\n  int kontoNummer = 12345;        // Nur innerhalb der Klasse sichtbar\n\nprotected:\n  double kontostand = 100.0;      // Für Unterklassen sichtbar\n\npublic:\n  void einzahlen(double betrag) {\n    kontostand += betrag;\n  }\n\n  void anzeigen() {\n    std::cout << \"Kontostand: \" << kontostand << \" EUR\" << std::endl;\n  }\n};\n\nclass KinderKonto : public Konto {\npublic:\n  void abheben(double betrag) {\n    kontostand -= betrag; // Zugriff auf protected-Mitglied erlaubt\n  }\n\n  void kontoInfo() {\n    // std::cout << kontoNummer; // ❌ Fehler: private in Basisklasse\n    std::cout << \"Zugriff auf geschützten Kontostand möglich: \" << kontostand << std::endl;\n  }\n};\n\nint main() {\n  KinderKonto k;\n  k.einzahlen(50);\n  k.abheben(30);\n  k.anzeigen(); // Ausgabe: Kontostand: 120 EUR\n\n  // k.kontostand = 999;      // ❌ Fehler: protected von außen nicht sichtbar\n  // k.kontoNummer = 11111;   // ❌ Fehler: private von außen nicht sichtbar\n\n  k.kontoInfo(); // Zugriff auf protected innerhalb der Unterklasse\n\n  return 0;\n}"
+    ]
+  }
+},
       {
         "title": "Konstruktor / Destruktor",
         "content": {
@@ -1102,33 +1112,46 @@
           ]
         }
       },
-      {
-        "title": "Vererbung",
-        "content": {
-          "text": [
-            "### === Vererbung in C++ ===\n",
-            "Vererbung ist ein zentrales Konzept der objektorientierten Programmierung.\n",
-            "Damit kann eine neue Klasse (`Kindklasse`) die Eigenschaften und Methoden einer bestehenden Klasse (`Basisklasse`) übernehmen.\n",
-            "\n",
-            "### Vorteile\n",
-            "- Code-Wiederverwendung\n",
-            "- Erweiterbarkeit\n",
-            "- Strukturierte Hierarchien\n",
-            "\n",
-            "### Syntax\n",
-            "`class Kindklasse : public Basisklasse { ... };`\n",
-            "-> `public` bedeutet: öffentliche Mitglieder der Basisklasse bleiben auch in der Kindklasse öffentlich.\n",
-            "\n",
-            "### Konstruktoren in Vererbung\n",
-            "-> Konstruktor der Basisklasse wird **automatisch zuerst** aufgerufen.\n",
-            "-> Kann im Initialisierungsbereich der Kindklasse explizit aufgerufen werden.\n"
-          ],
-          "code": [
-            "#include <iostream>\n\n// Basisklasse\nclass Tier {\nprotected:\n  std::string name;\n\npublic:\n  Tier(std::string n) {\n    name = n;\n  }\n\n  void sprich() {\n    std::cout << name << \" macht ein Geräusch.\" << std::endl;\n  }\n};\n\n// Abgeleitete Klasse\nclass Hund : public Tier {\npublic:\n  Hund(std::string n) : Tier(n) {}\n\n  void bell() {\n    std::cout << name << \" bellt.\" << std::endl;\n  }\n};",
-            "int main() {\n  Hund rex(\"Rex\");\n  rex.sprich(); // Ausgabe: Rex macht ein Geräusch.\n  rex.bell();   // Ausgabe: Rex bellt.\n\n  return 0;\n}"
-          ]
-        }
-      },
+{
+  "title": "Vererbung",
+  "content": {
+    "text": [
+      "### === Vererbung in C++ ===\n",
+      "Vererbung ist ein zentrales Konzept der objektorientierten Programmierung.\n",
+      "Damit kann eine neue Klasse (`Kindklasse`) die Eigenschaften und Methoden einer bestehenden Klasse (`Basisklasse`) übernehmen.\n",
+      "\n",
+      "### Vorteile\n",
+      "- Code-Wiederverwendung\n",
+      "- Erweiterbarkeit\n",
+      "- Strukturierte Hierarchien\n",
+      "\n",
+      "### Syntax\n",
+      "`class Kindklasse : public Basisklasse { ... };`\n",
+      "-> `public` bedeutet: öffentliche Mitglieder der Basisklasse bleiben auch in der Kindklasse öffentlich.\n",
+      "-> `protected` bedeutet: öffentliche Mitglieder der Basisklasse werden in der Kindklasse protected.\n",
+      "-> `private` bedeutet: öffentliche Mitglieder der Basisklasse werden in der Kindklasse private.\n",
+      "\n",
+      "### Konstruktoren in Vererbung\n",
+      "-> Konstruktor der Basisklasse wird **automatisch zuerst** aufgerufen.\n",
+      "-> Kann im Initialisierungsbereich der Kindklasse explizit aufgerufen werden.\n",
+      "\n",
+      "### Vererbungsmodi in C++\n",
+      "C++ kennt drei Vererbungsmodi: `public`, `protected` und `private`.\n",
+      "- Sie bestimmen, wie sich die Sichtbarkeit von geerbten Attributen und Methoden in der abgeleiteten Klasse verändert.\n",
+      "- Der Modus ist eine **obere Schranke**: `public` lässt alles wie es ist, `private` versteckt fast alles.\n",
+      "\n",
+      "| Basisklassen-Member | public-Vererbung | protected-Vererbung | private-Vererbung |\n",
+      "| `public`            | `public`         | `protected`          | `private`         |\n",
+      "| `protected`         | `protected`      | `protected`          | `private`         |\n",
+      "| `private`           | nicht geerbt     | nicht geerbt         | nicht geerbt      |\n",
+      "\n"
+    ],
+"code": [
+  "#include <iostream>\n\n// Basisklasse\nclass Tier {\nprotected:\n  std::string name;\n\npublic:\n  Tier(std::string n) {\n    name = n;\n  }\n\n  void sprich() {\n    std::cout << name << \" macht ein Geräusch.\" << std::endl;\n  }\n};\n\n// Abgeleitete Klasse\nclass Hund : public Tier {\npublic:\n  Hund(std::string n) : Tier(n) {}\n\n  void bell() {\n    std::cout << name << \" bellt.\" << std::endl;\n  }\n};\n\nint main() {\n  Hund rex(\"Rex\");\n  rex.sprich(); // Ausgabe: Rex macht ein Geräusch.\n  rex.bell();   // Ausgabe: Rex bellt.\n\n  return 0;\n}",
+  "// Zusätzliche Beispiele zur Vererbungsart:\n\nclass base {\npublic:\n  void f() {}\nprotected:\n  void g() {}\nprivate:\n  int x;\n};\n\nclass derived_1 : public base {\n  // f() bleibt public\n  // g() bleibt protected\n  // x ist nicht zugreifbar\n};\n\nclass derived_2 : protected base {\n  // f() wird protected\n  // g() bleibt protected\n  // x ist nicht zugreifbar\n};\n\nclass derived_3 : private base {\n  // f() wird private\n  // g() wird private\n  // x ist nicht zugreifbar\n};"
+]
+  }
+},
 {
   "title": "Copy Constructor & Assignment",
   "content": {
