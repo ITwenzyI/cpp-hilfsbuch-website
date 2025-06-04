@@ -1360,45 +1360,36 @@
 ]
         }
       },
- {
+{
   "title": "Vererbungsmodi",
   "content": {
     "text": [
-      "### === Vererbung in C++ ===\n",
-      "Vererbung ist ein zentrales Konzept der objektorientierten Programmierung.\n",
-      "Damit kann eine neue Klasse (`Kindklasse`) die Eigenschaften und Methoden einer bestehenden Klasse (`Basisklasse`) übernehmen.\n",
+      "### === Vererbungsmodi in C++ ===\n",
+      "Wenn eine Klasse von einer anderen Klasse erbt, kannst du den **Vererbungsmodus** festlegen:\n",
+      "- `public`\n",
+      "- `protected`\n",
+      "- `private`\n",
       "\n",
-      "### Vorteile\n",
-      "- Code-Wiederverwendung\n",
-      "- Erweiterbarkeit\n",
-      "- Strukturierte Hierarchien\n",
+      "Der Modus bestimmt, **wie die Zugriffsrechte** (`public` / `protected` / `private`) der Basisklasse in der abgeleiteten Klasse weitervererbt werden.\n",
       "\n",
-      "### Syntax\n",
-      "`class Kindklasse : public Basisklasse { ... };`\n",
-      "-> `public` bedeutet: öffentliche Mitglieder der Basisklasse bleiben auch in der Kindklasse öffentlich.\n",
-      "-> `protected` bedeutet: öffentliche Mitglieder der Basisklasse werden in der Kindklasse protected.\n",
-      "-> `private` bedeutet: öffentliche Mitglieder der Basisklasse werden in der Kindklasse private.\n",
+      "### Vergleichstabelle:\n",
+      "| Basisklassen-Mitglied | `public` vererbt als | `protected` vererbt als | `private` vererbt als |\n",
+      "|------------------------|------------------------|--------------------------|------------------------|\n",
+      "| public                 | public                 | protected                | private                |\n",
+      "| protected              | protected              | protected                | private                |\n",
+      "| private                | — (nicht vererbt)      | —                        | —                      |\n",
       "\n",
-      "### Konstruktoren in Vererbung\n",
-      "-> Konstruktor der Basisklasse wird **automatisch zuerst** aufgerufen.\n",
-      "-> Kann im Initialisierungsbereich der Kindklasse explizit aufgerufen werden.\n",
+      "👉 **private Mitglieder werden nie vererbt**, egal welcher Modus.\n",
       "\n",
-      "### Vererbungsmodi in C++\n",
-      "C++ kennt drei Vererbungsmodi: `public`, `protected` und `private`.\n",
-      "- Sie bestimmen, wie sich die Sichtbarkeit von geerbten Attributen und Methoden in der abgeleiteten Klasse verändert.\n",
-      "- Der Modus ist eine **obere Schranke**: `public` lässt alles wie es ist, `private` versteckt fast alles.\n",
-      "\n",
-      "| Basisklassen-Member | public-Vererbung | protected-Vererbung | private-Vererbung |\n",
-      "| `public`            | `public`         | `protected`          | `private`         |\n",
-      "| `protected`         | `protected`      | `protected`          | `private`         |\n",
-      "| `private`           | nicht geerbt     | nicht geerbt         | nicht geerbt      |\n",
-      "\n"
+      "### Wann welchen Modus?\n",
+      "- `public`: Die abgeleitete Klasse ist eine vollwertige „ist-ein“-Variante (z. B. `Hund ist ein Tier`)\n",
+      "- `protected`: Meist intern genutzt, selten in Praxis\n",
+      "- `private`: Wenn Vererbung nur als Implementierungshilfe dient und von außen verborgen bleiben soll"
     ],
-"code": [
-  "#include <iostream>\n\n// Basisklasse\nclass Tier {\nprotected:\n  std::string name;\n\npublic:\n  Tier(std::string n) {\n    name = n;\n  }\n\n  void sprich() {\n    std::cout << name << \" macht ein Geräusch.\" << std::endl;\n  }\n};\n\n// Abgeleitete Klasse\nclass Hund : public Tier {\npublic:\n  Hund(std::string n) : Tier(n) {}\n\n  void bell() {\n    std::cout << name << \" bellt.\" << std::endl;\n  }\n};\n\nint main() {\n  Hund rex(\"Rex\");\n  rex.sprich(); // Ausgabe: Rex macht ein Geräusch.\n  rex.bell();   // Ausgabe: Rex bellt.\n\n  return 0;\n}",
-  "// Zusätzliche Beispiele zur Vererbungsart:\n\nclass base {\npublic:\n  void f() {}\nprotected:\n  void g() {}\nprivate:\n  int x;\n};\n\nclass derived_1 : public base {\n  // f() bleibt public\n  // g() bleibt protected\n  // x ist nicht zugreifbar\n};\n\nclass derived_2 : protected base {\n  // f() wird protected\n  // g() bleibt protected\n  // x ist nicht zugreifbar\n};\n\nclass derived_3 : private base {\n  // f() wird private\n  // g() wird private\n  // x ist nicht zugreifbar\n};"
-]
-        }
+    "code": [
+      "#include <iostream>\n\nclass base {\npublic:\n  void f() { std::cout << \"f()\\n\"; }\nprotected:\n  void g() { std::cout << \"g()\\n\"; }\nprivate:\n  int x = 42; // nicht vererbbar\n};\n\nclass derived_public : public base {\npublic:\n  void test() {\n    f(); // OK (public bleibt public)\n    g(); // OK (protected bleibt protected)\n    // x; ❌ nicht zugreifbar\n  }\n};\n\nclass derived_protected : protected base {\npublic:\n  void test() {\n    f(); // OK (public wird protected)\n    g(); // OK (protected bleibt protected)\n  }\n};\n\nclass derived_private : private base {\npublic:\n  void test() {\n    f(); // OK (public wird private)\n    g(); // OK (protected wird private)\n  }\n};\n\nint main() {\n  derived_public dp;\n  dp.f(); // OK\n  // dp.g(); ❌ nicht erlaubt (geschützt)\n\n  derived_protected dpr;\n  // dpr.f(); ❌ nicht erlaubt (geschützt)\n\n  derived_private dpi;\n  // dpi.f(); ❌ nicht erlaubt (privat)\n\n  return 0;\n}"
+    ]
+  }
 },
 {
   "title": "Konstruktor Vererbung / Übernahme",
