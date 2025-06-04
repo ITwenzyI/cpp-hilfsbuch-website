@@ -1465,85 +1465,62 @@
   }
 },
 {
-  "title": "Statisches/Dynamisches Binden",
+  "title": "Statisches vs. dynamisches Binden",
   "content": {
     "text": [
-      "### === Vererbung in C++ ===\n",
-      "Vererbung ist ein zentrales Konzept der objektorientierten Programmierung.\n",
-      "Damit kann eine neue Klasse (`Kindklasse`) die Eigenschaften und Methoden einer bestehenden Klasse (`Basisklasse`) übernehmen.\n",
+      "### === Statisches vs. dynamisches Binden ===\n",
+      "**Binden** bedeutet, dass der Compiler entscheidet, **welche Funktion** bei einem Funktionsaufruf verwendet wird.\n",
+      "In C++ gibt es zwei Arten:\n",
       "\n",
-      "### Vorteile\n",
-      "- Code-Wiederverwendung\n",
-      "- Erweiterbarkeit\n",
-      "- Strukturierte Hierarchien\n",
+      "### 🔒 Statisches Binden (Compile-Time Binding)\n",
+      "- Der **Compiler** entscheidet zur **Übersetzungszeit**, welche Funktion aufgerufen wird.\n",
+      "- Gilt für **nicht-virtuelle Funktionen**.\n",
+      "- Schneller, aber **nicht polymorph**.\n",
       "\n",
-      "### Syntax\n",
-      "`class Kindklasse : public Basisklasse { ... };`\n",
-      "-> `public` bedeutet: öffentliche Mitglieder der Basisklasse bleiben auch in der Kindklasse öffentlich.\n",
-      "-> `protected` bedeutet: öffentliche Mitglieder der Basisklasse werden in der Kindklasse protected.\n",
-      "-> `private` bedeutet: öffentliche Mitglieder der Basisklasse werden in der Kindklasse private.\n",
+      "### 🔓 Dynamisches Binden (Run-Time Binding)\n",
+      "- Die Entscheidung erfolgt zur **Laufzeit**.\n",
+      "- Nur möglich bei **virtuellen Funktionen** über **Zeiger oder Referenzen** auf die Basisklasse.\n",
+      "- Ermöglicht **Polymorphie**.\n",
       "\n",
-      "### Konstruktoren in Vererbung\n",
-      "-> Konstruktor der Basisklasse wird **automatisch zuerst** aufgerufen.\n",
-      "-> Kann im Initialisierungsbereich der Kindklasse explizit aufgerufen werden.\n",
-      "\n",
-      "### Vererbungsmodi in C++\n",
-      "C++ kennt drei Vererbungsmodi: `public`, `protected` und `private`.\n",
-      "- Sie bestimmen, wie sich die Sichtbarkeit von geerbten Attributen und Methoden in der abgeleiteten Klasse verändert.\n",
-      "- Der Modus ist eine **obere Schranke**: `public` lässt alles wie es ist, `private` versteckt fast alles.\n",
-      "\n",
-      "| Basisklassen-Member | public-Vererbung | protected-Vererbung | private-Vererbung |\n",
-      "| `public`            | `public`         | `protected`          | `private`         |\n",
-      "| `protected`         | `protected`      | `protected`          | `private`         |\n",
-      "| `private`           | nicht geerbt     | nicht geerbt         | nicht geerbt      |\n",
-      "\n"
+      "### Vergleich:\n",
+      "| Merkmal              | Statisch (`default`)    | Dynamisch (`virtual`)      |\n",
+      "| Zeitpunkt der Bindung| Kompilierzeit          | Laufzeit                    |\n",
+      "| Geschwindigkeit      | Schnell                | Etwas langsamer             |\n",
+      "| Polymorphie möglich? | ❌                     | ✅                          |\n",
+      "| Anwendbar auf        | normale Funktionen     | virtuelle Funktionen        |\n"
     ],
-"code": [
-  "#include <iostream>\n\n// Basisklasse\nclass Tier {\nprotected:\n  std::string name;\n\npublic:\n  Tier(std::string n) {\n    name = n;\n  }\n\n  void sprich() {\n    std::cout << name << \" macht ein Geräusch.\" << std::endl;\n  }\n};\n\n// Abgeleitete Klasse\nclass Hund : public Tier {\npublic:\n  Hund(std::string n) : Tier(n) {}\n\n  void bell() {\n    std::cout << name << \" bellt.\" << std::endl;\n  }\n};\n\nint main() {\n  Hund rex(\"Rex\");\n  rex.sprich(); // Ausgabe: Rex macht ein Geräusch.\n  rex.bell();   // Ausgabe: Rex bellt.\n\n  return 0;\n}",
-  "// Zusätzliche Beispiele zur Vererbungsart:\n\nclass base {\npublic:\n  void f() {}\nprotected:\n  void g() {}\nprivate:\n  int x;\n};\n\nclass derived_1 : public base {\n  // f() bleibt public\n  // g() bleibt protected\n  // x ist nicht zugreifbar\n};\n\nclass derived_2 : protected base {\n  // f() wird protected\n  // g() bleibt protected\n  // x ist nicht zugreifbar\n};\n\nclass derived_3 : private base {\n  // f() wird private\n  // g() wird private\n  // x ist nicht zugreifbar\n};"
-]
-        }
+    "code": [
+      "#include <iostream>\n\nclass Tier {\npublic:\n  void info() {\n    std::cout << \"[statisch] Tier\" << std::endl;\n  }\n\n  virtual void sprich() {\n    std::cout << \"[dynamisch] Tier macht ein Geräusch\" << std::endl;\n  }\n};\n\nclass Hund : public Tier {\npublic:\n  void info() {\n    std::cout << \"[statisch] Hund\" << std::endl;\n  }\n\n  void sprich() override {\n    std::cout << \"[dynamisch] Hund bellt\" << std::endl;\n  }\n};\n\nint main() {\n  Tier* tierPtr = new Hund();\n\n  tierPtr->info();   // Ausgabe: [statisch] Tier (keine virtuelle Methode)\n  tierPtr->sprich(); // Ausgabe: [dynamisch] Hund bellt (virtuell)\n\n  delete tierPtr;\n  return 0;\n}"
+    ]
+  }
 },
 {
   "title": "Polymorphie",
   "content": {
     "text": [
-      "### === Vererbung in C++ ===\n",
-      "Vererbung ist ein zentrales Konzept der objektorientierten Programmierung.\n",
-      "Damit kann eine neue Klasse (`Kindklasse`) die Eigenschaften und Methoden einer bestehenden Klasse (`Basisklasse`) übernehmen.\n",
+      "### === Polymorphie in C++ ===\n",
+      "Polymorphie bedeutet, dass ein Objekt **unterschiedliche Formen annehmen** kann – also dass **eine Schnittstelle viele Implementierungen** zulässt.\n",
       "\n",
-      "### Vorteile\n",
-      "- Code-Wiederverwendung\n",
-      "- Erweiterbarkeit\n",
-      "- Strukturierte Hierarchien\n",
+      "👉 In C++ tritt Polymorphie oft in Verbindung mit **Vererbung und virtuellen Funktionen** auf.\n",
       "\n",
-      "### Syntax\n",
-      "`class Kindklasse : public Basisklasse { ... };`\n",
-      "-> `public` bedeutet: öffentliche Mitglieder der Basisklasse bleiben auch in der Kindklasse öffentlich.\n",
-      "-> `protected` bedeutet: öffentliche Mitglieder der Basisklasse werden in der Kindklasse protected.\n",
-      "-> `private` bedeutet: öffentliche Mitglieder der Basisklasse werden in der Kindklasse private.\n",
+      "### Vorteile der Polymorphie:\n",
+      "- Ermöglicht flexiblen und erweiterbaren Code\n",
+      "- Funktionen können auf **Basisklassen zeigen**, aber das Verhalten **von Unterklassen ausführen**\n",
+      "- Wichtig für Designmuster wie Strategy, Factory, etc.\n",
       "\n",
-      "### Konstruktoren in Vererbung\n",
-      "-> Konstruktor der Basisklasse wird **automatisch zuerst** aufgerufen.\n",
-      "-> Kann im Initialisierungsbereich der Kindklasse explizit aufgerufen werden.\n",
+      "### Voraussetzungen für Polymorphie:\n",
+      "- Eine **Basisklasse** mit mindestens einer `virtual`-Funktion\n",
+      "- Funktionen werden über **Zeiger oder Referenzen** aufgerufen\n",
       "\n",
-      "### Vererbungsmodi in C++\n",
-      "C++ kennt drei Vererbungsmodi: `public`, `protected` und `private`.\n",
-      "- Sie bestimmen, wie sich die Sichtbarkeit von geerbten Attributen und Methoden in der abgeleiteten Klasse verändert.\n",
-      "- Der Modus ist eine **obere Schranke**: `public` lässt alles wie es ist, `private` versteckt fast alles.\n",
-      "\n",
-      "| Basisklassen-Member | public-Vererbung | protected-Vererbung | private-Vererbung |\n",
-      "| `public`            | `public`         | `protected`          | `private`         |\n",
-      "| `protected`         | `protected`      | `protected`          | `private`         |\n",
-      "| `private`           | nicht geerbt     | nicht geerbt         | nicht geerbt      |\n",
-      "\n"
+      "👉 Polymorphie funktioniert **nicht bei Werten**, sondern nur über Zeiger oder Referenz!"
     ],
-"code": [
-  "#include <iostream>\n\n// Basisklasse\nclass Tier {\nprotected:\n  std::string name;\n\npublic:\n  Tier(std::string n) {\n    name = n;\n  }\n\n  void sprich() {\n    std::cout << name << \" macht ein Geräusch.\" << std::endl;\n  }\n};\n\n// Abgeleitete Klasse\nclass Hund : public Tier {\npublic:\n  Hund(std::string n) : Tier(n) {}\n\n  void bell() {\n    std::cout << name << \" bellt.\" << std::endl;\n  }\n};\n\nint main() {\n  Hund rex(\"Rex\");\n  rex.sprich(); // Ausgabe: Rex macht ein Geräusch.\n  rex.bell();   // Ausgabe: Rex bellt.\n\n  return 0;\n}",
-  "// Zusätzliche Beispiele zur Vererbungsart:\n\nclass base {\npublic:\n  void f() {}\nprotected:\n  void g() {}\nprivate:\n  int x;\n};\n\nclass derived_1 : public base {\n  // f() bleibt public\n  // g() bleibt protected\n  // x ist nicht zugreifbar\n};\n\nclass derived_2 : protected base {\n  // f() wird protected\n  // g() bleibt protected\n  // x ist nicht zugreifbar\n};\n\nclass derived_3 : private base {\n  // f() wird private\n  // g() wird private\n  // x ist nicht zugreifbar\n};"
-]
-        }
-      }
+    "code": [
+      "#include <iostream>\n#include <vector>\n\nclass Tier {\npublic:\n  virtual void sprich() {\n    std::cout << \"Ein Tier macht ein Geräusch.\" << std::endl;\n  }\n  virtual ~Tier() {}\n};\n\nclass Hund : public Tier {\npublic:\n  void sprich() override {\n    std::cout << \"Ein Hund bellt.\" << std::endl;\n  }\n};\n\nclass Katze : public Tier {\npublic:\n  void sprich() override {\n    std::cout << \"Eine Katze miaut.\" << std::endl;\n  }\n};\n\nint main() {\n  std::vector<Tier*> tiere;\n  tiere.push_back(new Hund());\n  tiere.push_back(new Katze());\n  tiere.push_back(new Hund());\n\n  for (Tier* t : tiere) {\n    t->sprich();\n    // Ausgabe:\n    // Ein Hund bellt.\n    // Eine Katze miaut.\n    // Ein Hund bellt.\n  }\n\n  for (Tier* t : tiere) {\n    delete t;\n  }\n\n  return 0;\n}"
+    ]
+  }
+}
+
+      
     ]
   },
 
