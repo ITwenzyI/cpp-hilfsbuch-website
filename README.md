@@ -18,8 +18,7 @@ It was created by Kilian during my studies in Medical Informatics, with a strong
 ---
 
 ## 🔗 Live Demo with Netlify
-- https://helpbookcpp.netlify.app/
-- https://683873506b7579514399040b--helpbookcpp.netlify.app/
+- https://helpbookcppkilian.netlify.app
 
 ## 📌 About This Project
 
