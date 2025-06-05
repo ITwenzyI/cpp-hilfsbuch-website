@@ -1306,7 +1306,70 @@
       "#include <iostream>\n\nstruct Punkt {\n    int x;\n    int y;\n\n    void anzeigen() {\n        std::cout << \"x: \" << x << \", y: \" << y << std::endl;\n    }\n};\n\nclass Person {\nprivate:\n    std::string name;\npublic:\n    Person(const std::string& n) : name(n) {}\n    void anzeigen() {\n        std::cout << \"Name: \" << name << std::endl;\n    }\n};\n\nint main() {\n    Punkt p = {3, 5};\n    p.anzeigen();   // x: 3, y: 5\n\n    Person pers(\"Kilian\");\n    pers.anzeigen(); // Name: Kilian\n\n    return 0;\n}"
     ]
         }
-      }
+      },
+    {
+  "title": "explicit",
+  "content": {
+    "text": [
+      "### === `explicit` ===\n",
+      "Das Schlüsselwort `explicit` wird in C++ verwendet, um **automatische Typumwandlungen zu verhindern** – vor allem bei **einparametrigen Konstruktoren**.\n",
+      "\n",
+      "👉 Ohne `explicit` können Konstruktoren auch dann aufgerufen werden, wenn ein anderer Typ **implizit übergeben** wird.\n",
+      "\n",
+      "### Wozu ist das gut?\n",
+      "- Um **unerwartete Konstruktoraufrufe** bei Übergaben oder Zuweisungen zu vermeiden.\n",
+      "- Um die Verwendung von Konstruktoren **bewusst und lesbar** zu machen.\n",
+      "\n",
+      "### Beispiel ohne `explicit`:\n",
+      "- Konstruktor kann durch z. B. einen `int`-Wert automatisch aufgerufen werden:\n",
+      "```cpp\nZahl z = 5; // erlaubt, weil nicht explicit\n```\n",
+      "- Das ist manchmal gewollt, aber oft **versteckt sich dabei ein Fehler**.\n",
+      "\n",
+      "### Mit `explicit`:\n",
+      "- Konstruktor darf **nur direkt** aufgerufen werden:\n",
+      "```cpp\nZahl z(5);       // ✅ erlaubt\nZahl z = 5;       // ❌ nicht erlaubt\n```\n",
+      "\n",
+      "📌 `explicit` kann auch bei **`operator`-Funktionen** verwendet werden (z. B. `operator bool()`), um Konvertierungen z. B. in `if`-Bedingungen zu kontrollieren.\n"
+    ],
+    "code": [
+      "#include <iostream>\n\nclass Zahl {\npublic:\n  explicit Zahl(int wert) {\n    std::cout << \"Konstruktor aufgerufen mit: \" << wert << std::endl;\n  }\n};\n\nvoid printZahl(Zahl z) {\n  std::cout << \"printZahl() aufgerufen\" << std::endl;\n}\n\nint main() {\n  Zahl z(42);      // ✅ erlaubt: direkte Initialisierung\n  printZahl(z);    // ✅ erlaubt\n\n  // printZahl(42); // ❌ Fehler: implizite Konvertierung verboten durch 'explicit'\n  return 0;\n}\n\n// Beispielausgabe:\n// Konstruktor aufgerufen mit: 42\n// printZahl() aufgerufen"
+    ]
+  }
+},
+{
+  "title": "Getter- und Setter-Funktionen",
+  "content": {
+    "text": [
+      "### === Getter- und Setter-Funktionen ===\n",
+      "Getter und Setter sind spezielle Funktionen, die den **Zugriff auf private Membervariablen** einer Klasse ermöglichen.\n",
+      "\n",
+      "👉 Sie sind ein Teil des **Kapselungskonzepts** in der objektorientierten Programmierung.\n",
+      "\n",
+      "### Getter:\n",
+      "- Lesen den Wert eines privaten Members.\n",
+      "- Haben oft den Namen `getXYZ()`.\n",
+      "- Rückgabetyp entspricht dem Membertyp.\n",
+      "\n",
+      "### Setter:\n",
+      "- Setzen oder ändern den Wert eines privaten Members.\n",
+      "- Haben oft den Namen `setXYZ()`.\n",
+      "- Können zusätzliche Prüfungen enthalten (z. B. Wertebereich).\n",
+      "\n",
+      "### Warum verwenden?\n",
+      "- Direkter Zugriff auf `private` Variablen ist nicht erlaubt.\n",
+      "- Getter/Setter ermöglichen **kontrollierten Zugriff**.\n",
+      "- So bleibt die **Datenintegrität** erhalten.\n",
+      "\n",
+      "📌 In modernen C++-Projekten ist es üblich, nur dann Getter/Setter zu schreiben, wenn sie **wirklich gebraucht werden**."
+    ],
+    "code": [
+      "#include <iostream>\n\nclass Person {\nprivate:\n  int alter;\n\npublic:\n  // Getter\n  int getAlter() const {\n    return alter;\n  }\n\n  // Setter mit Prüfung\n  void setAlter(int a) {\n    if (a >= 0)\n      alter = a;\n  }\n};\n\nint main() {\n  Person p;\n  p.setAlter(25); // setzt Alter auf 25\n  std::cout << \"Alter: \" << p.getAlter() << std::endl;\n  return 0;\n}\n\n// Beispielausgabe:\n// Alter: 25"
+    ]
+  }
+}
+
+
+
     ]
   },
 
