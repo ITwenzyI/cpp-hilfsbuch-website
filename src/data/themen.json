@@ -1318,7 +1318,7 @@
 
 
 {
-    "category": "Vererbung",
+    "category": "Klassen Vererbung",
     "subtopics": [
 {
   "title": "Allgemein",
@@ -1415,6 +1415,30 @@
   }
 },
 {
+  "title": "Destruktorvererbung",
+  "content": {
+    "text": [
+      "### === Destruktorvererbung ===\n",
+      "Wenn Klassen **vererbt** werden und über Zeiger auf die **Basisklasse** gelöscht wird, ist es wichtig, den Destruktor **virtuell** zu machen.\n",
+      "\n",
+      "👉 Nur dann wird der Destruktor der **abgeleiteten Klasse korrekt aufgerufen**.\n",
+      "\n",
+      "### Warum `virtual` beim Destruktor?\n",
+      "- Ohne `virtual` wird beim Löschen über einen Basisklassenzeiger **nur der Basisklassen-Destruktor** aufgerufen.\n",
+      "- Das führt zu **undefiniertem Verhalten** oder **Speicherlecks**, wenn die abgeleitete Klasse Ressourcen verwaltet.\n",
+      "\n",
+      "### Best Practice:\n",
+      "- In jeder Klasse mit virtuellen Funktionen sollte der Destruktor ebenfalls `virtual` sein.\n",
+      "- Auch Interfaceklassen (mit `= 0`) sollten **einen virtuellen Destruktor** haben.\n",
+      "\n",
+      "📌 Ein `virtual`-Destruktor sorgt dafür, dass beim Löschen über einen Zeiger auf die Basisklasse **alle Destruktoren korrekt und vollständig** ausgeführt werden."
+    ],
+    "code": [
+      "#include <iostream>\n\nclass Tier {\npublic:\n  virtual ~Tier() {\n    std::cout << \"Tier-Destruktor\" << std::endl;\n  }\n};\n\nclass Hund : public Tier {\npublic:\n  ~Hund() {\n    std::cout << \"Hund-Destruktor\" << std::endl;\n  }\n};\n\nclass Katze : public Tier {\npublic:\n  ~Katze() {\n    std::cout << \"Katze-Destruktor\" << std::endl;\n  }\n};\n\nint main() {\n  Tier* t1 = new Hund();\n  Tier* t2 = new Katze();\n\n  delete t1; // Ausgabe: Hund-Destruktor, Tier-Destruktor\n  delete t2; // Ausgabe: Katze-Destruktor, Tier-Destruktor\n\n  return 0;\n}"
+    ]
+  }
+},
+{
   "title": "Redefinition von Memberfunktionen",
   "content": {
     "text": [
@@ -1457,10 +1481,24 @@
       "\n",
       "### Wichtig:\n",
       "- Wird in einer Klasse `virtual` verwendet, sollte in abgeleiteten Klassen `override` verwendet werden (seit C++11).\n",
-      "- Der Destruktor einer Basisklasse sollte fast immer `virtual` sein, wenn Vererbung verwendet wird!"
+      "- Der Destruktor einer Basisklasse sollte fast immer `virtual` sein, wenn Vererbung verwendet wird!\n",
+      "\n",
+      "### 🔒 Pur-virtuelle Funktionen (`= 0`)\n",
+      "- Eine Funktion kann als **rein virtuell** deklariert werden:\n",
+      "```cpp\nvirtual void sprich() = 0;\n```\n",
+      "- Die Klasse wird dadurch **abstrakt** – es können **keine Objekte davon erstellt** werden.\n",
+      "- Jede abgeleitete Klasse **muss** diese Funktion implementieren, sonst ist auch sie abstrakt.\n",
+      "- Wird oft für **Interfaces** genutzt (z. B. gemeinsame Schnittstelle für viele Untertypen).\n",
+      "\n",
+      "🚫 **Nicht erlaubt:**\n",
+      "- Es ist **nicht erlaubt**, direkt ein Objekt einer abstrakten Klasse zu erzeugen:\n",
+      "```cpp\nLebewesen l; // ❌ Fehler: Objekt von abstrakter Klasse\n```\n",
+      "- Auch das Erzeugen eines Zeigers oder einer Referenz ist **nur erlaubt**, wenn kein Konstruktor direkt aufgerufen wird:\n",
+      "```cpp\nLebewesen* ptr; // ✅ erlaubt, solange kein Objekt erstellt wird\n```"
     ],
     "code": [
-      "#include <iostream>\n\nclass Tier {\npublic:\n  virtual void sprich() {\n    std::cout << \"Ein Tier macht ein Geräusch.\" << std::endl;\n  }\n\n  virtual ~Tier() {}\n};\n\nclass Hund : public Tier {\npublic:\n  void sprich() override {\n    std::cout << \"Ein Hund bellt.\" << std::endl;\n  }\n};\n\nclass Katze : public Tier {\npublic:\n  void sprich() override {\n    std::cout << \"Eine Katze miaut.\" << std::endl;\n  }\n};\n\nint main() {\n  Tier* t1 = new Hund();\n  Tier* t2 = new Katze();\n\n  t1->sprich(); // Ausgabe: Ein Hund bellt.\n  t2->sprich(); // Ausgabe: Eine Katze miaut.\n\n  delete t1;\n  delete t2;\n  return 0;\n}"
+      "#include <iostream>\n\nclass Tier {\npublic:\n  virtual void sprich() {\n    std::cout << \"Ein Tier macht ein Geräusch.\" << std::endl;\n  }\n\n  virtual ~Tier() {}\n};\n\nclass Hund : public Tier {\npublic:\n  void sprich() override {\n    std::cout << \"Ein Hund bellt.\" << std::endl;\n  }\n};\n\nclass Katze : public Tier {\npublic:\n  void sprich() override {\n    std::cout << \"Eine Katze miaut.\" << std::endl;\n  }\n};\n\nint main() {\n  Tier* t1 = new Hund();\n  Tier* t2 = new Katze();\n\n  t1->sprich(); // Ausgabe: Ein Hund bellt.\n  t2->sprich(); // Ausgabe: Eine Katze miaut.\n\n  delete t1;\n  delete t2;\n  return 0;\n}",
+      "\n// Beispiel mit rein virtueller Funktion:\n#include <iostream>\n\nclass Lebewesen {\npublic:\n  virtual void bewegung() = 0; // rein virtuelle Funktion\n  virtual ~Lebewesen() {}\n};\n\nclass Fisch : public Lebewesen {\npublic:\n  void bewegung() override {\n    std::cout << \"Ein Fisch schwimmt.\" << std::endl;\n  }\n};\n\nclass Vogel : public Lebewesen {\npublic:\n  void bewegung() override {\n    std::cout << \"Ein Vogel fliegt.\" << std::endl;\n  }\n};\n\nint main() {\n  // Lebewesen l; // ❌ Fehler: Kann nicht instanziiert werden (abstrakte Klasse)\n\n  Lebewesen* l1 = new Fisch();\n  Lebewesen* l2 = new Vogel();\n\n  l1->bewegung(); // Ausgabe: Ein Fisch schwimmt.\n  l2->bewegung(); // Ausgabe: Ein Vogel fliegt.\n\n  delete l1;\n  delete l2;\n  return 0;\n}"
     ]
   }
 },
@@ -1518,7 +1556,168 @@
       "#include <iostream>\n#include <vector>\n\nclass Tier {\npublic:\n  virtual void sprich() {\n    std::cout << \"Ein Tier macht ein Geräusch.\" << std::endl;\n  }\n  virtual ~Tier() {}\n};\n\nclass Hund : public Tier {\npublic:\n  void sprich() override {\n    std::cout << \"Ein Hund bellt.\" << std::endl;\n  }\n};\n\nclass Katze : public Tier {\npublic:\n  void sprich() override {\n    std::cout << \"Eine Katze miaut.\" << std::endl;\n  }\n};\n\nint main() {\n  std::vector<Tier*> tiere;\n  tiere.push_back(new Hund());\n  tiere.push_back(new Katze());\n  tiere.push_back(new Hund());\n\n  for (Tier* t : tiere) {\n    t->sprich();\n    // Ausgabe:\n    // Ein Hund bellt.\n    // Eine Katze miaut.\n    // Ein Hund bellt.\n  }\n\n  for (Tier* t : tiere) {\n    delete t;\n  }\n\n  return 0;\n}"
     ]
   }
+},
+{
+  "title": "Abstrakte Klassen und Schnittstellenklassen",
+  "content": {
+    "text": [
+      "### === Abstrakte Klassen und Schnittstellenklassen ===\n",
+      "Abstrakte Klassen dienen als **Basisklassen**, von denen **kein direktes Objekt erstellt** werden kann.\n",
+      "\n",
+      "👉 Sie enthalten mindestens **eine rein virtuelle Funktion** (`= 0`).\n",
+      "\n",
+      "### Eigenschaften abstrakter Klassen:\n",
+      "- Können normale Memberfunktionen und Membervariablen enthalten.\n",
+      "- Können **teilweise implementiert** sein (z. B. gemeinsames Verhalten).\n",
+      "- Können als **Basisklasse** für konkrete Unterklassen dienen.\n",
+      "\n",
+      "### Schnittstellenklassen (Interfaces):\n",
+      "- Eine Sonderform der abstrakten Klasse.\n",
+      "- Enthalten **nur rein virtuelle Funktionen** (und evtl. einen virtuellen Destruktor).\n",
+      "- Dienen nur als **Vertrag**, was eine Klasse können muss.\n",
+      "- Kein Zustand, keine Implementierung – nur Methoden ohne Körper.\n",
+      "\n",
+      "🧩 In C++ gibt es keine eigene `interface`-Syntax wie in Java oder C#, stattdessen nutzt man reine virtuelle Funktionen.\n",
+      "\n",
+      "### Beispiel für eine Interfaceklasse:\n",
+      "```cpp\nclass Druckbar {\npublic:\n  virtual void drucke() = 0;\n  virtual ~Druckbar() {}\n};\n```\n",
+      "\n",
+      "### Warum verwenden?\n",
+      "- Um **Verhalten festzulegen**, das von mehreren Klassen auf **unterschiedliche Weise** umgesetzt wird.\n",
+      "- Um **Polymorphie** zu ermöglichen.\n",
+      "- Um **Abhängigkeiten zu entkoppeln** (z. B. bei Plugins, Testbarkeit usw.)."
+    ],
+    "code": [
+      "// Abstrakte Klasse mit gemeinsamer Logik\n#include <iostream>\n#include <vector>\n\nclass Form {\npublic:\n  virtual double flaeche() = 0; // rein virtuelle Funktion\n  void zeige() {\n    std::cout << \"Fläche: \" << flaeche() << std::endl;\n  }\n  virtual ~Form() {}\n};\n\nclass Kreis : public Form {\n  double radius;\npublic:\n  Kreis(double r) : radius(r) {}\n  double flaeche() override {\n    return 3.14159 * radius * radius;\n  }\n};\n\nclass Quadrat : public Form {\n  double seite;\npublic:\n  Quadrat(double s) : seite(s) {}\n  double flaeche() override {\n    return seite * seite;\n  }\n};\n\nint main() {\n  std::vector<Form*> formen;\n  formen.push_back(new Kreis(2));\n  formen.push_back(new Quadrat(3));\n\n  for (Form* f : formen) {\n    f->zeige();\n  }\n\n  for (Form* f : formen) {\n    delete f;\n  }\n  return 0;\n}"
+    ]
+  }
+},
+{
+  "title": "Finale Klassen und Memberfunktionen",
+  "content": {
+    "text": [
+      "### === Finale Klassen und Memberfunktionen ===\n",
+      "Mit dem Schlüsselwort `final` kann man in C++ **Vererbung oder Überschreiben verhindern**.\n",
+      "\n",
+      "👉 Das ist nützlich, wenn du sicherstellen willst, dass bestimmte Funktionen oder Klassen **nicht mehr verändert** werden dürfen.\n",
+      "\n",
+      "### Finale Memberfunktionen:\n",
+      "- Eine `virtual`-Funktion kann mit `final` markiert werden:\n",
+      "```cpp\nvirtual void machEtwas() final;\n```\n",
+      "- Dadurch **kann sie in abgeleiteten Klassen nicht mehr überschrieben** werden.\n",
+      "- Wird oft verwendet, um bestimmte Methoden **festzulegen und abzusichern**.\n",
+      "\n",
+      "### Finale Klassen:\n",
+      "- Eine ganze Klasse kann mit `final` markiert werden:\n",
+      "```cpp\nclass A final { ... };\n```\n",
+      "- Dadurch **kann von dieser Klasse nicht mehr geerbt** werden.\n",
+      "- Ideal, wenn die Klasse **vollständig abgeschlossen** ist oder keine weitere Spezialisierung erwünscht ist.\n",
+      "\n",
+      "📌 `final` wurde mit **C++11** eingeführt. Es erhöht die **Lesbarkeit**, verbessert die **Fehlersicherheit** und kann dem Compiler sogar **Optimierungen** ermöglichen."
+    ],
+    "code": [
+      "#include <iostream>\n\nclass Basis {\npublic:\n  virtual void begruessung() {\n    std::cout << \"Hallo aus Basis\" << std::endl;\n  }\n  virtual void fixMethode() final {\n    std::cout << \"Diese Methode ist final und kann nicht überschrieben werden.\" << std::endl;\n  }\n  virtual ~Basis() {}\n};\n\nclass Abgeleitet : public Basis {\npublic:\n  void begruessung() override {\n    std::cout << \"Hallo aus Abgeleitet\" << std::endl;\n  }\n  // void fixMethode() override {} // ❌ Fehler: Methode ist final in der Basisklasse\n};\n\n// === Finale Klasse ===\nclass Endklasse final {\npublic:\n  void info() {\n    std::cout << \"Dies ist eine finale Klasse.\" << std::endl;\n  }\n};\n\n// class Versuch : public Endklasse {}; // ❌ Fehler: Endklasse ist final, kann nicht geerbt werden\n\nint main() {\n  Basis* b = new Abgeleitet();\n  b->begruessung(); // Ausgabe: Hallo aus Abgeleitet\n  b->fixMethode();  // Ausgabe: Diese Methode ist final und kann nicht überschrieben werden.\n\n  Endklasse e;\n  e.info(); // Ausgabe: Dies ist eine finale Klasse.\n\n  delete b;\n  return 0;\n"
+    ]
+  }
+},
+{
+  "title": "Kovariante Rückgabetypen",
+  "content": {
+    "text": [
+      "### === Kovariante Rückgabetypen ===\n",
+      "Kovariante Rückgabetypen ermöglichen es in C++, dass eine **überschriebene virtuelle Funktion** in einer abgeleiteten Klasse **einen spezielleren Rückgabetyp** liefert.\n",
+      "\n",
+      "👉 Der Rückgabetyp darf sich ändern, **wenn er ein Zeiger oder eine Referenz auf einen abgeleiteten Typ** ist.\n",
+      "\n",
+      "### Beispiel:\n",
+      "- In der Basisklasse wird eine Funktion deklariert, die `Basis*` zurückgibt.\n",
+      "- In der abgeleiteten Klasse kann dieselbe Funktion dann `Abgeleitet*` zurückgeben.\n",
+      "\n",
+      "✅ Das ist erlaubt, **solange die Rückgabetypen kompatibel vererbt** sind (also `Abgeleitet*` ist ein Spezialfall von `Basis*`).\n",
+      "\n",
+      "### Vorteile:\n",
+      "- Ermöglicht **präzisere Typen** bei polymorphem Verhalten.\n",
+      "- Spart **unnötige Casts** im Code.\n",
+      "\n",
+      "📌 Achtung: Kovarianz gilt **nur** für Rückgabetypen bei **virtuellen Funktionen**, nicht bei Parametern."
+    ],
+    "code": [
+      "#include <iostream>\n#include <memory>\n\nclass Tier {\npublic:\n  virtual Tier* klonen() const {\n    std::cout << \"Tier wird geklont\" << std::endl;\n    return new Tier(*this); // Kopiert das aktuelle Objekt (Kopierkonstruktor)\n  }\n  virtual ~Tier() {}\n};\n\nclass Hund : public Tier {\npublic:\n  Hund* klonen() const override { // ✅ kovarianter Rückgabetyp: Hund* statt Tier*\n    std::cout << \"Hund wird geklont\" << std::endl;\n    return new Hund(*this); // ✅ korrekt: erstellt Kopie des aktuellen Hund-Objekts\n    // return *(new Hund()); // ❌ Fehler: ergibt Objekt (Hund), kein Zeiger (Hund*)\n  }\n\n  // int klonen() const override { return 1; } // ❌ Fehler: inkompatibler Rückgabetyp (int ≠ Tier*)\n};\n\n// === Beispiel für Rückgabe als Referenz ===\nclass Fog {\npublic:\n  std::string name = \"Fog\";\n};\n\nclass DemoRef {\npublic:\n  Fog& getFog() const {\n    return *(new Fog()); // ✅ erlaubt: Rückgabe als Referenz (&), Objekt lebt auf dem Heap\n  }\n};\n\nint main() {\n  Tier* t = new Hund();\n  Tier* neu = t->klonen(); // Ausgabe: Hund wird geklont\n\n  DemoRef d;\n  Fog& f = d.getFog();\n  std::cout << f.name << std::endl; // Ausgabe: Fog\n\n  delete t;\n  delete neu;\n  delete &f; // ❗️manuell löschen, da mit new erzeugt\n  return 0;\n"
+    ]
+  }
+},
+{
+  "title": "Object Slicing",
+  "content": {
+    "text": [
+      "### === Object Slicing ===\n",
+      "Beim **Object Slicing** (Objektabschneiden) geht Information **verloren**, wenn ein Objekt einer abgeleiteten Klasse in ein Objekt einer Basisklasse **kopiert** wird – **ohne Zeiger oder Referenz**.\n",
+      "\n",
+      "👉 Dabei werden **nur die Mitglieder der Basisklasse** übernommen – alles, was zur Unterklasse gehört, **geht verloren**.\n",
+      "\n",
+      "### Wann passiert Slicing?\n",
+      "- Wenn ein Objekt **per Wert** (also nicht per Zeiger oder Referenz) übergeben oder zugewiesen wird.\n",
+      "- Typisch bei: `Base b = Derived();`\n",
+      "\n",
+      "### Warum ist das ein Problem?\n",
+      "- Virtuelle Funktionen verhalten sich dann **nicht mehr polymorph**.\n",
+      "- Das Objekt \"vergisst\", dass es eigentlich ein Unterklassen-Objekt war.\n",
+      "\n",
+      "### Wie vermeidet man Slicing?\n",
+      "- Arbeite immer mit **Zeigern (`*`) oder Referenzen (`&`)**, nicht mit Objekten per Wert.\n",
+      "- Übergib Objekte polymorph:\n",
+      "```cpp\nvoid verarbeite(const Base& b);\n```\n",
+      "\n",
+      "📌 C++ selbst erkennt Slicing **nicht als Fehler** – du musst es **bewusst vermeiden**!"
+    ],
+    "code": [
+      "#include <iostream>\n#include <string>\n\nclass Tier {\npublic:\n  std::string name = \"Tier\";\n\n  virtual void sprich() const {\n    std::cout << name << \" spricht\" << std::endl;\n  }\n  virtual ~Tier() {}\n};\n\nclass Hund : public Tier {\npublic:\n  std::string rasse = \"Schäferhund\";\n\n  void sprich() const override {\n    std::cout << name << \" bellt. Rasse: \" << rasse << std::endl;\n  }\n};\n\nvoid machGeräusch(Tier t) { // ❌ Slicing: Hund wird zu Tier kopiert\n  std::cout << \"[Slicing] Name: \" << t.name << std::endl;\n  t.sprich(); // Ausgabe: Tier spricht\n}\n\nvoid machGeräuschRichtig(const Tier& t) { // ✅ korrekt per Referenz\n  std::cout << \"[Kein Slicing] Name bleibt erhalten\" << std::endl;\n  t.sprich(); // Ausgabe: Hund bellt. Rasse: Schäferhund\n}\n\nint main() {\n  Hund h;\n  h.name = \"Bello\";\n  h.rasse = \"Labrador\";\n\n  machGeräusch(h);        // ❌ slicing: nur Tier-Teil bleibt übrig\n  machGeräuschRichtig(h); // ✅ korrekt: vollständiges Objekt erhalten\n\n  return 0;\n"
+    ]
+  }
+},
+{
+  "title": "Mehrfachvererbung",
+  "content": {
+    "text": [
+      "### === Mehrfachvererbung ===\n",
+      "In C++ ist es möglich, dass eine Klasse **von mehreren Basisklassen gleichzeitig erbt**.\n",
+      "\n",
+      "👉 Das nennt man **Mehrfachvererbung** und sie kann nützlich sein – aber auch schnell zu Problemen führen.\n",
+      "\n",
+      "### Syntax:\n",
+      "- Eine Klasse kann mehrere Basisklassen angeben:\n",
+      "```cpp\nclass C : public A, public B { ... };\n```\n",
+      "\n",
+      "### Vorteile:\n",
+      "- Kombinieren von Funktionalität aus verschiedenen Klassen.\n",
+      "- Kann helfen, **Code zu teilen**, z. B. bei Interfaceklassen.\n",
+      "\n",
+      "### Probleme (Diamond Problem):\n",
+      "- Wenn **mehrere Basisklassen** von **derselben Oberklasse** erben, kann es zu **Mehrdeutigkeiten** kommen.\n",
+      "- Beispiel: Beide Elternklassen erben von `Grundklasse`, Kindklasse erbt von beiden → `Grundklasse` ist **zweimal** vorhanden!\n",
+      "\n",
+      "### Lösung: `virtual`-Vererbung\n",
+      "- Mit `virtual` wird sichergestellt, dass es **nur eine gemeinsame Instanz** der Basisklasse gibt:\n",
+      "```cpp\nclass A : virtual public Grundklasse { };\n```\n",
+      "- Wird auch **virtuelle Vererbung** genannt.\n",
+      "\n",
+      "### Reihenfolge: Konstruktoren & Destruktoren\n",
+      "- Die Konstruktoren der **Basisklassen** werden in der Reihenfolge aufgerufen, wie sie **in der Klassendeklaration** erscheinen – **nicht nach Reihenfolge im Initialisierungslisten-Code**.\n",
+      "- Destruktoren laufen **in umgekehrter Reihenfolge** (von abgeleitet nach oben).\n",
+      "- Bei **virtueller Vererbung** wird der virtuelle Basisklassenkonstruktor **nur einmal** aufgerufen – von der **untersten Klasse** im Hierarchiebaum.\n",
+      "\n",
+      "📌 Mehrfachvererbung ist mächtig, sollte aber **mit Bedacht eingesetzt** werden. Oft sind Komposition oder Interfaces die bessere Wahl."
+    ],
+    "code": [
+      "#include <iostream>\n\nclass Lebewesen {\npublic:\n  Lebewesen() { std::cout << \"[Konstruktor] Lebewesen\" << std::endl; }\n  ~Lebewesen() { std::cout << \"[Destruktor] Lebewesen\" << std::endl; }\n  void atme() { std::cout << \"Lebewesen atmet\" << std::endl; }\n};\n\nclass Schwimmer : virtual public Lebewesen {\npublic:\n  Schwimmer() { std::cout << \"[Konstruktor] Schwimmer\" << std::endl; }\n  ~Schwimmer() { std::cout << \"[Destruktor] Schwimmer\" << std::endl; }\n  void schwimme() { std::cout << \"Ich schwimme\" << std::endl; }\n};\n\nclass Läufer : virtual public Lebewesen {\npublic:\n  Läufer() { std::cout << \"[Konstruktor] Läufer\" << std::endl; }\n  ~Läufer() { std::cout << \"[Destruktor] Läufer\" << std::endl; }\n  void laufe() { std::cout << \"Ich laufe\" << std::endl; }\n};\n\nclass Triathlet : public Schwimmer, public Läufer {\npublic:\n  Triathlet() { std::cout << \"[Konstruktor] Triathlet\" << std::endl; }\n  ~Triathlet() { std::cout << \"[Destruktor] Triathlet\" << std::endl; }\n  void wettkampf() {\n    atme();\n    schwimme();\n    laufe();\n  }\n};\n\nint main() {\n  Triathlet t;\n  t.wettkampf();\n  return 0;\n}\n\n// Beispielausgabe:\n// [Konstruktor] Lebewesen\n// [Konstruktor] Schwimmer\n// [Konstruktor] Läufer\n// [Konstruktor] Triathlet\n// Lebewesen atmet\n// Ich schwimme\n// Ich laufe\n// [Destruktor] Triathlet\n// [Destruktor] Läufer\n// [Destruktor] Schwimmer\n// [Destruktor] Lebewesen"
+    ]
+  }
 }
+
+
+
+
+
 
       
     ]
