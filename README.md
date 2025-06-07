@@ -27,6 +27,5 @@ Some parts were developed with the help of external support and resources.
 
 **This project is for educational purposes only and not officially affiliated with any university or course.**
 
-## 🙋‍♂️ Author
-**Kilian – Student of Medical Informatics**
-Learning enthusiast | Passionate about C++ & Cybersecurity
+## 👤 Author
+This project was created by **Kilian** as part of independent study in Medical Informatics.
