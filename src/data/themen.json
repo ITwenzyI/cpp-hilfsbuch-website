@@ -248,9 +248,8 @@
             "- `<memory>`: Smart Pointers wie `unique_ptr`, `shared_ptr`\n"
           ],
           "code": [
-            "#ifndef MEINMODUL_H \n#define MEINMODUL_H \n\nvoid begruessung(); // Funktionsdeklaration \n\n#endif",
-            "void begruessung() {\n   std::cout << \"Hallo!\"; \n}\n",
-            "#include \"meinmodul.h\"\n"
+            "#ifndef MEINMODUL_H\n#define MEINMODUL_H\n\nvoid begruessung(); // Funktionsdeklaration\n\n#endif\n\n// -----------------------------\n#include <iostream>\n#include \"meinmodul.h\"\n\nvoid begruessung() {\n  std::cout << \"Hallo!\";\n}\n\nint main() {\n  begruessung(); // Ausgabe: Hallo!\n  return 0;\n}"
+
           ]
         }
       },
@@ -531,27 +530,7 @@
             "```"
           ],
           "code": [
-            "#include <iostream>\n#include <string>",
-            
-            "int main() {\n  std::string text = \"C++ macht Spaß!\";",
-            
-            "  // Länge\n  std::cout << \"Länge: \" << text.length() << std::endl; // Ausgabe: 15",
-            
-            "  // Teilstring\n  std::string teil = text.substr(4, 5);\n  std::cout << \"Teilstring: \" << teil << std::endl; // Ausgabe: macht",
-            
-            "  // finden\n  size_t pos = text.find(\"Spaß\");\n  if (pos != std::string::npos)\n    std::cout << \"\\\"Spaß\\\" gefunden an Position: \" << pos << std::endl; // Ausgabe: 11",
-            
-            "  // ersetzen\n  text.replace(4, 5, \"ist cool\");\n  std::cout << \"Nach replace: \" << text << std::endl; // Ausgabe: C++ ist cool Spaß!",
-            
-            "  // anhängen\n  text += \" :)\";\n  std::cout << \"Nach Anfügen: \" << text << std::endl; // Ausgabe: C++ ist cool Spaß! :)",
-            
-            "  // einfügen\n  text.insert(0, \"[INFO] \");\n  std::cout << \"Mit Prefix: \" << text << std::endl; // Ausgabe: [INFO] C++ ist cool Spaß! :)",
-            
-            "  // löschen\n  text.erase(0, 7);\n  std::cout << \"Ohne Prefix: \" << text << std::endl; // Ausgabe: C++ ist cool Spaß! :)",
-            
-            "  // vergleichen\n  std::string a = \"Apfel\", b = \"Banane\";\n  if (a.compare(b) < 0)\n    std::cout << a << \" kommt vor \" << b << std::endl; // Ausgabe: Apfel kommt vor Banane",
-            
-            "  return 0;\n}"
+            "#include <iostream>\n#include <string>\n\nint main() {\n  std::string text = \"C++ macht Spaß!\";\n\n  // Länge\n  std::cout << \"Länge: \" << text.length() << std::endl; // Ausgabe: 15\n\n  // Teilstring\n  std::string teil = text.substr(4, 5);\n  std::cout << \"Teilstring: \" << teil << std::endl; // Ausgabe: macht\n\n  // finden\n  size_t pos = text.find(\"Spaß\");\n  if (pos != std::string::npos)\n    std::cout << \"\\\"Spaß\\\" gefunden an Position: \" << pos << std::endl; // Ausgabe: 11\n\n  // ersetzen\n  text.replace(4, 5, \"ist cool\");\n  std::cout << \"Nach replace: \" << text << std::endl; // Ausgabe: C++ ist cool Spaß!\n\n  // anhängen\n  text += \" :)\";\n  std::cout << \"Nach Anfügen: \" << text << std::endl; // Ausgabe: C++ ist cool Spaß! :)\n\n  // einfügen\n  text.insert(0, \"[INFO] \");\n  std::cout << \"Mit Prefix: \" << text << std::endl; // Ausgabe: [INFO] C++ ist cool Spaß! :)\n\n  // löschen\n  text.erase(0, 7);\n  std::cout << \"Ohne Prefix: \" << text << std::endl; // Ausgabe: C++ ist cool Spaß! :)\n\n  // vergleichen\n  std::string a = \"Apfel\", b = \"Banane\";\n  if (a.compare(b) < 0)\n    std::cout << a << \" kommt vor \" << b << std::endl; // Ausgabe: Apfel kommt vor Banane\n\n  return 0;\n}"
           ]
         }
       },
@@ -598,25 +577,7 @@
             "`v3[2][2]` gibt `6` zurück (Zeile 3, Spalte 3)\n"
           ],
           "code": [
-            "#include <iostream>\n#include <vector>\n#include <algorithm> // für sort()",
-            
-            "int main() {\n  // Vektor mit Werten initialisieren\n  std::vector<int> zahlen = {4, 2, 7};",
-            
-            "  // Element hinzufügen\n  zahlen.push_back(5); // Vektor = {4, 2, 7, 5}",
-            
-            "  // Größe des Vektors\n  std::cout << \"Anzahl Elemente: \" << zahlen.size() << std::endl; // Ausgabe: 4",
-            
-            "  // Zugriff auf Elemente\n  std::cout << \"Erstes Element: \" << zahlen[0] << std::endl; // Ausgabe: 4\n  std::cout << \"Zweites Element: \" << zahlen.at(1) << std::endl; // Ausgabe: 2\n  std::cout << \"Letztes Element: \" << zahlen.back() << std::endl; // Ausgabe: 5",
-            
-            "  // Ausgabe mit Schleife\n  std::cout << \"Alle Elemente: \";\n  for (int x : zahlen) {\n    std::cout << x << \" \";\n  } // Ausgabe: 4 2 7 5\n  std::cout << std::endl;",
-            
-            "  // Element entfernen (letztes)\n  zahlen.pop_back(); // entfernt 5\n\n  // sortieren\n  std::sort(zahlen.begin(), zahlen.end()); // Vektor = {2, 4, 7}",
-            
-            "  // Ausgabe nach Sortierung\n  std::cout << \"Sortiert: \";\n  for (size_t i = 0; i < zahlen.size(); ++i) {\n    std::cout << zahlen[i] << \" \";\n  } // Ausgabe: 2 4 7\n  std::cout << std::endl;",
-            
-            "  // leeren Vektor prüfen\n  if (!zahlen.empty()) {\n    std::cout << \"Vektor ist NICHT leer\" << std::endl;\n  }",
-            
-            "  return 0;\n}"
+            "#include <iostream>\n#include <vector>\n#include <algorithm> // für sort()\n\nint main() {\n  // Vektor mit Werten initialisieren\n  std::vector<int> zahlen = {4, 2, 7};\n\n  // Element hinzufügen\n  zahlen.push_back(5); // Vektor = {4, 2, 7, 5}\n\n  // Größe des Vektors\n  std::cout << \"Anzahl Elemente: \" << zahlen.size() << std::endl; // Ausgabe: 4\n\n  // Zugriff auf Elemente\n  std::cout << \"Erstes Element: \" << zahlen[0] << std::endl; // Ausgabe: 4\n  std::cout << \"Zweites Element: \" << zahlen.at(1) << std::endl; // Ausgabe: 2\n  std::cout << \"Letztes Element: \" << zahlen.back() << std::endl; // Ausgabe: 5\n\n  // Ausgabe mit Schleife\n  std::cout << \"Alle Elemente: \";\n  for (int x : zahlen) {\n    std::cout << x << \" \";\n  } // Ausgabe: 4 2 7 5\n  std::cout << std::endl;\n\n  // Element entfernen (letztes)\n  zahlen.pop_back(); // entfernt 5\n\n  // sortieren\n  std::sort(zahlen.begin(), zahlen.end()); // Vektor = {2, 4, 7}\n\n  // Ausgabe nach Sortierung\n  std::cout << \"Sortiert: \";\n  for (size_t i = 0; i < zahlen.size(); ++i) {\n    std::cout << zahlen[i] << \" \";\n  } // Ausgabe: 2 4 7\n  std::cout << std::endl;\n\n  // leeren Vektor prüfen\n  if (!zahlen.empty()) {\n    std::cout << \"Vektor ist NICHT leer\" << std::endl;\n  }\n\n  return 0;\n}"
           ]
         }
       },
@@ -654,25 +615,8 @@
             "_Erlaubt keine Duplikate und bietet schnellen Zugriff._\n"
           ],
           "code": [
-            "#include <iostream>\n#include <set>",
-            
-            "int main() {\n  // Set mit Ganzzahlen\n  std::set<int> zahlen;",
-            
-            "  // Elemente einfügen (werden automatisch sortiert)\n  zahlen.insert(5);\n  zahlen.insert(2);\n  zahlen.insert(8);\n  zahlen.insert(2); // Duplikat – wird ignoriert",
-            
-            "  // Ausgabe der Elemente\n  std::cout << \"Inhalt des Sets: \";\n  for (int x : zahlen) {\n    std::cout << x << \" \";\n  } // Ausgabe: 2 5 8\n  std::cout << std::endl;",
-            
-            "  // Prüfen, ob ein Element enthalten ist\n  if (zahlen.count(5) > 0) {\n    std::cout << \"5 ist enthalten\" << std::endl;\n  }",
-            
-            "  // Alternative mit find()\n  if (zahlen.find(3) == zahlen.end()) {\n    std::cout << \"3 ist NICHT enthalten\" << std::endl;\n  }",
-            
-            "  // Anzahl der Elemente\n  std::cout << \"Set-Größe: \" << zahlen.size() << std::endl; // Ausgabe: 3",
-            
-            "  // Element löschen\n  zahlen.erase(2);\n  std::cout << \"Nach Löschen von 2: \";\n  for (int x : zahlen) std::cout << x << \" \"; // Ausgabe: 5 8\n  std::cout << std::endl;",
-            
-            "  // Set leeren\n  zahlen.clear();\n  std::cout << \"Nach clear(): Größe = \" << zahlen.size() << std::endl; // Ausgabe: 0",
-            
-            "  return 0;\n}"
+            "#include <iostream>\n#include <set>\n\nint main() {\n  // Set mit Ganzzahlen\n  std::set<int> zahlen;\n\n  // Elemente einfügen (werden automatisch sortiert)\n  zahlen.insert(5);\n  zahlen.insert(2);\n  zahlen.insert(8);\n  zahlen.insert(2); // Duplikat – wird ignoriert\n\n  // Ausgabe der Elemente\n  std::cout << \"Inhalt des Sets: \";\n  for (int x : zahlen) {\n    std::cout << x << \" \";\n  } // Ausgabe: 2 5 8\n  std::cout << std::endl;\n\n  // Prüfen, ob ein Element enthalten ist\n  if (zahlen.count(5) > 0) {\n    std::cout << \"5 ist enthalten\" << std::endl;\n  }\n\n  // Alternative mit find()\n  if (zahlen.find(3) == zahlen.end()) {\n    std::cout << \"3 ist NICHT enthalten\" << std::endl;\n  }\n\n  // Anzahl der Elemente\n  std::cout << \"Set-Größe: \" << zahlen.size() << std::endl; // Ausgabe: 3\n\n  // Element löschen\n  zahlen.erase(2);\n  std::cout << \"Nach Löschen von 2: \";\n  for (int x : zahlen) std::cout << x << \" \"; // Ausgabe: 5 8\n  std::cout << std::endl;\n\n  // Set leeren\n  zahlen.clear();\n  std::cout << \"Nach clear(): Größe = \" << zahlen.size() << std::endl; // Ausgabe: 0\n\n  return 0;\n}"
+
           ]
         }
       },
@@ -723,27 +667,8 @@
             "_Hinweis: `std::map` speichert die Schlüssel automatisch sortiert — bei `int` aufsteigend (1, 2, 3, ...), bei `string` alphabetisch (a, b, c, ...) und erlaubt keine Duplikate._\n"
           ],
           "code": [
-            "#include <iostream>\n#include <map>\n#include <string>",
-            
-            "int main() {\n  // Map von Namen zu Alter\n  std::map<std::string, int> personen;",
-            
-            "  // Einträge hinzufügen\n  personen[\"Anna\"] = 23;\n  personen[\"Bob\"] = 30;\n  personen.insert({\"Clara\", 27});",
-            
-            "  // Werte lesen\n  std::cout << \"Anna ist \" << personen[\"Anna\"] << \" Jahre alt.\" << std::endl; // Ausgabe: Anna ist 23 Jahre alt.",
-            
-            "  // Map durchgehen (automatisch sortiert nach Schlüssel)\n  std::cout << \"Alle Einträge:\\n\";\n  for (const auto& eintrag : personen) {\n    std::cout << eintrag.first << \": \" << eintrag.second << std::endl;\n  } // Ausgabe: Anna: 23 / Bob: 30 / Clara: 27 (alphabetisch)",
-            
-            "  // Existenz prüfen\n  if (personen.count(\"Bob\") > 0) {\n    std::cout << \"Bob ist vorhanden.\" << std::endl; // Ausgabe: Bob ist vorhanden.\n  }",
-            
-            "  // Mit find() prüfen und Zugriff\n  auto it = personen.find(\"Dora\");\n  if (it == personen.end()) {\n    std::cout << \"Dora ist NICHT vorhanden.\" << std::endl;\n  }",
-            
-            "  // Wert ändern\n  personen[\"Anna\"] = 24; // Anna hat jetzt Geburtstag\n\n  // Eintrag löschen\n  personen.erase(\"Bob\");",
-            
-            "  // Ausgabe nach Änderungen\n  std::cout << \"Nach Änderungen:\\n\";\n  for (const auto& p : personen) {\n    std::cout << p.first << \": \" << p.second << std::endl;\n  } // Ausgabe: Anna: 24 / Clara: 27",
-            
-            "  // Größe der Map\n  std::cout << \"Anzahl Personen: \" << personen.size() << std::endl; // Ausgabe: 2\n\n  // Map leeren\n  personen.clear();\n  std::cout << \"Nach clear(): \" << personen.size() << std::endl; // Ausgabe: 0",
-            
-            "  return 0;\n}"
+            "#include <iostream>\n#include <map>\n#include <string>\n\nint main() {\n  // Map von Namen zu Alter\n  std::map<std::string, int> personen;\n\n  // Einträge hinzufügen\n  personen[\"Anna\"] = 23;\n  personen[\"Bob\"] = 30;\n  personen.insert({\"Clara\", 27});\n\n  // Werte lesen\n  std::cout << \"Anna ist \" << personen[\"Anna\"] << \" Jahre alt.\" << std::endl; // Ausgabe: Anna ist 23 Jahre alt.\n\n  // Map durchgehen (automatisch sortiert nach Schlüssel)\n  std::cout << \"Alle Einträge:\\n\";\n  for (const auto& eintrag : personen) {\n    std::cout << eintrag.first << \": \" << eintrag.second << std::endl;\n  } // Ausgabe: Anna: 23 / Bob: 30 / Clara: 27 (alphabetisch)\n\n  // Existenz prüfen\n  if (personen.count(\"Bob\") > 0) {\n    std::cout << \"Bob ist vorhanden.\" << std::endl; // Ausgabe: Bob ist vorhanden.\n  }\n\n  // Mit find() prüfen und Zugriff\n  auto it = personen.find(\"Dora\");\n  if (it == personen.end()) {\n    std::cout << \"Dora ist NICHT vorhanden.\" << std::endl;\n  }\n\n  // Wert ändern\n  personen[\"Anna\"] = 24; // Anna hat jetzt Geburtstag\n\n  // Eintrag löschen\n  personen.erase(\"Bob\");\n\n  // Ausgabe nach Änderungen\n  std::cout << \"Nach Änderungen:\\n\";\n  for (const auto& p : personen) {\n    std::cout << p.first << \": \" << p.second << std::endl;\n  } // Ausgabe: Anna: 24 / Clara: 27\n\n  // Größe der Map\n  std::cout << \"Anzahl Personen: \" << personen.size() << std::endl; // Ausgabe: 2\n\n  // Map leeren\n  personen.clear();\n  std::cout << \"Nach clear(): \" << personen.size() << std::endl; // Ausgabe: 0\n\n  return 0;\n}"
+
           ]
         }
       },
@@ -778,25 +703,8 @@
             "-> `q1.empty();` Prüft, ob die Queue leer ist (true/false)\n"
           ],
           "code": [
-            "#include <iostream>\n#include <stack>\n#include <queue>\n#include <string>",
-            
-            "int main() {",
-            
-            "  // -------- STACK (LIFO) --------\n  std::stack<int> stapel;\n  stapel.push(10);\n  stapel.push(20);\n  stapel.push(30); // Stapel: 10, 20, 30 (oben)",
-            
-            "  std::cout << \"[STACK] Oberstes Element: \" << stapel.top() << std::endl; // Ausgabe: 30\n  stapel.pop();\n  std::cout << \"[STACK] Nach pop(): \" << stapel.top() << std::endl; // Ausgabe: 20",
-            
-            "  std::cout << \"[STACK] Größe: \" << stapel.size() << std::endl; // Ausgabe: 2\n  if (!stapel.empty()) {\n    std::cout << \"[STACK] Nicht leer.\" << std::endl;\n  }",
-            
-            "  // -------- QUEUE (FIFO) --------\n  std::queue<std::string> warteschlange;\n  warteschlange.push(\"Anna\");\n  warteschlange.push(\"Bob\");\n  warteschlange.push(\"Clara\"); // Reihenfolge: Anna, Bob, Clara",
-            
-            "  std::cout << \"[QUEUE] Vorne: \" << warteschlange.front() << std::endl; // Ausgabe: Anna\n  std::cout << \"[QUEUE] Hinten: \" << warteschlange.back() << std::endl; // Ausgabe: Clara",
-            
-            "  warteschlange.pop();\n  std::cout << \"[QUEUE] Nach pop(): Vorne ist jetzt \" << warteschlange.front() << std::endl; // Ausgabe: Bob",
-            
-            "  std::cout << \"[QUEUE] Größe: \" << warteschlange.size() << std::endl; // Ausgabe: 2\n  if (!warteschlange.empty()) {\n    std::cout << \"[QUEUE] Nicht leer.\" << std::endl;\n  }",
-            
-            "  return 0;\n}"
+            "#include <iostream>\n#include <stack>\n#include <queue>\n#include <string>\n\nint main() {\n  // -------- STACK (LIFO) --------\n  std::stack<int> stapel;\n  stapel.push(10);\n  stapel.push(20);\n  stapel.push(30); // Stapel: 10, 20, 30 (oben)\n\n  std::cout << \"[STACK] Oberstes Element: \" << stapel.top() << std::endl; // Ausgabe: 30\n  stapel.pop();\n  std::cout << \"[STACK] Nach pop(): \" << stapel.top() << std::endl; // Ausgabe: 20\n\n  std::cout << \"[STACK] Größe: \" << stapel.size() << std::endl; // Ausgabe: 2\n  if (!stapel.empty()) {\n    std::cout << \"[STACK] Nicht leer.\" << std::endl;\n  }\n\n  // -------- QUEUE (FIFO) --------\n  std::queue<std::string> warteschlange;\n  warteschlange.push(\"Anna\");\n  warteschlange.push(\"Bob\");\n  warteschlange.push(\"Clara\"); // Reihenfolge: Anna, Bob, Clara\n\n  std::cout << \"[QUEUE] Vorne: \" << warteschlange.front() << std::endl; // Ausgabe: Anna\n  std::cout << \"[QUEUE] Hinten: \" << warteschlange.back() << std::endl; // Ausgabe: Clara\n\n  warteschlange.pop();\n  std::cout << \"[QUEUE] Nach pop(): Vorne ist jetzt \" << warteschlange.front() << std::endl; // Ausgabe: Bob\n\n  std::cout << \"[QUEUE] Größe: \" << warteschlange.size() << std::endl; // Ausgabe: 2\n  if (!warteschlange.empty()) {\n    std::cout << \"[QUEUE] Nicht leer.\" << std::endl;\n  }\n\n  return 0;\n}"
+
           ]
         }
       },
@@ -833,27 +741,8 @@
             "   Das bedeutet: `std::get<0>(...)` gibt das erste Element vom Typ `T1` zurück\n"
           ],
           "code": [
-            "#include <iostream>\n#include <string>\n#include <utility>  // für pair, make_pair\n#include <tuple>    // für tuple, make_tuple, get, tie",
-            
-            "int main() {",
-            
-            "  // -------- PAIR --------\n  std::pair<std::string, int> person = {\"Anna\", 25};\n  std::cout << \"[PAIR] Name: \" << person.first << \", Alter: \" << person.second << std::endl; // Ausgabe: Anna, 25",
-            
-            "  // Alternative mit make_pair\n  auto student = std::make_pair(\"Bob\", 30);\n  std::cout << \"[PAIR] Student: \" << student.first << \" - \" << student.second << std::endl;",
-            
-            "  // Vergleich\n  std::pair<int, int> a = {1, 2};\n  std::pair<int, int> b = {1, 3};\n  if (a < b) {\n    std::cout << \"[PAIR] a < b (lexikografisch)\" << std::endl;\n  }",
-            
-            "  // -------- TUPLE --------\n  std::tuple<std::string, int, double> daten = {\"Clara\", 28, 1.65};",
-            
-            "  std::cout << \"\\n[TUPLE] Name: \" << std::get<0>(daten)\n            << \", Alter: \" << std::get<1>(daten)\n            << \", Größe: \" << std::get<2>(daten) << std::endl; // Ausgabe: Clara, 28, 1.65",
-            
-            "  // Alternative mit make_tuple\n  auto eintrag = std::make_tuple(\"David\", 32, 1.80);",
-            
-            "  // Entpacken mit tie\n  std::string name;\n  int alter;\n  double groesse;\n  std::tie(name, alter, groesse) = eintrag;\n  std::cout << \"[TUPLE] Entpackt: \" << name << \", \" << alter << \", \" << groesse << std::endl;",
-            
-            "  // Größe des Tupels\n  std::cout << \"[TUPLE] Anzahl Elemente: \" << std::tuple_size<decltype(eintrag)>::value << std::endl; // Ausgabe: 3",
-            
-            "  return 0;\n}"
+            "#include <iostream>\n#include <string>\n#include <utility>  // für pair, make_pair\n#include <tuple>    // für tuple, make_tuple, get, tie\n\nint main() {\n  // -------- PAIR --------\n  std::pair<std::string, int> person = {\"Anna\", 25};\n  std::cout << \"[PAIR] Name: \" << person.first << \", Alter: \" << person.second << std::endl; // Ausgabe: Anna, 25\n\n  // Alternative mit make_pair\n  auto student = std::make_pair(\"Bob\", 30);\n  std::cout << \"[PAIR] Student: \" << student.first << \" - \" << student.second << std::endl;\n\n  // Vergleich\n  std::pair<int, int> a = {1, 2};\n  std::pair<int, int> b = {1, 3};\n  if (a < b) {\n    std::cout << \"[PAIR] a < b (lexikografisch)\" << std::endl;\n  }\n\n  // -------- TUPLE --------\n  std::tuple<std::string, int, double> daten = {\"Clara\", 28, 1.65};\n  std::cout << \"\\n[TUPLE] Name: \" << std::get<0>(daten)\n            << \", Alter: \" << std::get<1>(daten)\n            << \", Größe: \" << std::get<2>(daten) << std::endl; // Ausgabe: Clara, 28, 1.65\n\n  // Alternative mit make_tuple\n  auto eintrag = std::make_tuple(\"David\", 32, 1.80);\n\n  // Entpacken mit tie\n  std::string name;\n  int alter;\n  double groesse;\n  std::tie(name, alter, groesse) = eintrag;\n  std::cout << \"[TUPLE] Entpackt: \" << name << \", \" << alter << \", \" << groesse << std::endl;\n\n  // Größe des Tupels\n  std::cout << \"[TUPLE] Anzahl Elemente: \" << std::tuple_size<decltype(eintrag)>::value << std::endl; // Ausgabe: 3\n\n  return 0;\n}"
+
           ]
         }
       },
@@ -914,23 +803,8 @@
             "-> Fügt sortiert alle Elemente aus `s` und `v` in `l` ein\n"
           ],
           "code": [
-            "#include <iostream>\n#include <vector>\n#include <iterator>  // für advance, distance\n#include <algorithm>",
+            "#include <iostream>\n#include <vector>\n#include <iterator>  // für advance, distance\n#include <algorithm>\n\nint main() {\n  std::vector<int> zahlen = {10, 20, 30, 40, 50};\n\n  // Iteration mit explizitem Iterator\n  std::cout << \"Normale Iteration: \";\n  for (std::vector<int>::iterator it = zahlen.begin(); it != zahlen.end(); ++it) {\n    std::cout << *it << \" \";\n  } // Ausgabe: 10 20 30 40 50\n  std::cout << std::endl;\n\n  // Iteration mit auto\n  std::cout << \"Mit auto: \";\n  for (auto it = zahlen.begin(); it != zahlen.end(); ++it) {\n    std::cout << *it << \" \";\n  }\n  std::cout << std::endl;\n\n  // Rückwärts iterieren\n  std::cout << \"Rückwärts: \";\n  for (auto rit = zahlen.rbegin(); rit != zahlen.rend(); ++rit) {\n    std::cout << *rit << \" \";\n  } // Ausgabe: 50 40 30 20 10\n  std::cout << std::endl;\n\n  // Zugriff & Änderung über Iterator\n  auto it = zahlen.begin();\n  *it = 100; // Ändert erstes Element\n  std::cout << \"Nach Änderung: \" << zahlen[0] << std::endl; // Ausgabe: 100\n\n  // std::advance: verschiebe Iterator um 3 Positionen\n  std::advance(it, 3);\n  std::cout << \"Iterator +3: \" << *it << std::endl; // Ausgabe: 40\n\n  // std::distance: Abstand zwischen zwei Iteratoren\n  int abstand = std::distance(zahlen.begin(), it);\n  std::cout << \"Abstand: \" << abstand << std::endl; // Ausgabe: 3\n\n  return 0;\n}"
 
-            "int main() {\n  std::vector<int> zahlen = {10, 20, 30, 40, 50};",
-            
-            "  // Iteration mit explizitem Iterator\n  std::cout << \"Normale Iteration: \";\n  for (std::vector<int>::iterator it = zahlen.begin(); it != zahlen.end(); ++it) {\n    std::cout << *it << \" \";\n  } // Ausgabe: 10 20 30 40 50\n  std::cout << std::endl;",
-            
-            "  // Iteration mit auto\n  std::cout << \"Mit auto: \";\n  for (auto it = zahlen.begin(); it != zahlen.end(); ++it) {\n    std::cout << *it << \" \";\n  }\n  std::cout << std::endl;",
-            
-            "  // Rückwärts iterieren\n  std::cout << \"Rückwärts: \";\n  for (auto rit = zahlen.rbegin(); rit != zahlen.rend(); ++rit) {\n    std::cout << *rit << \" \";\n  } // Ausgabe: 50 40 30 20 10\n  std::cout << std::endl;",
-            
-            "  // Zugriff & Änderung über Iterator\n  auto it = zahlen.begin();\n  *it = 100; // Ändert erstes Element\n  std::cout << \"Nach Änderung: \" << zahlen[0] << std::endl; // Ausgabe: 100",
-            
-            "  // std::advance: verschiebe Iterator um 3 Positionen\n  std::advance(it, 3);\n  std::cout << \"Iterator +3: \" << *it << std::endl; // Ausgabe: 40",
-            
-            "  // std::distance: Abstand zwischen zwei Iteratoren\n  int abstand = std::distance(zahlen.begin(), it);\n  std::cout << \"Abstand: \" << abstand << std::endl; // Ausgabe: 3",
-            
-            "  return 0;\n}"
           ]
         }
       },
@@ -971,29 +845,8 @@
             "   Beispiel: `v.resize(10);`\n"
           ],
           "code": [
-            "#include <iostream>\n#include <set>",
-            
-            "int main() {\n  std::set<int> s = {1, 2, 3};",
-            
-            "  // empty()\n  if (!s.empty()) {\n    std::cout << \"Set ist NICHT leer\" << std::endl; // Ausgabe: Set ist NICHT leer\n  }",
-            
-            "  // size()\n  std::cout << \"Anzahl Elemente: \" << s.size() << std::endl; // Ausgabe: 3",
-            
-            "  // insert()\n  s.insert(4);\n  s.insert(2); // 2 ist bereits enthalten, wird ignoriert",
-            
-            "  // erase()\n  s.erase(3); // entfernt 3, falls vorhanden",
-            
-            "  // find()\n  auto it = s.find(2);\n  if (it != s.end()) {\n    std::cout << \"2 gefunden\" << std::endl;\n  }",
-            
-            "  // count()\n  if (s.count(5) == 0) {\n    std::cout << \"5 ist NICHT enthalten\" << std::endl;\n  }",
-            
-            "  // swap()\n  std::set<int> s2 = {10, 20};\n  s.swap(s2); // jetzt enthält s die Elemente von s2",
-            
-            "  std::cout << \"Nach swap(): Set enthält: \";\n  for (int x : s) std::cout << x << \" \"; // Ausgabe: 10 20\n  std::cout << std::endl;",
-            
-            "  // clear()\n  s.clear();\n  std::cout << \"Nach clear(): Größe = \" << s.size() << std::endl; // Ausgabe: 0",
-            
-            "  return 0;\n}"
+            "#include <iostream>\n#include <set>\n\nint main() {\n  std::set<int> s = {1, 2, 3};\n\n  // empty()\n  if (!s.empty()) {\n    std::cout << \"Set ist NICHT leer\" << std::endl; // Ausgabe: Set ist NICHT leer\n  }\n\n  // size()\n  std::cout << \"Anzahl Elemente: \" << s.size() << std::endl; // Ausgabe: 3\n\n  // insert()\n  s.insert(4);\n  s.insert(2); // 2 ist bereits enthalten, wird ignoriert\n\n  // erase()\n  s.erase(3); // entfernt 3, falls vorhanden\n\n  // find()\n  auto it = s.find(2);\n  if (it != s.end()) {\n    std::cout << \"2 gefunden\" << std::endl;\n  }\n\n  // count()\n  if (s.count(5) == 0) {\n    std::cout << \"5 ist NICHT enthalten\" << std::endl;\n  }\n\n  // swap()\n  std::set<int> s2 = {10, 20};\n  s.swap(s2); // jetzt enthält s die Elemente von s2\n\n  std::cout << \"Nach swap(): Set enthält: \";\n  for (int x : s) std::cout << x << \" \"; // Ausgabe: 10 20\n  std::cout << std::endl;\n\n  // clear()\n  s.clear();\n  std::cout << \"Nach clear(): Größe = \" << s.size() << std::endl; // Ausgabe: 0\n\n  return 0;\n}"
+
           ]
         }
       }
@@ -1813,8 +1666,8 @@
             "- Flexibilität: Funktion kann mit verschiedenen Datentypen arbeiten\n"
           ],
           "code": [
-            "#include <iostream>\n\n// Funktionsüberladungen\nvoid begruessung() {\n  std::cout << \"Hallo!\" << std::endl;\n}\n\nvoid begruessung(std::string name) {\n  std::cout << \"Hallo, \" << name << \"!\" << std::endl;\n}\n\nvoid begruessung(int stunde) {\n  if (stunde < 12)\n    std::cout << \"Guten Morgen!\" << std::endl;\n  else\n    std::cout << \"Guten Tag!\" << std::endl;\n}",
-            "int main() {\n  begruessung();              // Ausgabe: Hallo!\n  begruessung(\"Kilian\");     // Ausgabe: Hallo, Kilian!\n  begruessung(9);             // Ausgabe: Guten Morgen!\n\n  return 0;\n}"
+            "#include <iostream>\n\n// Funktionsüberladungen\nvoid begruessung() {\n  std::cout << \"Hallo!\" << std::endl;\n}\n\nvoid begruessung(std::string name) {\n  std::cout << \"Hallo, \" << name << \"!\" << std::endl;\n}\n\nvoid begruessung(int stunde) {\n  if (stunde < 12)\n    std::cout << \"Guten Morgen!\" << std::endl;\n  else\n    std::cout << \"Guten Tag!\" << std::endl;\n}\n\nint main() {\n  begruessung();              // Ausgabe: Hallo!\n  begruessung(\"Kilian\");     // Ausgabe: Hallo, Kilian!\n  begruessung(9);             // Ausgabe: Guten Morgen!\n\n  return 0;\n}"
+
           ]
         }
       },
@@ -1835,8 +1688,8 @@
             "-> Kann fast jeder Operator überladen werden (außer z.B. `.` oder `::`)\n"
           ],
           "code": [
-            "#include <iostream>\n\nclass Punkt {\nprivate:\n  int x, y;\n\npublic:\n  Punkt(int x, int y) : x(x), y(y) {}\n\n  // Operatorüberladung für +\n  Punkt operator+(const Punkt& other) {\n    return Punkt(x + other.x, y + other.y);\n  }\n\n  // Ausgabeoperator überladen (als friend)\n  friend std::ostream& operator<<(std::ostream& os, const Punkt& p) {\n    os << \"(\" << p.x << \", \" << p.y << \")\";\n    return os;\n  }\n};",
-            "int main() {\n  Punkt a(2, 3);\n  Punkt b(4, 1);\n  Punkt c = a + b;\n\n  std::cout << \"a + b = \" << c << std::endl; // Ausgabe: a + b = (6, 4)\n\n  return 0;\n}"
+            "#include <iostream>\n\nclass Punkt {\nprivate:\n  int x, y;\n\npublic:\n  Punkt(int x, int y) : x(x), y(y) {}\n\n  // Operatorüberladung für +\n  Punkt operator+(const Punkt& other) {\n    return Punkt(x + other.x, y + other.y);\n  }\n\n  // Ausgabeoperator überladen (als friend)\n  friend std::ostream& operator<<(std::ostream& os, const Punkt& p) {\n    os << \"(\" << p.x << \", \" << p.y << \")\";\n    return os;\n  }\n};\n\nint main() {\n  Punkt a(2, 3);\n  Punkt b(4, 1);\n  Punkt c = a + b;\n\n  std::cout << \"a + b = \" << c << std::endl; // Ausgabe: a + b = (6, 4)\n\n  return 0;\n}"
+
           ]
         }
       }
