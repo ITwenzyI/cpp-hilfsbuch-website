@@ -357,6 +357,14 @@
             "- `std::clog`: Wird für **Logmeldungen** verwendet (gepuffert)\n",
             "- Beide gehen wie `std::cout` in die Konsole, können aber **umgeleitet** werden\n",
             "\n",
+            "### Führende Nullen bei Zahlen\n",
+            "- Mit `std::setw(n)` und `std::setfill('0')` lassen sich Zahlen mit führenden Nullen formatieren:\n",
+            "```cpp\nstd::cout << std::setw(5) << std::setfill('0') << 17; // Ausgabe: 00017\n```\n",
+            "- Mit `std::string`: Umwandlung und manuelles Auffüllen:\n",
+            "```cpp\nstd::string s = std::string(5 - std::to_string(17).length(), '0') + std::to_string(17); // \"00017\"\n```\n",
+            "- Ab C++20: `std::format` macht es besonders einfach:\n",
+            "```cpp\nstd::cout << std::format(\"{:05}\", 17); // Ausgabe: 00017\n```\n",
+            "\n",
             "### Zahlenformat: `dec`, `hex`, `oct`\n",
             "- `std::dec`: Ausgabe als Dezimalzahl (Standard)\n",
             "- `std::hex`: Ausgabe als Hexadezimalzahl\n",
@@ -364,7 +372,7 @@
             "- Wichtig bei Binärformaten, Flags oder Speicheradressen\n"
           ],
           "code": [
-            "#include <iostream>\n#include <iomanip>\n\nint main() {\n  std::string name = \"Kilian\";\n  int alter = 21;\n  double kontostand = 1234.56789;\n\n  // Einfache Begrüßung\n  std::cout << \"Hallo, \" << name << \"!\\n\"; // Ausgabe: Hallo, Kilian!\n\n  // Formatierte Tabelle\n  std::cout << std::left << std::setw(10) << \"Name\"\n            << std::right << std::setw(10) << \"Alter\"\n            << std::setw(15) << \"Kontostand\" << std::endl; // Ausgabe: Name           Alter     Kontostand\n\n  std::cout << std::left << std::setw(10) << name\n            << std::right << std::setw(10) << alter\n            << std::setw(15) << std::fixed << std::setprecision(2) << kontostand << std::endl; // Ausgabe: Kilian             21         1234.57\n\n  // Zahlenformat\n  int zahl = 42;\n  std::cout << \"Dezimal: \" << std::dec << zahl << std::endl;       // Ausgabe: Dezimal: 42\n  std::cout << \"Hexadezimal: \" << std::hex << zahl << std::endl;  // Ausgabe: Hexadezimal: 2a\n  std::cout << \"Oktal: \" << std::oct << zahl << std::endl;         // Ausgabe: Oktal: 52\n\n  // Fehlermeldung und Logausgabe\n  std::cerr << \"Dies ist eine Fehlermeldung!\" << std::endl; // Ausgabe (in stderr): Dies ist eine Fehlermeldung!\n  std::clog << \"Dies ist eine Logmeldung.\" << std::endl;    // Ausgabe (in clog): Dies ist eine Logmeldung.\n\n  return 0;\n}"
+            "#include <iostream>\n#include <iomanip>\n#include <string>\n#if __cpp_lib_format\n  #include <format>\n#endif\n\nint main() {\n  std::string name = \"Kilian\";\n  int alter = 21;\n  double kontostand = 1234.56789;\n\n  // Einfache Begrüßung\n  std::cout << \"Hallo, \" << name << \"!\\n\"; // Ausgabe: Hallo, Kilian!\n\n  // Formatierte Tabelle\n  std::cout << std::left << std::setw(10) << \"Name\"\n            << std::right << std::setw(10) << \"Alter\"\n            << std::setw(15) << \"Kontostand\" << std::endl;\n\n  std::cout << std::left << std::setw(10) << name\n            << std::right << std::setw(10) << alter\n            << std::setw(15) << std::fixed << std::setprecision(2) << kontostand << std::endl;\n\n  // Zahlenformat\n  int zahl = 42;\n  std::cout << \"Dezimal: \" << std::dec << zahl << std::endl;\n  std::cout << \"Hexadezimal: \" << std::hex << zahl << std::endl;\n  std::cout << \"Oktal: \" << std::oct << zahl << std::endl;\n\n  // Führende Nullen mit iomanip\n  int nummer = 17;\n  std::cout << \"Führende Nullen (iomanip): \" << std::setw(5) << std::setfill('0') << nummer << std::endl; // Ausgabe: 00017\n\n  // Mit std::string auffüllen\n  std::string gepolstert = std::string(5 - std::to_string(nummer).length(), '0') + std::to_string(nummer);\n  std::cout << \"Mit std::string: \" << gepolstert << std::endl; // Ausgabe: 00017\n\n#if __cpp_lib_format\n  // C++20: std::format\n  std::cout << \"Mit std::format: \" << std::format(\"{:05}\", nummer) << std::endl; // Ausgabe: 00017\n#endif\n\n  // Fehlermeldung und Logausgabe\n  std::cerr << \"Dies ist eine Fehlermeldung!\" << std::endl;\n  std::clog << \"Dies ist eine Logmeldung.\" << std::endl;\n\n  return 0;\n}"
           ]
         }
       },
@@ -1705,6 +1713,49 @@
   {
     "category": "Extras",
     "subtopics": [
+      {
+  "title": "Formatierung",
+  "content": {
+    "text": [
+      "### === Formatierung in C++ ===\n",
+      "In C++ gibt es verschiedene Möglichkeiten, Ausgaben optisch zu formatieren – z. B. für Tabellen, Zahlen, Texte und Spezialformate.\n",
+      "\n",
+      "### 📏 Feldbreite und Ausrichtung (`<iomanip>`)\n",
+      "- `std::setw(n)`: Legt die Breite eines Felds fest\n",
+      "- `std::left`, `std::right`: Textausrichtung (nur in Verbindung mit `std::setw()`)\n",
+      "- `std::setfill(c)`: Zeichen zum Auffüllen (z. B. `0` oder `-`)\n",
+      "\n",
+      "### 🔢 Nachkommastellen und Gleitkommaformat\n",
+      "- `std::fixed`: Feste Anzahl Nachkommastellen\n",
+      "- `std::setprecision(n)`: Anzahl Nachkommastellen\n",
+      "- `std::scientific`: Wissenschaftliche Notation\n",
+      "\n",
+      "### 🔣 Zahlenformate\n",
+      "- `std::dec` → dezimal (Standard)\n",
+      "- `std::hex` → hexadezimal\n",
+      "- `std::oct` → oktal\n",
+      "- Praktisch für Debug-Ausgaben oder Speicheradressen\n",
+      "\n",
+      "### 🔐 Führende Nullen\n",
+      "- Mit `std::setw()` und `std::setfill('0')`:\n",
+      "```cpp\nstd::cout << std::setw(5) << std::setfill('0') << 17; // 00017\n```\n",
+      "- Mit `std::string` manuell:\n",
+      "```cpp\nstd::string s = std::string(5 - std::to_string(17).length(), '0') + std::to_string(17);\n```\n",
+      "- Ab C++20 mit `std::format`:\n",
+      "```cpp\nstd::format(\"{:05}\", 17); // 00017\n```\n",
+      "\n",
+      "### 🆕 `std::format` (C++20)\n",
+      "- Moderner, leistungsfähiger Formatter\n",
+      "- Nutzt Python-ähnliche Syntax\n",
+      "- Beispiele:\n",
+      "```cpp\nstd::format(\"{} hat {} Punkte\", name, punkte);\nstd::format(\"{:>10}\", \"rechts\"); // rechtsbündig\n```\n",
+      "- Erfordert Compiler mit C++20 + Format-Unterstützung (`<format>`)"
+    ],
+    "code": [
+      "#include <iostream>\n#include <iomanip>\n#include <string>\n#if __cpp_lib_format\n  #include <format>\n#endif\n\nint main() {\n  std::string name = \"Kilian\";\n  int punkte = 42;\n  double kontostand = 1234.56789;\n\n  // Feldbreite und Ausrichtung\n  std::cout << std::left << std::setw(12) << \"Name\"\n            << std::right << std::setw(8) << \"Punkte\"\n            << std::setw(15) << \"Kontostand\" << std::endl;\n  std::cout << std::left << std::setw(12) << name\n            << std::right << std::setw(8) << punkte\n            << std::setw(15) << std::fixed << std::setprecision(2) << kontostand << std::endl;\n\n  // Zahlenformate\n  int zahl = 42;\n  std::cout << \"Dezimal: \" << std::dec << zahl << std::endl;\n  std::cout << \"Hexadezimal: \" << std::hex << zahl << std::endl;\n  std::cout << \"Oktal: \" << std::oct << zahl << std::endl;\n\n  // Führende Nullen mit iomanip\n  std::cout << \"Führende Nullen: \" << std::setw(5) << std::setfill('0') << zahl << std::endl; // 00042\n\n  // Mit std::string\n  std::string gepolstert = std::string(5 - std::to_string(zahl).length(), '0') + std::to_string(zahl);\n  std::cout << \"Manuell gepolstert: \" << gepolstert << std::endl;\n\n#if __cpp_lib_format\n  // Mit std::format (C++20)\n  std::cout << std::format(\"std::format führend: {:05}\\n\", zahl);\n  std::cout << std::format(\"Name: {}, Punkte: {}\\n\", name, punkte);\n  std::cout << std::format(\"{:>10}\\n\", \"rechts\");\n#endif\n\n  return 0;\n"
+    ]
+  }
+},
     {
   "title": "Casting",
   "content": {
