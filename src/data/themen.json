@@ -1884,7 +1884,19 @@
             "\n### Statische Member in Template-Klassen\n",
             "Statische Variablen in Template-Klassen werden **für jede Typ-Instanziierung separat erzeugt**.\n",
             "Das bedeutet: `complex<int>` und `complex<long>` haben **unabhängige** eigene `counter_`-Werte.\n",
-            "Will man statisch **typübergreifend** zählen, muss man eine **globale Variable außerhalb** der Klasse verwenden.\n"
+            "Will man statisch **typübergreifend** zählen, muss man eine **globale Variable außerhalb** der Klasse verwenden.\n",
+            "\n### Templates mit Wertparametern\n",
+            "Templates können neben Typen auch **konstante Werte als Parameter** annehmen – sogenannte **Nicht-Typ-Template-Parameter**.\n",
+            "Diese werden wie normale Parameter in der Template-Liste angegeben, z. B. `int offset`:\n",
+            "```cpp\ntemplate <typename T, int offset = 42>\nT shiftedMax(T x, T y) {\n  return offset + (x > y ? x : y);\n}\n```\n",
+            "Aufrufbeispiele:\n",
+            "- `shiftedMax<int, 10>(2, 3)` → ergibt `13`\n",
+            "- `shiftedMax<double>(2.0, 3.0)` → ergibt `45.0` (Default-Offset 42)\n",
+            "- `shiftedMax(2, 3)` → ergibt `45` (Typ und Offset abgeleitet)\n",
+            "\n",
+            "📌 Zulässig sind nur **integrale Datentypen** wie `int`, `char`, `bool` oder `enum`.\n",
+            "👉 Integrale Datentypen sind alle **ganzzahligen Typen**, also ohne Nachkommastellen.\n",
+            "Für **jede Kombination von Typ und Wert** wird beim Kompilieren **neuer Code generiert**.\n"
           ],
           "code": [
             "#include <iostream>\n\n// Funktions-Template\ntemplate <typename T>\nT addiere(T a, T b) {\n  return a + b;\n}",
