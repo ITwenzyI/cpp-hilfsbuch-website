@@ -1907,7 +1907,19 @@
             "- `my_array<double, 10> c;` → ergibt `my_array<double, 10>`\n",
             "\n",
             "📌 Der Wertparameter `size` muss ein **konstanter Ausdruck** sein, z. B. `unsigned int`.\n",
-            "So lassen sich Klassen flexibel anpassen, ohne jedes Detail beim Aufruf anzugeben.\n"
+            "So lassen sich Klassen flexibel anpassen, ohne jedes Detail beim Aufruf anzugeben.\n",
+                "\n### Template-Template-Parameter\n",
+            "Templates können auch **andere Templates als Parameter** annehmen. Das nennt man **Template-Template-Parameter** oder kurz: **Template-Templates**.\n",
+            "Damit kann z. B. ein Container geschrieben werden, der beliebige andere Container-Typen wie `std::vector`, `std::list` oder `std::deque` verwendet:\n",
+            "```cpp\ntemplate <class T,\n          template<typename, typename> class C,\n          template<typename> class A = std::allocator>\nclass container_wrapper {\n  C<T, A<T>> container;\npublic:\n  void insert(const T& t) { container.push_back(t); }\n  const T& get(unsigned int i) { return container[i]; }\n};\n```\n",
+            "Aufrufbeispiel:\n",
+            "- `container_wrapper<std::string, std::vector> cw;`\n",
+            "\n",
+            "📌 Warum `template<typename, typename>`? → Weil z. B. `std::vector` zwei Typ-Parameter hat: `T` und `Allocator<T>`.\n",
+            "Der zusätzliche Parameter `A` übernimmt den Allocator und erlaubt es, den Container korrekt zu instanziieren.\n",
+            "Ein Allocator ist dabei nur eine interne Hilfsklasse zur Speicherverwaltung, in der Praxis meist nicht relevant.\n",
+            "\n",
+            "Solche Konstrukte sind **beliebig verschachtelbar** – theoretisch sind auch Template-Template-Template-Parameter möglich (aber kaum lesbar).\n"
           ],
           "code": [
             "#include <iostream>\n\n// Funktions-Template\ntemplate <typename T>\nT addiere(T a, T b) {\n  return a + b;\n}",
