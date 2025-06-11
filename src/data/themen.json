@@ -2288,27 +2288,29 @@
       "```cpp\nvoid zähler() {\n    static int x = 0;\n    x++;\n    std::cout << x << std::endl;\n}\n```\n",
       "\n",
       "### 🔹 `static` in Klassen (statisch für alle Objekte):\n",
-      "- Mitglied gehört **zur Klasse, nicht zum Objekt**\n",
+      "- Variable gehört **zur Klasse, nicht zum Objekt**\n",
       "- Wird **außerhalb der Klasse** definiert\n",
-      "```cpp\nclass Test {\npublic:\n    static int anzahl;\n};\n\nint Test::anzahl = 0;  // Definition außerhalb\n```\n",
+      "- Gleicher Wert für **alle Instanzen**\n",
+      "```cpp\nclass Test {\npublic:\n    static int anzahl;\n};\n\nint Test::anzahl = 0;\n```\n",
+      "\n",
+      "### 🔹 `static` bei Klassenfunktionen:\n",
+      "- Funktion gehört **nicht zu einem Objekt**, sondern zur **Klasse selbst**\n",
+      "- Kein Zugriff auf `this` oder andere Nicht-static-Member\n",
+      "- Wird über `Klassenname::Funktion()` aufgerufen\n",
+      "```cpp\nclass Utils {\npublic:\n    static int verdoppeln(int x) {\n        return x * 2;\n    }\n};\n\nint y = Utils::verdoppeln(5);  // 10\n```\n",
       "\n",
       "### 🔹 `static` bei Funktionen (außerhalb von Klassen):\n",
-      "- Macht die Funktion **nur in dieser Datei sichtbar** (interne Verlinkung)\n",
-      "- Wird bei Modularisierung genutzt\n",
+      "- Funktion ist **nur innerhalb derselben Datei sichtbar** (file-scope)\n",
+      "- Nützlich zur Kapselung beim Modularisieren\n",
+      "```cpp\nstatic int intern() {\n    return 123;\n}\n```\n",
       "\n",
-      "### Unterschiede im Verhalten:\n",
-      "| Kontext         | Bedeutung                                               |\n",
-      "| In Funktion     | Lebensdauer über Funktionsaufrufe hinaus                 |\n",
-      "| In Klasse       | Gleicher Wert für **alle Objekte**                       |\n",
-      "| Außerhalb       | Nur in derselben Datei sichtbar (file-scope)             |\n",
-      "\n",
-      "👉 `static` hilft, **Lebensdauer zu steuern**, **Speicher zu sparen** und **Zugriff zu begrenzen**\n"
+      "👉 `static` hilft, **Lebensdauer zu steuern**, **Speicher zu sparen** und **Sichtbarkeit einzuschränken**.\n"
     ],
     "code": [
-      "#include <iostream>\n\nclass Test {\npublic:\n    static int zähler;  // Deklaration\n    void erhöhen() {\n        zähler++;\n    }\n};\n\nint Test::zähler = 0;   // Definition außerhalb der Klasse\n\nvoid funktionMitStatic() {\n    static int x = 0;    // bleibt erhalten über mehrere Aufrufe\n    x++;\n    std::cout << \"static in Funktion: \" << x << std::endl;  // 1, dann 2\n}\n\nint main() {\n    Test a, b;\n    a.erhöhen();\n    b.erhöhen();\n    std::cout << \"static in Klasse: \" << Test::zähler << std::endl;  // 2\n\n    funktionMitStatic();  // static in Funktion: 1\n    funktionMitStatic();  // static in Funktion: 2\n\n    return 0;\n}"
+      "#include <iostream>\n\nclass Test {\npublic:\n    static int zähler;\n    void erhöhen() {\n        zähler++;\n    }\n};\n\nint Test::zähler = 0;\n\nvoid funktionMitStatic() {\n    static int x = 0;\n    x++;\n    std::cout << \"static in Funktion: \" << x << std::endl; // 1, dann 2\n}\n\n// statische Klassenfunktion\nclass Utils {\npublic:\n    static int verdoppeln(int x) {\n        return x * 2;\n    }\n};\n\n// statische Funktion außerhalb einer Klasse\nstatic void dateiLokal() {\n    std::cout << \"Nur in dieser Datei sichtbar.\" << std::endl;\n}\n\nint main() {\n    Test a, b;\n    a.erhöhen();\n    b.erhöhen();\n    std::cout << \"static in Klasse: \" << Test::zähler << std::endl; // Ausgabe: 2\n\n    funktionMitStatic(); // Ausgabe: 1\n    funktionMitStatic(); // Ausgabe: 2\n\n    std::cout << \"Utils::verdoppeln: \" << Utils::verdoppeln(7) << std::endl; // Ausgabe: 14\n\n    dateiLokal(); // Ausgabe: Nur in dieser Datei sichtbar.\n\n    return 0;\n}"
     ]
-        }
-      }
+  }
+}
     ]
   },
 
