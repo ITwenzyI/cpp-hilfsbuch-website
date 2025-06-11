@@ -1926,7 +1926,14 @@
             "\n",
             "📌 Wichtig: Wenn du innerhalb eines Templates auf einen solchen abhängigen Typ zugreifst, **musst du `typename` davor schreiben`, damit der Compiler weiß, dass es sich um einen Typ handelt:\n",
             "```cpp\ntypename std::vector<T>::iterator iter;\n```\n",
-            "Ohne `typename` denkt der Compiler eventuell, es handelt sich um ein Datenmitglied oder eine Funktion – und gibt einen Fehler aus.\n"
+            "Ohne `typename` denkt der Compiler eventuell, es handelt sich um ein Datenmitglied oder eine Funktion – und gibt einen Fehler aus.\n",
+                "\n### Vererbung mit Template-Klassen\n",
+            "Template-Klassen können als **Basisklassen** in Vererbungshierarchien dienen.\n",
+            "Sie eignen sich z. B. für generische Schnittstellen mit Memberfunktionen, die verschiedene Typen verarbeiten sollen.\n",
+            "Wenn eine **nicht-template Unterklasse** davon ableitet, muss sie den **Typparameter festlegen**:\n",
+            "```cpp\nclass add_double : invertible_operation<double> { ... };\n```\n",
+            "So kann man z. B. mit einer Basisklasse `operation<T>` die Methode `T apply(T, T)` vorschreiben – unabhängig vom konkreten Typ.\n",
+            "Mit virtuellen oder rein virtuellen Methoden lassen sich dabei flexible, generische Interfaces bauen.\n"
           ],
           "code": [
             "#include <iostream>\n\n// Funktions-Template\ntemplate <typename T>\nT addiere(T a, T b) {\n  return a + b;\n}",
