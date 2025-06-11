@@ -1896,7 +1896,18 @@
             "\n",
             "📌 Zulässig sind nur **integrale Datentypen** wie `int`, `char`, `bool` oder `enum`.\n",
             "👉 Integrale Datentypen sind alle **ganzzahligen Typen**, also ohne Nachkommastellen.\n",
-            "Für **jede Kombination von Typ und Wert** wird beim Kompilieren **neuer Code generiert**.\n"
+            "Für **jede Kombination von Typ und Wert** wird beim Kompilieren **neuer Code generiert**.\n",
+                "\n### Template-Klassen mit Wert- und Typ-Defaults\n",
+            "Auch Klassen-Templates können **konstante Wertparameter** enthalten – z. B. zur Festlegung von Array-Größen.\n",
+            "Zusätzlich können **Standardwerte für Typen und Werte** angegeben werden:\n",
+            "```cpp\ntemplate <class T = int, unsigned int size = 2>\nstruct my_array {\n  T data[size];\n};\n```\n",
+            "Verwendung:\n",
+            "- `my_array<> a;` → ergibt `my_array<int, 2>`\n",
+            "- `my_array<double> b;` → ergibt `my_array<double, 2>`\n",
+            "- `my_array<double, 10> c;` → ergibt `my_array<double, 10>`\n",
+            "\n",
+            "📌 Der Wertparameter `size` muss ein **konstanter Ausdruck** sein, z. B. `unsigned int`.\n",
+            "So lassen sich Klassen flexibel anpassen, ohne jedes Detail beim Aufruf anzugeben.\n"
           ],
           "code": [
             "#include <iostream>\n\n// Funktions-Template\ntemplate <typename T>\nT addiere(T a, T b) {\n  return a + b;\n}",
