@@ -1880,7 +1880,11 @@
             "Diese wird **ausnahmsweise in der Header-Datei eingebunden**:\n",
             "```cpp\n// complex.h\n#ifndef COMPLEX_H\n#define COMPLEX_H\n\ntemplate <typename T>\nclass Complex {\n  // ...\n  T re();\n  T im();\n};\n\n#include \"complex.tpp\"  // Wichtig: im Header einbinden!\n\n#endif\n```\n",
             "```cpp\n// complex.tpp\ntemplate <typename T>\nT Complex<T>::re() { return re_; }\n\ntemplate <typename T>\nT Complex<T>::im() { return im_; }\n```\n",
-            "So bleibt der Code sauber getrennt, aber der Compiler kann beim Instanziieren alle Definitionen sehen.\n"
+            "So bleibt der Code sauber getrennt, aber der Compiler kann beim Instanziieren alle Definitionen sehen.\n",
+            "\n### Statische Member in Template-Klassen\n",
+            "Statische Variablen in Template-Klassen werden **für jede Typ-Instanziierung separat erzeugt**.\n",
+            "Das bedeutet: `complex<int>` und `complex<long>` haben **unabhängige** eigene `counter_`-Werte.\n",
+            "Will man statisch **typübergreifend** zählen, muss man eine **globale Variable außerhalb** der Klasse verwenden.\n"
           ],
           "code": [
             "#include <iostream>\n\n// Funktions-Template\ntemplate <typename T>\nT addiere(T a, T b) {\n  return a + b;\n}",
