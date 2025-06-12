@@ -2309,7 +2309,7 @@
         }
       },
 {
-  "title": "const",
+  "title": "Const",
   "content": {
     "text": [
       "### === `const` in C++ ===\n",
@@ -2353,7 +2353,29 @@
   }
 },
 {
-  "title": "static",
+  "title": "Const Overloading",
+  "content": {
+    "text": [
+      "### === `const` Overloading ===\n",
+      "In C++ kann man Funktionen **überladen**, indem man einmal eine `const`- und einmal eine **nicht-`const`-Version** erstellt.\n",
+      "\n",
+      "### Warum?\n",
+      "- `const`-Objekte dürfen nur `const`-Funktionen aufrufen.\n",
+      "- So kann dieselbe Funktion **unterschiedliches Verhalten** haben – je nach `const`-Zustand des Objekts.\n",
+      "\n",
+      "### `const` am Ende einer Methode:\n",
+      "- Bedeutet: Diese Funktion **verändert keine Membervariablen** (außer `mutable`)\n",
+      "- Wichtig für **Zugriffsmethoden (Getter)** oder bei Funktionen, die nur lesen\n",
+      "\n",
+      "👉 `const` ist Teil der Funktionssignatur und wird bei der Überladung beachtet."
+    ],
+    "code": [
+      "#include <iostream>\n#include <string>\n\nclass Person {\nprivate:\n  std::string name;\n\npublic:\n  Person(std::string n) : name(n) {}\n\n  // Nicht-const-Version\n  std::string& getName() {\n    std::cout << \"Nicht-const Version\" << std::endl;\n    return name;\n  }\n\n  // Const-Version (für const Objekte)\n  const std::string& getName() const {\n    std::cout << \"Const-Version\" << std::endl;\n    return name;\n  }\n};\n\nint main() {\n  Person p1(\"Kilian\");\n  const Person p2(\"Lisa\");\n\n  std::cout << p1.getName() << std::endl;  // Ausgabe: Nicht-const Version\\nKilian\n  std::cout << p2.getName() << std::endl;  // Ausgabe: Const-Version\\nLisa\n\n  return 0;\n}"
+    ]
+  }
+},
+{
+  "title": "Static",
   "content": {
     "text": [
       "### === `static` in C++ ===\n",
