@@ -2101,6 +2101,41 @@
   {
     "category": "Struktur",
     "subtopics": [
+    {
+   "title": "Schleifen / Loops",
+   "content": {
+    "text": [
+      "### === Schleifen in C++ ===\n",
+      "Schleifen ermöglichen **wiederholte Ausführung** von Code, solange eine Bedingung erfüllt ist.\n",
+      "\n",
+      "### 🔁 `while`-Schleife\n",
+      "- Führt Code **solange** aus, wie die Bedingung **wahr** ist\n",
+      "- **Kopfgesteuert** (Bedingung wird **vorher** geprüft)\n",
+      "```cpp\nint i = 0;\nwhile (i < 3) {\n  std::cout << i << std::endl;\n  i++;\n}\n```\n",
+      "\n",
+      "### 🔁 `do-while`-Schleife\n",
+      "- Führt den Block **mindestens einmal** aus\n",
+      "- **Fußgesteuert** (Bedingung wird **nachher** geprüft)\n",
+      "```cpp\nint j = 0;\ndo {\n  std::cout << j << std::endl;\n  j++;\n} while (j < 3);\n```\n",
+      "\n",
+      "### 🔁 `for`-Schleife\n",
+      "- Ideal für Schleifen mit **Zähler**\n",
+      "- Besteht aus Initialisierung, Bedingung, Inkrement\n",
+      "```cpp\nfor (int k = 0; k < 3; ++k) {\n  std::cout << k << std::endl;\n}\n```\n",
+      "\n",
+      "### 🔁 `range-based for` (seit C++11)\n",
+      "- Für **Container, Arrays** oder **Strings**\n",
+      "```cpp\nstd::string text = \"Hi\";\nfor (char c : text) {\n  std::cout << c << std::endl;\n}\n```\n",
+      "\n",
+      "### 🔁 Schleifensteuerung:\n",
+      "- `break;` → Schleife **sofort beenden**\n",
+      "- `continue;` → Nächste Iteration überspringen\n"
+    ],
+    "code": [
+      "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n  // while-Schleife\n  int i = 0;\n  while (i < 3) {\n    std::cout << \"while: \" << i << std::endl; // Ausgabe: 0, 1, 2\n    i++;\n  }\n\n  // do-while-Schleife\n  int j = 0;\n  do {\n    std::cout << \"do-while: \" << j << std::endl; // Ausgabe: 0, 1, 2\n    j++;\n  } while (j < 3);\n\n  // for-Schleife\n  for (int k = 0; k < 3; ++k) {\n    std::cout << \"for: \" << k << std::endl; // Ausgabe: 0, 1, 2\n  }\n\n  // range-based for\n  std::vector<std::string> namen = {\"Anna\", \"Bob\", \"Clara\"};\n  for (const std::string& name : namen) {\n    std::cout << \"range-for: \" << name << std::endl; // Ausgabe: Anna, Bob, Clara\n  }\n\n  // break und continue\n  for (int x = 0; x < 5; ++x) {\n    if (x == 2) continue; // überspringt 2\n    if (x == 4) break;    // bricht bei 4 ab\n    std::cout << \"x: \" << x << std::endl; // Ausgabe: 0, 1, 3\n  }\n\n  return 0;\n}"
+    ]
+        }
+      },
    {
    "title": "Namespaces",
    "content": {
