@@ -2375,6 +2375,32 @@
   }
 },
 {
+  "title": "Mutable",
+  "content": {
+    "text": [
+      "### === `mutable` in C++ ===\n",
+      "`mutable` erlaubt es, einen Member einer Klasse **trotz `const`-Funktion zu verändern**.\n",
+      "\n",
+      "### Wann braucht man das?\n",
+      "- Normalerweise dürfen `const`-Funktionen **keine Membervariablen verändern**.\n",
+      "- Mit `mutable` kann man **gezielt Ausnahmen** machen, z. B. für Logging, Caching oder Zugriffszähler.\n",
+      "\n",
+      "### Auch ohne `const` nützlich:\n",
+      "- `mutable`-Member sind **immer unabhängig von `const`**, also z. B. nicht betroffen von `std::atomic<T>` oder `const`-Zustand anderer Objekte.\n",
+      "- Sie können **immer verändert werden**, auch außerhalb von `const`-Kontexten – z. B. als interne Zähler oder Zustände.\n",
+      "\n",
+      "### Wichtig:\n",
+      "- `mutable` funktioniert **nur bei Membervariablen**.\n",
+      "- Hat **nichts** mit `const` Variablen zu tun – es ist ein **Zugriffs-Modifier** für Klassenmitglieder.\n",
+      "\n",
+      "👉 Vorsicht beim Einsatz: `mutable` kann das `const`-Versprechen brechen!"
+    ],
+    "code": [
+      "#include <iostream>\n#include <string>\n\nclass Datei {\nprivate:\n  std::string inhalt;\n  mutable int leseZähler = 0;  // darf auch in const-Funktion verändert werden\n\npublic:\n  Datei(std::string i) : inhalt(i) {}\n\n  std::string lesen() const {\n    leseZähler++;  // erlaubt, da mutable\n    return inhalt;\n  }\n\n  int getLeseZähler() const {\n    return leseZähler;\n  }\n};\n\nint main() {\n  const Datei d(\"Hallo Welt\");\n  std::cout << d.lesen() << std::endl;  // Ausgabe: Hallo Welt\n  std::cout << d.lesen() << std::endl;  // Ausgabe: Hallo Welt\n  std::cout << \"Anzahl Lesezugriffe: \" << d.getLeseZähler() << std::endl;  // Ausgabe: 2\n\n  return 0;\n}"
+    ]
+  }
+},
+{
   "title": "Static",
   "content": {
     "text": [
