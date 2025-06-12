@@ -2136,6 +2136,36 @@
     ]
         }
       },
+      {
+  "title": "if / else und switch",
+  "content": {
+    "text": [
+      "### === Bedingungen mit `if` / `else` und `switch` ===\n",
+      "In C++ werden Bedingungen mit `if`, `else if`, `else` und `switch` verwendet, um **Entscheidungen** im Programmablauf zu treffen.\n",
+      "\n",
+      "### 🔸 `if` / `else if` / `else`\n",
+      "- Führt Code aus, wenn eine **Bedingung erfüllt** ist\n",
+      "- `else if` für weitere Alternativen, `else` für den Standardfall\n",
+      "```cpp\nif (x > 0) {\n  std::cout << \"Positiv\";\n} else if (x == 0) {\n  std::cout << \"Null\";\n} else {\n  std::cout << \"Negativ\";\n}\n```\n",
+      "\n",
+      "### 🔸 Vergleichsoperatoren\n",
+      "- `==`, `!=`, `<`, `>`, `<=`, `>=`\n",
+      "- Kombinieren mit `&&`, `||`, `!` für UND/ODER/NICHT\n",
+      "\n",
+      "### 🔸 `switch`-Anweisung\n",
+      "- Prüft **einen konkreten Wert** (ganzzahlig oder `enum`)\n",
+      "- Jeder `case` ist ein möglicher Wert; `default` ist der Standardfall\n",
+      "- `break;` beendet den jeweiligen Fall – sonst wird weiter ausgeführt (**Fallthrough**!)\n",
+      "```cpp\nswitch (auswahl) {\n  case 1: std::cout << \"Eins\"; break;\n  case 2: std::cout << \"Zwei\"; break;\n  default: std::cout << \"Unbekannt\";\n}\n```\n",
+      "\n",
+      "💡 Tipp: Bei mehreren Optionen, die das gleiche tun, kann man **Fallthrough** bewusst einsetzen:\n",
+      "```cpp\ncase 1:\ncase 2: std::cout << \"Eins oder Zwei\"; break;\n```"
+    ],
+    "code": [
+      "#include <iostream>\n\nint main() {\n  int x = -3;\n\n  // if / else if / else\n  if (x > 0) {\n    std::cout << \"x ist positiv\" << std::endl; // (nicht ausgeführt)\n  } else if (x == 0) {\n    std::cout << \"x ist Null\" << std::endl; // (nicht ausgeführt)\n  } else {\n    std::cout << \"x ist negativ\" << std::endl; // Ausgabe: x ist negativ\n  }\n\n  // Vergleich mit logischen Operatoren\n  int a = 10, b = 20;\n  if (a < b && b < 30) {\n    std::cout << \"a ist kleiner als b und b < 30\" << std::endl; // Ausgabe\n  }\n\n  // switch-Anweisung\n  int wahl = 2;\n  switch (wahl) {\n    case 1:\n      std::cout << \"Du hast Eins gewählt.\" << std::endl;\n      break;\n    case 2:\n      std::cout << \"Du hast Zwei gewählt.\" << std::endl; // Ausgabe\n      break;\n    case 3:\n      std::cout << \"Du hast Drei gewählt.\" << std::endl;\n      break;\n    default:\n      std::cout << \"Ungültige Auswahl.\" << std::endl;\n  }\n\n  // Fallthrough bewusst\n  int note = 1;\n  switch (note) {\n    case 1:\n    case 2:\n      std::cout << \"Sehr gut oder gut!\" << std::endl; // Ausgabe bei 1 oder 2\n      break;\n    case 3:\n      std::cout << \"Befriedigend\" << std::endl;\n      break;\n    default:\n      std::cout << \"Andere Note\" << std::endl;\n  }\n\n  return 0;\n}"
+    ]
+  }
+},
    {
    "title": "Namespaces",
    "content": {
