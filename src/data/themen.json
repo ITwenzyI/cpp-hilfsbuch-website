@@ -803,6 +803,91 @@
 
 
 
+  {
+    "category": "Speicherverwaltung",
+    "subtopics": [
+      {
+  "title": "Heap (new / new[])",
+  "content": {
+    "text": [
+      "### === Heap-Speicher in C++ (new / delete) ===\n",
+      "Mit `new` kann man in C++ **manuell Speicher auf dem Heap** anfordern. Dieser bleibt bestehen, **bis er explizit mit `delete` freigegeben wird**.\n",
+      "\n",
+      "### 🔹 Warum Heap?\n",
+      "- Stack ist nur für **kurzlebige, kleine** Daten\n",
+      "- Heap erlaubt **dynamische Größe** und **längere Lebenszeit**\n",
+      "- Wird manuell mit `new` / `delete` oder automatisch mit Smart Pointern verwaltet\n",
+      "\n",
+      "### 🔸 `new` für EIN Objekt:\n",
+      "```cpp\nint* zahl = new int(42);\n*zahl = 100;\ndelete zahl; // wichtig!\n```\n",
+      "- Speicher für genau **ein Objekt** wird angefordert\n",
+      "- **`delete`** muss aufgerufen werden, um den Speicher freizugeben\n",
+      "\n",
+      "### 🔸 `new[]` für MEHRERE Objekte (Array):\n",
+      "```cpp\nint* arr = new int[5];\narr[0] = 1; arr[1] = 2;\ndelete[] arr; // wichtig!\n```\n",
+      "- Reserviert **zusammenhängenden Speicherplatz** für mehrere Objekte\n",
+      "- Muss mit **`delete[]`** freigegeben werden!\n",
+      "\n",
+      "### ❗ Vorsicht bei falscher Kombination:\n",
+      "- `new[]` → `delete[]`\n",
+      "- `new` → `delete`\n",
+      "- Niemals `delete[]` auf `new` oder umgekehrt!\n",
+      "\n",
+      "### 🔹 Klassen & Konstruktoren:\n",
+      "```cpp\nclass Punkt {\npublic:\n    Punkt() { std::cout << \"Punkt erstellt\\n\"; }\n    ~Punkt() { std::cout << \"Punkt gelöscht\\n\"; }\n};\n\nPunkt* p1 = new Punkt;      // 1x Konstruktor\nPunkt* p2 = new Punkt[3];   // 3x Konstruktor\n\ndelete p1;      // 1x Destruktor\ndelete[] p2;    // 3x Destruktor\n```\n",
+      "\n",
+      "### 🔹 Wann `new[]` statt `new`?\n",
+      "- Wenn du mehrere gleichartige Objekte brauchst → `new[]`\n",
+      "- Wenn du nur ein einzelnes Objekt brauchst → `new`\n",
+      "\n",
+      "### ❗ Besser: `std::vector`, `std::unique_ptr<T[]>`, `std::make_shared<T[]>`\n",
+      "👉 Manuelles `new[]` sollte **nur ausnahmsweise** genutzt werden\n"
+    ],
+    "code": [
+      "#include <iostream>\n\nclass Punkt {\npublic:\n    Punkt() { std::cout << \"Punkt erstellt\\n\"; }\n    ~Punkt() { std::cout << \"Punkt gelöscht\\n\"; }\n};\n\nint main() {\n    // new für EIN Objekt\n    int* zahl = new int(42);\n    std::cout << \"Einzelwert: \" << *zahl << std::endl; // 42\n    delete zahl; // Speicher freigeben\n\n    // new[] für MEHRERE Objekte\n    int* array = new int[3];\n    array[0] = 10;\n    array[1] = 20;\n    array[2] = 30;\n    std::cout << \"Array[1]: \" << array[1] << std::endl; // 20\n    delete[] array; // korrekt löschen\n\n    // new / delete mit Klassen\n    Punkt* p1 = new Punkt();    // Punkt erstellt\n    Punkt* pArr = new Punkt[2]; // 2x Punkt erstellt\n\n    delete p1;      // Punkt gelöscht\n    delete[] pArr;  // 2x Punkt gelöscht\n\n    return 0;\n}"
+    ]
+  }
+},
+{
+  "title": "Speicherverwaltung: Heap vs. Stack",
+  "content": {
+    "text": [
+      "### === Speicherverwaltung in C++: Stack vs. Heap ===\n",
+      "In C++ unterscheidet man bei der Speichervergabe zwischen **Stack** und **Heap**:\n",
+      "\n",
+      "### 🔹 Stack-Speicher (automatisch)\n",
+      "- Wird für **lokale Variablen** verwendet\n",
+      "- Speicher wird **automatisch** freigegeben, wenn der Block verlassen wird\n",
+      "- Sehr schnell & sicher, aber begrenzt (Stack Overflow bei großen Arrays)\n",
+      "\n",
+      "```cpp\nvoid funktion() {\n    int a = 10;        // auf dem Stack\n} // a wird automatisch gelöscht\n```\n",
+      "\n",
+      "### 🔹 Heap-Speicher (dynamisch)\n",
+      "- Wird bei Bedarf mit `new` reserviert und mit `delete` freigegeben\n",
+      "- Muss **manuell** verwaltet werden → Gefahr von Speicherlecks\n",
+      "- Größer, aber langsamer als der Stack\n",
+      "\n",
+      "```cpp\nint* ptr = new int(5);  // Speicher im Heap\n*ptr = 42;\ndelete ptr;             // Speicher freigeben\n```\n",
+      "\n",
+      "### 🔹 Vergleich:\n",
+      "| Merkmal     | Stack                     | Heap                          |\n",
+      "| Geschwindigkeit | Sehr schnell              | Langsamer                    |\n",
+      "| Lebensdauer | Block-lokal (automatisch) | Manuell, bis `delete`        |\n",
+      "| Speichergröße | Begrenzter Speicher       | Größerer Speicher verfügbar  |\n",
+      "| Fehlerquellen | Stack Overflow möglich    | Speicherlecks, Dangling Ptr  |\n",
+      "\n",
+      "### 🔸 Modern C++ Tipp:\n",
+      "- Statt `new` / `delete` → besser `std::unique_ptr`, `std::shared_ptr`\n",
+      "- Smart Pointer übernehmen Speicherverwaltung automatisch\n"
+    ],
+    "code": [
+      "#include <iostream>\n#include <memory> // für Smart Pointer\n\nvoid stackBeispiel() {\n    int zahl = 10;                    // Stack-Speicher\n    std::cout << \"Stack: \" << zahl << std::endl;\n} // zahl wird automatisch gelöscht\n\nvoid heapBeispiel() {\n    int* ptr = new int(42);           // Heap-Speicher\n    std::cout << \"Heap: \" << *ptr << std::endl;\n    delete ptr;                       // manuell löschen\n}\n\nvoid smartPointerBeispiel() {\n    std::unique_ptr<int> sp = std::make_unique<int>(100);\n    std::cout << \"SmartPointer: \" << *sp << std::endl;\n} // wird automatisch gelöscht\n\nint main() {\n    stackBeispiel();\n    heapBeispiel();\n    smartPointerBeispiel();\n    return 0;\n}"
+    ]
+  }
+}
+
+    ]
+  },
 
 
 
@@ -2439,98 +2524,6 @@
       "👉 Du kannst es auch lokal nutzen, um dein Projekt ordentlich zu strukturieren"
     ],
           "code": []
-        }
-      }
-    ]
-  },
-
-
-
-
-
-
-
-
-  {
-    "category": "Speicherverwaltung",
-    "subtopics": [
-      {
-  "title": "Heap (new / new[])",
-  "content": {
-    "text": [
-      "### === Heap-Speicher in C++ (new / delete) ===\n",
-      "Mit `new` kann man in C++ **manuell Speicher auf dem Heap** anfordern. Dieser bleibt bestehen, **bis er explizit mit `delete` freigegeben wird**.\n",
-      "\n",
-      "### 🔹 Warum Heap?\n",
-      "- Stack ist nur für **kurzlebige, kleine** Daten\n",
-      "- Heap erlaubt **dynamische Größe** und **längere Lebenszeit**\n",
-      "- Wird manuell mit `new` / `delete` oder automatisch mit Smart Pointern verwaltet\n",
-      "\n",
-      "### 🔸 `new` für EIN Objekt:\n",
-      "```cpp\nint* zahl = new int(42);\n*zahl = 100;\ndelete zahl; // wichtig!\n```\n",
-      "- Speicher für genau **ein Objekt** wird angefordert\n",
-      "- **`delete`** muss aufgerufen werden, um den Speicher freizugeben\n",
-      "\n",
-      "### 🔸 `new[]` für MEHRERE Objekte (Array):\n",
-      "```cpp\nint* arr = new int[5];\narr[0] = 1; arr[1] = 2;\ndelete[] arr; // wichtig!\n```\n",
-      "- Reserviert **zusammenhängenden Speicherplatz** für mehrere Objekte\n",
-      "- Muss mit **`delete[]`** freigegeben werden!\n",
-      "\n",
-      "### ❗ Vorsicht bei falscher Kombination:\n",
-      "- `new[]` → `delete[]`\n",
-      "- `new` → `delete`\n",
-      "- Niemals `delete[]` auf `new` oder umgekehrt!\n",
-      "\n",
-      "### 🔹 Klassen & Konstruktoren:\n",
-      "```cpp\nclass Punkt {\npublic:\n    Punkt() { std::cout << \"Punkt erstellt\\n\"; }\n    ~Punkt() { std::cout << \"Punkt gelöscht\\n\"; }\n};\n\nPunkt* p1 = new Punkt;      // 1x Konstruktor\nPunkt* p2 = new Punkt[3];   // 3x Konstruktor\n\ndelete p1;      // 1x Destruktor\ndelete[] p2;    // 3x Destruktor\n```\n",
-      "\n",
-      "### 🔹 Wann `new[]` statt `new`?\n",
-      "- Wenn du mehrere gleichartige Objekte brauchst → `new[]`\n",
-      "- Wenn du nur ein einzelnes Objekt brauchst → `new`\n",
-      "\n",
-      "### ❗ Besser: `std::vector`, `std::unique_ptr<T[]>`, `std::make_shared<T[]>`\n",
-      "👉 Manuelles `new[]` sollte **nur ausnahmsweise** genutzt werden\n"
-    ],
-    "code": [
-      "#include <iostream>\n\nclass Punkt {\npublic:\n    Punkt() { std::cout << \"Punkt erstellt\\n\"; }\n    ~Punkt() { std::cout << \"Punkt gelöscht\\n\"; }\n};\n\nint main() {\n    // new für EIN Objekt\n    int* zahl = new int(42);\n    std::cout << \"Einzelwert: \" << *zahl << std::endl; // 42\n    delete zahl; // Speicher freigeben\n\n    // new[] für MEHRERE Objekte\n    int* array = new int[3];\n    array[0] = 10;\n    array[1] = 20;\n    array[2] = 30;\n    std::cout << \"Array[1]: \" << array[1] << std::endl; // 20\n    delete[] array; // korrekt löschen\n\n    // new / delete mit Klassen\n    Punkt* p1 = new Punkt();    // Punkt erstellt\n    Punkt* pArr = new Punkt[2]; // 2x Punkt erstellt\n\n    delete p1;      // Punkt gelöscht\n    delete[] pArr;  // 2x Punkt gelöscht\n\n    return 0;\n}"
-    ]
-  }
-},
-{
-  "title": "Speicherverwaltung: Heap vs. Stack",
-  "content": {
-    "text": [
-      "### === Speicherverwaltung in C++: Stack vs. Heap ===\n",
-      "In C++ unterscheidet man bei der Speichervergabe zwischen **Stack** und **Heap**:\n",
-      "\n",
-      "### 🔹 Stack-Speicher (automatisch)\n",
-      "- Wird für **lokale Variablen** verwendet\n",
-      "- Speicher wird **automatisch** freigegeben, wenn der Block verlassen wird\n",
-      "- Sehr schnell & sicher, aber begrenzt (Stack Overflow bei großen Arrays)\n",
-      "\n",
-      "```cpp\nvoid funktion() {\n    int a = 10;        // auf dem Stack\n} // a wird automatisch gelöscht\n```\n",
-      "\n",
-      "### 🔹 Heap-Speicher (dynamisch)\n",
-      "- Wird bei Bedarf mit `new` reserviert und mit `delete` freigegeben\n",
-      "- Muss **manuell** verwaltet werden → Gefahr von Speicherlecks\n",
-      "- Größer, aber langsamer als der Stack\n",
-      "\n",
-      "```cpp\nint* ptr = new int(5);  // Speicher im Heap\n*ptr = 42;\ndelete ptr;             // Speicher freigeben\n```\n",
-      "\n",
-      "### 🔹 Vergleich:\n",
-      "| Merkmal     | Stack                     | Heap                          |\n",
-      "| Geschwindigkeit | Sehr schnell              | Langsamer                    |\n",
-      "| Lebensdauer | Block-lokal (automatisch) | Manuell, bis `delete`        |\n",
-      "| Speichergröße | Begrenzter Speicher       | Größerer Speicher verfügbar  |\n",
-      "| Fehlerquellen | Stack Overflow möglich    | Speicherlecks, Dangling Ptr  |\n",
-      "\n",
-      "### 🔸 Modern C++ Tipp:\n",
-      "- Statt `new` / `delete` → besser `std::unique_ptr`, `std::shared_ptr`\n",
-      "- Smart Pointer übernehmen Speicherverwaltung automatisch\n"
-    ],
-    "code": [
-      "#include <iostream>\n#include <memory> // für Smart Pointer\n\nvoid stackBeispiel() {\n    int zahl = 10;                    // Stack-Speicher\n    std::cout << \"Stack: \" << zahl << std::endl;\n} // zahl wird automatisch gelöscht\n\nvoid heapBeispiel() {\n    int* ptr = new int(42);           // Heap-Speicher\n    std::cout << \"Heap: \" << *ptr << std::endl;\n    delete ptr;                       // manuell löschen\n}\n\nvoid smartPointerBeispiel() {\n    std::unique_ptr<int> sp = std::make_unique<int>(100);\n    std::cout << \"SmartPointer: \" << *sp << std::endl;\n} // wird automatisch gelöscht\n\nint main() {\n    stackBeispiel();\n    heapBeispiel();\n    smartPointerBeispiel();\n    return 0;\n}"
-    ]
   }
 }
 
