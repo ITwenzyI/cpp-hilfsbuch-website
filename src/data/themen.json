@@ -377,46 +377,40 @@
         }
       },
       {
-        "title": "Datei",
-        "content": {
-          "text": [
-            "### === Datei-Ein-/Ausgabe in C++ ===\n",
-            "Für das Lesen und Schreiben von Dateien verwendet man `<fstream>`.\n",
-            "\n",
-            "### Typen aus `<fstream>`\n",
-            "- `std::ofstream`: Schreiben (`output file stream`)\n",
-            "- `std::ifstream`: Lesen (`input file stream`)\n",
-            "- `std::fstream`: Beides\n",
-            "\n",
-            "### Datei öffnen\n",
-            "- `std::ofstream f(\"name.txt\");` – zum Schreiben (überschreibt!)\n",
-            "- `std::ofstream f(\"name.txt\", std::ios::app);` – **zum Anhängen** (append)\n",
-            "- `std::ifstream f(\"name.txt\");` – zum Lesen\n",
-            "\n",
-            "### Datei prüfen\n",
-            "- Mit `.is_open()` oder über `if (stream)`\n",
-            "\n",
-            "### Zeilenweise lesen\n",
-            "- Mit `std::getline(stream, zeile)` liest man eine Datei Zeile für Zeile\n",
-            "- Praktisch zum Bearbeiten einzelner Inhalte\n",
-            "\n",
-            "### Dateiinhalt verändern (Schritt 4)\n",
-            "- Gelesene Zeilen z.B. in `std::vector<std::string>` speichern\n",
-            "- Dann gezielt Zeilen ändern, z.B. `inhalt[1] = \"[GEÄNDERT] \" + inhalt[1];`\n",
-            "- Index 1 entspricht der **zweiten Zeile** (0-basiert)\n",
-            "- Vorher prüfen, ob die Zeile existiert: `inhalt.size() >= 2`\n",
-            "\n",
-            "### Datei neu schreiben (Schritt 5)\n",
-            "- Danach wird die Datei **neu geöffnet im Schreibmodus** (überschreibt alten Inhalt)\n",
-            "- Mit einer Schleife schreibt man alle bearbeiteten Zeilen zurück:\n",
-            "```cpp\n for (const std::string& z : inhalt) {\n   datei << z << \"\\n\";\n }\n```\n",
-            "- Das ist der gängige Weg, um gezielt Inhalte zu verändern\n"
-          ],
-          "code": [
-            "#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n\nint main() {\n  // 1. Neue Datei anlegen und Zeilen reinschreiben\n  std::ofstream out(\"daten.txt\");\n  if (out.is_open()) {\n    out << \"Zeile 1\\n\";                  // erste Zeile\n    out << \"Zeile 2\\n\";                  // zweite Zeile\n    out << \"Zeile 3\\n\";                  // dritte Zeile\n    out.close();\n    std::cout << \"Datei erstellt.\" << std::endl; // Ausgabe: Datei erstellt.\n  } else {\n    std::cerr << \"Fehler beim Schreiben!\" << std::endl;\n  }\n\n  // 2. Zeile anhängen (append-Modus)\n  std::ofstream anhang(\"daten.txt\", std::ios::app);\n  if (anhang) {\n    anhang << \"Neue Zeile am Ende\\n\";      // wird angehängt\n    anhang.close();\n    std::cout << \"Zeile angehängt.\" << std::endl; // Ausgabe: Zeile angehängt.\n  }\n\n  // 3. Datei zeilenweise einlesen\n  std::ifstream lesen(\"daten.txt\");\n  std::string zeile;\n  std::vector<std::string> inhalt;           // Zwischenspeicher für Zeilen\n\n  if (lesen) {\n    std::cout << \"Dateiinhalt:\" << std::endl; // Ausgabe: Dateiinhalt:\n    while (std::getline(lesen, zeile)) {\n      std::cout << zeile << std::endl;        // Ausgabe: Zeile n\n      inhalt.push_back(zeile);                // Zeile speichern\n    }\n    lesen.close();\n  } else {\n    std::cerr << \"Fehler beim Lesen der Datei!\" << std::endl;\n  }\n\n  // 4. Zeile 2 bearbeiten (Index 1 prüfen)\n  if (inhalt.size() >= 2) {\n    inhalt[1] = \"[GEÄNDERT] \" + inhalt[1];    // Zeile 2 verändern\n  } else {\n    std::cerr << \"Nicht genug Zeilen zum Bearbeiten!\" << std::endl;\n  }\n\n  // 5. Datei neu schreiben mit bearbeiteten Inhalten\n  std::ofstream neu(\"daten.txt\");\n  if (neu) {\n    for (const std::string& z : inhalt) {\n      neu << z << \"\\n\";                       // Zeilen zurückschreiben\n    }\n    neu.close();\n    std::cout << \"Datei aktualisiert.\" << std::endl; // Ausgabe: Datei aktualisiert.\n  } else {\n    std::cerr << \"Fehler beim Überschreiben der Datei!\" << std::endl;\n  }\n\n  return 0;\n}"
-          ]
-        }
-      },
+  "title": "Datei",
+  "content": {
+    "text": [
+      "### === Datei-Ein-/Ausgabe in C++ ===\n",
+      "`<fstream>` wird für klassische Dateiarbeit verwendet, `<filesystem>` für moderne Pfad- und Existenzprüfungen.\n",
+      "\n",
+      "### 🔹 Typen aus `<fstream>`\n",
+      "- `std::ofstream`: Schreiben (`output file stream`)\n",
+      "- `std::ifstream`: Lesen (`input file stream`)\n",
+      "- `std::fstream`: Beides\n",
+      "\n",
+      "### 🔹 Datei öffnen\n",
+      "- `std::ofstream f(\"name.txt\");` – zum Schreiben (überschreibt!)\n",
+      "- `std::ofstream f(\"name.txt\", std::ios::app);` – **zum Anhängen**\n",
+      "- `std::ifstream f(\"name.txt\");` – zum Lesen\n",
+      "\n",
+      "### 🔹 Datei prüfen\n",
+      "- Mit `.is_open()` oder über `if (stream)`\n",
+      "- Mit `std::filesystem::exists(pfad)` prüft man, ob eine Datei/Ordner **existiert**\n",
+      "- `std::filesystem::is_regular_file(pfad)`: prüft auf **normale Datei**\n",
+      "- `std::filesystem::is_directory(pfad)`: prüft auf **Verzeichnis**\n",
+      "\n",
+      "### 🔹 Zeilenweise lesen und verändern\n",
+      "- Mit `std::getline()` Zeilen einlesen\n",
+      "- In `std::vector<std::string>` zwischenspeichern\n",
+      "- Änderungen durchführen und danach Datei neu schreiben\n",
+      "\n",
+      "### 🔹 Beispiel: Datei erstellen, anhängen, lesen, ändern, prüfen mit `<filesystem>`"
+    ],
+    "code": [
+      "#include <iostream>\n#include <fstream>\n#include <string>\n#include <vector>\n#include <filesystem>\n\nint main() {\n  std::string dateiname = \"daten.txt\";\n\n  // Prüfen, ob Datei bereits existiert\n  if (std::filesystem::exists(dateiname)) {\n    std::cout << \"Datei existiert bereits.\" << std::endl;\n  } else {\n    std::cout << \"Datei existiert NICHT. Wird erstellt...\" << std::endl;\n  }\n\n  // Neue Datei anlegen\n  std::ofstream out(dateiname);\n  if (out) {\n    out << \"Zeile 1\\n\" << \"Zeile 2\\n\" << \"Zeile 3\\n\";\n    out.close();\n  }\n\n  // Zeile anhängen\n  std::ofstream append(dateiname, std::ios::app);\n  append << \"Neue Zeile am Ende\\n\";\n  append.close();\n\n  // Datei einlesen\n  std::ifstream in(dateiname);\n  std::vector<std::string> inhalt;\n  std::string zeile;\n  while (std::getline(in, zeile)) {\n    inhalt.push_back(zeile);\n  }\n  in.close();\n\n  // Zeile 2 bearbeiten (Index 1)\n  if (inhalt.size() >= 2) {\n    inhalt[1] = \"[GEÄNDERT] \" + inhalt[1];\n  }\n\n  // Datei überschreiben\n  std::ofstream out2(dateiname);\n  for (const std::string& z : inhalt) {\n    out2 << z << \"\\n\";\n  }\n  out2.close();\n\n  // Prüfung auf Verzeichnis\n  if (std::filesystem::is_directory(\".\")) {\n    std::cout << \"Aktuelles Verzeichnis ist gültig.\" << std::endl;\n  }\n\n  return 0;\n}"
+    ]
+  }
+},
       {
         "title": "Date/Time",
         "content": {
