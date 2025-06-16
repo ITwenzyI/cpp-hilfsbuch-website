@@ -19,6 +19,46 @@
         }
       },
       {
+  "title": "Working Directory in CLion",
+  "content": {
+    "text": [
+      "### === Dateien richtig speichern mit eigenem `data/`-Ordner ===\n",
+      "Standardmäßig speichert CLion Programme ihre Ausgabedateien im `cmake-build-debug/`-Ordner. Wenn du stattdessen möchtest, dass Dateien in einem eigenen `data/`-Ordner **im Projektverzeichnis** landen (z. B. `data/info.txt`), musst du das Arbeitsverzeichnis („Working Directory“) ändern.\n",
+      "\n",
+      "### 🔹 Zielstruktur\n",
+      "```\n",
+      "Projektordner/\n",
+      "├── CMakeLists.txt\n",
+      "├── data/\n",
+      "└── cmake-build-debug/\n",
+      "```\n",
+      "\n",
+      "### 🔹 Einstellung in CLion\n",
+      "1. Klicke oben rechts auf das Dropdown mit dem Projektnamen.\n",
+      "2. Wähle **„Edit Configurations…“**.\n",
+      "3. Wähle deine aktuelle Run-Konfiguration (z.B. dein Projekt).\n",
+      "4. Im Feld **„Working directory“** trägst du ein: `$ProjectFileDir$`\n",
+      "   → Das sorgt dafür, dass Pfade wie `data/info.txt` aus dem Projektordner gelesen/geschrieben werden.\n",
+      "\n",
+      "### 🔹 Prüfen im Code\n",
+      "- Nutze `std::filesystem::current_path()` um den aktuellen Pfad im Programm zu sehen:\n",
+      "\n",
+      "```cpp\n",
+      "std::cout << \"Arbeitsverzeichnis: \" << std::filesystem::current_path() << std::endl;\n",
+      "```\n",
+      "\n",
+      "### 🔹 Hinweis\n",
+      "- Erstelle den Ordner `data/` manuell im Projektverzeichnis oder per Code:\n",
+      "```cpp\n",
+      "std::filesystem::create_directories(\"data\");\n",
+      "```\n"
+    ],
+    "code": [
+      "#include <iostream>\n#include <filesystem>\n\nint main() {\n  std::cout << \"Aktuelles Arbeitsverzeichnis: \" << std::filesystem::current_path() << std::endl;\n\n  std::string pfad = \"data/test.txt\";\n  std::filesystem::create_directories(\"data\");\n  std::ofstream out(pfad);\n  out << \"Testzeile\\n\";\n  out.close();\n\n  std::cout << \"Datei erfolgreich erstellt unter: \" << pfad << std::endl;\n  return 0;\n}"
+    ]
+  }
+},
+      {
         "title": "Begriffe",
         "content": {
           "text": [
