@@ -2487,41 +2487,65 @@
           ]
         }
       },
-      {
-        "title": "Exceptions",
-        "content": {
-          "text": [
-            "### === Exceptions in C++ ===\n",
-            "Exceptions (Ausnahmen) dienen der **kontrollierten Fehlerbehandlung** zur Laufzeit.\n",
-            "Statt einen Fehler mit `if` zu prüfen, kann ein Fehler als Exception „geworfen“ werden und mit `try`/`catch` behandelt werden.\n",
-            "\n",
-            "### Warum Exceptions?\n",
-            "- Trennen normalen Code von Fehlerbehandlung\n",
-            "- Sorgen für sauberen und robusten Code\n",
-            "- Besonders nützlich bei Funktionen, die fehlschlagen können (z.B. Datei öffnen, Division durch 0, Eingabe prüfen)\n",
-            "\n",
-            "### Grundstruktur\n",
-            "```cpp\n try {\n   // Code, der eine Ausnahme werfen kann\n } catch (Typ der Ausnahme) {\n   // Fehlerbehandlung\n }\n```\n",
-            "-> Mit `throw` wirft man eine Ausnahme\n",
-            "-> Mit `catch` fängt man sie ab\n",
-            "\n",
-            "### Typen\n",
-            "- Beliebige Datentypen möglich: `int`, `std::string`, eigene Klassen\n",
-            "- Meist verwendet: `std::exception` (und Unterklassen wie `std::runtime_error`)\n",
-            "\n",
-            "### `ex.what()` erklärt\n",
-            "- Wenn du im `catch`-Block `std::exception& ex` abfängst, kannst du `ex.what()` aufrufen\n",
-            "- `what()` gibt eine **Fehlermeldung als Text (const char\\*)** zurück\n",
-            "- Beispiel:\n",
-            "```cpp\n throw std::runtime_error(\"Fehler beim Laden der Datei\");\n // später:\n catch (const std::exception& ex) {\n   std::cout << ex.what(); // Ausgabe: Fehler beim Laden der Datei\n }\n```\n",
-            "- Eigene Klassen müssen `what()` selbst definieren, wenn du diesen Mechanismus nutzen willst\n"
-          ],
-          "code": [
-            "#include <iostream>\n#include <stdexcept> // für std::runtime_error\n\nint teile(int a, int b) {\n  if (b == 0) {\n    throw std::runtime_error(\"Division durch 0 nicht erlaubt\");\n  }\n  return a / b;\n}",
-            "int main() {\n  try {\n    int ergebnis = teile(10, 0);\n    std::cout << \"Ergebnis: \" << ergebnis << std::endl;\n  } catch (const std::exception& ex) {\n    std::cerr << \"Fehler: \" << ex.what() << std::endl;\n  }\n\n  return 0;\n}"
-          ]
-        }
-      },
+{
+  "title": "Exceptions",
+  "content": {
+    "text": [
+      "### === Exceptions in C++ - Fehlerbehandlung mit System ===\n",
+      "**Exceptions** (Ausnahmen) ermöglichen es in C++, Fehler **kontrolliert** und **sauber** zu behandeln - besonders wichtig in größeren Projekten oder bei Benutzerfehlern.\n",
+      "\n",
+      "### ❓ Was sind Exceptions?\n",
+      "- Eine Exception ist ein Ereignis, das **außerhalb des normalen Programmablaufs** liegt (z.B. Division durch 0, Datei nicht gefunden).\n",
+      "- Statt überall mit `if`-Bedingungen Fehler abzufangen, wird eine Exception **mit `throw` geworfen** und **mit `catch` gefangen**.\n",
+      "- Das nennt man auch \"kontrollierten Ausnahmefluss\".\n",
+      "\n",
+      "### ✅ Vorteile von Exceptions\n",
+      "- **Lesbarer Code**: Trennung von normalem Ablauf und Fehlerbehandlung\n",
+      "- **Sichere Programme**: Fehler können nicht \"übersehen\" werden\n",
+      "- **Automatisches Aufräumen** bei lokalen Objekten dank Stack-Unwinding\n",
+      "\n",
+      "### 🔧 Grundstruktur von try-catch\n",
+      "```cpp\ntry {\n  // Problematischer Code\n  throw std::runtime_error(\"Fehler!\");\n} catch (const std::runtime_error& e) {\n  std::cerr << \"Fehler: \" << e.what() << std::endl;\n}\n```\n",
+      "\n",
+      "### 🔥 Was kann man werfen?\n",
+      "- Grundsätzlich **jeden Typ** (z. B. `int`, `std::string`, eigene Klassen)\n",
+      "- In der Praxis meist: Klassen aus `<stdexcept>`\n",
+      "\n",
+      "### 📚 Häufige Exception-Klassen aus `<stdexcept>`\n",
+      "**Basisklasse:** `std::exception`\n",
+      "\n",
+      "**Logikfehler (`std::logic_error`) - schon im Code falsch:**\n",
+      "- `std::invalid_argument`: ungültiger Parameter (z.B. \" \"abc\" statt Zahl\")\n",
+      "- `std::domain_error`: mathematisch nicht erlaubt (z.B. \"wurzel(-1)\")\n",
+      "- `std::length_error`: Struktur zu groß (z.B. \"String > max size\")\n",
+      "- `std::out_of_range`: Zugriff außerhalb erlaubter Grenzen (z.B. \"vec.at(10)\" bei Größe 3)\n",
+      "\n",
+      "**Laufzeitfehler (`std::runtime_error`) - zur Laufzeit unvorhersehbar:**\n",
+      "- `std::range_error`: Bereichsproblem, aber nicht vorhersehbar\n",
+      "- `std::overflow_error`: Überlauf z.B. bei arithmetischer Operation\n",
+      "- `std::underflow_error`: Unterlauf (z.B. Gleitkommazahl wird zu klein)\n",
+      "- `std::system_error`: Fehler von Betriebssystemfunktionen (Dateien, Threads)\n",
+      "\n",
+      "**Weitere Fehler:**\n",
+      "- `std::bad_alloc`: Speicher konnte nicht reserviert werden (z.B. `new` schlägt fehl)\n",
+      "- `std::bad_cast`: falscher Cast bei `dynamic_cast`\n",
+      "- `std::bad_typeid`: kein Typinformation verfügbar\n",
+      "\n",
+      "### 🧠 Beispiel - Verschiedene Exceptions werfen\n",
+      "```cpp\n#include <iostream>\n#include <stdexcept>\n#include <memory>\n\nint main() {\n  try {\n    int fehlercode = 2;\n    switch (fehlercode) {\n      case 1: throw std::invalid_argument(\"Ungültiges Argument\");\n      case 2: throw std::domain_error(\"Mathematisch nicht erlaubt\");\n      case 3: throw std::length_error(\"Zu viele Elemente\");\n      case 4: throw std::out_of_range(\"Index außerhalb Bereich\");\n      case 5: throw std::overflow_error(\"Überlauf beim Rechnen\");\n      case 6: throw std::bad_alloc();\n      default: throw std::runtime_error(\"Allgemeiner Fehler\");\n    }\n  } catch (const std::exception& e) {\n    std::cerr << \"Gefangen: \" << e.what() << std::endl;\n  }\n  return 0;\n}\n```\n",
+      "\n",
+      "### 🎯 Bonus: RAII - Exceptions ohne Leaks\n",
+      "- Bei Exceptions werden **lokale Objekte automatisch gelöscht** (Stack-Unwinding)\n",
+      "- Aber manuell mit `new` angelegte Objekte (**Heap**) nicht!\n",
+      "- Lösung: RAII = **Ressource gehört zu einem Objekt, das im Destruktor aufräumt**\n",
+      "\n",
+      "### 🧾 Komplett kommentiertes Codebeispiel in einer Zeile:\n"
+    ],
+    "code": [
+  "#include <iostream> // Ein- und Ausgabe\n#include <memory>    // Für smart pointer\n#include <stdexcept>  // Für Exception-Typen\n\nint main() {\n    try {\n        // Speicher dynamisch anfordern, aber mit RAII sicher verwalten\n        std::unique_ptr<int[]> daten(new int[100]);\n\n        // Stell dir vor, hier passiert ein Problem zur Laufzeit\n        throw std::runtime_error(\"Ein Fehler ist aufgetreten!\");\n\n        // Dieser Code wird nie erreicht – wäre aber sicher\n        std::cout << \"Berechnung abgeschlossen.\" << std::endl;\n\n    } catch (const std::runtime_error& e) {\n        // Exception behandeln und Fehlermeldung anzeigen\n        std::cerr << \"Fehler: \" << e.what() << std::endl;\n    }\n\n    // Programmende, Speicher wurde automatisch durch unique_ptr freigegeben\n    return 0;\n}"
+    ]
+  }
+},
        {
         "title": "Doxygen",
         "content": {
