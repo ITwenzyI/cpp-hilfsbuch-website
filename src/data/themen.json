@@ -2538,8 +2538,7 @@
       "- Bei Exceptions werden **lokale Objekte automatisch gelöscht** (Stack-Unwinding)\n",
       "- Aber manuell mit `new` angelegte Objekte (**Heap**) nicht!\n",
       "- Lösung: RAII = **Ressource gehört zu einem Objekt, das im Destruktor aufräumt**\n",
-      "\n",
-      "### 🧾 Komplett kommentiertes Codebeispiel in einer Zeile:\n"
+      "\n"
     ],
     "code": [
   "#include <iostream> // Ein- und Ausgabe\n#include <memory>    // Für smart pointer\n#include <stdexcept>  // Für Exception-Typen\n\nint main() {\n    try {\n        // Speicher dynamisch anfordern, aber mit RAII sicher verwalten\n        std::unique_ptr<int[]> daten(new int[100]);\n\n        // Stell dir vor, hier passiert ein Problem zur Laufzeit\n        throw std::runtime_error(\"Ein Fehler ist aufgetreten!\");\n\n        // Dieser Code wird nie erreicht – wäre aber sicher\n        std::cout << \"Berechnung abgeschlossen.\" << std::endl;\n\n    } catch (const std::runtime_error& e) {\n        // Exception behandeln und Fehlermeldung anzeigen\n        std::cerr << \"Fehler: \" << e.what() << std::endl;\n    }\n\n    // Programmende, Speicher wurde automatisch durch unique_ptr freigegeben\n    return 0;\n}"
