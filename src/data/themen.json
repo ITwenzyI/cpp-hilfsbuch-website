@@ -233,7 +233,7 @@
             "- Die zugehörige `.cpp`-Datei enthält dann die **Definitionen**\n",
             "\n",
             "#### Beispiel - Header-Datei: `meinmodul.hpp`\n",
-            "```cpp\n#ifndef MEINMODUL_H\n#define MEINMODUL_H\n\nvoid begruessung(); // Funktionsdeklaration\n\n#endif\n```\n",
+            "```cpp\n#ifndef MEINMODUL_HPP\n#define MEINMODUL_HPP\n\nvoid begruessung(); // Funktionsdeklaration\n\n#endif\n```\n",
             "\n",
             "#### Beispiel - Implementierung: `meinmodul.cpp`\n",
             "```cpp\n#include <iostream>\n#include \"meinmodul.hpp\"\n\nvoid begruessung() {\n    std::cout << \"Hallo!\";\n}\n```\n",
@@ -245,8 +245,8 @@
             "\n",
             "### Include Guards (Schutz vor Mehrfacheinbindung)\n",
             "- Jeder eigene Header sollte mit einem **Include Guard** versehen werden:\n",
-            "```cpp\n#ifndef MEIN_HEADER_H\n#define MEIN_HEADER_H\n\n// Inhalte des Headers\n\n#endif\n```\n",
-            "- Verhindert doppelte Definitionen beim mehrfachen Einbinden\n",
+            "```cpp\n#ifndef MEIN_HEADER_HPP\n#define MEIN_HEADER_HPP\n\n// Inhalte des Headers\n\n#endif\n```\n",
+            "- Verhindert doppelte Definitionen beim mehrfachen Einbinden. In CLion automatisch!\n",
             "\n",
             "### Übersicht wichtiger Standard-Header:\n",
             "\n",
@@ -277,15 +277,12 @@
             "\n",
             "#### Weitere nützliche Header\n",
             "- `<exception>`: `std::exception`, `std::runtime_error`\n",
-            "- `<functional>`: Funktionsobjekte, Lambdas, `std::function`\n",
             "- `<typeinfo>`: Laufzeittypinfo (`typeid`)\n",
-            "- `<cassert>`: `assert()` für Debug-Checks\n",
-            "- `<bitset>`: binäre Felder\n",
             "- `<utility>`: `std::pair`, `std::swap`, `std::move`\n",
             "- `<memory>`: Smart Pointers wie `unique_ptr`, `shared_ptr`\n"
           ],
           "code": [
-            "#ifndef MEINMODUL_H\n#define MEINMODUL_H\n\nvoid begruessung(); // Funktionsdeklaration\n\n#endif\n\n// -----------------------------\n#include <iostream>\n#include \"meinmodul.hpp\"\n\nvoid begruessung() {\n  std::cout << \"Hallo!\";\n}\n\nint main() {\n  begruessung(); // Ausgabe: Hallo!\n  return 0;\n}"
+            "#ifndef MEINMODUL_HPP\n#define MEINMODUL_HPP\n\nvoid begruessung(); // Funktionsdeklaration\n\n#endif\n\n// -----------------------------\n#include <iostream>\n#include \"meinmodul.hpp\"\n\nvoid begruessung() {\n  std::cout << \"Hallo!\";\n}\n\nint main() {\n  begruessung(); // Ausgabe: Hallo!\n  return 0;\n}"
 
           ]
         }
@@ -2350,7 +2347,7 @@
             "### Lösung: `.tpp`-Datei\n",
             "Um den Code trotzdem übersichtlich zu halten, wird die Implementierung oft in eine `.tpp`-Datei ausgelagert.\n",
             "Diese wird **ausnahmsweise in der Header-Datei eingebunden**:\n",
-            "```cpp\n// complex.hpp\n#ifndef COMPLEX_H\n#define COMPLEX_H\n\ntemplate <typename T>\nclass Complex {\n  // ...\n  T re();\n  T im();\n};\n\n#include \"complex.tpp\"  // Wichtig: im Header einbinden!\n\n#endif\n```\n",
+            "```cpp\n// complex.hpp\n#ifndef COMPLEX_HPP\n#define COMPLEX_HPP\n\ntemplate <typename T>\nclass Complex {\n  // ...\n  T re();\n  T im();\n};\n\n#include \"complex.tpp\"  // Wichtig: im Header einbinden!\n\n#endif\n```\n",
             "```cpp\n// complex.tpp\ntemplate <typename T>\nT Complex<T>::re() { return re_; }\n\ntemplate <typename T>\nT Complex<T>::im() { return im_; }\n```\n",
             "So bleibt der Code sauber getrennt, aber der Compiler kann beim Instanziieren alle Definitionen sehen.\n",
             "\n### Statische Member in Template-Klassen\n",
