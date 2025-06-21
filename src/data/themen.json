@@ -771,7 +771,7 @@
       "- Mit `mutable` kann man **gezielt Ausnahmen** machen, z.B. für Logging, Caching oder Zugriffszähler.\n",
       "\n",
       "### Auch ohne `const` nützlich:\n",
-      "- `mutable`-Member sind **immer unabhängig von `const`**, also z.B. nicht betroffen von `std::atomic<T>` oder `const`-Zustand anderer Objekte.\n",
+      "- `mutable`-Member sind **immer unabhängig von `const`**, also z.B. nicht betroffen von `const`-Zustand anderer Objekte.\n",
       "- Sie können **immer verändert werden**, auch außerhalb von `const`-Kontexten - z.B. als interne Zähler oder Zustände.\n",
       "\n",
       "### Wichtig:\n",
@@ -876,7 +876,7 @@
   }
 },
 {
-  "title": "Speicherverwaltung: Heap vs. Stack",
+  "title": "Heap vs. Stack",
   "content": {
     "text": [
       "### === Speicherverwaltung in C++: Stack vs. Heap ===\n",
