@@ -678,7 +678,6 @@
             "`namespace` und `class` dienen beide zur Strukturierung, haben aber völlig unterschiedliche Funktionen:\n",
             "\n",
             "| Merkmal              | `namespace`                            | `class` / `struct`                        |\n",
-            "|----------------------|-----------------------------------------|-------------------------------------------|\n",
             "| Zweck                | Gruppierung von Code                   | Bauplan für Objekte (Daten + Methoden)    |\n",
             "| Objekte erzeugbar?   | ❌ Nein                                 | ✅ Ja                                      |\n",
             "| Zugriff              | `Mathe::addiere()`                     | `objekt.methode()` oder `Klasse::static()`|\n",
@@ -699,7 +698,7 @@
   "content": {
     "text": [
       "### === `const` in C++ ===\n",
-      "`const` schützt vor ungewollten Änderungen - je nach Position bedeutet es etwas anderes:\n",
+      "`const` schützt vor ungewollten Änderungen und je nach Position bedeutet es etwas anderes:\n",
       "\n",
       "### 🔹 `const` bei Variablen:\n",
       "- Der Wert darf **nicht verändert** werden\n",
