@@ -373,7 +373,7 @@
         "content": {
           "text": [
             "### === Ausgabe mit `std::cout` in C++ ===\n",
-            "`std::cout` ist der Standardausgabestrom in C++ und wird für Konsolenausgaben verwendet.\n",
+            "`std::cout` ist die Standardausgabe in C++ und wird für Konsolenausgaben verwendet.\n",
             "\n",
             "### Grundlegende Ausgabe\n",
             "`std::cout << \"Text\" << variable;`\n",
