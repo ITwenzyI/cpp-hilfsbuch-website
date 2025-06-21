@@ -208,11 +208,8 @@
             "\n",
             "### Typumwandlung (Casting)\n",
             "- `static_cast<T>(wert)`: Sicherer Cast zwischen kompatiblen Typen\n",
-            "- `reinterpret_cast<T>`: Für Low-Level-Zugriff (meist vermeiden!)\n",
             "- `const_cast<T>`: Entfernt `const`\n",
-            "- `dynamic_cast<T>`: Für Vererbung und Polymorphie (mit RTTI)\n",
-            "\n",
-            "👉 Für sichere Typprüfung: `typeid(variable).name()` (aus `<typeinfo>`) oder `std::is_same<T, U>()` (aus `<type_traits>`)\n"
+            "\n"
           ],
           "code": [
             "#include <iostream>\n#include <string>\n#include <typeinfo>\n\n// Eigene Struktur\nstruct Person {\n    std::string name;\n    int alter;\n};\n\n// Typalias\nusing Zahl = unsigned int;\n\nenum Farbe { Rot, Gruen, Blau };           // Rot = 0, Gruen = 1, Blau = 2\nenum Status { OK = 1, FEHLER = 404 };      // eigene Werte\n\nint main() {\n    int a = 10;\n    auto b = 3.14;                          // automatisch double\n    decltype(a) c = 5;                      // ebenfalls int\n\n    Person p = {\"Kilian\", 21};\n    Zahl punkte = 150;\n\n    Farbe f = Gruen;\n    Status s = FEHLER;\n\n    std::cout << \"Name: \" << p.name << \", Alter: \" << p.alter << std::endl;         // Ausgabe: Name: Kilian, Alter: 21\n    std::cout << \"Punkte: \" << punkte << std::endl;                                  // Ausgabe: Punkte: 150\n    std::cout << \"Typ von b: \" << typeid(b).name() << std::endl;                     // Ausgabe: Typ von b: double (compilerabhängig)\n    std::cout << \"Fehlercode: \" << static_cast<int>(s) << std::endl;                // Ausgabe: Fehlercode: 404\n\n    return 0;\n}"
