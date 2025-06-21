@@ -72,7 +72,7 @@
           "- Führt Anweisungen wie `#include` und `#define` vor dem Kompilieren aus\n",
           "\n",
           "#### Header-Datei\n",
-          "- Datei mit Deklarationen von Funktionen, Klassen oder Konstanten (meist `.h` oder `.hpp`)\n",
+          "- Datei mit Deklarationen von Funktionen, Klassen oder Konstanten (`.hpp`)\n",
           "\n",
           "#### Deklaration vs. Definition\n",
           "- Deklaration: Nur Ankündigung (z.B. `int x;`)\n",
@@ -228,18 +228,18 @@
             "- `#include \"...\"`: Für eigene Dateien (z.B. `\"meinmodul.hpp\"`)\n",
             "\n",
             "### Eigene Header-Dateien\n",
-            "- Eigene Header enden meist auf `.h` oder `.hpp`\n",
+            "- Eigene Header enden mit `.hpp`\n",
             "- Sie enthalten **Deklarationen**, keine Implementierungen\n",
             "- Die zugehörige `.cpp`-Datei enthält dann die **Definitionen**\n",
             "\n",
-            "#### Beispiel - Header-Datei: `meinmodul.h`\n",
+            "#### Beispiel - Header-Datei: `meinmodul.hpp`\n",
             "```cpp\n#ifndef MEINMODUL_H\n#define MEINMODUL_H\n\nvoid begruessung(); // Funktionsdeklaration\n\n#endif\n```\n",
             "\n",
             "#### Beispiel - Implementierung: `meinmodul.cpp`\n",
-            "```cpp\n#include <iostream>\n#include \"meinmodul.h\"\n\nvoid begruessung() {\n    std::cout << \"Hallo!\";\n}\n```\n",
+            "```cpp\n#include <iostream>\n#include \"meinmodul.hpp\"\n\nvoid begruessung() {\n    std::cout << \"Hallo!\";\n}\n```\n",
             "\n",
             "#### In `main.cpp` verwenden:\n",
-            "```cpp\n#include \"meinmodul.h\"\n\nint main() {\n    begruessung();\n    return 0;\n}\n```\n",
+            "```cpp\n#include \"meinmodul.hpp\"\n\nint main() {\n    begruessung();\n    return 0;\n}\n```\n",
             "\n",
             "👉 Vorteil: strukturierter Code, Wiederverwendbarkeit und Trennung von Schnittstelle & Implementierung\n",
             "\n",
@@ -285,7 +285,7 @@
             "- `<memory>`: Smart Pointers wie `unique_ptr`, `shared_ptr`\n"
           ],
           "code": [
-            "#ifndef MEINMODUL_H\n#define MEINMODUL_H\n\nvoid begruessung(); // Funktionsdeklaration\n\n#endif\n\n// -----------------------------\n#include <iostream>\n#include \"meinmodul.h\"\n\nvoid begruessung() {\n  std::cout << \"Hallo!\";\n}\n\nint main() {\n  begruessung(); // Ausgabe: Hallo!\n  return 0;\n}"
+            "#ifndef MEINMODUL_H\n#define MEINMODUL_H\n\nvoid begruessung(); // Funktionsdeklaration\n\n#endif\n\n// -----------------------------\n#include <iostream>\n#include \"meinmodul.hpp\"\n\nvoid begruessung() {\n  std::cout << \"Hallo!\";\n}\n\nint main() {\n  begruessung(); // Ausgabe: Hallo!\n  return 0;\n}"
 
           ]
         }
@@ -2344,13 +2344,13 @@
             "```cpp\n// Klassendeklaration\ntemplate <typename T>\nclass Complex {\n  T re();\n};\n\n// Methodendefinition außerhalb\ntemplate <typename T>\nT Complex<T>::re() {\n  // ...\n}\n```\n",
             "Ohne diese Angaben kann der Compiler die Funktion nicht korrekt zuordnen und meldet einen Fehler.\n",
                 "\n### Templates und Dateiaufteilung\n",
-            "Bei normalen Klassen ist es üblich, Deklaration und Definition auf `.h` und `.cpp` aufzuteilen.\n",
+            "Bei normalen Klassen ist es üblich, Deklaration und Definition auf `.hpp` und `.cpp` aufzuteilen.\n",
             "→ Bei Template-Klassen funktioniert das **nicht**, weil der Compiler beim Verwenden (z.B. `Complex<int>`) **alle Methoden kennen muss**.\n",
             "\n",
             "### Lösung: `.tpp`-Datei\n",
             "Um den Code trotzdem übersichtlich zu halten, wird die Implementierung oft in eine `.tpp`-Datei ausgelagert.\n",
             "Diese wird **ausnahmsweise in der Header-Datei eingebunden**:\n",
-            "```cpp\n// complex.h\n#ifndef COMPLEX_H\n#define COMPLEX_H\n\ntemplate <typename T>\nclass Complex {\n  // ...\n  T re();\n  T im();\n};\n\n#include \"complex.tpp\"  // Wichtig: im Header einbinden!\n\n#endif\n```\n",
+            "```cpp\n// complex.hpp\n#ifndef COMPLEX_H\n#define COMPLEX_H\n\ntemplate <typename T>\nclass Complex {\n  // ...\n  T re();\n  T im();\n};\n\n#include \"complex.tpp\"  // Wichtig: im Header einbinden!\n\n#endif\n```\n",
             "```cpp\n// complex.tpp\ntemplate <typename T>\nT Complex<T>::re() { return re_; }\n\ntemplate <typename T>\nT Complex<T>::im() { return im_; }\n```\n",
             "So bleibt der Code sauber getrennt, aber der Compiler kann beim Instanziieren alle Definitionen sehen.\n",
             "\n### Statische Member in Template-Klassen\n",
