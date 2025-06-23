@@ -1050,7 +1050,16 @@
             "-> `std::vector<std::vector<int>> v3 = {{1}, {2, 3}, {4, 5, 6}};` // 2D vector\n",
             "Erstellt 2D-Vektor (Vektoren von Vektoren)\n",
             "`v3` hat drei Zeilen: `v3[0] = {1}; v3[1] = {2, 3}; v3[2] = {4, 5, 6}`\n",
-            "`v3[2][2]` gibt `6` zurück (Zeile 3, Spalte 3)\n"
+            "`v3[2][2]` gibt `6` zurück (Zeile 3, Spalte 3)\n",
+            "### === Unterschied: std::vector vs. std::tuple ===\n",
+            "-> `std::vector<T>` speichert **beliebig viele Werte vom gleichen Typ** (z.B. `int`). Die Größe ist dynamisch und zur Laufzeit veränderbar.\n",
+            "-> `std::tuple<T1, T2, ...>` speichert **eine feste Anzahl unterschiedlich typisierter Werte**. Die Größe ist zur Compile-Zeit festgelegt.\n",
+            "\n",
+            "**Beispiel:**\n",
+            "- `std::vector<int> v = {1, 2, 3};` → Liste von Zahlen\n",
+            "- `std::tuple<int, std::string> t = {42, \"Text\"};` → Kombination aus Zahl & Text\n",
+            "\n",
+            "**Merksatz:** `vector = Liste gleicher Typen`, `tuple = Paket verschiedener Typen`\n"
           ],
           "code": [
             "#include <iostream>\n#include <vector>\n#include <algorithm> // für sort()\n\nint main() {\n  // Vektor mit Werten initialisieren\n  std::vector<int> zahlen = {4, 2, 7};\n\n  // Element hinzufügen\n  zahlen.push_back(5); // Vektor = {4, 2, 7, 5}\n\n  // Größe des Vektors\n  std::cout << \"Anzahl Elemente: \" << zahlen.size() << std::endl; // Ausgabe: 4\n\n  // Zugriff auf Elemente\n  std::cout << \"Erstes Element: \" << zahlen[0] << std::endl; // Ausgabe: 4\n  std::cout << \"Zweites Element: \" << zahlen.at(1) << std::endl; // Ausgabe: 2\n  std::cout << \"Letztes Element: \" << zahlen.back() << std::endl; // Ausgabe: 5\n\n  // Ausgabe mit Schleife\n  std::cout << \"Alle Elemente: \";\n  for (int x : zahlen) {\n    std::cout << x << \" \";\n  } // Ausgabe: 4 2 7 5\n  std::cout << std::endl;\n\n  // Element entfernen (letztes)\n  zahlen.pop_back(); // entfernt 5\n\n  // sortieren\n  std::sort(zahlen.begin(), zahlen.end()); // Vektor = {2, 4, 7}\n\n  // Ausgabe nach Sortierung\n  std::cout << \"Sortiert: \";\n  for (size_t i = 0; i < zahlen.size(); ++i) {\n    std::cout << zahlen[i] << \" \";\n  } // Ausgabe: 2 4 7\n  std::cout << std::endl;\n\n  // leeren Vektor prüfen\n  if (!zahlen.empty()) {\n    std::cout << \"Vektor ist NICHT leer\" << std::endl;\n  }\n\n  return 0;\n}"
@@ -1194,7 +1203,7 @@
             "-> `#include <string>`    // Für std::string\n",
             "-> `#include <vector>`    // Für std::vector\n",
             "\n",
-            "**--- std::pair ---**\n",
+            "### std::pair\n",
             "-> `std::pair<std::string, int> p1 = std::make_pair(\"Regensburg\", 199000);`\n",
             "-> `std::pair<std::string, int> p2 = std::make_pair(\"Weiden\", 43000);`\n",
             "-> `std::pair<std::string, int> p3 = std::make_pair(\"Amberg\", 42000);`\n",
@@ -1204,7 +1213,7 @@
             "-> `std::vector<std::pair<std::string, int>> cities = {p1, p2, p3};` // Liste von Städten mit Einwohnern\n",
             "-> `cities[1].first` → Zugriff auf den Namen der zweiten Stadt → \"Weiden\"\n",
             "\n",
-            "**--- std::tuple ---**\n",
+            "### std::tuple\n",
             "-> `std::tuple<std::string, int, double> t1 = std::make_tuple(\"Lisa\", 123, 1.0);`\n",
             "-> `std::tuple<std::string, int, double> t2 = std::make_tuple(\"Bart\", 456, 3.7);`\n",
             "-> `std::tuple<std::string, int, double> t3 = std::make_tuple(\"Nelson\", 666, 5.0);`\n",
@@ -1214,7 +1223,16 @@
             "-> `std::get<2>(t3)` → Zugriff auf das dritte Element → 5.0\n",
             "\n",
             "`std::tuple<T1, T2, T3>`: Bei Tuples muss der Index zur Compilezeit bekannt sein → `std::get<1>(...)`\n",
-            "   Das bedeutet: `std::get<0>(...)` gibt das erste Element vom Typ `T1` zurück\n"
+            "   Das bedeutet: `std::get<0>(...)` gibt das erste Element vom Typ `T1` zurück\n",
+            "### === Unterschied: std::vector vs. std::tuple ===\n",
+            "-> `std::vector<T>` speichert **beliebig viele Werte vom gleichen Typ** (z.B. `int`). Die Größe ist dynamisch und zur Laufzeit veränderbar.\n",
+            "-> `std::tuple<T1, T2, ...>` speichert **eine feste Anzahl unterschiedlich typisierter Werte**. Die Größe ist zur Compile-Zeit festgelegt.\n",
+            "\n",
+            "**Beispiel:**\n",
+            "- `std::vector<int> v = {1, 2, 3};` → Liste von Zahlen\n",
+            "- `std::tuple<int, std::string> t = {42, \"Text\"};` → Kombination aus Zahl & Text\n",
+            "\n",
+            "**Merksatz:** `vector = Liste gleicher Typen`, `tuple = Paket verschiedener Typen`\n"
           ],
           "code": [
             "#include <iostream>\n#include <string>\n#include <utility>  // für pair, make_pair\n#include <tuple>    // für tuple, make_tuple, get, tie\n\nint main() {\n  // -------- PAIR --------\n  std::pair<std::string, int> person = {\"Anna\", 25};\n  std::cout << \"[PAIR] Name: \" << person.first << \", Alter: \" << person.second << std::endl; // Ausgabe: Anna, 25\n\n  // Alternative mit make_pair\n  auto student = std::make_pair(\"Bob\", 30);\n  std::cout << \"[PAIR] Student: \" << student.first << \" - \" << student.second << std::endl;\n\n  // Vergleich\n  std::pair<int, int> a = {1, 2};\n  std::pair<int, int> b = {1, 3};\n  if (a < b) {\n    std::cout << \"[PAIR] a < b (lexikografisch)\" << std::endl;\n  }\n\n  // -------- TUPLE --------\n  std::tuple<std::string, int, double> daten = {\"Clara\", 28, 1.65};\n  std::cout << \"\\n[TUPLE] Name: \" << std::get<0>(daten)\n            << \", Alter: \" << std::get<1>(daten)\n            << \", Größe: \" << std::get<2>(daten) << std::endl; // Ausgabe: Clara, 28, 1.65\n\n  // Alternative mit make_tuple\n  auto eintrag = std::make_tuple(\"David\", 32, 1.80);\n\n  // Entpacken mit tie\n  std::string name;\n  int alter;\n  double groesse;\n  std::tie(name, alter, groesse) = eintrag;\n  std::cout << \"[TUPLE] Entpackt: \" << name << \", \" << alter << \", \" << groesse << std::endl;\n\n  // Größe des Tupels\n  std::cout << \"[TUPLE] Anzahl Elemente: \" << std::tuple_size<decltype(eintrag)>::value << std::endl; // Ausgabe: 3\n\n  return 0;\n}"
