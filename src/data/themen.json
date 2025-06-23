@@ -8,9 +8,12 @@
           "text": [
             "\n\n### === Console Ausgabe UTF-8 in Clion Windows ===\n\n\n",
             "In Clion auf Windows, zeigt die Console keine Ü,Ä,Ö usw. an, wenn man nicht bestimmte Dinge beachtet und einstellt.\n\n",
-            "### FONT Einstellen:",
+            "---\n",
+            "## FONT Einstellen:",
             "Zudem ist zu empfehlen, die Schriftart umzustellen, damit keine Formatierungsfehler erscheinen.\n",
-            "In Clion: Einstellungen/Editor/General/Font dort Font: Consolar Size: 13.0 Line height: 1.2\n\n\n",
+            "## In Clion:",
+            "Einstellungen/Editor/General/Font dort Font: Consolar Size: 13.0 Line height: 1.2\n\n\n",
+            "---\n",
             "### CODE in main.lua:"
           ],
           "code": [
