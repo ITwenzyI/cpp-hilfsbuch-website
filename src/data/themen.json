@@ -9,10 +9,10 @@
             "\n\n### === Console Ausgabe UTF-8 in Clion Windows ===\n\n\n",
             "In Clion auf Windows, zeigt die Console keine Ü,Ä,Ö usw. an, wenn man nicht bestimmte Dinge beachtet und einstellt.\n\n",
             "---\n",
-            "## FONT Einstellen:",
+            "## 🔹 FONT Einstellen:",
             "Zudem ist zu empfehlen, die Schriftart umzustellen, damit keine Formatierungsfehler erscheinen.\n",
-            "## In Clion:",
-            "Einstellungen/Editor/General/Font dort Font: Consolar Size: 13.0 Line height: 1.2\n\n\n",
+            "### 🔹 Einstellung in CLion\n",
+            "Einstellungen / Editor / General / Font dort \"Font: Consolar Size: 13.0 Line height: 1.2\"\n\n\n",
             "---\n",
             "### CODE in main.lua:"
           ],
@@ -46,15 +46,15 @@
       "### 🔹 Prüfen im Code\n",
       "- Nutze `std::filesystem::current_path()` um den aktuellen Pfad im Programm zu sehen:\n",
       "\n",
-      "```cpp\n",
+      "```cpp",
       "std::cout << \"Arbeitsverzeichnis: \" << std::filesystem::current_path() << std::endl;\n",
-      "```\n",
+      "```",
       "\n",
       "### 🔹 Hinweis\n",
       "- Erstelle den Ordner `data/` manuell im Projektverzeichnis oder per Code:\n",
-      "```cpp\n",
+      "```cpp",
       "std::filesystem::create_directories(\"data\");\n",
-      "```\n"
+      "```"
     ],
     "code": [
       "#include <iostream>\n#include <filesystem>\n\nint main() {\n  std::cout << \"Aktuelles Arbeitsverzeichnis: \" << std::filesystem::current_path() << std::endl;\n\n  std::string pfad = \"data/test.txt\";\n  std::filesystem::create_directories(\"data\");\n  std::ofstream out(pfad);\n  out << \"Testzeile\\n\";\n  out.close();\n\n  std::cout << \"Datei erfolgreich erstellt unter: \" << pfad << std::endl;\n  return 0;\n}"
