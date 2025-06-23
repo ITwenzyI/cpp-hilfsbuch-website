@@ -2399,7 +2399,7 @@
             "In Template-Klassen können auch **Typen auftreten, die vom Typparameter abhängen** - z.B. `T*` oder `std::vector<T>::iterator`.\n",
             "Solche Typen nennt man **abhängige Typen** (*dependent types*), weil sie erst beim Instantiieren des Templates eindeutig sind.\n",
             "\n",
-            "📌 Wichtig: Wenn du innerhalb eines Templates auf einen solchen abhängigen Typ zugreifst, **musst du `typename` davor schreiben`, damit der Compiler weiß, dass es sich um einen Typ handelt:\n",
+            "📌 Wichtig: Wenn du innerhalb eines Templates auf einen solchen abhängigen Typ zugreifst, **musst du `typename` davor schreiben**, damit der Compiler weiß, dass es sich um einen Typ handelt:\n",
             "```cpp\ntypename std::vector<T>::iterator iter;\n```\n",
             "Ohne `typename` denkt der Compiler eventuell, es handelt sich um ein Datenmitglied oder eine Funktion - und gibt einen Fehler aus.\n",
                 "\n### Vererbung mit Template-Klassen\n",
