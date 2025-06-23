@@ -312,6 +312,7 @@
     "text": [
       "### === Initialisierung mit `:` vs. `{}` in C++ ===\n",
       "C++ bietet verschiedene Möglichkeiten, wie Variablen und Klassenmitglieder initialisiert werden können. Besonders wichtig sind:\n",
+      "---\n",
       "- `:` → Initialisierungsliste bei Konstruktoren\n",
       "- `{}` → Einheitliche Initialisierung (Brace-Initialization / Uniform Initialization)\n",
       "\n",
@@ -341,7 +342,6 @@
       "- Beides lässt sich kombinieren:\n",
       "```cpp\nclass Zahl {\n    int wert;\npublic:\n    Zahl(int w) : wert{w} {}  // Doppelt sicher: Initialisierungsliste + {}\n};\n```\n",
       "\n",
-      "---\n",
       "👉 Faustregel:\n",
       "- **Konstruktoren mit `:` initialisieren Member**\n",
       "- **`{}` ist sicherer, universeller Stil ab C++11**\n",
