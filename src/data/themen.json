@@ -1998,8 +1998,9 @@
       "- Um **Abhängigkeiten zu entkoppeln** (z.B. bei Plugins, Testbarkeit usw.)."
     ],
     "code": [
-      "// Abstrakte Klasse mit gemeinsamer Logik\n#include <iostream>\n#include <vector>\n\nclass Form {\npublic:\n  virtual double flaeche() = 0; // rein virtuelle Funktion\n  void zeige() {\n    std::cout << \"Fläche: \" << flaeche() << std::endl;\n  }\n  virtual ~Form() {}\n};\n\nclass Kreis : public Form {\n  double radius;\npublic:\n  Kreis(double r) : radius(r) {}\n  double flaeche() override {\n    return 3.14159 * radius * radius;\n  }\n};\n\nclass Quadrat : public Form {\n  double seite;\npublic:\n  Quadrat(double s) : seite(s) {}\n  double flaeche() override {\n    return seite * seite;\n  }\n};\n\nint main() {\n  std::vector<Form*> formen;\n  formen.push_back(new Kreis(2));\n  formen.push_back(new Quadrat(3));\n\n  for (Form* f : formen) {\n    f->zeige();\n  }\n\n  for (Form* f : formen) {\n    delete f;\n  }\n  return 0;\n}"
-    ]
+  "// Abstrakte Klasse mit gemeinsamer Logik\n#include <iostream>\n#include <vector>\n\nclass Form {\npublic:\n  virtual double flaeche() = 0; // rein virtuelle Funktion\n  void zeige() {\n    std::cout << \"Fläche: \" << flaeche() << std::endl;\n  }\n  virtual ~Form() {}\n};\n\nclass Kreis : public Form {\n  double radius;\npublic:\n  Kreis(double r) : radius(r) {}\n  double flaeche() override {\n    return 3.14159 * radius * radius;\n  }\n};\n\nclass Quadrat : public Form {\n  double seite;\npublic:\n  Quadrat(double s) : seite(s) {}\n  double flaeche() override {\n    return seite * seite;\n  }\n};\n\nint main() {\n  std::vector<Form*> formen;\n  formen.push_back(new Kreis(2));     // Kreis mit Radius 2 → Fläche ≈ 12.56636\n  formen.push_back(new Quadrat(3));   // Quadrat mit Seite 3 → Fläche = 9\n\n  for (Form* f : formen) {\n    f->zeige();                        // Ausgabe:\n                                      // Fläche: 12.56636\n                                      // Fläche: 9\n  }\n\n  for (Form* f : formen) {\n    delete f;\n  }\n  return 0;\n}"
+]
+
   }
 },
 {
