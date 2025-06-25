@@ -2791,41 +2791,71 @@
           ]
         }
       },
-            {
-        "title": "Lambdas",
-        "content": {
-          "text": [
-            "### === Lambda-Ausdrücke in C++ ===\n",
-            "Ein Lambda ist eine **anonyme Funktion**, die direkt im Code definiert und z.B. an Algorithmen übergeben werden kann.\n",
-            "\n",
-            "---\n",
-            "### Warum Lambdas?\n",
-            "- Wenn man **kleine Funktionen nur einmalig** braucht (z.B. in `sort`, `for_each`), ist es **unnötig**, extra eine benannte Funktion zu schreiben.\n",
-            "- Lambdas machen den Code **kürzer, klarer und direkt an Ort und Stelle**.\n",
-            "- Sie lassen sich auch mit lokalen Variablen verknüpfen (über `[]`-Capture).\n",
-            "\n",
-            "---\n",
-            "### Syntax\n",
-            "`[capture](parameter) -> rückgabetyp { body }`\n",
-            "- `capture`: Welche Variablen von außen verwendet werden dürfen (z.B. `[x]`, `[&]`, `[=]`, `[]`)\n",
-            "- `parameter`: Übergabeparameter wie bei normalen Funktionen\n",
-            "- `rückgabetyp` ist optional (oft automatisch erkannt)\n",
-            "\n",
-            "---\n",
-            "### Beispiel - einfache Lambda-Funktion\n",
-            "```cpp\n auto quadrat = [](int x) { return x * x; };\n quadrat(5); // ergibt 25\n```\n",
-            "\n",
-            "---\n",
-            "### Lambdas mit Algorithmen\n",
-            "Sehr praktisch in Verbindung mit `std::for_each`, `std::sort`, usw.\n",
-            "```cpp\n std::for_each(v.begin(), v.end(), [](int x){ std::cout << x << \" \"; });\n```\n",
-            "---\n"
-          ],
-          "code": [
-            "#include <iostream>\n#include <vector>\n#include <algorithm> // für for_each, sort\n\nint main() {\n  std::vector<int> zahlen = {5, 2, 8, 1};\n\n  // Lambda speichern und benutzen\n  auto quadrat = [](int x) { return x * x; };\n  std::cout << \"Quadrat von 4: \" << quadrat(4) << std::endl; // Ausgabe: 16\n\n  // for_each mit Lambda\n  std::cout << \"Zahlen: \";\n  std::for_each(zahlen.begin(), zahlen.end(), [](int x){ std::cout << x << \" \"; });\n  std::cout << std::endl;\n\n  // sortieren mit Lambda (absteigend)\n  std::sort(zahlen.begin(), zahlen.end(), [](int a, int b){ return a > b; });\n\n  std::cout << \"Absteigend sortiert: \";\n  for (int z : zahlen) std::cout << z << \" \"; // Ausgabe: 8 5 2 1\n  std::cout << std::endl;\n\n  return 0;\n}"
-          ]
-        }
-      },
+      {
+  "title": "Lambdas",
+  "content": {
+    "text": [
+      "### === Lambda-Ausdrücke in C++ ===\n",
+      "Ein Lambda ist eine **anonyme Funktion**, die direkt im Code definiert und z.B. an Algorithmen übergeben werden kann.\n",
+      "\n",
+      "---\n",
+      "### Warum Lambdas?\n",
+      "- Wenn man **kleine Funktionen nur einmalig** braucht (z.B. in `sort`, `for_each`), ist es **unnötig**, extra eine benannte Funktion zu schreiben.\n",
+      "- Lambdas machen den Code **kürzer, klarer und direkt an Ort und Stelle**.\n",
+      "- Sie lassen sich auch mit lokalen Variablen verknüpfen (über `[]`-Capture).\n",
+      "\n",
+      "---\n",
+      "### Syntax\n",
+      "`[capture](parameter) -> rückgabetyp { body }`\n",
+      "- `capture`: Welche Variablen von außen verwendet werden dürfen (z.B. `[x]`, `[&]`, `[=]`, `[]`)\n",
+      "- `parameter`: Übergabeparameter wie bei normalen Funktionen\n",
+      "- `rückgabetyp` ist optional (oft automatisch erkannt)\n",
+      "\n",
+      "---\n",
+      "### Beispiel – einfache Lambda-Funktion\n",
+      "```cpp\n auto quadrat = [](int x) { return x * x; };\n quadrat(5); // ergibt 25\n```\n",
+      "\n",
+      "---\n",
+      "### Lambdas mit Algorithmen\n",
+      "Sehr praktisch in Verbindung mit `std::for_each`, `std::sort`, usw.\n",
+      "```cpp\n std::for_each(v.begin(), v.end(), [](int x){ std::cout << x << \" \"; });\n```\n",
+      "\n",
+      "---\n",
+      "### Scope und Capture bei Lambdas\n",
+      "Lambdas können auf Variablen aus dem umgebenden Scope zugreifen. Dazu dient der sogenannte **Capture-Block** in den eckigen Klammern `[]`.\n",
+      "\n",
+      "---\n",
+      "#### Capture-Modi\n",
+      "- `[]`: Kein Zugriff auf äußere Variablen erlaubt\n",
+      "- `[x]`: Kopiert `x` in das Lambda (nur lesen möglich)\n",
+      "- `[&x]`: Übernimmt `x` **per Referenz** (auch veränderbar)\n",
+      "- `[=]`: Kopiert **alle verwendeten** Variablen aus dem äußeren Scope\n",
+      "- `[&]`: Nimmt **alle verwendeten** Variablen **per Referenz**\n",
+      "- `[=, &x]`: Alle per Kopie, außer `x` per Referenz (kombiniert)\n",
+      "\n",
+      "---\n",
+      "#### Beispiel – Zugriff auf äußere Variable\n",
+      "```cpp\nint a = 10;\nauto f = [a]() { return a * 2; }; // Kopie von a\nstd::cout << f(); // 20\n```\n",
+      "\n",
+      "---\n",
+      "#### Beispiel – Referenz nutzen\n",
+      "```cpp\nint a = 10;\nauto f = [&a]() { a *= 2; };\nf();\nstd::cout << a; // 20\n```\n",
+      "\n",
+      "---\n",
+      "#### Beispiel – mutable bei Kopie\n",
+      "```cpp\nint x = 5;\nauto f = [=]() mutable { x *= 3; return x; };\nstd::cout << f(); // 15\nstd::cout << x;   // 5 (Original bleibt unverändert)\n```\n",
+      "\n",
+      "---\n",
+      "#### Wichtig\n",
+      "- Ohne `mutable` sind kopierte Variablen im Lambda **const**\n",
+      "- Bei `[&]` oder `[&x]` wird auf die **echte Variable** verwiesen → Änderungen wirken außerhalb\n",
+      "---\n"
+    ],
+    "code": [
+      "#include <iostream>\n#include <vector>\n#include <algorithm> // für for_each, sort\n\nint main() {\n  std::vector<int> zahlen = {5, 2, 8, 1};\n\n  // Lambda speichern und benutzen\n  auto quadrat = [](int x) { return x * x; };\n  std::cout << \"Quadrat von 4: \" << quadrat(4) << std::endl; // Ausgabe: 16\n\n  // for_each mit Lambda\n  std::cout << \"Zahlen: \";\n  std::for_each(zahlen.begin(), zahlen.end(), [](int x){ std::cout << x << \" \"; });\n  std::cout << std::endl;\n\n  // sortieren mit Lambda (absteigend)\n  std::sort(zahlen.begin(), zahlen.end(), [](int a, int b){ return a > b; });\n\n  std::cout << \"Absteigend sortiert: \";\n  for (int z : zahlen) std::cout << z << \" \"; // Ausgabe: 8 5 2 1\n  std::cout << std::endl;\n\n  // Capture-Beispiele\n  int x = 10, y = 5;\n\n  // Kopie von x, Referenz auf y\n  auto f = [=, &y]() mutable {\n    int res = x + y;\n    y += 1;   // wirkt außen!\n    return res;\n  };\n\n  std::cout << \"f(): \" << f() << std::endl; // Ausgabe: 15\n  std::cout << \"y: \" << y << std::endl;     // Ausgabe: 6\n\n  return 0;\n}"
+    ]
+  }
+},
 {
   "title": "Exceptions",
   "content": {
