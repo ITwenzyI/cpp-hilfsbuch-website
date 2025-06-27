@@ -2474,6 +2474,7 @@
             "`Rückgabetyp operator<OPERATOR>(Parameter)`\n",
             "-> Wird innerhalb oder außerhalb der Klasse definiert\n",
             "-> Kann fast jeder Operator überladen werden (außer z.B. `.` oder `::`)\n",
+            "-> \"<<\" Operator-Überladung muss außerhalb von Klassen stehen. Entweder als `friend` oder mit Zugriff auf Member.\n",
             "---\n"
           ],
           "code": [
