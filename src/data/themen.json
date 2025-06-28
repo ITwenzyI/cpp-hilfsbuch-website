@@ -2931,6 +2931,37 @@
   }
 },
 {
+  "title": "Lambda Signaturen",
+  "content": {
+    "text": [
+      "### === Lambdas mit `std::function` ===\n",
+      "`std::function` kann genutzt werden, um Lambdas mit einer bestimmten Funktionssignatur zu speichern oder als Parameter zu übergeben.\n",
+      "\n",
+      "---\n",
+      "### Beispielhafte Signaturen:\n",
+      "- `std::function<bool(int)>` → nimmt `int`, gibt `bool` zurück\n",
+      "- `std::function<int(int)>` → nimmt `int`, gibt `int` zurück (z. B. Quadrat)\n",
+      "- `std::function<void(int)>` → nimmt `int`, gibt **nichts** zurück (z. B. nur ausgeben)\n",
+      "\n",
+      "---\n",
+      "### Anwendung mit Lambdas\n",
+      "```cpp\nstd::function<int(int)> quad = [](int x) { return x * x; };\nstd::cout << quad(5); // Ausgabe: 25\n```\n",
+      "\n",
+      "---\n",
+      "### Lambdas als Parameter (z. B. Filter)\n",
+      "```cpp\nvoid filter(const std::vector<int>& v, std::function<bool(int)> pred) {\n  for (int i : v) {\n    if (pred(i)) std::cout << i << \" \";\n  }\n}\n\nfilter({1, 2, 3, 4}, [](int x) { return x >= 3; }); // Ausgabe: 3 4\n```\n",
+      "\n",
+      "---\n",
+      "### Wichtig\n",
+      "- Die Signatur muss mit dem Lambda kompatibel sein\n",
+      "- `std::function<...>` ist **typensicher**, aber etwas langsamer als Templates\n",
+      "- Für hohe Performance lieber `auto` oder Templates nutzen – für Flexibilität `std::function`\n",
+      "---\n"
+    ],
+        "code": []
+  }
+},
+{
   "title": "Threads vs. Prozesse",
   "content": {
     "text": [
