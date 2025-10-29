@@ -2531,7 +2531,7 @@
   "---\\n"
 ],
 "code": [
-  "#include <iostream>\\n#include <random>\\n\\nint main() {\\n  // Engine (Mersenne Twister) mit Hardware-Zufallswert initialisieren\\n  std::random_device rd;                // echter Seed\\n  std::mt19937 engine(rd());            // Pseudozufall, aber extrem hochwertig\\n\\n  // Gleichverteilung für ganze Zahlen (1 bis 6 – Würfel)\\n  std::uniform_int_distribution<int> wuerfel(1, 6);\\n  std::cout << \"Zufallswürfel: \" << wuerfel(engine) << std::endl;\\n\\n  // Gleichverteilung für Fließkommazahlen (0.0 bis <1.0)\\n  std::uniform_real_distribution<double> real(0.0, 1.0);\\n  std::cout << \"Zahl zwischen 0 und 1: \" << real(engine) << std::endl;\\n\\n  return 0;\\n}"
+  "#include <iostream>\n#include <random>\n\nint main() {\n  // Engine (Mersenne Twister) mit Hardware-Zufallswert initialisieren\n  std::random_device rd;                // echter Seed\n  std::mt19937 engine(rd());            // Pseudozufall, aber extrem hochwertig\n\n  // Gleichverteilung für ganze Zahlen (1 bis 6 – Würfel)\n  std::uniform_int_distribution<int> wuerfel(1, 6);\n  std::cout << \"Zufallswürfel: \" << wuerfel(engine) << std::endl;\n\n  // Gleichverteilung für Fließkommazahlen (0.0 bis <1.0)\n  std::uniform_real_distribution<double> real(0.0, 1.0);\n  std::cout << \"Zahl zwischen 0 und 1: \" << real(engine) << std::endl;\n\n  return 0;\n}"
 ]
 
   }
