@@ -2494,6 +2494,48 @@
   {
     "category": "Extras",
     "subtopics": [
+            {
+  "title": "Random",
+  "content": {
+    "text": [
+  "### 🎲 Zufallszahlen in C++ (`<random>`)\\n",
+  "Seit C++11 gibt es ein modernes, sicheres Zufallssystem — deutlich besser als das alte `rand()`. Es besteht aus **Engine + Verteilung**.\\n",
+  "\\n",
+  "---\\n",
+  "### 🧠 Grundidee\\n",
+  "- **Engine** = liefert rohe Zufallswerte (z.B. `std::mt19937`, Mersenne Twister)\\n",
+  "- **Verteilung** = formt diese in ein sinnvolles Format (z.B. 1–100 oder 0.0–1.0)\\n",
+  "- Zusammensetzung: `distribution(engine)` → fertige Zufallszahl\\n",
+  "\\n",
+  "---\\n",
+  "### 🔑 Initialisierung (Seed)\\n",
+  "- `std::random_device` → liefert echten Hardware-Seed (sofern verfügbar)\\n",
+  "- perfekt für zufällige Starts (z.B. Spiele, Kryptographie)\\n",
+  "\\n",
+  "---\\n",
+  "### 🔢 Ganzzahl-Zufall (`std::uniform_int_distribution`)\\n",
+  "- Gleichverteilung im **geschlossenen Bereich** [min, max]\\n",
+  "- Beispiel: Würfel (1–6)\\n",
+  "\\n",
+  "---\\n",
+  "### 🔟 Gleitkomma-Zufall (`std::uniform_real_distribution`)\\n",
+  "- Bereich **mit Nachkommastellen** – Standard: [min, max) (max exklusive)\\n",
+  "- Ideal für Simulation, Wahrscheinlichkeit usw.\\n",
+  "\\n",
+  "---\\n",
+  "### ❌ Warum `rand()` veraltet ist\\n",
+  "- schlechte Zufallsqualität\\n",
+  "- globaler Zustand (schlecht für Multithreading)\\n",
+  "- schwierige Skalierung (z. B. `rand() % 100`) bias-fehlerhaft\\n",
+  "\\n",
+  "---\\n"
+],
+"code": [
+  "#include <iostream>\\n#include <random>\\n\\nint main() {\\n  // Engine (Mersenne Twister) mit Hardware-Zufallswert initialisieren\\n  std::random_device rd;                // echter Seed\\n  std::mt19937 engine(rd());            // Pseudozufall, aber extrem hochwertig\\n\\n  // Gleichverteilung für ganze Zahlen (1 bis 6 – Würfel)\\n  std::uniform_int_distribution<int> wuerfel(1, 6);\\n  std::cout << \"Zufallswürfel: \" << wuerfel(engine) << std::endl;\\n\\n  // Gleichverteilung für Fließkommazahlen (0.0 bis <1.0)\\n  std::uniform_real_distribution<double> real(0.0, 1.0);\\n  std::cout << \"Zahl zwischen 0 und 1: \" << real(engine) << std::endl;\\n\\n  return 0;\\n}"
+]
+
+  }
+},
       {
   "title": "Formatierung",
   "content": {
