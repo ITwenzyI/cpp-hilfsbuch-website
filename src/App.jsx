@@ -89,6 +89,26 @@ function App() {
     return text;
   };
 
+      // === Highlight Funktion (STRG+F Stil) ===
+const highlightMatch = (text, query) => {
+  if (!text) return "";
+  const regex = new RegExp(`(${query})`, "gi");
+  return text.replace(regex, '<mark class="bg-yellow-300">$1</mark>');
+};
+
+// === Snippet Vorschau (Google Stil) ===
+const getSnippet = (text, query, length = 120) => {
+  if (!text) return "";
+  const lower = text.toLowerCase();
+  const idx = lower.indexOf(query.toLowerCase());
+  if (idx === -1) return "";
+
+  const start = Math.max(0, idx - length / 2);
+  const end = Math.min(text.length, idx + length / 2);
+
+  return text.substring(start, end) + "...";
+};
+
   return (
     <div className="flex flex-col md:flex-row h-screen bg-gray-50 dark:bg-gray-900 dark:text-white">
       {/* Mobile Header */}
@@ -198,32 +218,55 @@ function App() {
             <h2 className="text-xl font-semibold mb-4">Suchergebnisse für: "{searchTerm}"</h2>
             {searchResults.length > 0 ? (
               <ul className="space-y-4">
-                {searchResults.map((topic, idx) => (
-                  <li
-                    key={idx}
-                    className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer"
-                    onClick={() => {
-                      const category = themen.find(
-                        (c) => c.category === topic.category
-                      );
-                      if (!category) return;
-                      const selected = category.subtopics.find(
-                        (t) => t.title === topic.title
-                      );
-                      if (!selected) return;
-                      setSelectedCategory(category);
-                      setSelectedTopic(selected);
-                      setSearchTerm("");
-                      setSearchResults([]);
-                    }}
-                  >
-                    <h3 className="font-bold text-blue-600 dark:text-blue-400">{topic.title}</h3>
-                    <p className="text-sm text-gray-500 mb-1">{topic.category}</p>
-                    {topic.content?.text && (
-                      <p className="text-sm text-gray-700 dark:text-gray-300">{Array.isArray(topic.content.text) ? topic.content.text.join(" ") : topic.content.text}</p>
-                    )}
-                  </li>
-                ))}
+                {searchResults.map((topic, idx) => {
+  const fullText = Array.isArray(topic.content?.text)
+    ? topic.content.text.join(" ")
+    : topic.content?.text || "";
+
+  const snippet = getSnippet(fullText, searchTerm);
+
+  return (
+    <li
+      key={idx}
+      className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer"
+      onClick={() => {
+        const cat = themen.find((c) => c.category === topic.category);
+        const sub = cat.subcategories.find((s) => s.name === topic.subcategory);
+
+        setSelectedCategory(cat);
+        setSelectedSubcategory(sub);
+        setSelectedTopic(topic);
+
+        setSearchTerm("");
+        setSearchResults([]);
+      }}
+    >
+      {/* Titel highlight */}
+      <h3
+        className="font-bold text-blue-600 dark:text-blue-400 mb-1"
+        dangerouslySetInnerHTML={{
+          __html: highlightMatch(topic.title, searchTerm),
+        }}
+      />
+
+      {/* Breadcrumb */}
+      <p className="text-xs text-gray-500 mb-2">
+        📁 {topic.category} › 📂 {topic.subcategory}
+      </p>
+
+      {/* Snippet highlight */}
+      {snippet && (
+        <p
+          className="text-sm text-gray-700 dark:text-gray-300"
+          dangerouslySetInnerHTML={{
+            __html: highlightMatch(snippet, searchTerm),
+          }}
+        />
+      )}
+    </li>
+  );
+})}
+
               </ul>
             ) : (
               <p className="text-gray-500">Keine Treffer gefunden.</p>
