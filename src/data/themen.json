@@ -5,74 +5,259 @@
       {
         "name": "Basics",
         "topics": [
-          { "title": "Variablen", "content": {
-          "text": [
-            "\n\n### === EXAMPLE ===\n\n\n",
-            "EXAMPLE.\n\n"
-          ],
-          "code": [
-            "#include <iostream> \n\n\nint main() {\n //EXAMPLE \n return 0; \n}"
-          ]} },
-          { "title": "Datentypen", "content": {
-          "text": [
-            "\n\n### === EXAMPLE ===\n\n\n",
-            "EXAMPLE.\n\n"
-          ],
-          "code": [
-            "#include <iostream> \n\n\nint main() {\n //EXAMPLE \n return 0; \n}"
-          ]} }
+          { "title": "Variablen", "content": { "text": [], "code": [] } },
+          { "title": "Datentypen", "content": { "text": [], "code": [] } },
+          { "title": "I/O Grundprinzipien", "content": { "text": [], "code": [] } }
         ]
       },
       {
         "name": "Operatoren",
         "topics": [
-          { "title": "Arithmetik", "content": {
-          "text": [
-            "\n\n### === EXAMPLE ===\n\n\n",
-            "EXAMPLE.\n\n"
-          ],
-          "code": [
-            "#include <iostream> \n\n\nint main() {\n //EXAMPLE \n return 0; \n}"
-          ]} }
+          { "title": "Arithmetische Operatoren", "content": { "text": [], "code": [] } },
+          { "title": "Vergleichsoperatoren", "content": { "text": [], "code": [] } },
+          { "title": "Logische Operatoren", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+        "name": "const & constexpr",
+        "topics": [
+          { "title": "const Variablen", "content": { "text": [], "code": [] } },
+          { "title": "const Parameter", "content": { "text": [], "code": [] } },
+          { "title": "const Klassenmember", "content": { "text": [], "code": [] } },
+          { "title": "constexpr", "content": { "text": [], "code": [] } }
         ]
       }
     ]
   },
+
   {
-    "category": "Grundlagen 2",
+    "category": "Ein- und Ausgabe",
     "subcategories": [
       {
-        "name": "Basics 2",
+        "name": "Standard Streams",
         "topics": [
-          { "title": "Variablen 2", "content": {
-          "text": [
-            "\n\n### === EXAMPLE ===\n\n\n",
-            "EXAMPLE.\n\n"
-          ],
-          "code": [
-            "#include <iostream> \n\n\nint main() {\n //EXAMPLE \n return 0; \n}"
-          ]} },
-          { "title": "Datentypen 2", "content": {
-          "text": [
-            "\n\n### === EXAMPLE ===\n\n\n",
-            "EXAMPLE.\n\n"
-          ],
-          "code": [
-            "#include <iostream> \n\n\nint main() {\n //EXAMPLE \n return 0; \n}"
-          ]} }
+          { "title": "cout", "content": { "text": [], "code": [] } },
+          { "title": "cin", "content": { "text": [], "code": [] } },
+          { "title": "getline", "content": { "text": [], "code": [] } }
         ]
       },
       {
-        "name": "Operatoren 2",
+        "name": "Dateien",
         "topics": [
-          { "title": "Arithmetik 2", "content": {
-          "text": [
-            "\n\n### === EXAMPLE ===\n\n\n",
-            "EXAMPLE.\n\n"
-          ],
-          "code": [
-            "#include <iostream> \n\n\nint main() {\n //EXAMPLE \n return 0; \n}"
-          ]} }
+          { "title": "ifstream", "content": { "text": [], "code": [] } },
+          { "title": "ofstream", "content": { "text": [], "code": [] } },
+          { "title": "fstream", "content": { "text": [], "code": [] } }
+        ]
+      }
+    ]
+  },
+
+  {
+    "category": "Kontrollstrukturen",
+    "subcategories": [
+      {
+        "name": "Bedingungen",
+        "topics": [
+          { "title": "if / else", "content": { "text": [], "code": [] } },
+          { "title": "switch", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+        "name": "Schleifen",
+        "topics": [
+          { "title": "for", "content": { "text": [], "code": [] } },
+          { "title": "while", "content": { "text": [], "code": [] } },
+          { "title": "do-while", "content": { "text": [], "code": [] } }
+        ]
+      }
+    ]
+  },
+
+  {
+    "category": "Funktionen",
+    "subcategories": [
+      {
+        "name": "Grundlagen",
+        "topics": [
+          { "title": "Funktionsdefinition", "content": { "text": [], "code": [] } },
+          { "title": "Parameter & Rückgabe", "content": { "text": [], "code": [] } },
+          { "title": "Überladen", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+        "name": "Besondere Funktionen",
+        "topics": [
+          { "title": "inline", "content": { "text": [], "code": [] } },
+          { "title": "constexpr Funktionen", "content": { "text": [], "code": [] } }
+        ]
+      }
+    ]
+  },
+
+  {
+    "category": "Arrays & Strings",
+    "subcategories": [
+      {
+        "name": "Arrays",
+        "topics": [
+          { "title": "C-Arrays", "content": { "text": [], "code": [] } },
+          { "title": "std::array", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+        "name": "Strings",
+        "topics": [
+          { "title": "C-Strings", "content": { "text": [], "code": [] } },
+          { "title": "std::string", "content": { "text": [], "code": [] } }
+        ]
+      }
+    ]
+  },
+
+  {
+    "category": "Zeiger & Referenzen",
+    "subcategories": [
+      {
+        "name": "Zeiger",
+        "topics": [
+          { "title": "Pointer Basics", "content": { "text": [], "code": [] } },
+          { "title": "Pointer Arithmetik", "content": { "text": [], "code": [] } },
+          { "title": "Nullpointer", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+        "name": "Referenzen",
+        "topics": [
+          { "title": "Referenzen Basics", "content": { "text": [], "code": [] } },
+          { "title": "Referenzparameter", "content": { "text": [], "code": [] } }
+        ]
+      }
+    ]
+  },
+
+  {
+    "category": "Speicherverwaltung",
+    "subcategories": [
+      {
+        "name": "Basics",
+        "topics": [
+          { "title": "Stack vs Heap", "content": { "text": [], "code": [] } },
+          { "title": "new / delete", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+        "name": "RAII & Smart Pointer",
+        "topics": [
+          { "title": "RAII Prinzip", "content": { "text": [], "code": [] } },
+          { "title": "std::unique_ptr", "content": { "text": [], "code": [] } },
+          { "title": "std::shared_ptr", "content": { "text": [], "code": [] } }
+        ]
+      }
+    ]
+  },
+
+  {
+    "category": "Header & Bibliotheken",
+    "subcategories": [
+      {
+        "name": "Standard Header",
+        "topics": [
+          { "title": "<iostream>", "content": { "text": [], "code": [] } },
+          { "title": "<algorithm>", "content": { "text": [], "code": [] } },
+          { "title": "<cmath>", "content": { "text": [], "code": [] } },
+          { "title": "<string>", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+        "name": "Utility Header",
+        "topics": [
+          { "title": "<utility> (pair, swap)", "content": { "text": [], "code": [] } },
+          { "title": "<tuple>", "content": { "text": [], "code": [] } },
+          { "title": "<limits>", "content": { "text": [], "code": [] } }
+        ]
+      }
+    ]
+  },
+
+  {
+    "category": "Klassen & OOP",
+    "subcategories": [
+      {
+        "name": "Basics",
+        "topics": [
+          { "title": "Klassen Grundlagen", "content": { "text": [], "code": [] } },
+          { "title": "Konstruktoren & Destruktoren", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+        "name": "Vererbung",
+        "topics": [
+          { "title": "Basisklassen", "content": { "text": [], "code": [] } },
+          { "title": "Polymorphie", "content": { "text": [], "code": [] } },
+          { "title": "virtual / override", "content": { "text": [], "code": [] } }
+        ]
+      }
+    ]
+  },
+
+  {
+    "category": "Templates",
+    "subcategories": [
+      {
+        "name": "Grundlagen",
+        "topics": [
+          { "title": "Funktionstemplates", "content": { "text": [], "code": [] } },
+          { "title": "Klassentemplates", "content": { "text": [], "code": [] } }
+        ]
+      }
+    ]
+  },
+
+  {
+    "category": "STL Container",
+    "subcategories": [
+      {
+        "name": "Sequenzcontainer",
+        "topics": [
+          { "title": "vector", "content": { "text": [], "code": [] } },
+          { "title": "array", "content": { "text": [], "code": [] } },
+          { "title": "deque", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+        "name": "Assoziative Container",
+        "topics": [
+          { "title": "map", "content": { "text": [], "code": [] } },
+          { "title": "set", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+        "name": "Adapter",
+        "topics": [
+          { "title": "stack", "content": { "text": [], "code": [] } },
+          { "title": "queue", "content": { "text": [], "code": [] } },
+          { "title": "priority_queue", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+        "name": "Utility Types",
+        "topics": [
+          { "title": "pair", "content": { "text": [], "code": [] } },
+          { "title": "tuple", "content": { "text": [], "code": [] } }
+        ]
+      }
+    ]
+  },
+
+  {
+    "category": "Extras",
+    "subcategories": [
+      {
+        "name": "Fortgeschritten",
+        "topics": [
+          { "title": "Fehlerbehandlung (try/catch)", "content": { "text": [], "code": [] } },
+          { "title": "Präprozessor (#define)", "content": { "text": [], "code": [] } },
+          { "title": "CMake Basics", "content": { "text": [], "code": [] } }
         ]
       }
     ]
