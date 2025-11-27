@@ -7,33 +7,19 @@
         "topics": [
           { "title": "Variablen", "content": {
           "text": [
-            "\n\n### === Console Ausgabe UTF-8 in Clion Windows ===\n\n\n",
-            "In Clion auf Windows, zeigt die Console keine Ü,Ä,Ö usw. an, wenn man nicht bestimmte Dinge beachtet und einstellt.\n\n",
-            "---\n",
-            "## 🔹 FONT Einstellen:",
-            "Zudem ist zu empfehlen, die Schriftart umzustellen, damit keine Formatierungsfehler erscheinen.\n",
-            "### 🔹 Einstellung in CLion\n",
-            "Einstellungen / Editor / General / Font dort \"Font: Consolar Size: 13.0 Line height: 1.2\"\n\n\n",
-            "---\n",
-            "### CODE in main.lua:"
+            "\n\n### === EXAMPLE ===\n\n\n",
+            "EXAMPLE.\n\n"
           ],
           "code": [
-            "#include <windows.h> \n#include <io.h> \n#include <fcntl.h> \n\n\nint main() {\n SetConsoleOutputCP(CP_UTF8); \n return 0; \n}"
+            "#include <iostream> \n\n\nint main() {\n //EXAMPLE \n return 0; \n}"
           ]} },
           { "title": "Datentypen", "content": {
           "text": [
-            "\n\n### === Console Ausgabe UTF-8 in Clion Windows ===\n\n\n",
-            "In Clion auf Windows, zeigt die Console keine Ü,Ä,Ö usw. an, wenn man nicht bestimmte Dinge beachtet und einstellt.\n\n",
-            "---\n",
-            "## 🔹 FONT Einstellen:",
-            "Zudem ist zu empfehlen, die Schriftart umzustellen, damit keine Formatierungsfehler erscheinen.\n",
-            "### 🔹 Einstellung in CLion\n",
-            "Einstellungen / Editor / General / Font dort \"Font: Consolar Size: 13.0 Line height: 1.2\"\n\n\n",
-            "---\n",
-            "### CODE in main.lua:"
+            "\n\n### === EXAMPLE ===\n\n\n",
+            "EXAMPLE.\n\n"
           ],
           "code": [
-            "#include <windows.h> \n#include <io.h> \n#include <fcntl.h> \n\n\nint main() {\n SetConsoleOutputCP(CP_UTF8); \n return 0; \n}"
+            "#include <iostream> \n\n\nint main() {\n //EXAMPLE \n return 0; \n}"
           ]} }
         ]
       },
@@ -42,18 +28,50 @@
         "topics": [
           { "title": "Arithmetik", "content": {
           "text": [
-            "\n\n### === Console Ausgabe UTF-8 in Clion Windows ===\n\n\n",
-            "In Clion auf Windows, zeigt die Console keine Ü,Ä,Ö usw. an, wenn man nicht bestimmte Dinge beachtet und einstellt.\n\n",
-            "---\n",
-            "## 🔹 FONT Einstellen:",
-            "Zudem ist zu empfehlen, die Schriftart umzustellen, damit keine Formatierungsfehler erscheinen.\n",
-            "### 🔹 Einstellung in CLion\n",
-            "Einstellungen / Editor / General / Font dort \"Font: Consolar Size: 13.0 Line height: 1.2\"\n\n\n",
-            "---\n",
-            "### CODE in main.lua:"
+            "\n\n### === EXAMPLE ===\n\n\n",
+            "EXAMPLE.\n\n"
           ],
           "code": [
-            "#include <windows.h> \n#include <io.h> \n#include <fcntl.h> \n\n\nint main() {\n SetConsoleOutputCP(CP_UTF8); \n return 0; \n}"
+            "#include <iostream> \n\n\nint main() {\n //EXAMPLE \n return 0; \n}"
+          ]} }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Grundlagen 2",
+    "subcategories": [
+      {
+        "name": "Basics 2",
+        "topics": [
+          { "title": "Variablen 2", "content": {
+          "text": [
+            "\n\n### === EXAMPLE ===\n\n\n",
+            "EXAMPLE.\n\n"
+          ],
+          "code": [
+            "#include <iostream> \n\n\nint main() {\n //EXAMPLE \n return 0; \n}"
+          ]} },
+          { "title": "Datentypen 2", "content": {
+          "text": [
+            "\n\n### === EXAMPLE ===\n\n\n",
+            "EXAMPLE.\n\n"
+          ],
+          "code": [
+            "#include <iostream> \n\n\nint main() {\n //EXAMPLE \n return 0; \n}"
+          ]} }
+        ]
+      },
+      {
+        "name": "Operatoren 2",
+        "topics": [
+          { "title": "Arithmetik 2", "content": {
+          "text": [
+            "\n\n### === EXAMPLE ===\n\n\n",
+            "EXAMPLE.\n\n"
+          ],
+          "code": [
+            "#include <iostream> \n\n\nint main() {\n //EXAMPLE \n return 0; \n}"
           ]} }
         ]
       }
