@@ -31,27 +31,31 @@ function App() {
   }, [darkMode]);
 
   useEffect(() => {
-    if (searchTerm.trim() === "") {
-      setSearchResults([]);
-      return;
-    }
+  if (searchTerm.trim() === "") {
+    setSearchResults([]);
+    return;
+  }
 
-    const fuse = new Fuse(
-      themen.flatMap((cat) =>
-        cat.subtopics.map((sub) => ({
-          ...sub,
-          category: cat.category,
-        }))
-      ),
-      {
-        keys: ["title", "content.text", "category"],
-        threshold: 0.3,
-      }
-    );
+  // neue Struktur durchsuchen
+  const allTopics = themen.flatMap((cat) =>
+    cat.subcategories.flatMap((sub) =>
+      sub.topics.map((topic) => ({
+        ...topic,
+        category: cat.category,
+        subcategory: sub.name,
+      }))
+    )
+  );
 
-    const result = fuse.search(searchTerm);
-    setSearchResults(result.map((r) => r.item));
-  }, [searchTerm]);
+  const fuse = new Fuse(allTopics, {
+    keys: ["title", "content.text", "category", "subcategory"],
+    threshold: 0.3,
+  });
+
+  const result = fuse.search(searchTerm);
+  setSearchResults(result.map((r) => r.item));
+}, [searchTerm]);
+
 
   const toggleCategory = (category) => {
     setExpandedCategories((prev) =>
@@ -218,53 +222,57 @@ function App() {
                 >
                   ← Zurück
                 </button>
-                {/* Breadcrumb */}
-<div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-  {selectedCategory?.category}
+            {/* Breadcrumb */}
+<div className="text-sm text-gray-500 dark:text-gray-400 mb-2 flex flex-wrap items-center gap-1">
+  <span>📁 {selectedCategory?.category}</span>
 
   {selectedCategory?.subcategories &&
-    selectedCategory.subcategories.flatMap((sub) =>
-      sub.topics.includes(selectedTopic)
-        ? [" › ", sub.name]
-        : []
+    selectedCategory.subcategories.map((sub) =>
+      sub.topics.includes(selectedTopic) ? (
+        <React.Fragment key={sub.name}>
+          <span className="mx-1">›</span>
+          <span>📂 {sub.name}</span>
+        </React.Fragment>
+      ) : null
     )}
 
-  {" › "}
+  <span className="mx-1">›</span>
 
   <span className="text-gray-700 dark:text-gray-200 font-semibold">
-    {selectedTopic.title}
+    📄 {selectedTopic.title}
   </span>
 </div>
 
-<h2 className="text-xl font-semibold mb-2">{selectedTopic.title}</h2>
 
-                {selectedTopic?.content?.text && (
-                  <div className="prose dark:prose-invert max-w-none mb-4">
-                    <ReactMarkdown
-                      remarkPlugins={[remarkGfm]}
-                      rehypePlugins={[rehypeRaw, rehypeHighlight]}
-                    >
-                      {formatText(selectedTopic.content.text)}
-                    </ReactMarkdown>
-                  </div>
-                )}
-                {Array.isArray(selectedTopic.content?.code)
-                  ? selectedTopic.content.code.map((snippet, i) => (
-                      <CodeBlock key={i} code={snippet} />
-                    ))
-                  : selectedTopic?.content?.code && (
-                      <CodeBlock code={selectedTopic.content.code} />
+            <h2 className="text-xl font-semibold mb-2">{selectedTopic.title}</h2>
+
+                            {selectedTopic?.content?.text && (
+                              <div className="prose dark:prose-invert max-w-none mb-4">
+                                <ReactMarkdown
+                                  remarkPlugins={[remarkGfm]}
+                                  rehypePlugins={[rehypeRaw, rehypeHighlight]}
+                                >
+                                  {formatText(selectedTopic.content.text)}
+                                </ReactMarkdown>
+                              </div>
+                            )}
+                            {Array.isArray(selectedTopic.content?.code)
+                              ? selectedTopic.content.code.map((snippet, i) => (
+                                  <CodeBlock key={i} code={snippet} />
+                                ))
+                              : selectedTopic?.content?.code && (
+                                  <CodeBlock code={selectedTopic.content.code} />
+                                )}
+                          </div>
+                        ) : (
+                          <p className="text-gray-500">Wähle ein Thema aus der Liste.</p>
+                        )}
+                      </>
+                    ) : (
+                      <p className="text-gray-500">Wähle links eine Kategorie aus oder suche etwas.</p>
                     )}
-              </div>
-            ) : (
-              <p className="text-gray-500">Wähle ein Thema aus der Liste.</p>
-            )}
-          </>
-        ) : (
-          <p className="text-gray-500">Wähle links eine Kategorie aus oder suche etwas.</p>
-        )}
-      </main>
-    </div>
+                  </main>
+                </div>
   );
 }
 
