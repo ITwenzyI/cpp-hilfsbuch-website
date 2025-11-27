@@ -1,9 +1,11 @@
 [
   {
     "category": "Grundlagen",
+    "icon": "📘",
     "subcategories": [
       {
         "name": "Basics",
+        "icon": "📘",
         "topics": [
           { "title": "Variablen", "content": { "text": [], "code": [] } },
           { "title": "Datentypen", "content": { "text": [], "code": [] } },
@@ -12,6 +14,7 @@
       },
       {
         "name": "Operatoren",
+        "icon": "➕",
         "topics": [
           { "title": "Arithmetische Operatoren", "content": { "text": [], "code": [] } },
           { "title": "Vergleichsoperatoren", "content": { "text": [], "code": [] } },
@@ -20,6 +23,7 @@
       },
       {
         "name": "const & constexpr",
+        "icon": "📘",
         "topics": [
           { "title": "const Variablen", "content": { "text": [], "code": [] } },
           { "title": "const Parameter", "content": { "text": [], "code": [] } },
@@ -32,9 +36,11 @@
 
   {
     "category": "Ein- und Ausgabe",
+    "icon": "⌨️",
     "subcategories": [
       {
         "name": "Standard Streams",
+        "icon": "⌨️",
         "topics": [
           { "title": "cout", "content": { "text": [], "code": [] } },
           { "title": "cin", "content": { "text": [], "code": [] } },
@@ -43,6 +49,7 @@
       },
       {
         "name": "Dateien",
+        "icon": "🗂️",
         "topics": [
           { "title": "ifstream", "content": { "text": [], "code": [] } },
           { "title": "ofstream", "content": { "text": [], "code": [] } },
@@ -54,9 +61,11 @@
 
   {
     "category": "Kontrollstrukturen",
+    "icon": "🔀",
     "subcategories": [
       {
         "name": "Bedingungen",
+        "icon": "❓",
         "topics": [
           { "title": "if / else", "content": { "text": [], "code": [] } },
           { "title": "switch", "content": { "text": [], "code": [] } }
@@ -64,6 +73,7 @@
       },
       {
         "name": "Schleifen",
+        "icon": "🔁",
         "topics": [
           { "title": "for", "content": { "text": [], "code": [] } },
           { "title": "while", "content": { "text": [], "code": [] } },
@@ -75,9 +85,11 @@
 
   {
     "category": "Funktionen",
+    "icon": "🔧",
     "subcategories": [
       {
         "name": "Grundlagen",
+        "icon": "🔧",
         "topics": [
           { "title": "Funktionsdefinition", "content": { "text": [], "code": [] } },
           { "title": "Parameter & Rückgabe", "content": { "text": [], "code": [] } },
@@ -86,6 +98,7 @@
       },
       {
         "name": "Besondere Funktionen",
+        "icon": "🧠",
         "topics": [
           { "title": "inline", "content": { "text": [], "code": [] } },
           { "title": "constexpr Funktionen", "content": { "text": [], "code": [] } }
@@ -96,9 +109,11 @@
 
   {
     "category": "Arrays & Strings",
+    "icon": "📏",
     "subcategories": [
       {
         "name": "Arrays",
+        "icon": "🔢",
         "topics": [
           { "title": "C-Arrays", "content": { "text": [], "code": [] } },
           { "title": "std::array", "content": { "text": [], "code": [] } }
@@ -106,6 +121,7 @@
       },
       {
         "name": "Strings",
+        "icon": "🧵",
         "topics": [
           { "title": "C-Strings", "content": { "text": [], "code": [] } },
           { "title": "std::string", "content": { "text": [], "code": [] } }
@@ -116,9 +132,11 @@
 
   {
     "category": "Zeiger & Referenzen",
+    "icon": "🎯",
     "subcategories": [
       {
         "name": "Zeiger",
+        "icon": "🎯",
         "topics": [
           { "title": "Pointer Basics", "content": { "text": [], "code": [] } },
           { "title": "Pointer Arithmetik", "content": { "text": [], "code": [] } },
@@ -127,6 +145,7 @@
       },
       {
         "name": "Referenzen",
+        "icon": "🔗",
         "topics": [
           { "title": "Referenzen Basics", "content": { "text": [], "code": [] } },
           { "title": "Referenzparameter", "content": { "text": [], "code": [] } }
@@ -137,9 +156,11 @@
 
   {
     "category": "Speicherverwaltung",
+    "icon": "💾",
     "subcategories": [
       {
         "name": "Basics",
+        "icon": "💾",
         "topics": [
           { "title": "Stack vs Heap", "content": { "text": [], "code": [] } },
           { "title": "new / delete", "content": { "text": [], "code": [] } }
@@ -147,6 +168,7 @@
       },
       {
         "name": "RAII & Smart Pointer",
+        "icon": "🧠",
         "topics": [
           { "title": "RAII Prinzip", "content": { "text": [], "code": [] } },
           { "title": "std::unique_ptr", "content": { "text": [], "code": [] } },
@@ -158,9 +180,11 @@
 
   {
     "category": "Header & Bibliotheken",
+    "icon": "📚",
     "subcategories": [
       {
         "name": "Standard Header",
+        "icon": "📚",
         "topics": [
           { "title": "<iostream>", "content": { "text": [], "code": [] } },
           { "title": "<algorithm>", "content": { "text": [], "code": [] } },
@@ -170,6 +194,7 @@
       },
       {
         "name": "Utility Header",
+        "icon": "🧰",
         "topics": [
           { "title": "<utility> (pair, swap)", "content": { "text": [], "code": [] } },
           { "title": "<tuple>", "content": { "text": [], "code": [] } },
@@ -181,9 +206,11 @@
 
   {
     "category": "Klassen & OOP",
+    "icon": "🧱",
     "subcategories": [
       {
         "name": "Basics",
+        "icon": "🧱",
         "topics": [
           { "title": "Klassen Grundlagen", "content": { "text": [], "code": [] } },
           { "title": "Konstruktoren & Destruktoren", "content": { "text": [], "code": [] } }
@@ -191,6 +218,7 @@
       },
       {
         "name": "Vererbung",
+        "icon": "🌳",
         "topics": [
           { "title": "Basisklassen", "content": { "text": [], "code": [] } },
           { "title": "Polymorphie", "content": { "text": [], "code": [] } },
@@ -202,9 +230,11 @@
 
   {
     "category": "Templates",
+    "icon": "🧩",
     "subcategories": [
       {
         "name": "Grundlagen",
+        "icon": "🧩",
         "topics": [
           { "title": "Funktionstemplates", "content": { "text": [], "code": [] } },
           { "title": "Klassentemplates", "content": { "text": [], "code": [] } }
@@ -215,9 +245,11 @@
 
   {
     "category": "STL Container",
+    "icon": "📦",
     "subcategories": [
       {
         "name": "Sequenzcontainer",
+        "icon": "📚",
         "topics": [
           { "title": "vector", "content": { "text": [], "code": [] } },
           { "title": "array", "content": { "text": [], "code": [] } },
@@ -226,6 +258,7 @@
       },
       {
         "name": "Assoziative Container",
+        "icon": "🗂️",
         "topics": [
           { "title": "map", "content": { "text": [], "code": [] } },
           { "title": "set", "content": { "text": [], "code": [] } }
@@ -233,6 +266,7 @@
       },
       {
         "name": "Adapter",
+        "icon": "🗃️",
         "topics": [
           { "title": "stack", "content": { "text": [], "code": [] } },
           { "title": "queue", "content": { "text": [], "code": [] } },
@@ -241,6 +275,7 @@
       },
       {
         "name": "Utility Types",
+        "icon": "🧰",
         "topics": [
           { "title": "pair", "content": { "text": [], "code": [] } },
           { "title": "tuple", "content": { "text": [], "code": [] } }
@@ -251,9 +286,11 @@
 
   {
     "category": "Extras",
+    "icon": "⭐",
     "subcategories": [
       {
         "name": "Fortgeschritten",
+        "icon": "⭐",
         "topics": [
           { "title": "Fehlerbehandlung (try/catch)", "content": { "text": [], "code": [] } },
           { "title": "Präprozessor (#define)", "content": { "text": [], "code": [] } },

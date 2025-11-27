@@ -55,11 +55,13 @@ function App() {
     // flatten all topics
     const allTopics = themen.flatMap((cat) =>
       cat.subcategories.flatMap((sub) =>
-        sub.topics.map((topic) => ({
-          ...topic,
-          category: cat.category,
-          subcategory: sub.name,
-        }))
+      sub.topics.map((topic) => ({
+        ...topic,
+        category: cat.category,
+        categoryIcon: cat.icon,
+        subcategory: sub.name,
+        subcategoryIcon: sub.icon
+      }))
       )
     );
 
@@ -127,13 +129,13 @@ function App() {
   // Breadcrumb for topic view
   const renderBreadcrumb = () => (
     <div className="text-sm text-gray-500 dark:text-gray-400 mb-2 flex flex-wrap items-center gap-1">
-      <span>📁 {selectedCategory?.category}</span>
+      <span>{selectedCategory?.icon} {selectedCategory?.category}</span>
 
       {selectedCategory?.subcategories?.map((sub) =>
         sub.topics.includes(selectedTopic) ? (
           <React.Fragment key={sub.name}>
             <span className="mx-1">›</span>
-            <span>📂 {sub.name}</span>
+            <span>{sub.icon} {sub.name}</span>
           </React.Fragment>
         ) : null
       )}
@@ -188,7 +190,7 @@ function App() {
         />
 
         <p className="text-xs text-gray-500 mb-2">
-          📁 {topic.category} › 📂 {topic.subcategory}
+          {topic.categoryIcon} {topic.category} › {topic.subcategoryIcon} {topic.subcategory}
         </p>
 
         {snippet && (
@@ -253,7 +255,7 @@ function App() {
                 className="w-full text-left px-4 py-2 rounded-xl bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 flex justify-between"
                 onClick={() => toggleCategory(cat.category)}
               >
-                <span>{cat.category}</span>
+                <span>{cat.icon} {cat.category}</span>
                 <span>{expandedCategories.includes(cat.category) ? "▲" : "▼"}</span>
               </button>
 
@@ -272,7 +274,7 @@ function App() {
                         }
                         className="w-full text-left px-4 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded flex justify-between"
                       >
-                        <span>{sub.name}</span>
+                        <span>{sub.icon} {sub.name}</span>
                         <span>{expandedCategories.includes(sub.name) ? "▲" : "▼"}</span>
                       </button>
 
