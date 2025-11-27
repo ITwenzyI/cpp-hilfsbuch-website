@@ -90,7 +90,7 @@ function App() {
       </header>
 
       {/* Sidebar */}
-      <aside className={`md:block ${showSidebar ? 'block' : 'hidden'} w-full md:w-1/4 p-4 bg-white dark:bg-gray-800 shadow-lg overflow-y-auto z-10 md:z-auto`}> 
+      <aside className={`md:block ${showSidebar ? "block" : "hidden"} w-full md:w-1/4 p-4 bg-white dark:bg-gray-800 shadow-lg overflow-y-auto z-10 md:z-auto`}>
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Kategorien</h2>
           <button
@@ -100,36 +100,57 @@ function App() {
             {darkMode ? "🌞 Hell" : "🌙 Dunkel"}
           </button>
         </div>
+
         <ul className="space-y-2">
           {themen.map((cat, index) => (
             <li key={index}>
+              {/* Kategorie */}
               <button
-                className={`w-full text-left px-4 py-2 rounded-xl transition flex justify-between items-center ${
-                  selectedCategory?.category === cat.category
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
-                }`}
+                className="w-full text-left px-4 py-2 rounded-xl transition flex justify-between items-center bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
                 onClick={() => toggleCategory(cat.category)}
               >
                 <span>{cat.category}</span>
                 <span>{expandedCategories.includes(cat.category) ? "▲" : "▼"}</span>
               </button>
+
+              {/* Unterkategorien */}
               {expandedCategories.includes(cat.category) && (
                 <ul className="ml-4 mt-1 space-y-1">
-                  {cat.subtopics.map((topic, i) => (
+                  {cat.subcategories?.map((sub, i) => (
                     <li key={i}>
                       <button
-                        className="w-full text-left px-4 py-1 rounded hover:bg-blue-100 dark:hover:bg-gray-600"
-                        onClick={() => {
-                          setSelectedCategory(cat);
-                          setSelectedTopic(topic);
-                          setSearchTerm("");
-                          setSearchResults([]);
-                          setShowSidebar(false);
-                        }}
+                        onClick={() =>
+                          setExpandedCategories((prev) =>
+                            prev.includes(sub.name)
+                              ? prev.filter((c) => c !== sub.name)
+                              : [...prev, sub.name]
+                          )
+                        }
+                        className="w-full text-left px-4 py-2 rounded flex justify-between items-center bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500"
                       >
-                        {topic.title}
+                        <span>{sub.name}</span>
+                        <span>{expandedCategories.includes(sub.name) ? "▲" : "▼"}</span>
                       </button>
+
+                      {/* Themen */}
+                      {expandedCategories.includes(sub.name) && (
+                        <ul className="ml-4 mt-1 space-y-1">
+                          {sub.topics.map((topic, k) => (
+                            <li key={k}>
+                              <button
+                                className="w-full text-left px-4 py-1 rounded hover:bg-blue-100 dark:hover:bg-gray-600"
+                                onClick={() => {
+                                  setSelectedCategory(cat);
+                                  setSelectedTopic(topic);
+                                  setShowSidebar(false);
+                                }}
+                              >
+                                {topic.title}
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -138,6 +159,7 @@ function App() {
           ))}
         </ul>
       </aside>
+
 
       {/* Content */}
       <main className="flex-1 p-4 md:p-6 overflow-y-auto">
@@ -196,7 +218,26 @@ function App() {
                 >
                   ← Zurück
                 </button>
-                <h2 className="text-xl font-semibold mb-2">{selectedTopic.title}</h2>
+                {/* Breadcrumb */}
+<div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+  {selectedCategory?.category}
+
+  {selectedCategory?.subcategories &&
+    selectedCategory.subcategories.flatMap((sub) =>
+      sub.topics.includes(selectedTopic)
+        ? [" › ", sub.name]
+        : []
+    )}
+
+  {" › "}
+
+  <span className="text-gray-700 dark:text-gray-200 font-semibold">
+    {selectedTopic.title}
+  </span>
+</div>
+
+<h2 className="text-xl font-semibold mb-2">{selectedTopic.title}</h2>
+
                 {selectedTopic?.content?.text && (
                   <div className="prose dark:prose-invert max-w-none mb-4">
                     <ReactMarkdown
