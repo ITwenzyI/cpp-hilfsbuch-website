@@ -18,6 +18,8 @@ function App() {
   });
   const [expandedCategories, setExpandedCategories] = useState([]);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [selectedSubcategory, setSelectedSubcategory] = useState(null);
+
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -31,12 +33,15 @@ function App() {
   }, [darkMode]);
 
   useEffect(() => {
-  if (searchTerm.trim() === "") {
+  const query = searchTerm.trim();
+
+  // Mindestlänge 2 Zeichen
+  if (query.length < 2) {
     setSearchResults([]);
     return;
   }
 
-  // neue Struktur durchsuchen
+  // alle Themen extrahieren
   const allTopics = themen.flatMap((cat) =>
     cat.subcategories.flatMap((sub) =>
       sub.topics.map((topic) => ({
@@ -48,13 +53,25 @@ function App() {
   );
 
   const fuse = new Fuse(allTopics, {
-    keys: ["title", "content.text", "category", "subcategory"],
-    threshold: 0.3,
+    keys: [
+      { name: "title", weight: 0.6 },
+      { name: "content.text", weight: 0.3 },
+      { name: "subcategory", weight: 0.07 },
+      { name: "category", weight: 0.03 },
+    ],
+    threshold: 0.35,         // geringer Threshold -> weniger Spam
+    ignoreLocation: true,    // Treffer überall im Text erlaubt
+    includeScore: true,
   });
 
-  const result = fuse.search(searchTerm);
-  setSearchResults(result.map((r) => r.item));
+  const result = fuse.search(query);
+
+  // sortieren nach Score
+  const sorted = result.sort((a, b) => a.score - b.score);
+
+  setSearchResults(sorted.map((r) => r.item));
 }, [searchTerm]);
+
 
 
   const toggleCategory = (category) => {
@@ -145,6 +162,7 @@ function App() {
                                 className="w-full text-left px-4 py-1 rounded hover:bg-blue-100 dark:hover:bg-gray-600"
                                 onClick={() => {
                                   setSelectedCategory(cat);
+                                  setSelectedSubcategory(sub); // <- wichtig!
                                   setSelectedTopic(topic);
                                   setShowSidebar(false);
                                 }}
@@ -217,11 +235,15 @@ function App() {
             {selectedTopic ? (
               <div>
                 <button
-                  onClick={() => setSelectedTopic(null)}
+                  onClick={() => {
+                    // gehe zurück zur Unterkategorie-Übersicht
+                    setSelectedTopic(null);
+                  }}
                   className="mb-4 px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
                 >
-                  ← Zurück
+                  ← Zurück zur Unterkategorie
                 </button>
+
             {/* Breadcrumb */}
 <div className="text-sm text-gray-500 dark:text-gray-400 mb-2 flex flex-wrap items-center gap-1">
   <span>📁 {selectedCategory?.category}</span>
@@ -265,8 +287,18 @@ function App() {
                                 )}
                           </div>
                         ) : (
-                          <p className="text-gray-500">Wähle ein Thema aus der Liste.</p>
-                        )}
+  <div className="space-y-2">
+    {selectedSubcategory?.topics.map((topic, idx) => (
+      <button
+        key={idx}
+        className="block w-full text-left p-3 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-600"
+        onClick={() => setSelectedTopic(topic)}
+      >
+        📄 {topic.title}
+      </button>
+    ))}
+  </div>
+)}
                       </>
                     ) : (
                       <p className="text-gray-500">Wähle links eine Kategorie aus oder suche etwas.</p>
