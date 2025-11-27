@@ -219,9 +219,24 @@ const getSnippet = (text, query, length = 120) => {
             {searchResults.length > 0 ? (
               <ul className="space-y-4">
                 {searchResults.map((topic, idx) => {
-  const fullText = Array.isArray(topic.content?.text)
-    ? topic.content.text.join(" ")
-    : topic.content?.text || "";
+  // gesamten durchsuchbaren Text generieren
+let fullText = "";
+
+if (Array.isArray(topic.content?.text)) {
+  fullText += topic.content.text.join(" ");
+} else if (typeof topic.content?.text === "string") {
+  fullText += topic.content.text;
+}
+
+if (Array.isArray(topic.content?.code)) {
+  fullText += " " + topic.content.code.join(" ");
+} else if (typeof topic.content?.code === "string") {
+  fullText += " " + topic.content.code;
+}
+
+// falls alles leer ist
+fullText = fullText.trim();
+
 
   const snippet = getSnippet(fullText, searchTerm);
 
