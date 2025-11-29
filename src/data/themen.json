@@ -477,6 +477,121 @@
     ]
   },
 
+
+
+
+
+  {
+    "category": "Sprachkonstrukte",
+    "icon": "🧱",
+    "subcategories": [
+      {
+        "name": "struct",
+        "icon": "📦",
+        "topics": [
+          { "title": "struct Grundlagen", "content": { "text": [], "code": [] } },
+          { "title": "struct vs class", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+        "name": "enum",
+        "icon": "🔢",
+        "topics": [
+          { "title": "enum Grundlagen", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+        "name": "enum class",
+        "icon": "🧩",
+        "topics": [
+          { "title": "enum class Grundlagen", "content": { "text": [], "code": [] } },
+          { "title": "enum class vs enum", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+        "name": "namespace",
+        "icon": "🌐",
+        "topics": [
+          { "title": "namespace Grundlagen", "content": {
+            "text": [
+                "### === Namespaces in C++ ===\n",
+                "`namespace` dient zur Gruppierung von Funktionen, Klassen und Variablen unter einem gemeinsamen Namen, um Namenskonflikte zu vermeiden.\n",
+                "\n",
+                "---\n",
+                "### Warum Namespaces?\n",
+                "- Zwei Funktionen mit gleichem Namen können in unterschiedlichen Namespaces existieren\n",
+                "- Große Projekte (oder Bibliotheken wie `std`) nutzen Namespaces zur Trennung von Modulen\n",
+                "\n",
+                "---\n",
+                "### Verwendung von Namespaces\n",
+                "- Definition:\n",
+                "```cpp\nnamespace Mathe {\n    int addiere(int a, int b) {\n        return a + b;\n    }\n}\n```\n",
+                "- Aufruf:\n",
+                "```cpp\nint ergebnis = Mathe::addiere(3, 4);\n```\n",
+                "\n",
+                "---\n",
+                "### Anonyme Namespaces (Datei-spezifisch)\n",
+                "- Alles in einem anonymen Namespace ist **nur in der aktuellen Datei sichtbar**\n",
+                "```cpp\nnamespace {\n    int geheim() { return 42; }\n}\n```\n",
+                "\n",
+                "---\n",
+                "### Verschachtelte Namespaces (modernes C++)\n",
+                "```cpp\nnamespace Projekt::Modul {\n    void machWas() {}\n}\n```\n",
+                "\n",
+                "👉 `std` ist das bekannteste Beispiel: `std::cout`, `std::string`, `std::vector`, ...\n",
+                "👉 Namespaces verbessern Struktur, Lesbarkeit und Wartbarkeit von Code\n",
+                "---\n"
+              ],
+              "code": [
+                "#include <iostream>\n\n// Eigener Namespace\nnamespace Mathe {\n    int addiere(int a, int b) {\n        return a + b;\n    }\n}\n\n// Verschachtelter Namespace\nnamespace Projekt::Modul {\n    void info() {\n        std::cout << \"Modul aktiv\" << std::endl;\n    }\n}\n\nint main() {\n    int summe = Mathe::addiere(3, 4);\n    std::cout << \"Summe: \" << summe << std::endl;          // Ausgabe: Summe: 7\n\n    Projekt::Modul::info();                                 // Ausgabe: Modul aktiv\n\n    // using-Anweisung (gezielt)\n    using std::cout;\n    using std::endl;\n    cout << \"Hallo aus main()\" << endl;                      // Ausgabe: Hallo aus main()\n\n    return 0;\n}"
+              ]
+            } 
+          },
+          { "title": "using namespace", "content": { 
+            "text": [
+                "### `using namespace` (nicht immer empfohlen)\n",
+                "- Mit `using namespace std;` kann man `std::cout` einfach als `cout` schreiben\n",
+                "- Nachteil: Alle Namen des Namespace werden global sichtbar → Konfliktgefahr\n",
+                "- Besser: Nur gezielt importieren\n",
+                "```cpp\nusing std::cout;\nusing std::endl;\n```\n",
+                "\n"
+              ], 
+            "code": [] } },
+          { "title": "namespace vs. class", "content": { 
+            "text": [ 
+                "### === Unterschied: Namespace vs. Class ===\n",
+                "`namespace` und `class` dienen beide zur Strukturierung, haben aber völlig unterschiedliche Funktionen:\n",
+                "\n",
+                "---\n",
+                "| Merkmal              | `namespace`                            | `class` / `struct`                        |\n",
+                "| Zweck                | Gruppierung von Code                   | Bauplan für Objekte (Daten + Methoden)    |\n",
+                "| Objekte erzeugbar?   | ❌ Nein                                 | ✅ Ja                                      |\n",
+                "| Zugriff              | `Mathe::addiere()`                     | `objekt.methode()` oder `Klasse::static()`|\n",
+                "| Sichtbarkeit         | Alles `public`                         | Zugriffskontrolle mit `public/private`    |\n",
+                "| Typ im Code?         | Kein eigener Typ                       | Eigener Datentyp                          |\n",
+                "| Nutzung              | Organisation, Modularisierung          | Modellierung realer Dinge                 |\n",
+                "\n",
+                "---\n",
+                "### Beispiel zur Verdeutlichung:\n",
+                "```cpp\nnamespace Mathe {\n    int addiere(int a, int b) {\n        return a + b;\n    }\n}\n\nclass Person {\npublic:\n    std::string name;\n    int alter;\n};\n\nint main() {\n    int summe = Mathe::addiere(2, 3);       // Namespace-Funktion\n    Person p = {\"Kilian\", 22};              // Objekt einer Klasse\n    return 0;\n}\n```\n",
+                "\n",
+                "### 👉 Merksatz",
+                "`namespace` ist **eine Ordnungsbox**, `class` ist **der Inhalt mit Logik und Zustand**.\n",
+                "---\n"
+            ], 
+            "code": [] 
+            } 
+          }
+        ]
+      }
+    ]
+  },
+
+
+
+
+
+
   {
     "category": "Templates",
     "icon": "🧩",
