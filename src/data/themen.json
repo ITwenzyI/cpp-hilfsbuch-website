@@ -344,23 +344,66 @@
     "icon": "📚",
     "subcategories": [
       {
-        "name": "Standard Header",
-        "icon": "📚",
-        "topics": [
-          { "title": "<iostream>", "content": { "text": [], "code": [] } },
-          { "title": "<algorithm>", "content": { "text": [], "code": [] } },
-          { "title": "<cmath>", "content": { "text": [], "code": [] } },
-          { "title": "<string>", "content": { "text": [], "code": [] } }
+      "name": "Ein- und Ausgabe",
+      "icon": "🖨️",
+      "topics": [
+        { "title": "<iostream>", "content": { "text": [], "code": [] } },
+        { "title": "<fstream>", "content": { "text": [], "code": [] } },
+        { "title": "<sstream>", "content": { "text": [], "code": [] } },
+        { "title": "<iomanip>", "content": { "text": [], "code": [] } }
         ]
       },
       {
-        "name": "Utility Header",
-        "icon": "🧰",
-        "topics": [
-          { "title": "<utility> (pair, swap)", "content": { "text": [], "code": [] } },
-          { "title": "<tuple>", "content": { "text": [], "code": [] } },
-          { "title": "<random>", "content": { "text": [], "code": [] } },
-          { "title": "<limits>", "content": { "text": [], "code": [] } }
+      "name": "String Header",
+      "icon": "🧵",
+      "topics": [
+        { "title": "<string>", "content": { "text": [], "code": [] } },
+        { "title": "<string_view>", "content": { "text": [], "code": [] } },
+        { "title": "<cstring>", "content": { "text": [], "code": [] } },
+        { "title": "<cctype>", "content": { "text": [], "code": [] } },
+        { "title": "<sstream>", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+      "name": "Mathematik & Zufall",
+      "icon": "🧮",
+      "topics": [
+        { "title": "<cmath>", "content": { "text": [], "code": [] } },
+        { "title": "<cstdlib>", "content": { "text": [], "code": [] } },
+        { "title": "<random>", "content": { "text": [], "code": [] } },
+        { "title": "<limits>", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+      "name": "Zeit & Timing",
+      "icon": "⏱️",
+      "topics": [
+        { "title": "<chrono>", "content": { "text": [], "code": [] } },
+        { "title": "<ctime>", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+      "name": "System & Low-Level",
+      "icon": "🧰",
+      "topics": [
+        { "title": "<thread>", "content": { "text": [], "code": [] } },
+        { "title": "<future>", "content": { "text": [], "code": [] } },
+        { "title": "<typeinfo>", "content": { "text": [], "code": [] } },
+        { "title": "<new>", "content": { "text": [], "code": [] } },
+        { "title": "<memory>", "content": { "text": [], "code": [] } },
+        { "title": "<cstdio>", "content": { "text": [], "code": [] } }
+        ]
+      },
+      {
+      "name": "Algorithmen & Utility Header",
+      "icon": "📦",
+      "topics": [
+        { "title": "<algorithm>", "content": { "text": [], "code": [] } },
+        { "title": "<iterator>", "content": { "text": [], "code": [] } },
+        { "title": "<functional>", "content": { "text": [], "code": [] } },
+        { "title": "<initializer_list>", "content": { "text": [], "code": [] } },
+        { "title": "<tuple>", "content": { "text": [], "code": [] } },
+        { "title": "<utility> (pair, swap)", "content": { "text": [], "code": [] } }
         ]
       }
     ]
