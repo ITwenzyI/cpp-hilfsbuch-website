@@ -332,8 +332,52 @@
         "icon": "🧠",
         "topics": [
           { "title": "RAII Prinzip", "content": { "text": [], "code": [] } },
-          { "title": "std::unique_ptr", "content": { "text": [], "code": [] } },
-          { "title": "std::shared_ptr", "content": { "text": [], "code": [] } }
+          { "title": "Smart Pointer", "content": {
+            "text": [
+              "### === Smart Pointer in C++ ===\n",
+              "Smart Pointer verwalten dynamischen Speicher **automatisch** und verhindern typische Fehler wie **Speicherlecks**, **doppelte `delete`s** oder **Zugriffe auf ungültige Speicherbereiche**.\n",
+              "Sie gehören zum Header `<memory>` und sind seit **C++11** verfügbar.\n",
+              "\n",
+              "---\n",
+              "### Warum Smart Pointer?\n",
+              "- Kein manuelles `delete` nötig\n",
+              "- Klare Besitzverhältnisse\n",
+              "- Automatische Speicherfreigabe beim Verlassen des Scopes\n",
+              "\n",
+              "---\n",
+              "### 🔹 `std::unique_ptr<T>`\n",
+              "- **Exklusiver Besitz**: Nur ein Zeiger kann auf das Objekt zeigen\n",
+              "- **Nicht kopierbar**, aber **verschiebbar** (`std::move`)\n",
+              "- Objekt wird beim Verlassen des Scopes automatisch gelöscht\n",
+              "```cpp\nstd::unique_ptr<int> ptr = std::make_unique<int>(10);\nptr.reset(); // manuelles Löschen möglich\n```\n",
+              "\n",
+              "---\n",
+              "### 🔹 `std::shared_ptr<T>`\n",
+              "- **Mehrere Besitzer** teilen sich das Objekt\n",
+              "- Automatische Löschung, wenn **alle Kopien** verschwinden\n",
+              "- Intern wird ein **Referenzzähler** verwaltet (`use_count()`)\n",
+              "```cpp\nstd::shared_ptr<int> a = std::make_shared<int>(5);\nstd::shared_ptr<int> b = a; // b zeigt ebenfalls auf das Objekt\nstd::cout << a.use_count(); // 2\nb.reset(); // b gibt das Objekt frei\nstd::cout << a.use_count(); // 1\n```\n",
+              "- `reset()` löscht den eigenen Bezug, nicht das Objekt, solange noch andere `shared_ptr` existieren\n",
+              "\n",
+              "---\n",
+              "### 🔹 `std::weak_ptr<T>`\n",
+              "- Beobachtet ein Objekt von `shared_ptr`, **ohne den Zähler zu erhöhen**\n",
+              "- Kann ungültig werden → **immer mit `.lock()` prüfen**\n",
+              "```cpp\nstd::weak_ptr<int> w = a;\nif (auto sp = w.lock()) { std::cout << *sp; }\n```\n",
+              "\n",
+              "---\n",
+              "### 🔍 Vergleichstabelle:\n",
+              "| Typ           | Besitz       | Kopierbar? | Besonderheit                     |\n",
+              "| `unique_ptr`  | exklusiv     | ❌ nein     | nur mit `std::move` übertragbar  |\n",
+              "| `shared_ptr`  | gemeinsam    | ✅ ja       | Zähler zählt aktive Referenzen   |\n",
+              "| `weak_ptr`    | kein Besitz  | ✅ ja       | Beobachtet ohne mitzuzählen      |\n",
+              "---\n"
+              ],
+            "code": [
+              "#include <iostream>\n#include <memory>\n\nclass Beispiel {\npublic:\n    Beispiel() { std::cout << \"Konstruktor\\n\"; }\n    ~Beispiel() { std::cout << \"Destruktor\\n\"; }\n    void anzeigen() { std::cout << \"Hallo Welt\\n\"; }\n};\n\nint main() {\n    // unique_ptr\n    std::unique_ptr<Beispiel> up = std::make_unique<Beispiel>();\n    up->anzeigen(); // Hallo Welt\n    up.reset();     // Speicher freigeben\n\n    // shared_ptr\n    std::shared_ptr<Beispiel> sp1 = std::make_shared<Beispiel>();\n    std::shared_ptr<Beispiel> sp2 = sp1; // Referenzzähler = 2\n    std::cout << \"shared_ptr Zähler: \" << sp1.use_count() << std::endl; // 2\n\n    sp2.reset(); // sp2 gibt das Objekt frei\n    std::cout << \"nach reset Zähler: \" << sp1.use_count() << std::endl; // 1\n\n    // weak_ptr\n    std::weak_ptr<Beispiel> wp = sp1;\n    if (auto temp = wp.lock()) {\n        temp->anzeigen(); // Hallo Welt\n    }\n\n    sp1.reset(); // Letzter shared_ptr gibt frei → Destruktor wird aufgerufen\n\n    return 0;\n}"
+              ]
+            } 
+          }
         ]
       }
     ]
