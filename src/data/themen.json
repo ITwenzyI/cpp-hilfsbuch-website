@@ -606,6 +606,80 @@
             } 
           }
         ]
+      },
+      {
+        "name": "Klassenmember & Attribute",
+        "icon": "🧩",
+        "topics": [
+          { "title": "static Member", "content": { 
+            "text": [    
+              "### === `static` in C++ ===\n",
+              "`static` hat in C++ mehrere Bedeutungen - je nachdem, **wo** es verwendet wird:\n",
+              "\n",
+              "---\n",
+              "### 🔹 `static` innerhalb einer Funktion:\n",
+              "- Variable wird **nur einmal erstellt** (beim ersten Aufruf)\n",
+              "- Bleibt zwischen Aufrufen **erhalten**\n",
+              "```cpp\nvoid zähler() {\n    static int x = 0;\n    x++;\n    std::cout << x << std::endl;\n}\n```\n",
+              "\n",
+              "---\n",
+              "### 🔹 `static` in Klassen (statisch für alle Objekte):\n",
+              "- Variable gehört **zur Klasse, nicht zum Objekt**\n",
+              "- Wird **außerhalb der Klasse** definiert\n",
+              "- Gleicher Wert für **alle Instanzen**\n",
+              "```cpp\nclass Test {\npublic:\n    static int anzahl;\n};\n\nint Test::anzahl = 0;\n```\n",
+              "\n",
+              "---\n",
+              "### 🔹 `static` bei Klassenfunktionen:\n",
+              "- Funktion gehört **nicht zu einem Objekt**, sondern zur **Klasse selbst**\n",
+              "- Kein Zugriff auf `this` oder andere Nicht-static-Member\n",
+              "- Wird über `Klassenname::Funktion()` aufgerufen\n",
+              "```cpp\nclass Utils {\npublic:\n    static int verdoppeln(int x) {\n        return x * 2;\n    }\n};\n\nint y = Utils::verdoppeln(5);  // 10\n```\n",
+              "\n",
+              "---\n",
+              "### 🔹 `static` bei Funktionen (außerhalb von Klassen):\n",
+              "- Funktion ist **nur innerhalb derselben Datei sichtbar** (file-scope)\n",
+              "- Nützlich zur Kapselung beim Modularisieren\n",
+              "```cpp\nstatic int intern() {\n    return 123;\n}\n```\n",
+              "\n",
+              "👉 `static` hilft, **Lebensdauer zu steuern**, **Speicher zu sparen** und **Sichtbarkeit einzuschränken**.\n",
+              "---\n"
+              ], 
+            "code": [
+              "#include <iostream>\n\nclass Test {\npublic:\n    static int zähler;\n    void erhöhen() {\n        zähler++;\n    }\n};\n\nint Test::zähler = 0;\n\nvoid funktionMitStatic() {\n    static int x = 0;\n    x++;\n    std::cout << \"static in Funktion: \" << x << std::endl; // 1, dann 2\n}\n\n// statische Klassenfunktion\nclass Utils {\npublic:\n    static int verdoppeln(int x) {\n        return x * 2;\n    }\n};\n\n// statische Funktion außerhalb einer Klasse\nstatic void dateiLokal() {\n    std::cout << \"Nur in dieser Datei sichtbar.\" << std::endl;\n}\n\nint main() {\n    Test a, b;\n    a.erhöhen();\n    b.erhöhen();\n    std::cout << \"static in Klasse: \" << Test::zähler << std::endl; // Ausgabe: 2\n\n    funktionMitStatic(); // Ausgabe: 1\n    funktionMitStatic(); // Ausgabe: 2\n\n    std::cout << \"Utils::verdoppeln: \" << Utils::verdoppeln(7) << std::endl; // Ausgabe: 14\n\n    dateiLokal(); // Ausgabe: Nur in dieser Datei sichtbar.\n\n    return 0;\n}"
+              ] 
+            } 
+          },
+          { "title": "mutable Member", "content": { 
+            "text": [  
+              "### === `mutable` in C++ ===\n",
+              "`mutable` erlaubt es, einen Member einer Klasse **trotz `const`-Funktion zu verändern**.\n",
+              "\n",
+              "---\n",
+              "### Wann braucht man das?\n",
+              "- Normalerweise dürfen `const`-Funktionen **keine Membervariablen verändern**.\n",
+              "- Mit `mutable` kann man **gezielt Ausnahmen** machen, z.B. für Logging, Caching oder Zugriffszähler.\n",
+              "\n",
+              "---\n",
+              "### Auch ohne `const` nützlich:\n",
+              "- `mutable`-Member sind **immer unabhängig von `const`**, also z.B. nicht betroffen von `const`-Zustand anderer Objekte.\n",
+              "- Sie können **immer verändert werden**, auch außerhalb von `const`-Kontexten - z.B. als interne Zähler oder Zustände.\n",
+              "\n",
+              "---\n",
+              "### Wichtig:\n",
+              "- `mutable` funktioniert **nur bei Membervariablen**.\n",
+              "- Hat **nichts** mit `const` Variablen zu tun - es ist ein **Zugriffs-Modifier** für Klassenmitglieder.\n",
+              "\n",
+              "👉 Vorsicht beim Einsatz: `mutable` kann das `const`-Versprechen brechen!\n",
+              "---\n"
+              ], 
+            "code": [
+              "#include <iostream>\n#include <string>\n\nclass Datei {\nprivate:\n  std::string inhalt;\n  mutable int leseZähler = 0;  // darf auch in const-Funktion verändert werden\n\npublic:\n  Datei(std::string i) : inhalt(i) {}\n\n  std::string lesen() const {\n    leseZähler++;  // erlaubt, da mutable\n    return inhalt;\n  }\n\n  int getLeseZähler() const {\n    return leseZähler;\n  }\n};\n\nint main() {\n  const Datei d(\"Hallo Welt\");\n  std::cout << d.lesen() << std::endl;  // Ausgabe: Hallo Welt\n  std::cout << d.lesen() << std::endl;  // Ausgabe: Hallo Welt\n  std::cout << \"Anzahl Lesezugriffe: \" << d.getLeseZähler() << std::endl;  // Ausgabe: 2\n\n  return 0;\n}"
+              ] 
+            } 
+          },
+          { "title": "const Memberfunktionen", "content": { "text": [], "code": [] } }
+        ]
       }
     ]
   },
