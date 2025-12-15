@@ -346,46 +346,107 @@
         "name": "Basics",
         "icon": "💾",
         "topics": [
-          { "title": "Stack vs Heap", "content": { 
-            "text": [
-              "### === Speicherverwaltung in C++: Stack vs. Heap ===\n",
-              "In C++ unterscheidet man bei der Speichervergabe zwischen **Stack** und **Heap**:\n",
-              "\n",
-              "---\n",
-              "### 🔹 Stack-Speicher (automatisch)\n",
-              "- Wird für **lokale Variablen** verwendet\n",
-              "- Speicher wird **automatisch** freigegeben, wenn der Block verlassen wird\n",
-              "- Sehr schnell & sicher, aber begrenzt (Stack Overflow bei großen Arrays)\n",
-              "\n",
-              "```cpp\nvoid funktion() {\n    int a = 10;        // auf dem Stack\n} // a wird automatisch gelöscht\n```\n",
-              "\n",
-              "---\n",
-              "### 🔹 Heap-Speicher (dynamisch)\n",
-              "- Wird bei Bedarf mit `new` reserviert und mit `delete` freigegeben\n",
-              "- Muss **manuell** verwaltet werden → Gefahr von Speicherlecks\n",
-              "- Größer, aber langsamer als der Stack\n",
-              "\n",
-              "```cpp\nint* ptr = new int(5);  // Speicher im Heap\n*ptr = 42;\ndelete ptr;             // Speicher freigeben\n```\n",
-              "\n",
-              "---\n",
-              "### 🔹 Vergleich:\n",
-              "| Merkmal     | Stack                     | Heap                          |\n",
-              "| Geschwindigkeit | Sehr schnell              | Langsamer                    |\n",
-              "| Lebensdauer | Block-lokal (automatisch) | Manuell, bis `delete`        |\n",
-              "| Speichergröße | Begrenzter Speicher       | Größerer Speicher verfügbar  |\n",
-              "| Fehlerquellen | Stack Overflow möglich    | Speicherlecks, Dangling Ptr  |\n",
-              "\n",
-              "---\n",
-              "### 🔸 Modern C++ Tipp:\n",
-              "- Statt `new` / `delete` → besser `std::unique_ptr`, `std::shared_ptr`\n",
-              "- Smart Pointer übernehmen Speicherverwaltung automatisch\n",
-              "---\n"
-              ], 
-            "code": [
-              "#include <iostream>\n#include <memory> // für Smart Pointer\n\nvoid stackBeispiel() {\n    int zahl = 10;                    // Stack-Speicher\n    std::cout << \"Stack: \" << zahl << std::endl;\n} // zahl wird automatisch gelöscht\n\nvoid heapBeispiel() {\n    int* ptr = new int(42);           // Heap-Speicher\n    std::cout << \"Heap: \" << *ptr << std::endl;\n    delete ptr;                       // manuell löschen\n}\n\nvoid smartPointerBeispiel() {\n    std::unique_ptr<int> sp = std::make_unique<int>(100);\n    std::cout << \"SmartPointer: \" << *sp << std::endl;\n} // wird automatisch gelöscht\n\nint main() {\n    stackBeispiel();\n    heapBeispiel();\n    smartPointerBeispiel();\n    return 0;\n}"
-              ] 
-            } 
-          },
+          {
+  "title": "Stack vs Heap",
+  "difficulty": "basic",
+  "blocks": [
+    {
+      "type": "definition",
+      "term": "Stack",
+      "text": "Automatisch verwalteter Speicherbereich für lokale Variablen und Funktionsaufrufe."
+    },
+    {
+      "type": "definition",
+      "term": "Heap",
+      "text": "Dynamischer Speicherbereich für Objekte, deren Lebensdauer manuell oder über Smart Pointer gesteuert wird."
+    },
+    {
+      "type": "explanation",
+      "title": "Grundidee",
+      "text": [
+        "C++ verwendet zwei zentrale Speicherbereiche: Stack und Heap.",
+        "Beide unterscheiden sich stark in Lebensdauer, Geschwindigkeit und Fehleranfälligkeit."
+      ]
+    },
+    {
+      "type": "list",
+      "title": "Eigenschaften des Stack",
+      "items": [
+        "Speicher wird automatisch freigegeben",
+        "Sehr schneller Zugriff",
+        "Lebensdauer an Block oder Funktion gebunden",
+        "Begrenzte Größe"
+      ]
+    },
+    {
+      "type": "code",
+      "title": "Stack Beispiel",
+      "language": "cpp",
+      "code": "void f() {\n    int x = 10;\n} // x wird automatisch freigegeben"
+    },
+    {
+      "type": "list",
+      "title": "Eigenschaften des Heap",
+      "items": [
+        "Speicher wird dynamisch reserviert",
+        "Manuelle oder automatische Freigabe nötig",
+        "Größerer Speicherbereich",
+        "Langsamer als Stack"
+      ]
+    },
+    {
+      "type": "code",
+      "title": "Heap Beispiel",
+      "language": "cpp",
+      "code": "int* p = new int(5);\n// ...\ndelete p;"
+    },
+        {
+      "type": "comparison",
+      "title": "Vergleich",
+      "columns": ["Stack", "Heap"],
+      "rows": [
+        {
+          "aspect": "Geschwindigkeit",
+          "values": ["sehr schnell", "langsamer"]
+        },
+        {
+          "aspect": "Lebensdauer",
+          "values": ["automatisch", "manuell"]
+        }
+      ]
+},
+    {
+      "type": "pitfall",
+      "title": "Dangling Pointer",
+      "text": "Ein Pointer zeigt auf Speicher, der bereits freigegeben wurde."
+    },
+    {
+      "type": "important",
+      "text": "Manuelle Speicherverwaltung mit new und delete ist fehleranfällig."
+    },
+    {
+      "type": "note",
+      "variant": "modern_cpp",
+      "text": "Verwende bevorzugt std::unique_ptr oder std::shared_ptr statt new und delete."
+    },
+    {
+      "type": "example",
+      "title": "Typische Verwendung",
+      "text": [
+        "Lokale Variablen und Schleifen → Stack",
+        "Große Datenstrukturen oder geteilte Objekte → Heap"
+      ]
+    },
+    {
+      "type": "summary",
+      "points": [
+        "Stack ist schnell und automatisch",
+        "Heap ist flexibel, aber fehleranfällig",
+        "Modernes C++ vermeidet manuelle Speicherverwaltung"
+      ]
+    }
+  ]
+},
           { "title": "new / delete", "content": { 
             "text": [
               "### === Heap-Speicher in C++ (new / delete) ===\n",

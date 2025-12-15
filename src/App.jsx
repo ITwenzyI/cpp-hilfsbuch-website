@@ -7,6 +7,8 @@ import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
 import CodeBlock from "./components/CodeBlock";
 import "highlight.js/styles/github-dark.css";
+import ContentRenderer from "./components/ContentRenderer";
+
 
 /* ============================================================================
    STATE MANAGEMENT & CONSTANTS
@@ -352,26 +354,33 @@ function App() {
 
                 <h2 className="text-xl font-semibold mb-2">{selectedTopic.title}</h2>
 
-                {/* Markdown content */}
-                {selectedTopic.content?.text && (
-                  <div className="prose dark:prose-invert max-w-none mb-4">
-                    <ReactMarkdown
-                      remarkPlugins={[remarkGfm]}
-                      rehypePlugins={[rehypeRaw, rehypeHighlight]}
-                    >
-                      {formatText(selectedTopic.content.text)}
-                    </ReactMarkdown>
-                  </div>
+                {/* ================= CONTENT ================= */}
+                {selectedTopic.blocks ? (
+                  <ContentRenderer blocks={selectedTopic.blocks} />
+                ) : (
+                  <>
+                    {/* Fallback: altes Markdown */}
+                    {selectedTopic.content?.text && (
+                      <div className="prose dark:prose-invert max-w-none mb-4">
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          rehypePlugins={[rehypeRaw, rehypeHighlight]}
+                        >
+                          {formatText(selectedTopic.content.text)}
+                        </ReactMarkdown>
+                      </div>
+                    )}
+
+                    {Array.isArray(selectedTopic.content?.code)
+                      ? selectedTopic.content.code.map((snippet, i) => (
+                          <CodeBlock key={i} code={snippet} />
+                        ))
+                      : selectedTopic.content?.code && (
+                          <CodeBlock code={selectedTopic.content.code} />
+                        )}
+                  </>
                 )}
 
-                {/* Code blocks */}
-                {Array.isArray(selectedTopic.content?.code)
-                  ? selectedTopic.content.code.map((snippet, i) => (
-                      <CodeBlock key={i} code={snippet} />
-                    ))
-                  : selectedTopic.content?.code && (
-                      <CodeBlock code={selectedTopic.content.code} />
-                    )}
               </>
             ) : (
               /* ================= SUBCATEGORY VIEW ================= */
