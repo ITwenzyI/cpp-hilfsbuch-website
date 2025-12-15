@@ -3,11 +3,114 @@
     "category": "Grundlagen",
     "icon": "📘",
     "subcategories": [
+      
       {
         "name": "Basics",
         "icon": "📘",
         "topics": [
-          { "title": "Namensgebung", "content": { "text": [], "code": [] } },
+          {
+          "title": "Namensgebung in C++",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "content": {
+                "term": "Namensgebung",
+                "definition": "Namensgebung bezeichnet die Regeln und Konventionen, nach denen Bezeichner wie Variablen, Funktionen, Klassen, Typen und Dateien in C++ benannt werden. Sie ist nicht nur Syntax, sondern ein zentrales Mittel zur Verständlichkeit und Wartbarkeit von Code."
+              }
+            },
+            {
+              "type": "explanation",
+              "content": {
+                "text": "C++ erlaubt viele gültige Bezeichner, aber nur wenige sind sinnvoll. Gute Namensgebung transportiert Bedeutung ohne Kommentare, reduziert Fehler und erleichtert Zusammenarbeit. Schlechte Namen sind technisch korrekt, aber fachlich wertlos. Compiler prüfen nur die Syntax, nicht die Qualität der Namen."
+              }
+            },
+            {
+              "type": "list",
+              "content": {
+                "title": "Grundregeln für Bezeichner in C++",
+                "items": [
+                  "Ein Bezeichner darf mit einem Buchstaben oder Unterstrich beginnen, nicht mit einer Ziffer",
+                  "Er darf Buchstaben, Ziffern und Unterstriche enthalten",
+                  "Groß und Kleinschreibung ist relevant",
+                  "Reservierte Schlüsselwörter dürfen nicht verwendet werden",
+                  "Namen sollten die Bedeutung und nicht den Typ beschreiben"
+                ]
+              }
+            },
+            {
+              "type": "code",
+              "content": {
+                "description": "Gültige und ungültige Bezeichner",
+                "code": "int counter;\nint user_age;\nint _internalValue;\n\n// ungültig\n// int 2value;\n// int user-age;\n// int class;"
+              }
+            },
+            {
+              "type": "explanation",
+              "content": {
+                "text": "Die Wahl der Groß und Kleinschreibung ist in C++ frei, aber Konventionen sind entscheidend. Unterschiedliche Schreibweisen signalisieren unterschiedliche Rollen im Code. Diese Konventionen sind nicht vom Standard vorgeschrieben, aber faktisch etabliert."
+              }
+            },
+            {
+              "type": "comparison",
+              "content": {
+                "columns": ["Element", "Übliche Konvention", "Begründung"],
+                "rows": ["Variable", "snake_case oder camelCase", "Gut lesbar im Fließtext"],
+                "values": [
+                  ["Funktion", "camelCase", "Hebt Aktionen hervor"],
+                  ["Klasse oder Struct", "PascalCase", "Typen sind klar erkennbar"],
+                  ["Konstante", "UPPER_CASE", "Signalisiert Unveränderlichkeit"],
+                  ["Namespace", "snake_case", "Vermeidet visuelle Dominanz"],
+                  ["Template Parameter", "PascalCase oder einzelner Buchstabe", "Kurz und typisch für generische Typen"]
+                ]
+              }
+            },
+            {
+              "type": "example",
+              "content": {
+                "description": "Beispiel für konsistente Namensgebung",
+                "code": "class UserAccount {\npublic:\n    void updatePassword();\n\nprivate:\n    int user_id;\n    bool is_active;\n};"
+              }
+            },
+            {
+              "type": "pitfall",
+              "content": {
+                "title": "Typische Fehler bei der Namensgebung",
+                "items": [
+                  "Abkürzungen ohne klaren Kontext wie tmp oder x1",
+                  "Mischen mehrerer Konventionen im selben Projekt",
+                  "Namen, die Implementierungsdetails statt Bedeutung beschreiben",
+                  "Sehr lange Namen ohne zusätzlichen Informationsgewinn",
+                  "Verwendung führender Unterstriche im globalen Kontext"
+                ]
+              }
+            },
+            {
+              "type": "important",
+              "content": {
+                "text": "Bezeichner, die mit Unterstrich beginnen und zusätzlich einen Großbuchstaben enthalten, sind reserviert. Ihre Verwendung kann zu undefiniertem Verhalten führen und sollte strikt vermieden werden."
+              }
+            },
+            {
+              "type": "note",
+              "content": {
+                "text": "Wichtiger als die konkrete Konvention ist Konsistenz. Ein Projekt mit durchgängig einfacher Namensgebung ist besser als eines mit perfekter, aber uneinheitlicher Benennung."
+              }
+            },
+            {
+              "type": "summary",
+              "content": {
+                "points": [
+                  "Namensgebung ist ein zentrales Qualitätsmerkmal von C++ Code",
+                  "Der Compiler erzwingt nur Syntax, nicht gute Namen",
+                  "Etablierte Konventionen erleichtern Lesen und Zusammenarbeit",
+                  "Konsistenz ist wichtiger als persönliche Vorlieben",
+                  "Schlechte Namen kosten langfristig mehr Zeit als sie sparen"
+                ]
+              }
+            }
+          ]
+        },
           { "title": "Begriffe", "content": {
             "text": [
             "### === Wichtige Begriffe in C++ erklärt ===\n",
