@@ -2557,8 +2557,131 @@
               }
             ]
           },
-          { "title": "constexpr Funktionen", "content": { "text": [], "code": [] } },
-          { "title": "Lambda-Funktionen", "content": { "text": [], "code": [] } }
+          {
+            "title": "Lambda Funktionen",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "Lambda Funktion",
+                "text": "Eine anonyme Funktion, die direkt an der Verwendungsstelle definiert wird."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von Lambda Funktionen",
+                "text": [
+                  "Lambda Funktionen sind kurze Funktionsobjekte ohne eigenen Namen.",
+                  "Sie werden häufig für Callbacks, kurze Berechnungen und Standardalgorithmen genutzt."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Lambda Syntax",
+                "text": "Besteht aus Capture Liste, Parameterliste, optionalem Rückgabetyp und Funktionsrumpf."
+              },
+              {
+                "type": "code",
+                "title": "Grundlegende Lambda Syntax",
+                "language": "cpp",
+                "code": "auto f = [](int x) {\n    return x * 2;\n};"
+              },
+              {
+                "type": "definition",
+                "term": "Capture Liste",
+                "text": "Legt fest, welche äußeren Variablen im Lambda verwendet werden dürfen und wie sie übergeben werden."
+              },
+              {
+                "type": "list",
+                "title": "Wichtige Capture Modi",
+                "items": [
+                  "[]: keine Variablen capturen",
+                  "[x]: x per Wert capturen",
+                  "[&x]: x per Referenz capturen",
+                  "[=]: alle verwendeten Variablen per Wert capturen",
+                  "[&]: alle verwendeten Variablen per Referenz capturen",
+                  "[=, &x]: alle per Wert, x per Referenz",
+                  "[&, x]: alle per Referenz, x per Wert"
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Capture Beispiele",
+                "language": "cpp",
+                "code": "int a = 1;\nint b = 2;\n\nauto l1 = [a]() { return a; };        // Wert-Capture\nauto l2 = [&b]() { b++; };            // Referenz-Capture\nauto l3 = [=]() { return a + b; };    // alle per Wert\nauto l4 = [=, &b]() { b += a; };      // Mischung"
+              },
+              {
+                "type": "definition",
+                "term": "mutable Lambda",
+                "text": "Ein Lambda, das erlaubt, per Wert gecapturete Variablen zu verändern."
+              },
+              {
+                "type": "code",
+                "title": "mutable Lambda Beispiel",
+                "language": "cpp",
+                "code": "int x = 5;\nauto l = [x]() mutable {\n    x++;            // erlaubt wegen mutable\n    return x;\n};"
+              },
+              {
+                "type": "definition",
+                "term": "Rückgabetyp",
+                "text": "Der Rückgabetyp eines Lambdas wird meist automatisch bestimmt, kann aber explizit angegeben werden."
+              },
+              {
+                "type": "code",
+                "title": "Expliziter Rückgabetyp",
+                "language": "cpp",
+                "code": "auto div = [](int a, int b) -> double {\n    return static_cast<double>(a) / b;\n};"
+              },
+              {
+                "type": "definition",
+                "term": "std::function",
+                "text": "Ein Typ, der beliebige aufrufbare Objekte mit einer festen Signatur speichern kann."
+              },
+              {
+                "type": "explanation",
+                "title": "Lambda mit std::function",
+                "text": [
+                  "Lambdas können in std::function gespeichert werden.",
+                  "Dies ist flexibel, aber langsamer als direkte Nutzung eines Lambdas."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Lambda in std::function",
+                "language": "cpp",
+                "code": "#include <functional>\n\nstd::function<int(int)> f = [](int x) {\n    return x * x;\n};"
+              },
+              {
+                "type": "definition",
+                "term": "Lambda in Algorithmen",
+                "text": "Lambda Funktionen werden häufig als Prädikate oder Aktionen in Standardalgorithmen verwendet."
+              },
+              {
+                "type": "code",
+                "title": "Lambda mit std::algorithm",
+                "language": "cpp",
+                "code": "#include <algorithm>\n#include <vector>\n\nstd::vector<int> v = {1, 2, 3, 4};\n\nint count = std::count_if(v.begin(), v.end(), [](int x) {\n    return x % 2 == 0; // zählt gerade Zahlen\n});"
+              },
+              {
+                "type": "pitfall",
+                "title": "Referenz Capture und Lebensdauer",
+                "text": "Referenz-Captures sind gefährlich, wenn das Lambda länger lebt als die referenzierte Variable."
+              },
+              {
+                "type": "important",
+                "text": "Standardfall: kleine Logik direkt als Lambda, komplexe Logik als normale Funktion."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Lambda Funktionen sind anonyme Funktionsobjekte",
+                  "Capture Listen steuern Zugriff auf äußere Variablen",
+                  "mutable erlaubt Änderungen an Wert-Captures",
+                  "Lambdas können in std::function gespeichert werden",
+                  "Standardalgorithmen nutzen Lambdas intensiv"
+                ]
+              }
+            ]
+          }
         ]
       }
     ]
