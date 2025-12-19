@@ -109,104 +109,130 @@
             }
           ]
         },
-          { "title": "Begriffe", "content": {
-            "text": [
-            "### === Wichtige Begriffe in C++ erklärt ===\n",
-            "Hier findest du eine Übersicht zentraler Begriffe in der C++-Programmierung, kompakt erklärt.\n",
-            "\n",
-            "#### Compiler\n",
-            "- Übersetzt C++-Code in Maschinenprogramm, das dein Computer ausführen kann\n",
-            "\n",
-            "#### Präprozessor\n",
-            "- Führt Anweisungen wie `#include` und `#define` vor dem Kompilieren aus\n",
-            "\n",
-            "#### Header-Datei\n",
-            "- Datei mit Deklarationen von Funktionen, Klassen oder Konstanten (`.hpp`)\n",
-            "\n",
-            "#### Deklaration vs. Definition\n",
-            "- Deklaration: Nur Ankündigung (z.B. `int x;`)\n",
-            "- Definition: Speicher wird wirklich zugewiesen (z.B. `int x = 5;`)\n",
-            "\n",
-            "#### Variable\n",
-            "- Speicherstelle mit Namen, die Daten aufnehmen kann (z.B. `int zahl = 10;`)\n",
-            "\n",
-            "#### Funktion\n",
-            "- Codeblock, der mehrfach ausführbar ist - mit `return`-Wert und Parametern\n",
-            "\n",
-            "#### Rückgabewert\n",
-            "- Der Wert, den eine Funktion mit `return` zurückliefert\n",
-            "\n",
-            "#### Parameter vs. Argument\n",
-            "- Parameter: Platzhalter in der Funktionsdefinition (`int add(int a, int b)`)\n",
-            "- Argument: Konkreter Wert beim Aufruf (`add(5, 7)` → 5 und 7)\n",
-            "\n",
-            "#### Block / Scope\n",
-            "- Bereich mit `{}` - darin gelten lokale Variablen\n",
-            "\n",
-            "#### Gültigkeitsbereich (Scope)\n",
-            "- Gibt an, wo im Code eine Variable sichtbar/nutzbar ist (z.B. lokal vs. global)\n",
-            "\n",
-            "#### Initialisierung\n",
-            "- Erstmalige Zuweisung eines Werts an eine Variable (`int x = 5;`)\n",
-            "\n",
-            "#### Operatoren\n",
-            "- Rechenzeichen oder Symbole zur Verarbeitung (`+`, `-`, `==`, `&&`, `++`, `<<`)\n",
-            "\n",
-            "#### Kontrollstrukturen\n",
-            "- Anweisungen zur Ablaufsteuerung: `if`, `while`, `for`, `switch`\n",
-            "\n",
-            "#### Schleife\n",
-            "- Wiederholt Anweisungen: `while`, `for`, `do-while`\n",
-            "\n",
-            "#### Bedingung\n",
-            "- Ausdruck, der `true` oder `false` ergibt (z.B. `x > 5`)\n",
-            "\n",
-            "#### Klasse / Objekt\n",
-            "- Klasse: Bauplan für Objekte (enthält Daten + Funktionen)\n",
-            "- Objekt: Konkrete Instanz einer Klasse\n",
-            "\n",
-            "#### Konstruktor / Destruktor\n",
-            "- Konstruktor: Wird beim Erzeugen eines Objekts automatisch aufgerufen\n",
-            "- Destruktor: Wird beim Löschen automatisch aufgerufen (`~Klassenname()`)\n",
-            "\n",
-            "#### this-Zeiger\n",
-            "- Zeigt innerhalb einer Klasse auf das aktuelle Objekt (`this->variable`)\n",
-            "\n",
-            "#### new / delete\n",
-            "- `new`: Reserviert Speicher auf dem Heap (`int* p = new int;`)\n",
-            "- `delete`: Gibt diesen Speicher wieder frei\n",
-            "\n",
-            "#### Referenz (&)\n",
-            "- Alias auf eine bestehende Variable (z.B. `int& r = x;`)\n",
-            "\n",
-            "#### Zeiger (*)\n",
-            "- Variable, die eine Speicheradresse speichert (`int* p = &x;`)\n",
-            "\n",
-            "#### nullptr\n",
-            "- Null-Zeiger, zeigt auf „nichts“ (`int* p = nullptr;`)\n",
-            "\n",
-            "#### Überladung\n",
-            "- Mehrere Funktionen mit gleichem Namen, aber unterschiedlicher Signatur\n",
-            "\n",
-            "#### Vererbung\n",
-            "- Eine Klasse übernimmt Eigenschaften einer anderen Klasse\n",
-            "\n",
-            "#### Polymorphie\n",
-            "- Fähigkeit, Objekte über gemeinsame Schnittstellen unterschiedlich zu behandeln\n",
-            "\n",
-            "#### Template\n",
-            "- Ermöglicht generischen Code (z.B. Funktionen für beliebige Typen)\n",
-            "\n",
-            "#### Lambda\n",
-            "- Anonyme Funktion, oft für kurze Aktionen in `std::for_each`, `sort`, ...\n",
-            "\n",
-            "#### Iterator\n",
-            "- Zeiger-ähnliches Objekt zum Durchlaufen von Containern (`v.begin()`, `v.end()`)\n",
-            "---\n"
-            ],
-            "code": []
-          } 
-        },
+{
+  "title": "Wichtige Grundbegriffe in C++",
+  "difficulty": "basic",
+  "blocks": [
+    {
+      "type": "definition",
+      "term": "Deklaration",
+      "text": "Macht einen Namen und seinen Typ bekannt, ohne ihn zwingend vollständig festzulegen. (z.B. `int x;`)"
+    },
+    {
+      "type": "definition",
+      "term": "Definition",
+      "text": "Legt Speicher oder die konkrete Implementierung eines Namens fest. (z.B. `int x = 5;`)"
+    },
+    {
+      "type": "definition",
+      "term": "Initialisierung",
+      "text": "Vergibt beim Erzeugen einer Variable direkt einen Startwert."
+    },
+    {
+      "type": "definition",
+      "term": "Zuweisung",
+      "text": "Ändert den Wert einer bereits existierenden Variable."
+    },
+    {
+      "type": "definition",
+      "term": "Variable",
+      "text": "Ein benannter Speicherbereich zur Ablage von Daten."
+    },
+    {
+      "type": "definition",
+      "term": "Datentyp",
+      "text": "Legt fest, welche Art von Wert gespeichert wird und wie viel Speicher benötigt wird."
+    },
+    {
+      "type": "definition",
+      "term": "Referenz",
+      "text": "Ein alternativer Name für ein bereits existierendes Objekt."
+    },
+    {
+      "type": "definition",
+      "term": "Zeiger",
+      "text": "Speichert die Speicheradresse eines Objekts."
+    },
+    {
+      "type": "definition",
+      "term": "Funktion",
+      "text": "Ein benannter Codeblock, der eine bestimmte Aufgabe ausführt."
+    },
+    {
+      "type": "definition",
+      "term": "Parameter",
+      "text": "Platzhalter in der Funktionsdefinition für übergebene Werte."
+    },
+    {
+      "type": "definition",
+      "term": "Argument",
+      "text": "Konkreter Wert, der beim Funktionsaufruf übergeben wird."
+    },
+    {
+      "type": "definition",
+      "term": "Rückgabewert",
+      "text": "Wert, den eine Funktion nach ihrer Ausführung zurückliefert."
+    },
+    {
+      "type": "definition",
+      "term": "Scope",
+      "text": "Der Gültigkeitsbereich, in dem ein Name verwendet werden darf."
+    },
+    {
+      "type": "definition",
+      "term": "Block",
+      "text": "Ein zusammengehöriger Codebereich, der durch geschweifte Klammern begrenzt ist."
+    },
+    {
+      "type": "definition",
+      "term": "Namespace",
+      "text": "Ein Namensraum zur Strukturierung und Vermeidung von Namenskonflikten."
+    },
+    {
+      "type": "definition",
+      "term": "Klasse",
+      "text": "Ein Bauplan für Objekte, der Daten und Funktionen zusammenfasst."
+    },
+    {
+      "type": "definition",
+      "term": "Objekt",
+      "text": "Eine konkrete Instanz einer Klasse."
+    },
+    {
+      "type": "definition",
+      "term": "Konstruktor",
+      "text": "Spezielle Funktion, die beim Erzeugen eines Objekts aufgerufen wird."
+    },
+    {
+      "type": "definition",
+      "term": "Destruktor",
+      "text": "Spezielle Funktion, die beim Zerstören eines Objekts aufgerufen wird."
+    },
+    {
+      "type": "definition",
+      "term": "Header-Datei",
+      "text": "Datei, die Deklarationen für andere Übersetzungseinheiten bereitstellt."
+    },
+    {
+      "type": "definition",
+      "term": "Quell-Datei",
+      "text": "Datei, die die eigentlichen Definitionen und Implementierungen enthält."
+    },
+    {
+      "type": "important",
+      "text": "Diese Begriffe bilden das Fundament zum Verstehen von C++ Code und Compiler-Fehlern."
+    },
+    {
+      "type": "summary",
+      "points": [
+        "Deklaration und Definition sind nicht dasselbe",
+        "Parameter gehören zur Funktion, Argumente zum Aufruf",
+        "Referenzen und Zeiger arbeiten beide mit bestehenden Objekten",
+        "Klassen definieren Strukturen, Objekte sind ihre Instanzen"
+      ]
+    }
+  ]
+},
           { "title": "Datentypen", "content": {
             "text": [
               "### === Datentypen in C++ ===\n",
