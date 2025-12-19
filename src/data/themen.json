@@ -1898,7 +1898,84 @@
               }
             ]
           },
-          { "title": "switch", "content": { "text": [], "code": [] } }
+          {
+            "title": "switch",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "switch Anweisung",
+                "text": "Eine Kontrollstruktur zur Auswahl eines Codepfads basierend auf dem Wert eines Ausdrucks."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von switch",
+                "text": [
+                  "switch vergleicht einen Ausdruck mit mehreren festen Werten.",
+                  "Je nach Treffer wird der zugehörige Codeblock ausgeführt."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "case",
+                "text": "Ein möglicher Vergleichswert innerhalb einer switch Anweisung."
+              },
+              {
+                "type": "definition",
+                "term": "default",
+                "text": "Ein optionaler Zweig, der ausgeführt wird, wenn kein case passt."
+              },
+              {
+                "type": "code",
+                "title": "Einfaches switch Beispiel",
+                "language": "cpp",
+                "code": "int day = 3;\n\nswitch (day) {\ncase 1:\n    // Montag\n    break;\ncase 2:\n    // Dienstag\n    break;\ncase 3:\n    // Mittwoch\n    break;\ndefault:\n    // Ungültiger Tag\n    break;\n}"
+              },
+              {
+                "type": "definition",
+                "term": "break",
+                "text": "Beendet einen case Block und verhindert das Weiterlaufen in den nächsten case."
+              },
+              {
+                "type": "explanation",
+                "title": "Fallthrough",
+                "text": [
+                  "Ohne break wird der Code im nächsten case ebenfalls ausgeführt.",
+                  "Dieses Verhalten nennt man Fallthrough."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Fallthrough Beispiel",
+                "language": "cpp",
+                "code": "int x = 1;\n\nswitch (x) {\ncase 1:\n    // wird ausgeführt\ncase 2:\n    // wird ebenfalls ausgeführt\n    break;\n}"
+              },
+              {
+                "type": "definition",
+                "term": "switch Ausdruck",
+                "text": "Der Ausdruck in switch muss ein ganzzahliger oder enum Typ sein."
+              },
+              {
+                "type": "pitfall",
+                "title": "Vergessenes break",
+                "text": "Fehlende break Anweisungen führen oft zu unerwartetem Verhalten."
+              },
+              {
+                "type": "important",
+                "text": "switch ist geeignet für viele feste Vergleichswerte, nicht für komplexe Bedingungen."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "switch wählt Codepfade anhand eines Wertes",
+                  "case definiert mögliche Vergleichswerte",
+                  "default deckt alle übrigen Fälle ab",
+                  "break verhindert Fallthrough",
+                  "switch funktioniert nur mit bestimmten Datentypen"
+                ]
+              }
+            ]
+          }
         ]
       },
       {
