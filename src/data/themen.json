@@ -2407,7 +2407,74 @@
               }
             ]
           },
-          { "title": "Überladen", "content": { "text": [], "code": [] } }
+          {
+            "title": "Funktionsüberladung",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "Funktionsüberladung",
+                "text": "Mehrere Funktionen mit gleichem Namen, aber unterschiedlicher Parameterliste."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee der Überladung",
+                "text": [
+                  "Funktionen können denselben Namen tragen, solange sich ihre Parameter unterscheiden.",
+                  "Der Compiler entscheidet anhand der Argumente, welche Funktion aufgerufen wird."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Signatur",
+                "text": "Kombination aus Funktionsname und Parametertypen."
+              },
+              {
+                "type": "code",
+                "title": "Einfache Funktionsüberladung",
+                "language": "cpp",
+                "code": "int add(int a, int b) {\n    return a + b;\n}\n\ndouble add(double a, double b) {\n    return a + b;\n}"
+              },
+              {
+                "type": "explanation",
+                "title": "Auswahl der passenden Funktion",
+                "text": [
+                  "Die Auswahl erfolgt zur Compilezeit.",
+                  "Rückgabetyp allein reicht nicht zur Überladung aus."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Überladung mit unterschiedlicher Parameteranzahl",
+                "language": "cpp",
+                "code": "int sum(int a, int b) {\n    return a + b;\n}\n\nint sum(int a, int b, int c) {\n    return a + b + c;\n}"
+              },
+              {
+                "type": "definition",
+                "term": "Überladung und const",
+                "text": "const kann Teil der Funktionssignatur sein, insbesondere bei Memberfunktionen."
+              },
+              {
+                "type": "pitfall",
+                "title": "Mehrdeutige Aufrufe",
+                "text": "Unklare Typumwandlungen können dazu führen, dass der Compiler keine passende Überladung findet."
+              },
+              {
+                "type": "important",
+                "text": "Funktionsüberladung verbessert Lesbarkeit, wenn gleiche Konzepte logisch zusammengehören."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Mehrere Funktionen können denselben Namen haben",
+                  "Die Parameterliste muss sich unterscheiden",
+                  "Die Entscheidung erfolgt zur Compilezeit",
+                  "Der Rückgabetyp allein genügt nicht",
+                  "Überladung sollte klar und eindeutig bleiben"
+                ]
+              }
+            ]
+          }
         ]
       },
       {
