@@ -234,190 +234,308 @@
             ]
           },
           {
-  "title": "Datentypen in C++",
-  "difficulty": "basic",
-  "blocks": [
-    {
-      "type": "definition",
-      "term": "Datentyp",
-      "text": "Ein Datentyp legt fest, welche Art von Wert gespeichert wird und wie dieser interpretiert wird."
-    },
-    {
-      "type": "explanation",
-      "title": "Grundlegende Datentypen",
-      "text": [
-        "Grundlegende Datentypen sind fest in C++ eingebaut und bilden die Basis aller weiteren Typen.",
-        "Sie unterscheiden sich in Speicherbedarf, Wertebereich und Verwendungszweck."
-      ]
-    },
-    {
-      "type": "list",
-      "title": "Wichtige grundlegende Datentypen",
-      "items": [
-        "int: Ganzzahltyp",
-        "double: Gleitkommazahl",
-        "char: Einzelnes Zeichen",
-        "bool: Wahrheitswert true oder false",
-        "void: Kein Wert"
-      ]
-    },
-    {
-      "type": "code",
-      "title": "Grundlegende Datentypen Beispiel",
-      "language": "cpp",
-      "code": "int a = 5;\ndouble b = 3.14;\nbool ok = true;"
-    },
-    {
-      "type": "definition",
-      "term": "size_t",
-      "text": "Ein vorzeichenloser Ganzzahltyp zur Darstellung von Größen und Indizes."
-    },
-    {
-      "type": "code",
-      "title": "size_t Beispiel",
-      "language": "cpp",
-      "code": "size_t len = 10;"
-    },
-    {
-      "type": "definition",
-      "term": "std::string",
-      "text": "Ein Standardtyp zur komfortablen Verarbeitung von Texten."
-    },
-    {
-      "type": "code",
-      "title": "std::string Beispiel",
-      "language": "cpp",
-      "code": "std::string name = \"C++\";"
-    },
-    {
-      "type": "definition",
-      "term": "nullptr",
-      "text": "Ein spezieller Literalwert für einen ungültigen Zeiger."
-    },
-    {
-      "type": "code",
-      "title": "nullptr Beispiel",
-      "language": "cpp",
-      "code": "int* p = nullptr;"
-    },
-    {
-      "type": "definition",
-      "term": "auto",
-      "text": "Lässt den Compiler den Datentyp einer Variablen automatisch ableiten."
-    },
-    {
-      "type": "code",
-      "title": "auto Beispiel",
-      "language": "cpp",
-      "code": "auto x = 42;"
-    },
-    {
-      "type": "definition",
-      "term": "decltype",
-      "text": "Ermittelt den Typ eines Ausdrucks, ohne ihn auszuwerten."
-    },
-    {
-      "type": "code",
-      "title": "decltype Beispiel",
-      "language": "cpp",
-      "code": "int a = 0;\ndecltype(a) b = 1;"
-    },
-    {
-      "type": "definition",
-      "term": "struct",
-      "text": "Ein benutzerdefinierter Datentyp zur Bündelung mehrerer Werte."
-    },
-    {
-      "type": "definition",
-      "term": "class",
-      "text": "Ein benutzerdefinierter Datentyp mit Kapselung und Zugriffskontrolle."
-    },
-    {
-      "type": "code",
-      "title": "struct und class mit Funktionen",
-      "language": "cpp",
-      "code": "struct Point {\n    int x;\n    int y;\n\n    void move(int dx, int dy) {\n        x += dx;\n        y += dy;\n    }\n};\n\nclass Counter {\nprivate:\n    int value;\n\npublic:\n    Counter() : value(0) {}\n\n    void increment() {\n        value++;\n    }\n\n    int get() const {\n        return value;\n    }\n};"
-    },
-    {
-      "type": "definition",
-      "term": "enum",
-      "text": "Ein Datentyp mit einer festen Menge benannter Ganzzahlwerte."
-    },
-    {
-      "type": "code",
-      "title": "enum Beispiel",
-      "language": "cpp",
-      "code": "enum Color { Red, Green, Blue };"
-    },
-    {
-      "type": "definition",
-      "term": "enum class",
-      "text": "Stark typisierte Enumeration mit eigenem Gültigkeitsbereich und ohne implizite Umwandlung zu int."
-    },
-    {
-      "type": "code",
-      "title": "enum class Beispiel",
-      "language": "cpp",
-      "code": "enum class Status { Ok, Error, Unknown };\n\nStatus s = Status::Ok;"
-    },
-    {
-      "type": "definition",
-      "term": "typedef",
-      "text": "Erstellt einen Aliasnamen für einen bestehenden Datentyp."
-    },
-    {
-      "type": "definition",
-      "term": "using",
-      "text": "Moderne Alternative zu typedef für Typaliasse."
-    },
-    {
-      "type": "code",
-      "title": "typedef und using Beispiel",
-      "language": "cpp",
-      "code": "typedef unsigned int uint;\nusing Index = size_t;"
-    },
-    {
-      "type": "explanation",
-      "title": "Typumwandlung in C++",
-      "text": [
-        "Typumwandlungen werden verwendet, wenn ein Wert in einem anderen Datentyp weiterverarbeitet werden soll.",
-        "Explizite Casts wie static_cast sind sicherer und besser lesbar als implizite Umwandlungen."
-      ]
-    },
-    {
-      "type": "list",
-      "title": "Gängige Cast-Arten",
-      "items": [
-        "static_cast: normale, überprüfbare Umwandlungen",
-        "const_cast: Entfernen oder Hinzufügen von const",
-        "reinterpret_cast: bitweise Umdeutung, sehr gefährlich",
-        "dynamic_cast: sichere Laufzeitprüfung bei Vererbung"
-      ]
-    },
-    {
-      "type": "code",
-      "title": "Typumwandlung Beispiel",
-      "language": "cpp",
-      "code": "double d = 4.9;\nint i = static_cast<int>(d);"
-    },
-    {
-      "type": "important",
-      "text": "Datentypen bestimmen Speicher, Verhalten und Sicherheit von C++ Programmen."
-    },
-    {
-      "type": "summary",
-      "points": [
-        "Grundlegende Typen bilden die Basis aller Programme",
-        "size_t, string und nullptr sind zentrale Standardtypen",
-        "auto und decltype vereinfachen typsicheren Code",
-        "struct, class und enum erlauben eigene Datentypen",
-        "using ersetzt typedef in modernem C++"
-      ]
-    }
-  ]
-},
-
-          { "title": "I/O Grundprinzipien", "content": { "text": [], "code": [] } }
+            "title": "Datentypen in C++",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "Datentyp",
+                "text": "Ein Datentyp legt fest, welche Art von Wert gespeichert wird und wie dieser interpretiert wird."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundlegende Datentypen",
+                "text": [
+                  "Grundlegende Datentypen sind fest in C++ eingebaut und bilden die Basis aller weiteren Typen.",
+                  "Sie unterscheiden sich in Speicherbedarf, Wertebereich und Verwendungszweck."
+                ]
+              },
+              {
+                "type": "list",
+                "title": "Wichtige grundlegende Datentypen",
+                "items": [
+                  "int: Ganzzahltyp",
+                  "double: Gleitkommazahl",
+                  "char: Einzelnes Zeichen",
+                  "bool: Wahrheitswert true oder false",
+                  "void: Kein Wert"
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Grundlegende Datentypen Beispiel",
+                "language": "cpp",
+                "code": "int a = 5;\ndouble b = 3.14;\nbool ok = true;"
+              },
+              {
+                "type": "definition",
+                "term": "size_t",
+                "text": "Ein vorzeichenloser Ganzzahltyp zur Darstellung von Größen und Indizes."
+              },
+              {
+                "type": "code",
+                "title": "size_t Beispiel",
+                "language": "cpp",
+                "code": "size_t len = 10;"
+              },
+              {
+                "type": "definition",
+                "term": "std::string",
+                "text": "Ein Standardtyp zur komfortablen Verarbeitung von Texten."
+              },
+              {
+                "type": "code",
+                "title": "std::string Beispiel",
+                "language": "cpp",
+                "code": "std::string name = \"C++\";"
+              },
+              {
+                "type": "definition",
+                "term": "nullptr",
+                "text": "Ein spezieller Literalwert für einen ungültigen Zeiger."
+              },
+              {
+                "type": "code",
+                "title": "nullptr Beispiel",
+                "language": "cpp",
+                "code": "int* p = nullptr;"
+              },
+              {
+                "type": "definition",
+                "term": "auto",
+                "text": "Lässt den Compiler den Datentyp einer Variablen automatisch ableiten."
+              },
+              {
+                "type": "code",
+                "title": "auto Beispiel",
+                "language": "cpp",
+                "code": "auto x = 42;"
+              },
+              {
+                "type": "definition",
+                "term": "decltype",
+                "text": "Ermittelt den Typ eines Ausdrucks, ohne ihn auszuwerten."
+              },
+              {
+                "type": "code",
+                "title": "decltype Beispiel",
+                "language": "cpp",
+                "code": "int a = 0;\ndecltype(a) b = 1;"
+              },
+              {
+                "type": "definition",
+                "term": "struct",
+                "text": "Ein benutzerdefinierter Datentyp zur Bündelung mehrerer Werte."
+              },
+              {
+                "type": "definition",
+                "term": "class",
+                "text": "Ein benutzerdefinierter Datentyp mit Kapselung und Zugriffskontrolle."
+              },
+              {
+                "type": "code",
+                "title": "struct und class mit Funktionen",
+                "language": "cpp",
+                "code": "struct Point {\n    int x;\n    int y;\n\n    void move(int dx, int dy) {\n        x += dx;\n        y += dy;\n    }\n};\n\nclass Counter {\nprivate:\n    int value;\n\npublic:\n    Counter() : value(0) {}\n\n    void increment() {\n        value++;\n    }\n\n    int get() const {\n        return value;\n    }\n};"
+              },
+              {
+                "type": "definition",
+                "term": "enum",
+                "text": "Ein Datentyp mit einer festen Menge benannter Ganzzahlwerte."
+              },
+              {
+                "type": "code",
+                "title": "enum Beispiel",
+                "language": "cpp",
+                "code": "enum Color { Red, Green, Blue };"
+              },
+              {
+                "type": "definition",
+                "term": "enum class",
+                "text": "Stark typisierte Enumeration mit eigenem Gültigkeitsbereich und ohne implizite Umwandlung zu int."
+              },
+              {
+                "type": "code",
+                "title": "enum class Beispiel",
+                "language": "cpp",
+                "code": "enum class Status { Ok, Error, Unknown };\n\nStatus s = Status::Ok;"
+              },
+              {
+                "type": "definition",
+                "term": "typedef",
+                "text": "Erstellt einen Aliasnamen für einen bestehenden Datentyp."
+              },
+              {
+                "type": "definition",
+                "term": "using",
+                "text": "Moderne Alternative zu typedef für Typaliasse."
+              },
+              {
+                "type": "code",
+                "title": "typedef und using Beispiel",
+                "language": "cpp",
+                "code": "typedef unsigned int uint;\nusing Index = size_t;"
+              },
+              {
+                "type": "explanation",
+                "title": "Typumwandlung in C++",
+                "text": [
+                  "Typumwandlungen werden verwendet, wenn ein Wert in einem anderen Datentyp weiterverarbeitet werden soll.",
+                  "Explizite Casts wie static_cast sind sicherer und besser lesbar als implizite Umwandlungen."
+                ]
+              },
+              {
+                "type": "list",
+                "title": "Gängige Cast-Arten",
+                "items": [
+                  "static_cast: normale, überprüfbare Umwandlungen",
+                  "const_cast: Entfernen oder Hinzufügen von const",
+                  "reinterpret_cast: bitweise Umdeutung, sehr gefährlich",
+                  "dynamic_cast: sichere Laufzeitprüfung bei Vererbung"
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Typumwandlung Beispiel",
+                "language": "cpp",
+                "code": "double d = 4.9;\nint i = static_cast<int>(d);"
+              },
+              {
+                "type": "important",
+                "text": "Datentypen bestimmen Speicher, Verhalten und Sicherheit von C++ Programmen."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Grundlegende Typen bilden die Basis aller Programme",
+                  "size_t, string und nullptr sind zentrale Standardtypen",
+                  "auto und decltype vereinfachen typsicheren Code",
+                  "struct, class und enum erlauben eigene Datentypen",
+                  "using ersetzt typedef in modernem C++"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "I/O Grundprinzipien in C++",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "I/O",
+                "text": "Input und Output bezeichnen das Einlesen von Daten in ein Programm und das Ausgeben von Daten nach außen."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von Ein und Ausgabe",
+                "text": [
+                  "C++ arbeitet bei Ein und Ausgabe mit sogenannten Streams. Ein Stream ist eine Abfolge von Zeichen oder Daten.",
+                  "Programme lesen Daten aus einem Eingabestrom und schreiben Daten in einen Ausgabestrom."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Stream",
+                "text": "Ein abstrakter Datenstrom, der Zeichen sequenziell transportiert."
+              },
+              {
+                "type": "definition",
+                "term": "Standard Input",
+                "text": "Der voreingestellte Eingabestrom, meist die Tastatur."
+              },
+              {
+                "type": "definition",
+                "term": "Standard Output",
+                "text": "Der voreingestellte Ausgabestrom, meist die Konsole."
+              },
+              {
+                "type": "definition",
+                "term": "Standard Error",
+                "text": "Separater Ausgabestrom für Fehlermeldungen."
+              },
+              {
+                "type": "list",
+                "title": "Wichtige Standard-Streams",
+                "items": [
+                  "std::cin: Standardeingabe",
+                  "std::cout: Standardausgabe",
+                  "std::cerr: Fehlerausgabe",
+                  "std::clog: Protokollausgabe"
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Einfache Ausgabe mit cout",
+                "language": "cpp",
+                "code": "std::cout << \"Hallo Welt\" << std::endl;"
+              },
+              {
+                "type": "code",
+                "title": "Einfache Eingabe mit cin",
+                "language": "cpp",
+                "code": "int x;\nstd::cin >> x;"
+              },
+              {
+                "type": "definition",
+                "term": "Einfügeoperator <<",
+                "text": "Schreibt Daten in einen Ausgabestrom."
+              },
+              {
+                "type": "definition",
+                "term": "Extraktionsoperator >>",
+                "text": "Liest Daten aus einem Eingabestrom."
+              },
+              {
+                "type": "explanation",
+                "title": "Verkettung von Streams",
+                "text": [
+                  "Einfüge und Extraktionsoperatoren können verkettet werden.",
+                  "Dadurch lassen sich mehrere Werte in einer Anweisung ein oder ausgeben."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Verkettete Ein und Ausgabe",
+                "language": "cpp",
+                "code": "int a, b;\nstd::cin >> a >> b;\nstd::cout << a << \" \" << b;"
+              },
+              {
+                "type": "definition",
+                "term": "Pufferung",
+                "text": "Zwischenspeicherung von Ausgaben, bevor sie tatsächlich geschrieben werden."
+              },
+              {
+                "type": "definition",
+                "term": "Flush",
+                "text": "Erzwingt das sofortige Schreiben des Ausgabepuffers."
+              },
+              {
+                "type": "code",
+                "title": "Flush Beispiel",
+                "language": "cpp",
+                "code": "std::cout << \"Text\" << std::flush;"
+              },
+              {
+                "type": "pitfall",
+                "title": "Eingabe ohne Prüfung",
+                "text": "Fehlerhafte Eingaben können Streams in einen Fehlerzustand versetzen und weitere Eingaben verhindern."
+              },
+              {
+                "type": "important",
+                "text": "I/O in C++ basiert auf Streams und Operatoren, nicht auf direkten Gerätezugriffen."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Ein und Ausgabe erfolgt über Streams",
+                  "cin, cout und cerr sind zentrale Standard-Streams",
+                  "<< schreibt, >> liest",
+                  "Streams können verkettet werden",
+                  "Pufferung beeinflusst, wann Ausgaben sichtbar werden"
+                ]
+              }
+            ]
+          }
         ]
       },
       {
