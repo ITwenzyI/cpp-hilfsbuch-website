@@ -2481,7 +2481,82 @@
         "name": "Besondere Funktionen",
         "icon": "🧠",
         "topics": [
-          { "title": "inline", "content": { "text": [], "code": [] } },
+          {
+            "title": "inline Funktionen",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "inline Funktion",
+                "text": "Eine Funktion, bei der der Compiler versucht, den Funktionsaufruf durch den Funktionscode zu ersetzen."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von inline",
+                "text": [
+                  "inline soll den Overhead eines Funktionsaufrufs vermeiden.",
+                  "Der Compiler darf inline ignorieren, es ist nur eine Empfehlung."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Funktionsaufruf Overhead",
+                "text": "Zusätzlicher Aufwand durch Sprung, Rücksprung und Parameterübergabe bei einem Funktionsaufruf."
+              },
+              {
+                "type": "code",
+                "title": "inline Funktionsdefinition",
+                "language": "cpp",
+                "code": "inline int square(int x) {\n    // einfacher, kurzer Code\n    return x * x;\n}"
+              },
+              {
+                "type": "explanation",
+                "title": "Wann inline sinnvoll ist",
+                "text": [
+                  "Bei sehr kleinen, häufig aufgerufenen Funktionen.",
+                  "Typisch bei Getter und Setter Funktionen."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Typischer Einsatz in Klassen",
+                "language": "cpp",
+                "code": "class Counter {\nprivate:\n    int value;\n\npublic:\n    int get() const { // implizit inline\n        return value;\n    }\n};"
+              },
+              {
+                "type": "definition",
+                "term": "implizit inline",
+                "text": "Funktionen, die innerhalb einer Klassendefinition definiert sind, gelten automatisch als inline."
+              },
+              {
+                "type": "explanation",
+                "title": "inline und Header Dateien",
+                "text": [
+                  "inline Funktionen dürfen in Header Dateien definiert werden.",
+                  "Mehrfache Definitionen sind erlaubt, solange sie identisch sind."
+                ]
+              },
+              {
+                "type": "pitfall",
+                "title": "Zu große inline Funktionen",
+                "text": "Große inline Funktionen können den Code aufblähen und die Performance verschlechtern."
+              },
+              {
+                "type": "important",
+                "text": "inline ist kein Garant für Performance, die Entscheidung trifft der Compiler."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "inline reduziert Funktionsaufruf Overhead",
+                  "Der Compiler entscheidet, ob inline angewendet wird",
+                  "Besonders sinnvoll für kleine Funktionen",
+                  "Methoden in Klassen sind implizit inline",
+                  "Zu viel inline kann schaden"
+                ]
+              }
+            ]
+          },
           { "title": "constexpr Funktionen", "content": { "text": [], "code": [] } },
           { "title": "Lambda-Funktionen", "content": { "text": [], "code": [] } }
         ]
