@@ -1453,8 +1453,187 @@
         "name": "Dateien",
         "icon": "🗂️",
         "topics": [
-          { "title": "ifstream", "content": { "text": [], "code": [] } },
-          { "title": "ofstream", "content": { "text": [], "code": [] } },
+          {
+            "title": "std::ifstream",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "std::ifstream",
+                "text": "std::ifstream ist ein Eingabestream zum Lesen von Daten aus Dateien."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von std::ifstream",
+                "text": [
+                  "std::ifstream funktioniert ähnlich wie std::cin, liest seine Daten aber aus einer Datei.",
+                  "Er gehört zur Standardbibliothek <fstream> und wird für dateibasierten Input verwendet."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Dateistream",
+                "text": "Ein Stream, der Daten aus einer Datei liest oder in eine Datei schreibt."
+              },
+              {
+                "type": "code",
+                "title": "Datei öffnen",
+                "language": "cpp",
+                "code": "#include <fstream>\n\nstd::ifstream file(\"data.txt\"); // öffnet Datei zum Lesen"
+              },
+              {
+                "type": "definition",
+                "term": "Datei öffnen",
+                "text": "Der Vorgang, bei dem eine Datei mit einem Stream verbunden wird."
+              },
+              {
+                "type": "code",
+                "title": "Öffnen prüfen",
+                "language": "cpp",
+                "code": "std::ifstream file(\"data.txt\");\nif (!file) {\n    // Datei konnte nicht geöffnet werden\n}"
+              },
+              {
+                "type": "explanation",
+                "title": "Lesen aus einer Datei",
+                "text": [
+                  "Das Lesen aus ifstream erfolgt mit denselben Operatoren wie bei std::cin.",
+                  "Auch std::getline kann für zeilenweises Lesen verwendet werden."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Lesen mit >>",
+                "language": "cpp",
+                "code": "int x;\nfile >> x; // liest eine Ganzzahl aus der Datei"
+              },
+              {
+                "type": "code",
+                "title": "Zeilenweise lesen",
+                "language": "cpp",
+                "code": "std::string line;\nstd::getline(file, line); // liest eine Zeile aus der Datei"
+              },
+              {
+                "type": "definition",
+                "term": "End of File",
+                "text": "Zustand, der erreicht wird, wenn keine weiteren Daten in der Datei vorhanden sind."
+              },
+              {
+                "type": "code",
+                "title": "Lesen bis Dateiende",
+                "language": "cpp",
+                "code": "std::string line;\nwhile (std::getline(file, line)) {\n    // verarbeitet jede Zeile der Datei\n}"
+              },
+              {
+                "type": "pitfall",
+                "title": "Datei nicht prüfen",
+                "text": "Wird der Öffnungszustand nicht geprüft, kann es zu undefiniertem Programmverhalten kommen."
+              },
+              {
+                "type": "important",
+                "text": "std::ifstream sollte immer auf erfolgreiches Öffnen geprüft werden."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "std::ifstream liest Daten aus Dateien",
+                  "Er wird über <fstream> eingebunden",
+                  "Lesen erfolgt wie bei std::cin",
+                  "std::getline eignet sich für zeilenweises Lesen",
+                  "Der Öffnungszustand sollte immer geprüft werden"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "std::ofstream",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "std::ofstream",
+                "text": "std::ofstream ist ein Ausgabestream zum Schreiben von Daten in Dateien."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von std::ofstream",
+                "text": [
+                  "std::ofstream funktioniert ähnlich wie std::cout, schreibt seine Ausgabe aber in eine Datei.",
+                  "Er gehört zur Standardbibliothek <fstream> und wird für dateibasierten Output verwendet."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Datei öffnen",
+                "text": "Der Vorgang, bei dem eine Datei zum Schreiben mit einem Stream verbunden wird."
+              },
+              {
+                "type": "code",
+                "title": "Datei zum Schreiben öffnen",
+                "language": "cpp",
+                "code": "#include <fstream>\n\nstd::ofstream file(\"output.txt\"); // erstellt oder überschreibt die Datei"
+              },
+              {
+                "type": "definition",
+                "term": "Überschreiben",
+                "text": "Standardverhalten von ofstream, bei dem vorhandene Dateiinhalte gelöscht werden."
+              },
+              {
+                "type": "definition",
+                "term": "Anhängen",
+                "text": "Schreiben neuer Daten ans Ende einer bestehenden Datei."
+              },
+              {
+                "type": "code",
+                "title": "Dateiinhalt anhängen",
+                "language": "cpp",
+                "code": "std::ofstream file(\"output.txt\", std::ios::app); // schreibt ans Dateiende"
+              },
+              {
+                "type": "explanation",
+                "title": "Schreiben in eine Datei",
+                "text": [
+                  "Das Schreiben erfolgt mit dem Einfügeoperator << wie bei std::cout.",
+                  "Es können beliebige ausgabefähige Datentypen geschrieben werden."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Schreiben mit <<",
+                "language": "cpp",
+                "code": "file << \"Ergebnis: \" << 42 << '\\n'; // schreibt Text und Zahl in die Datei"
+              },
+              {
+                "type": "definition",
+                "term": "Datei schließen",
+                "text": "Beendet die Verbindung zwischen Stream und Datei und schreibt den Puffer."
+              },
+              {
+                "type": "code",
+                "title": "Datei schließen",
+                "language": "cpp",
+                "code": "file.close(); // optional, erfolgt auch automatisch"
+              },
+              {
+                "type": "pitfall",
+                "title": "Datei nicht prüfen",
+                "text": "Wird der Stream nicht geprüft, kann das Schreiben fehlschlagen, ohne dass es bemerkt wird."
+              },
+              {
+                "type": "important",
+                "text": "std::ofstream überschreibt Dateien standardmäßig, wenn kein Modus angegeben wird."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "std::ofstream schreibt Daten in Dateien",
+                  "Standardmäßig wird die Datei überschrieben",
+                  "Anhängen erfolgt mit std::ios::app",
+                  "Schreiben erfolgt mit dem Operator <<",
+                  "Streams sollten auf Fehler geprüft werden"
+                ]
+              }
+            ]
+          },
           { "title": "fstream", "content": { "text": [], "code": [] } }
         ]
       }
