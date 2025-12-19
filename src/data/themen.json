@@ -2809,28 +2809,6 @@
                 "code": "#include <array>\n\nstd::array<int, 3> values = {1, 2, 3};"
               },
               {
-                "type": "definition",
-                "term": "size",
-                "text": "Liefert die Anzahl der Elemente im Array."
-              },
-              {
-                "type": "code",
-                "title": "Größe abfragen",
-                "language": "cpp",
-                "code": "std::size_t n = values.size(); // Anzahl der Elemente"
-              },
-              {
-                "type": "definition",
-                "term": "at",
-                "text": "Greift auf ein Element zu und prüft den Index zur Laufzeit."
-              },
-              {
-                "type": "code",
-                "title": "Sicherer Zugriff mit at",
-                "language": "cpp",
-                "code": "int x = values.at(0); // wirft Ausnahme bei ungültigem Index"
-              },
-              {
                 "type": "explanation",
                 "title": "Vorteile gegenüber C Arrays",
                 "text": [
@@ -2861,6 +2839,127 @@
                   "size liefert die Elementanzahl",
                   "at bietet Bounds Checking",
                   "Bevorzugt gegenüber rohen C Arrays"
+                ]
+              },
+              {
+                "type": "explanation",
+                "title": "Wichtige Funktionen von std::array",
+                "text": [
+                  "std::array stellt im Vergleich zu C Arrays zusätzliche Memberfunktionen bereit.",
+                  "Diese Funktionen erhöhen Sicherheit, Lesbarkeit und Integration mit der Standardbibliothek."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "size",
+                "text": "Liefert die Anzahl der Elemente im Array."
+              },
+              {
+                "type": "code",
+                "title": "size Beispiel",
+                "language": "cpp",
+                "code": "std::array<int, 3> a = {1, 2, 3};\nstd::size_t n = a.size(); // n ist 3"
+              },
+              {
+                "type": "definition",
+                "term": "empty",
+                "text": "Prüft, ob das Array leer ist."
+              },
+              {
+                "type": "code",
+                "title": "empty Beispiel",
+                "language": "cpp",
+                "code": "if (a.empty()) {\n    // nur true bei Größe 0\n}"
+              },
+              {
+                "type": "definition",
+                "term": "operator[]",
+                "text": "Greift ohne Indexprüfung auf ein Element zu."
+              },
+              {
+                "type": "code",
+                "title": "Indexzugriff mit []",
+                "language": "cpp",
+                "code": "int x = a[0]; // kein Bounds Check"
+              },
+              {
+                "type": "definition",
+                "term": "at",
+                "text": "Greift mit Laufzeitprüfung auf ein Element zu."
+              },
+              {
+                "type": "code",
+                "title": "Sicherer Zugriff mit at",
+                "language": "cpp",
+                "code": "int x = a.at(1); // wirft Ausnahme bei ungültigem Index"
+              },
+              {
+                "type": "definition",
+                "term": "front",
+                "text": "Liefert das erste Element des Arrays."
+              },
+              {
+                "type": "code",
+                "title": "front Beispiel",
+                "language": "cpp",
+                "code": "int first = a.front();"
+              },
+              {
+                "type": "definition",
+                "term": "back",
+                "text": "Liefert das letzte Element des Arrays."
+              },
+              {
+                "type": "code",
+                "title": "back Beispiel",
+                "language": "cpp",
+                "code": "int last = a.back();"
+              },
+              {
+                "type": "definition",
+                "term": "data",
+                "text": "Gibt einen Zeiger auf das interne C Array zurück."
+              },
+              {
+                "type": "code",
+                "title": "data Beispiel",
+                "language": "cpp",
+                "code": "int* ptr = a.data(); // kompatibel mit C APIs"
+              },
+              {
+                "type": "definition",
+                "term": "fill",
+                "text": "Setzt alle Elemente des Arrays auf denselben Wert."
+              },
+              {
+                "type": "code",
+                "title": "fill Beispiel",
+                "language": "cpp",
+                "code": "a.fill(0); // alle Elemente werden 0"
+              },
+              {
+                "type": "definition",
+                "term": "swap",
+                "text": "Tauscht den Inhalt zweier Arrays gleicher Größe und gleichen Typs."
+              },
+              {
+                "type": "code",
+                "title": "swap Beispiel",
+                "language": "cpp",
+                "code": "std::array<int, 3> b = {4, 5, 6};\na.swap(b); // Inhalte von a und b werden getauscht"
+              },
+              {
+                "type": "important",
+                "text": "at bietet Sicherheit, operator[] bietet Geschwindigkeit ohne Prüfung."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "std::array kennt seine eigene Größe",
+                  "size und empty liefern Metainformationen",
+                  "at prüft Indizes zur Laufzeit",
+                  "front und back erlauben direkten Randzugriff",
+                  "data ermöglicht Interoperabilität mit C Code"
                 ]
               }
             ]
