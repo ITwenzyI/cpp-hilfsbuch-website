@@ -2871,8 +2871,279 @@
         "name": "Strings",
         "icon": "🧵",
         "topics": [
-          { "title": "C-Strings", "content": { "text": [], "code": [] } },
-          { "title": "std::string", "content": { "text": [], "code": [] } }
+          {
+            "title": "C Strings",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "C String",
+                "text": "Ein C String ist ein Array von char, das mit einem Nullterminator '\\0' endet."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von C Strings",
+                "text": [
+                  "C Strings stammen aus der C Sprache und werden in C++ weiterhin unterstützt.",
+                  "Das Ende des Strings wird durch das Zeichen '\\0' markiert."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Nullterminator",
+                "text": "Ein spezielles Zeichen '\\0', das das Ende eines C Strings kennzeichnet."
+              },
+              {
+                "type": "code",
+                "title": "Deklaration eines C Strings",
+                "language": "cpp",
+                "code": "char text[6] = \"Hallo\"; // 'H','a','l','l','o','\\0'"
+              },
+              {
+                "type": "definition",
+                "term": "Stringliterale",
+                "text": "Feste Zeichenketten, die im Programmcode definiert sind."
+              },
+              {
+                "type": "code",
+                "title": "Stringliteral",
+                "language": "cpp",
+                "code": "const char* msg = \"Hallo Welt\";"
+              },
+              {
+                "type": "definition",
+                "term": "cstring",
+                "text": "Header mit Funktionen zur Arbeit mit C Strings."
+              },
+              {
+                "type": "code",
+                "title": "C String Funktionen",
+                "language": "cpp",
+                "code": "#include <cstring>\n\nsize_t len = std::strlen(text);"
+              },
+              {
+                "type": "pitfall",
+                "title": "Kein Bounds Check",
+                "text": "C Strings prüfen nicht, ob genug Speicher vorhanden ist, was zu Buffer Overflows führen kann."
+              },
+              {
+                "type": "important",
+                "text": "C Strings sind fehleranfällig und sollten in modernem C++ nur gezielt eingesetzt werden."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "C Strings sind char Arrays mit Nullterminator",
+                  "Die Länge ist nicht im Typ gespeichert",
+                  "Arbeiten mit C Strings ist unsicher",
+                  "cstring stellt Hilfsfunktionen bereit",
+                  "In modernem C++ meist durch std::string ersetzt"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "std::string",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "std::string",
+                "text": "std::string ist ein Standardcontainer zur sicheren und komfortablen Verarbeitung von Texten."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von std::string",
+                "text": [
+                  "std::string verwaltet Speicher automatisch.",
+                  "Er kennt seine Länge und wächst dynamisch."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Dynamische Länge",
+                "text": "Die Länge eines std::string kann sich zur Laufzeit ändern."
+              },
+              {
+                "type": "code",
+                "title": "Deklaration und Initialisierung",
+                "language": "cpp",
+                "code": "#include <string>\n\nstd::string name = \"Kilian\";"
+              },
+              {
+                "type": "definition",
+                "term": "Zugriff auf Zeichen",
+                "text": "Einzelne Zeichen können über einen Index gelesen oder verändert werden."
+              },
+              {
+                "type": "code",
+                "title": "Indexzugriff",
+                "language": "cpp",
+                "code": "char c = name[0]; // erstes Zeichen"
+              },
+              {
+                "type": "definition",
+                "term": "Konkatenation",
+                "text": "Zusammenfügen von Strings."
+              },
+              {
+                "type": "code",
+                "title": "Strings verketten",
+                "language": "cpp",
+                "code": "std::string a = \"Hallo\";\nstd::string b = \"Welt\";\nstd::string c = a + \" \" + b;"
+              },
+              {
+                "type": "definition",
+                "term": "c_str",
+                "text": "Liefert einen C String Zeiger auf den internen Speicher."
+              },
+              {
+                "type": "code",
+                "title": "Umwandlung zu C String",
+                "language": "cpp",
+                "code": "const char* raw = name.c_str();"
+              },
+              {
+                "type": "pitfall",
+                "title": "Ungültiger Zeiger von c_str",
+                "text": "Der von c_str gelieferte Zeiger wird ungültig, wenn der String verändert wird."
+              },
+              {
+                "type": "important",
+                "text": "std::string ist der Standard für Textverarbeitung in modernem C++."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "std::string verwaltet Speicher automatisch",
+                  "Die Länge ist jederzeit bekannt",
+                  "Strings können sicher verändert und verkettet werden",
+                  "c_str ermöglicht Interoperabilität mit C APIs",
+                  "std::string ist C Strings klar vorzuziehen"
+                ]
+              },
+              {
+                "type": "explanation",
+                "title": "Funktionen von std::string",
+                "text": [
+                  "Der Header <string> liefert viele nützliche Funktionen für std::string Variablen."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "size",
+                "text": "Liefert die Anzahl der Zeichen im String."
+              },
+              {
+                "type": "code",
+                "title": "size Beispiel",
+                "language": "cpp",
+                "code": "std::size_t len = name.size();"
+              },
+              {
+                "type": "definition",
+                "term": "length",
+                "text": "Liefert die Anzahl der Zeichen im String. Entspricht funktional size."
+              },
+              {
+                "type": "code",
+                "title": "length Beispiel",
+                "language": "cpp",
+                "code": "std::string s = \"Hallo\";\nstd::size_t n = s.length(); // n ist 5"
+              },
+              {
+                "type": "definition",
+                "term": "empty",
+                "text": "Prüft, ob der String leer ist."
+              },
+              {
+                "type": "code",
+                "title": "empty Beispiel",
+                "language": "cpp",
+                "code": "if (s.empty()) {\n    // String enthält keine Zeichen\n}"
+              },
+              {
+                "type": "definition",
+                "term": "clear",
+                "text": "Entfernt alle Zeichen aus dem String."
+              },
+              {
+                "type": "code",
+                "title": "clear Beispiel",
+                "language": "cpp",
+                "code": "s.clear(); // String ist danach leer"
+              },
+              {
+                "type": "definition",
+                "term": "append",
+                "text": "Hängt Text an das Ende des Strings an."
+              },
+              {
+                "type": "code",
+                "title": "append Beispiel",
+                "language": "cpp",
+                "code": "s.append(\" Welt\"); // entspricht s += \" Welt\""
+              },
+              {
+                "type": "definition",
+                "term": "substr",
+                "text": "Erzeugt einen Teilstring aus dem String."
+              },
+              {
+                "type": "code",
+                "title": "substr Beispiel",
+                "language": "cpp",
+                "code": "std::string sub = s.substr(0, 2); // erste zwei Zeichen"
+              },
+              {
+                "type": "definition",
+                "term": "find",
+                "text": "Sucht nach einem Teilstring oder Zeichen und liefert die Position."
+              },
+              {
+                "type": "code",
+                "title": "find Beispiel",
+                "language": "cpp",
+                "code": "std::size_t pos = s.find(\"ll\");\nif (pos != std::string::npos) {\n    // Teilstring gefunden\n}"
+              },
+              {
+                "type": "definition",
+                "term": "replace",
+                "text": "Ersetzt einen Teil des Strings durch einen anderen Text."
+              },
+              {
+                "type": "code",
+                "title": "replace Beispiel",
+                "language": "cpp",
+                "code": "s.replace(0, 5, \"Hi\"); // ersetzt die ersten 5 Zeichen"
+              },
+              {
+                "type": "definition",
+                "term": "compare",
+                "text": "Vergleicht zwei Strings lexikografisch."
+              },
+              {
+                "type": "code",
+                "title": "compare Beispiel",
+                "language": "cpp",
+                "code": "int r = s.compare(\"Hallo\");\n// r == 0: gleich, <0: kleiner, >0: größer"
+              },
+              {
+                "type": "important",
+                "text": "size und length sind gleichwertig, size ist der bevorzugte Stil in modernem C++."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "size und length liefern die Stringlänge",
+                  "empty prüft auf leeren String",
+                  "append und += hängen Text an",
+                  "substr erzeugt Teilstrings",
+                  "find sucht Teilstrings sicher über npos"
+                ]
+              }
+            ]
+          }
         ]
       }
     ]
