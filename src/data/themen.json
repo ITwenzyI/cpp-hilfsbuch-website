@@ -807,7 +807,87 @@
         "name": "const & constexpr",
         "icon": "📘",
         "topics": [
-          { "title": "const Variablen", "content": { "text": [], "code": [] } },
+          {
+            "title": "const Variablen in C++",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "const",
+                "text": "const kennzeichnet Werte oder Objekte, die nach ihrer Initialisierung nicht mehr verändert werden dürfen."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von const",
+                "text": [
+                  "const dient dazu, unbeabsichtigte Änderungen zu verhindern und Code verständlicher zu machen.",
+                  "Der Compiler erzwingt die Unveränderlichkeit zur Übersetzungszeit."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "const Variable",
+                "language": "cpp",
+                "code": "const int maxValue = 10;"
+              },
+              {
+                "type": "definition",
+                "term": "const Initialisierung",
+                "text": "const Variablen müssen beim Erzeugen initialisiert werden."
+              },
+              {
+                "type": "pitfall",
+                "title": "Fehlende Initialisierung",
+                "text": "const Variablen ohne Initialisierung führen zu Compilerfehlern."
+              },
+              {
+                "type": "definition",
+                "term": "const Referenz",
+                "text": "Eine Referenz, über die das referenzierte Objekt nicht verändert werden darf."
+              },
+              {
+                "type": "code",
+                "title": "const Referenz Beispiel",
+                "language": "cpp",
+                "code": "int x = 5;\nconst int& r = x;"
+              },
+              {
+                "type": "definition",
+                "term": "const Zeiger",
+                "text": "Je nach Position von const kann der Zeiger selbst oder das Ziel unveränderlich sein."
+              },
+              {
+                "type": "code",
+                "title": "const und Zeiger",
+                "language": "cpp",
+                "code": "int x = 1;\nconst int* p1 = &x; // Zeiger auf konstante Daten\nint* const p2 = &x; // Konstanter Zeiger auf Daten\nconst int* const p3 = &x; // Beides konstant"
+              },
+              {
+                "type": "definition",
+                "term": "const Memberfunktion",
+                "text": "Eine Memberfunktion, die den Zustand des Objekts nicht verändern darf."
+              },
+              {
+                "type": "code",
+                "title": "const Memberfunktion Beispiel",
+                "language": "cpp",
+                "code": "class A {\n    int v;\npublic:\n    int get() const { return v; }\n};"
+              },
+              {
+                "type": "important",
+                "text": "const ist ein zentrales Werkzeug für sicheren und gut wartbaren C++ Code."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "const verhindert unbeabsichtigte Änderungen",
+                  "const Variablen müssen initialisiert werden",
+                  "const kann auf Objekte, Referenzen, Zeiger und Funktionen angewendet werden",
+                  "const Memberfunktionen garantieren unveränderten Objektzustand"
+                ]
+              }
+            ]
+          },
           { "title": "const Parameter", "content": { "text": [], "code": [] } },
           { "title": "const Klassenmember", "content": { "text": [], "code": [] } },
           { "title": "const Überladen", "content": { 
