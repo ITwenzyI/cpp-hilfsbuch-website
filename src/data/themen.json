@@ -2695,8 +2695,176 @@
         "name": "Arrays",
         "icon": "🔢",
         "topics": [
-          { "title": "C-Arrays", "content": { "text": [], "code": [] } },
-          { "title": "std::array", "content": { "text": [], "code": [] } }
+          {
+            "title": "C Arrays",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "C Array",
+                "text": "Ein C Array ist eine feste, zusammenhängende Sequenz von Elementen gleichen Typs."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von C Arrays",
+                "text": [
+                  "C Arrays haben eine feste Größe, die zur Compilezeit bekannt sein muss.",
+                  "Der Name des Arrays verweist implizit auf das erste Element."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Deklaration eines C Arrays",
+                "language": "cpp",
+                "code": "int values[5]; // Array mit 5 int Elementen"
+              },
+              {
+                "type": "definition",
+                "term": "Initialisierung",
+                "text": "Beim Erzeugen eines Arrays können Startwerte angegeben werden."
+              },
+              {
+                "type": "code",
+                "title": "Initialisierung eines C Arrays",
+                "language": "cpp",
+                "code": "int numbers[3] = {1, 2, 3};"
+              },
+              {
+                "type": "definition",
+                "term": "Indexzugriff",
+                "text": "Zugriff auf ein Element über seinen Index, beginnend bei 0."
+              },
+              {
+                "type": "code",
+                "title": "Zugriff per Index",
+                "language": "cpp",
+                "code": "int x = numbers[0]; // erstes Element"
+              },
+              {
+                "type": "definition",
+                "term": "Arraygröße",
+                "text": "Die Anzahl der Elemente eines C Arrays."
+              },
+              {
+                "type": "explanation",
+                "title": "Arraygröße ermitteln",
+                "text": [
+                  "C Arrays kennen ihre Größe nicht selbst.",
+                  "Die Größe muss separat verwaltet oder berechnet werden."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Arraygröße berechnen",
+                "language": "cpp",
+                "code": "int size = sizeof(numbers) / sizeof(numbers[0]);"
+              },
+              {
+                "type": "pitfall",
+                "title": "Kein Bounds Check",
+                "text": "C Arrays prüfen nicht, ob ein Index gültig ist, was zu undefiniertem Verhalten führen kann."
+              },
+              {
+                "type": "important",
+                "text": "C Arrays sind einfach, aber unsicher und unflexibel."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "C Arrays haben feste Größe",
+                  "Index beginnt bei 0",
+                  "Keine automatische Größenverwaltung",
+                  "Kein Bounds Check",
+                  "In modernem C++ oft durch Container ersetzt"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "std::array",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "std::array",
+                "text": "std::array ist ein Container aus der Standardbibliothek mit fester Größe und sicherem Zugriff."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von std::array",
+                "text": [
+                  "std::array kapselt ein C Array in einer Klasse.",
+                  "Es bietet zusätzliche Funktionen wie size und at."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Template Parameter",
+                "text": "std::array benötigt einen Datentyp und eine feste Größe als Template Argumente."
+              },
+              {
+                "type": "code",
+                "title": "Deklaration von std::array",
+                "language": "cpp",
+                "code": "#include <array>\n\nstd::array<int, 3> values = {1, 2, 3};"
+              },
+              {
+                "type": "definition",
+                "term": "size",
+                "text": "Liefert die Anzahl der Elemente im Array."
+              },
+              {
+                "type": "code",
+                "title": "Größe abfragen",
+                "language": "cpp",
+                "code": "std::size_t n = values.size(); // Anzahl der Elemente"
+              },
+              {
+                "type": "definition",
+                "term": "at",
+                "text": "Greift auf ein Element zu und prüft den Index zur Laufzeit."
+              },
+              {
+                "type": "code",
+                "title": "Sicherer Zugriff mit at",
+                "language": "cpp",
+                "code": "int x = values.at(0); // wirft Ausnahme bei ungültigem Index"
+              },
+              {
+                "type": "explanation",
+                "title": "Vorteile gegenüber C Arrays",
+                "text": [
+                  "std::array kennt seine eigene Größe.",
+                  "Es unterstützt range based for Schleifen und Standardalgorithmen."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "std::array in einer for Schleife",
+                "language": "cpp",
+                "code": "for (int v : values) {\n    // Zugriff auf jedes Element\n}"
+              },
+              {
+                "type": "pitfall",
+                "title": "Feste Größe",
+                "text": "Auch std::array hat eine feste Größe und kann nicht zur Laufzeit wachsen."
+              },
+              {
+                "type": "important",
+                "text": "std::array ist die sichere Alternative zu C Arrays bei fester Größe."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "std::array ist ein Wrapper um C Arrays",
+                  "Die Größe ist Teil des Typs",
+                  "size liefert die Elementanzahl",
+                  "at bietet Bounds Checking",
+                  "Bevorzugt gegenüber rohen C Arrays"
+                ]
+              }
+            ]
+          }
         ]
       },
       {
