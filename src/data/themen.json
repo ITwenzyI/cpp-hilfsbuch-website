@@ -1634,7 +1634,172 @@
               }
             ]
           },
-          { "title": "fstream", "content": { "text": [], "code": [] } }
+          {
+            "title": "std::fstream",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "std::fstream",
+                "text": "std::fstream ist ein Dateistream, der sowohl Lesen als auch Schreiben in einer Datei erlaubt."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von std::fstream",
+                "text": [
+                  "std::fstream kombiniert die Funktionalität von std::ifstream und std::ofstream.",
+                  "Er wird verwendet, wenn eine Datei sowohl gelesen als auch beschrieben werden soll."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Öffnungsmodus",
+                "text": "Ein Modus, der festlegt, wie eine Datei geöffnet wird, zum Beispiel zum Lesen oder Schreiben."
+              },
+              {
+                "type": "list",
+                "title": "Häufige Öffnungsmodi",
+                "items": [
+                  "std::ios::in: Datei lesen",
+                  "std::ios::out: Datei schreiben",
+                  "std::ios::app: ans Dateiende schreiben",
+                  "std::ios::trunc: Dateiinhalt löschen",
+                  "std::ios::binary: Binärmodus"
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Datei mit fstream öffnen",
+                "language": "cpp",
+                "code": "#include <fstream>\n\nstd::fstream file(\"data.txt\", std::ios::in | std::ios::out);"
+              },
+              {
+                "type": "definition",
+                "term": "Lese- und Schreibzugriff",
+                "text": "Die Möglichkeit, Daten aus derselben Datei zu lesen und in sie zu schreiben."
+              },
+              {
+                "type": "code",
+                "title": "Lesen und Schreiben",
+                "language": "cpp",
+                "code": "int x;\nfile >> x;          // liest aus der Datei\nfile << x * 2;      // schreibt in die Datei"
+              },
+              {
+                "type": "definition",
+                "term": "Dateiposition",
+                "text": "Die aktuelle Lese- oder Schreibposition innerhalb der Datei."
+              },
+              {
+                "type": "explanation",
+                "title": "Dateiposition und Zeiger",
+                "text": [
+                  "fstream besitzt einen Lesezeiger und einen Schreibzeiger.",
+                  "Diese können unabhängig voneinander verschoben werden."
+                ]
+              },
+              {
+                "type": "explanation",
+                "title": "Was ist die Dateiposition",
+                "text": [
+                  "Die Dateiposition beschreibt die aktuelle Stelle in der Datei, an der gelesen oder geschrieben wird.",
+                  "Bei std::fstream gibt es getrennte Positionen für Lesen und Schreiben."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Lesezeiger",
+                "text": "Interne Position, von der aus der nächste Lesevorgang beginnt."
+              },
+              {
+                "type": "definition",
+                "term": "Schreibzeiger",
+                "text": "Interne Position, an der der nächste Schreibvorgang erfolgt."
+              },
+              {
+                "type": "definition",
+                "term": "tellg",
+                "text": "Gibt die aktuelle Position des Lesezeigers zurück."
+              },
+              {
+                "type": "definition",
+                "term": "tellp",
+                "text": "Gibt die aktuelle Position des Schreibzeigers zurück."
+              },
+              {
+                "type": "code",
+                "title": "Aktuelle Dateiposition abfragen",
+                "language": "cpp",
+                "code": "std::fstream file(\"data.txt\", std::ios::in | std::ios::out);\n\nstd::streampos readPos = file.tellg(); // aktuelle Leseposition\nstd::streampos writePos = file.tellp(); // aktuelle Schreibposition"
+              },
+              {
+                "type": "definition",
+                "term": "seekg",
+                "text": "Setzt die Position des Lesezeigers auf eine neue Stelle in der Datei."
+              },
+              {
+                "type": "definition",
+                "term": "seekp",
+                "text": "Setzt die Position des Schreibzeigers auf eine neue Stelle in der Datei."
+              },
+              {
+                "type": "code",
+                "title": "Dateiposition verändern",
+                "language": "cpp",
+                "code": "file.seekg(0);          // Lesezeiger an den Anfang der Datei\nfile.seekp(0);          // Schreibzeiger an den Anfang der Datei"
+              },
+              {
+                "type": "explanation",
+                "title": "Relative Positionierung",
+                "text": [
+                  "Die Dateiposition kann relativ zu bestimmten Referenzpunkten gesetzt werden.",
+                  "Typische Referenzen sind Anfang, aktuelle Position und Dateiende."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Relative Dateiposition",
+                "language": "cpp",
+                "code": "file.seekg(10, std::ios::beg); // 10 Bytes ab Dateianfang\nfile.seekg(0, std::ios::cur);  // aktuelle Position\nfile.seekg(-5, std::ios::end); // 5 Bytes vor Dateiende"
+              },
+              {
+                "type": "pitfall",
+                "title": "Lesen und Schreiben ohne Positionskontrolle",
+                "text": "Ohne bewusstes Setzen der Dateiposition können Lese- und Schreibzugriffe an unerwarteten Stellen erfolgen."
+              },
+              {
+                "type": "important",
+                "text": "tellg und seekg steuern das Lesen, tellp und seekp das Schreiben."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Dateiposition bestimmt, wo gelesen oder geschrieben wird",
+                  "fstream besitzt getrennte Lese- und Schreibzeiger",
+                  "tellg und tellp fragen die aktuelle Position ab",
+                  "seekg und seekp verändern die Position gezielt",
+                  "Relative Positionierung ist mit beg, cur und end möglich"
+                ]
+              },
+              {
+                "type": "pitfall",
+                "title": "Ungültiger Öffnungsmodus",
+                "text": "Wird eine Datei ohne passenden Modus geöffnet, können Lese- oder Schreiboperationen fehlschlagen."
+              },
+              {
+                "type": "important",
+                "text": "std::fstream eignet sich für kombinierten Lese- und Schreibzugriff auf Dateien."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "std::fstream vereint ifstream und ofstream",
+                  "Öffnungsmodi steuern das Dateiverhalten",
+                  "Lesen und Schreiben sind in derselben Datei möglich",
+                  "Der Öffnungszustand sollte immer geprüft werden"
+                ]
+              }
+            ]
+          }
         ]
       }
     ]
