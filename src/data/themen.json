@@ -961,7 +961,73 @@
               }
             ]
           },
-          { "title": "const Klassenmember", "content": { "text": [], "code": [] } },
+          {
+            "title": "const Klassenmember in C++",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "const Klassenmember",
+                "text": "Ein Datenmember einer Klasse, dessen Wert nach der Initialisierung nicht mehr verändert werden darf."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von const Membern",
+                "text": [
+                  "const Member repräsentieren feste Eigenschaften eines Objekts, die sich während der Lebensdauer nicht ändern sollen.",
+                  "Der Compiler erzwingt, dass diese Member nicht neu zugewiesen werden."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Initialisierungsliste",
+                "text": "Mechanismus zum Initialisieren von Klassenmembern beim Erzeugen eines Objekts."
+              },
+              {
+                "type": "code",
+                "title": "const Member und Initialisierungsliste",
+                "language": "cpp",
+                "code": "class User {\nprivate:\n    const int id; // darf nach Konstruktion nicht geändert werden\n\npublic:\n    User(int idValue) : id(idValue) {}\n\n    int getId() const {\n        return id; // Lesen erlaubt\n    }\n};"
+              },
+              {
+                "type": "pitfall",
+                "title": "Zuweisung im Konstruktor",
+                "text": "const Member können nicht im Konstruktorrumpf zugewiesen werden, sondern nur in der Initialisierungsliste."
+              },
+              {
+                "type": "definition",
+                "term": "const Memberfunktion",
+                "text": "Eine Memberfunktion, die garantiert, dass sie keine nicht-const Member verändert."
+              },
+              {
+                "type": "code",
+                "title": "const Memberfunktion und Zugriff",
+                "language": "cpp",
+                "code": "class Counter {\nprivate:\n    int value;\n\npublic:\n    Counter() : value(0) {}\n\n    int get() const {\n        // value++;\n        // nicht erlaubt, da Funktion const ist\n        return value;\n    }\n\n    void increment() {\n        value++; // erlaubt, Funktion ist nicht const\n    }\n};"
+              },
+              {
+                "type": "explanation",
+                "title": "Zusammenspiel von const Membern und Funktionen",
+                "text": [
+                  "const Memberfunktionen dürfen nur const Member oder lesenden Zugriff verwenden.",
+                  "Nicht-const Memberfunktionen dürfen alle Member verändern."
+                ]
+              },
+              {
+                "type": "important",
+                "text": "const Member müssen immer über die Initialisierungsliste gesetzt werden."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "const Klassenmember sind nach der Konstruktion unveränderlich",
+                  "Sie müssen in der Initialisierungsliste gesetzt werden",
+                  "const Memberfunktionen dürfen den Objektzustand nicht ändern",
+                  "const verbessert Korrektheit und Objektmodellierung"
+                ]
+              }
+            ]
+          },
           { "title": "const Überladen", "content": { 
             "text": [
               "### === `const` Überladen ===\n",
