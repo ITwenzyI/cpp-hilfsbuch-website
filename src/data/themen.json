@@ -2309,7 +2309,104 @@
               }
             ]
           },
-          { "title": "Parameter & Rückgabe", "content": { "text": [], "code": [] } },
+          {
+            "title": "Parameter & Rückgabe",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "Parameter",
+                "text": "Variablen in der Funktionsdefinition, über die Werte an eine Funktion übergeben werden."
+              },
+              {
+                "type": "definition",
+                "term": "Rückgabewert",
+                "text": "Wert, den eine Funktion nach ihrer Ausführung an den Aufrufer zurückliefert."
+              },
+              {
+                "type": "explanation",
+                "title": "Übersicht der Übergabearten",
+                "text": [
+                  "C++ unterscheidet zwischen Übergabe per Wert, per Referenz und per Zeiger.",
+                  "Die Wahl beeinflusst Performance, Sicherheit und Änderbarkeit der Daten."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Übergabe per Wert",
+                "text": "Der Parameter erhält eine Kopie des übergebenen Werts."
+              },
+              {
+                "type": "code",
+                "title": "Parameter per Wert",
+                "language": "cpp",
+                "code": "void setToZero(int x) {\n    x = 0; // ändert nur die Kopie\n}\n\nint a = 5;\nsetToZero(a); // a bleibt 5"
+              },
+              {
+                "type": "definition",
+                "term": "Übergabe per Referenz",
+                "text": "Der Parameter ist ein Alias für die übergebene Variable."
+              },
+              {
+                "type": "code",
+                "title": "Parameter per Referenz",
+                "language": "cpp",
+                "code": "void setToZero(int& x) {\n    x = 0; // ändert die Originalvariable\n}\n\nint a = 5;\nsetToZero(a); // a wird 0"
+              },
+              {
+                "type": "definition",
+                "term": "const Referenzparameter",
+                "text": "Referenzparameter, der nicht verändert werden darf."
+              },
+              {
+                "type": "code",
+                "title": "const Referenzparameter",
+                "language": "cpp",
+                "code": "void print(const std::string& text) {\n    // text wird nicht kopiert und nicht verändert\n    std::cout << text;\n}"
+              },
+              {
+                "type": "definition",
+                "term": "Rückgabe per Wert",
+                "text": "Die Funktion gibt eine Kopie des Ergebnisses zurück."
+              },
+              {
+                "type": "code",
+                "title": "Rückgabe per Wert",
+                "language": "cpp",
+                "code": "int add(int a, int b) {\n    return a + b; // Rückgabe einer Kopie\n}"
+              },
+              {
+                "type": "definition",
+                "term": "Rückgabe per Referenz",
+                "text": "Die Funktion gibt eine Referenz auf ein existierendes Objekt zurück."
+              },
+              {
+                "type": "code",
+                "title": "Rückgabe per Referenz",
+                "language": "cpp",
+                "code": "int& access(int& x) {\n    return x; // Referenz auf bestehenden Wert\n}"
+              },
+              {
+                "type": "pitfall",
+                "title": "Referenz auf lokale Variable zurückgeben",
+                "text": "Das Zurückgeben einer Referenz auf eine lokale Variable führt zu undefiniertem Verhalten."
+              },
+              {
+                "type": "important",
+                "text": "Standardfall: kleine Typen per Wert, große Objekte per const Referenz übergeben."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Parameter definieren die Eingaben einer Funktion",
+                  "Übergabe per Wert kopiert Daten",
+                  "Referenzen erlauben direkten Zugriff auf Originaldaten",
+                  "Rückgaben können per Wert oder Referenz erfolgen",
+                  "Referenzen auf lokale Variablen dürfen nie zurückgegeben werden"
+                ]
+              }
+            ]
+          },
           { "title": "Überladen", "content": { "text": [], "code": [] } }
         ]
       },
