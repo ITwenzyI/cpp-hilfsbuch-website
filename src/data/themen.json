@@ -719,7 +719,88 @@
               }
             ]
           },
-          { "title": "Logische Operatoren", "content": { "text": [], "code": [] } }
+          {
+            "title": "Logische Operatoren in C++",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "Logischer Operator",
+                "text": "Ein Operator zur logischen Verknüpfung oder Negation boolescher Ausdrücke."
+              },
+              {
+                "type": "list",
+                "title": "Grundlegende logische Operatoren",
+                "items": [
+                  "&&: logisches UND",
+                  "||: logisches ODER",
+                  "!: logisches NICHT"
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Logische Operatoren Beispiel",
+                "language": "cpp",
+                "code": "bool a = true;\nbool b = false;\nbool r1 = a && b;\nbool r2 = a || b;\nbool r3 = !a;"
+              },
+              {
+                "type": "definition",
+                "term": "Kurzschlussauswertung",
+                "text": "Der zweite Operand wird nur ausgewertet, wenn das Ergebnis noch beeinflusst werden kann."
+              },
+              {
+                "type": "explanation",
+                "title": "Kurzschlussverhalten",
+                "text": [
+                  "Bei && wird der zweite Ausdruck nur geprüft, wenn der erste true ist.",
+                  "Bei || wird der zweite Ausdruck nur geprüft, wenn der erste false ist."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Kurzschluss Beispiel",
+                "language": "cpp",
+                "code": "if (ptr != nullptr && ptr->value > 0)\n{\n}"
+              },
+              {
+                "type": "definition",
+                "term": "Operatorpriorität",
+                "text": "Bestimmt die Reihenfolge, in der logische Operatoren ausgewertet werden."
+              },
+              {
+                "type": "explanation",
+                "title": "Priorität und Klammern",
+                "text": [
+                  "! wird vor && ausgewertet.",
+                  "&& wird vor || ausgewertet. Klammern erhöhen die Lesbarkeit."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Priorität Beispiel",
+                "language": "cpp",
+                "code": "bool r = !a || b && a;\nbool r2 = (!a || b) && a;"
+              },
+              {
+                "type": "pitfall",
+                "title": "Bitweise mit logischen Operatoren verwechseln",
+                "text": "& und | sind bitweise Operatoren und nicht gleichbedeutend mit && und ||."
+              },
+              {
+                "type": "important",
+                "text": "Logische Operatoren arbeiten mit booleschen Ausdrücken und nutzen Kurzschlussauswertung."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "&&, || und ! verknüpfen boolesche Ausdrücke",
+                  "Kurzschlussauswertung verhindert unnötige Auswertungen",
+                  "Operatorpriorität beachten oder Klammern setzen",
+                  "Nicht mit bitweisen Operatoren verwechseln"
+                ]
+              }
+            ]
+          }
         ]
       },
       {
