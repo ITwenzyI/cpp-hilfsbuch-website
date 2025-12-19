@@ -1028,28 +1028,67 @@
               }
             ]
           },
-          { "title": "const Überladen", "content": { 
-            "text": [
-              "### === `const` Überladen ===\n",
-              "In C++ kann man Funktionen **überladen**, indem man einmal eine `const`- und einmal eine **nicht-`const`-Version** erstellt.\n",
-              "\n",
-              "---\n",
-              "### Warum?\n",
-              "- `const`-Objekte dürfen nur `const`-Funktionen aufrufen.\n",
-              "- So kann dieselbe Funktion **unterschiedliches Verhalten** haben - je nach `const`-Zustand des Objekts.\n",
-              "\n",
-              "---\n",
-              "### `const` am Ende einer Methode:\n",
-              "- Bedeutet: Diese Funktion **verändert keine Membervariablen** (außer `mutable`)\n",
-              "- Wichtig für **Zugriffsmethoden (Getter)** oder bei Funktionen, die nur lesen\n",
-              "\n",
-              "👉 `const` ist Teil der Funktionssignatur und wird bei der Überladung beachtet.\n",
-              "---\n"
-              ], 
-              "code": [    
-              "#include <iostream>\n#include <string>\n\nclass Person {\nprivate:\n  std::string name;\n\npublic:\n  Person(std::string n) : name(n) {}\n\n  // Nicht-const-Version\n  std::string& getName() {\n    std::cout << \"Nicht-const Version\" << std::endl;\n    return name;\n  }\n\n  // Const-Version (für const Objekte)\n  const std::string& getName() const {\n    std::cout << \"Const-Version\" << std::endl;\n    return name;\n  }\n};\n\nint main() {\n  Person p1(\"Kilian\");\n  const Person p2(\"Lisa\");\n\n  std::cout << p1.getName() << std::endl;  // Ausgabe: Nicht-const Version\\nKilian\n  std::cout << p2.getName() << std::endl;  // Ausgabe: Const-Version\\nLisa\n\n  return 0;\n}"
-              ] 
-            } 
+          {
+            "title": "const Überladung in C++",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "const Überladung",
+                "text": "Eine Form der Funktionsüberladung, bei der sich Funktionen nur durch const unterscheiden."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee der const Überladung",
+                "text": [
+                  "const Überladung wird fast ausschließlich bei Memberfunktionen verwendet.",
+                  "Je nach const Zustand des Objekts wird eine andere Funktionsversion aufgerufen."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "const Objekt",
+                "text": "Ein Objekt, das als const deklariert wurde und nur const Memberfunktionen aufrufen darf."
+              },
+              {
+                "type": "code",
+                "title": "const Überladung bei Memberfunktionen",
+                "language": "cpp",
+                "code": "class Box {\nprivate:\n    int value;\n\npublic:\n    Box(int v) : value(v) {}\n\n    int& get() {\n        // wird bei nicht-const Objekten aufgerufen\n        return value;\n    }\n\n    const int& get() const {\n        // wird bei const Objekten aufgerufen\n        return value;\n    }\n};"
+              },
+              {
+                "type": "explanation",
+                "title": "Auswahl der passenden Funktion",
+                "text": [
+                  "Bei einem nicht-const Objekt wird die nicht-const Version bevorzugt.",
+                  "Bei einem const Objekt ist nur die const Version erlaubt."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Aufruf der überladenen Funktionen",
+                "language": "cpp",
+                "code": "Box b(5);\nb.get() = 10; // erlaubt, nicht-const Version\n\nconst Box cb(7);\nint x = cb.get(); // nur const Version möglich"
+              },
+              {
+                "type": "pitfall",
+                "title": "Fehlende const Version",
+                "text": "Ohne const überladene Memberfunktion können const Objekte wichtige Funktionen nicht nutzen."
+              },
+              {
+                "type": "important",
+                "text": "const Überladung erhöht Korrektheit und Flexibilität von Klassen."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "const Überladung unterscheidet Funktionen nach const",
+                  "Sie wird hauptsächlich bei Memberfunktionen eingesetzt",
+                  "const Objekte dürfen nur const Funktionen aufrufen",
+                  "Nicht-const Objekte nutzen bevorzugt nicht-const Versionen"
+                ]
+              }
+            ]
           },
           { "title": "constexpr", "content": { "text": [], "code": [] } }
         ]
