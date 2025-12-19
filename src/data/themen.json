@@ -1192,100 +1192,184 @@
         "icon": "⌨️",
         "topics": [
           {
-  "title": "std::cout",
-  "difficulty": "basic",
-  "blocks": [
-    {
-      "type": "definition",
-      "term": "std::cout",
-      "text": "std::cout ist der Standard-Ausgabestream in C++ zur Ausgabe von Text und Werten auf die Konsole."
-    },
-    {
-      "type": "explanation",
-      "title": "Grundidee von std::cout",
-      "text": [
-        "std::cout schreibt Daten in den Standard-Output, der in der Regel das Terminal ist.",
-        "Die Ausgabe erfolgt über den Einfügeoperator << und kann verkettet werden."
-      ]
-    },
-    {
-      "type": "definition",
-      "term": "Einfügeoperator <<",
-      "text": "Operator, mit dem Werte in einen Ausgabestream geschrieben werden."
-    },
-    {
-      "type": "code",
-      "title": "Einfache Ausgabe",
-      "language": "cpp",
-      "code": "int x = 5;\nstd::cout << x; // gibt 5 auf der Konsole aus"
-    },
-    {
-      "type": "explanation",
-      "title": "Verkettete Ausgabe",
-      "text": [
-        "Mehrere Werte können hintereinander ausgegeben werden.",
-        "Die Operatoren werden von links nach rechts ausgewertet."
-      ]
-    },
-    {
-      "type": "code",
-      "title": "Verkettung mit Text",
-      "language": "cpp",
-      "code": "int a = 3;\nint b = 4;\nstd::cout << \"a = \" << a << \", b = \" << b; // kombinierte Ausgabe"
-    },
-    {
-      "type": "definition",
-      "term": "std::endl",
-      "text": "Gibt einen Zeilenumbruch aus und leert zusätzlich den Ausgabepuffer."
-    },
-    {
-      "type": "code",
-      "title": "Zeilenumbruch",
-      "language": "cpp",
-      "code": "std::cout << \"Hallo\" << std::endl; // neue Zeile und flush"
-    },
-    {
-      "type": "definition",
-      "term": "Pufferung",
-      "text": "Ausgaben werden zwischengespeichert und nicht sofort angezeigt."
-    },
-    {
-      "type": "comparison",
-      "title": "std::endl vs. '\\n'",
-      "columns": ["std::endl", "\\n"],
-      "rows": [
-        {
-          "aspect": "Zeilenumbruch",
-          "values": ["Ja", "Ja"]
-        },
-        {
-          "aspect": "Flush",
-          "values": ["Ja", "Nein"]
-        }
-      ]
-    },
-    {
-      "type": "pitfall",
-      "title": "Unnötiger Einsatz von std::endl",
-      "text": "Häufiges std::endl kann Programme deutlich verlangsamen, da jedes Mal geflusht wird."
-    },
-    {
-      "type": "important",
-      "text": "std::cout ist ein gepufferter Stream und arbeitet mit dem Operator <<."
-    },
-    {
-      "type": "summary",
-      "points": [
-        "std::cout dient zur Standardausgabe",
-        "Ausgabe erfolgt mit dem Operator <<",
-        "Mehrere Ausgaben können verkettet werden",
-        "std::endl erzeugt Zeilenumbruch und Flush",
-        "\\n ist meist effizienter als std::endl"
-      ]
-    }
-  ]
-},
-          { "title": "cin", "content": { "text": [], "code": [] } },
+            "title": "std::cout",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "std::cout",
+                "text": "std::cout ist der Standard-Ausgabestream in C++ zur Ausgabe von Text und Werten auf die Konsole."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von std::cout",
+                "text": [
+                  "std::cout schreibt Daten in den Standard-Output, der in der Regel das Terminal ist.",
+                  "Die Ausgabe erfolgt über den Einfügeoperator << und kann verkettet werden."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Einfügeoperator <<",
+                "text": "Operator, mit dem Werte in einen Ausgabestream geschrieben werden."
+              },
+              {
+                "type": "code",
+                "title": "Einfache Ausgabe",
+                "language": "cpp",
+                "code": "int x = 5;\nstd::cout << x; // gibt 5 auf der Konsole aus"
+              },
+              {
+                "type": "explanation",
+                "title": "Verkettete Ausgabe",
+                "text": [
+                  "Mehrere Werte können hintereinander ausgegeben werden.",
+                  "Die Operatoren werden von links nach rechts ausgewertet."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Verkettung mit Text",
+                "language": "cpp",
+                "code": "int a = 3;\nint b = 4;\nstd::cout << \"a = \" << a << \", b = \" << b; // kombinierte Ausgabe"
+              },
+              {
+                "type": "definition",
+                "term": "std::endl",
+                "text": "Gibt einen Zeilenumbruch aus und leert zusätzlich den Ausgabepuffer."
+              },
+              {
+                "type": "code",
+                "title": "Zeilenumbruch",
+                "language": "cpp",
+                "code": "std::cout << \"Hallo\" << std::endl; // neue Zeile und flush"
+              },
+              {
+                "type": "definition",
+                "term": "Pufferung",
+                "text": "Ausgaben werden zwischengespeichert und nicht sofort angezeigt."
+              },
+              {
+                "type": "comparison",
+                "title": "std::endl vs. '\\n'",
+                "columns": ["std::endl", "\\n"],
+                "rows": [
+                  {
+                    "aspect": "Zeilenumbruch",
+                    "values": ["Ja", "Ja"]
+                  },
+                  {
+                    "aspect": "Flush",
+                    "values": ["Ja", "Nein"]
+                  }
+                ]
+              },
+              {
+                "type": "pitfall",
+                "title": "Unnötiger Einsatz von std::endl",
+                "text": "Häufiges std::endl kann Programme deutlich verlangsamen, da jedes Mal geflusht wird."
+              },
+              {
+                "type": "important",
+                "text": "std::cout ist ein gepufferter Stream und arbeitet mit dem Operator <<."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "std::cout dient zur Standardausgabe",
+                  "Ausgabe erfolgt mit dem Operator <<",
+                  "Mehrere Ausgaben können verkettet werden",
+                  "std::endl erzeugt Zeilenumbruch und Flush",
+                  "\\n ist meist effizienter als std::endl"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "std::cin",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "std::cin",
+                "text": "std::cin ist der Standard-Eingabestream in C++ zum Einlesen von Daten aus der Konsole."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von std::cin",
+                "text": [
+                  "std::cin liest Daten aus dem Standard-Input, meist der Tastatur.",
+                  "Das Einlesen erfolgt mit dem Extraktionsoperator >> und ist typabhängig."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Extraktionsoperator >>",
+                "text": "Operator, mit dem Werte aus einem Eingabestream gelesen werden."
+              },
+              {
+                "type": "code",
+                "title": "Einfache Eingabe",
+                "language": "cpp",
+                "code": "int x;\nstd::cin >> x; // liest eine Ganzzahl von der Konsole"
+              },
+              {
+                "type": "explanation",
+                "title": "Mehrere Werte einlesen",
+                "text": [
+                  "Mehrere Eingaben können in einer Anweisung verkettet werden.",
+                  "Die Werte werden in der angegebenen Reihenfolge gelesen."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Verkettete Eingabe",
+                "language": "cpp",
+                "code": "int a, b;\nstd::cin >> a >> b; // liest zwei Ganzzahlen"
+              },
+              {
+                "type": "definition",
+                "term": "Whitespace-Verhalten",
+                "text": "std::cin überspringt führende Leerzeichen, Tabs und Zeilenumbrüche."
+              },
+              {
+                "type": "code",
+                "title": "Eingabe von Text",
+                "language": "cpp",
+                "code": "std::string name;\nstd::cin >> name; // liest bis zum nächsten Leerzeichen"
+              },
+              {
+                "type": "definition",
+                "term": "Stream-Zustand",
+                "text": "Interner Status eines Streams, der angibt, ob die letzte Eingabe erfolgreich war."
+              },
+              {
+                "type": "code",
+                "title": "Eingabe prüfen",
+                "language": "cpp",
+                "code": "int value;\nif (std::cin >> value) {\n    // Eingabe war erfolgreich\n}"
+              },
+              {
+                "type": "pitfall",
+                "title": "Fehlerhafte Eingaben",
+                "text": "Ungültige Eingaben setzen den Stream in einen Fehlerzustand und blockieren weitere Lesevorgänge."
+              },
+              {
+                "type": "important",
+                "text": "std::cin ist typabhängig und nutzt den Operator >> zum Einlesen."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "std::cin liest Daten von der Konsole",
+                  "Eingabe erfolgt mit dem Operator >>",
+                  "Whitespace wird automatisch übersprungen",
+                  "Der Stream-Zustand sollte geprüft werden",
+                  "Ungültige Eingaben können weitere Eingaben verhindern"
+                ]
+              }
+            ]
+          },
           { "title": "getline", "content": { "text": [], "code": [] } }
         ]
       },
