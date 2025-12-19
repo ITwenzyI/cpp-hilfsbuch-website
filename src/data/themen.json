@@ -648,7 +648,77 @@
               }
             ]
           },
-          { "title": "Vergleichsoperatoren", "content": { "text": [], "code": [] } },
+          {
+            "title": "Vergleichsoperatoren in C++",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "Vergleichsoperator",
+                "text": "Ein Operator, der zwei Werte vergleicht und einen booleschen Wert zurückliefert."
+              },
+              {
+                "type": "list",
+                "title": "Grundlegende Vergleichsoperatoren",
+                "items": [
+                  "==: gleich",
+                  "!=: ungleich",
+                  "<: kleiner als",
+                  ">: größer als",
+                  "<=: kleiner oder gleich",
+                  ">=: größer oder gleich"
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Vergleichsoperatoren Beispiel",
+                "language": "cpp",
+                "code": "int a = 5;\nint b = 7;\nbool r1 = (a == b);\nbool r2 = (a < b);"
+              },
+              {
+                "type": "definition",
+                "term": "bool",
+                "text": "Ein Datentyp mit den möglichen Werten true oder false."
+              },
+              {
+                "type": "explanation",
+                "title": "Vergleiche in Bedingungen",
+                "text": [
+                  "Vergleichsoperatoren werden häufig in if Anweisungen und Schleifen verwendet.",
+                  "Das Ergebnis entscheidet über den weiteren Programmfluss."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Vergleich in einer Bedingung",
+                "language": "cpp",
+                "code": "if (a >= 0)\n{\n    std::cout << \"positiv\";\n}"
+              },
+              {
+                "type": "definition",
+                "term": "Vergleich von Gleitkommazahlen",
+                "text": "Der direkte Vergleich von Gleitkommazahlen kann wegen Rundungsfehlern problematisch sein."
+              },
+              {
+                "type": "pitfall",
+                "title": "== statt =",
+                "text": "Das Verwechseln von Zuweisung und Vergleich führt zu logischen Fehlern."
+              },
+              {
+                "type": "important",
+                "text": "Vergleichsoperatoren liefern immer einen booleschen Wert."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Vergleichsoperatoren prüfen Beziehungen zwischen Werten",
+                  "Das Ergebnis ist immer true oder false",
+                  "Sie steuern Bedingungen und Schleifen",
+                  "Besondere Vorsicht bei Gleitkommazahlen"
+                ]
+              }
+            ]
+          },
           { "title": "Logische Operatoren", "content": { "text": [], "code": [] } }
         ]
       },
