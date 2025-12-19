@@ -1091,93 +1091,93 @@
             ]
           },
           {
-  "title": "constexpr in C++",
-  "difficulty": "basic",
-  "blocks": [
-    {
-      "type": "definition",
-      "term": "constexpr",
-      "text": "constexpr kennzeichnet Ausdrücke, Variablen oder Funktionen, die zur Compilezeit ausgewertet werden können."
-    },
-    {
-      "type": "explanation",
-      "title": "Grundidee von constexpr",
-      "text": [
-        "constexpr ermöglicht es, Berechnungen bereits zur Compilezeit durchzuführen.",
-        "Dadurch werden Programme effizienter und sicherer, da Fehler früher erkannt werden."
-      ]
-    },
-    {
-      "type": "definition",
-      "term": "constexpr Variable",
-      "text": "Eine Variable, deren Wert zur Compilezeit bekannt sein muss."
-    },
-    {
-      "type": "code",
-      "title": "constexpr Variable Beispiel",
-      "language": "cpp",
-      "code": "constexpr int maxSize = 100; // Wert ist zur Compilezeit festgelegt"
-    },
-    {
-      "type": "definition",
-      "term": "constexpr Funktion",
-      "text": "Eine Funktion, die bei konstanten Argumenten zur Compilezeit ausgewertet werden kann."
-    },
-    {
-      "type": "code",
-      "title": "constexpr Funktion Beispiel",
-      "language": "cpp",
-      "code": "constexpr int square(int x)\n{\n    return x * x;\n}\n\nconstexpr int value = square(5); // Compilezeit"
-    },
-    {
-      "type": "explanation",
-      "title": "Compilezeit vs. Laufzeit",
-      "text": [
-        "constexpr Funktionen können sowohl zur Compilezeit als auch zur Laufzeit ausgeführt werden.",
-        "Ob Compilezeit oder Laufzeit entscheidet der Kontext der Verwendung."
-      ]
-    },
-    {
-      "type": "code",
-      "title": "constexpr zur Laufzeit",
-      "language": "cpp",
-      "code": "int x;\nstd::cin >> x;\nint y = square(x); // Laufzeit, da x nicht konstant ist"
-    },
-    {
-      "type": "comparison",
-      "title": "const vs. constexpr",
-      "columns": ["const", "constexpr"],
-      "rows": [
-        {
-          "aspect": "Zeitpunkt der Auswertung",
-          "values": ["Laufzeit oder Compilezeit", "Immer Compilezeit möglich"]
-        },
-        {
-          "aspect": "Einsatz",
-          "values": ["Unveränderlichkeit", "Konstante Ausdrücke"]
-        }
-      ]
-    },
-    {
-      "type": "pitfall",
-      "title": "constexpr mit nicht-konstanten Werten",
-      "text": "constexpr erfordert zur Compilezeit bekannte Werte, sonst schlägt die Übersetzung fehl."
-    },
-    {
-      "type": "important",
-      "text": "constexpr ist stärker als const und ermöglicht echte Compilezeit-Berechnungen."
-    },
-    {
-      "type": "summary",
-      "points": [
-        "constexpr erzwingt Compilezeit-Auswertbarkeit",
-        "constexpr Variablen sind echte Konstanten",
-        "constexpr Funktionen können auch zur Laufzeit genutzt werden",
-        "constexpr erhöht Effizienz und Typsicherheit"
-      ]
-    }
-  ]
-}
+            "title": "constexpr in C++",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "constexpr",
+                "text": "constexpr kennzeichnet Ausdrücke, Variablen oder Funktionen, die zur Compilezeit ausgewertet werden können."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von constexpr",
+                "text": [
+                  "constexpr ermöglicht es, Berechnungen bereits zur Compilezeit durchzuführen.",
+                  "Dadurch werden Programme effizienter und sicherer, da Fehler früher erkannt werden."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "constexpr Variable",
+                "text": "Eine Variable, deren Wert zur Compilezeit bekannt sein muss."
+              },
+              {
+                "type": "code",
+                "title": "constexpr Variable Beispiel",
+                "language": "cpp",
+                "code": "constexpr int maxSize = 100; // Wert ist zur Compilezeit festgelegt"
+              },
+              {
+                "type": "definition",
+                "term": "constexpr Funktion",
+                "text": "Eine Funktion, die bei konstanten Argumenten zur Compilezeit ausgewertet werden kann."
+              },
+              {
+                "type": "code",
+                "title": "constexpr Funktion Beispiel",
+                "language": "cpp",
+                "code": "constexpr int square(int x)\n{\n    return x * x;\n}\n\nconstexpr int value = square(5); // Compilezeit"
+              },
+              {
+                "type": "explanation",
+                "title": "Compilezeit vs. Laufzeit",
+                "text": [
+                  "constexpr Funktionen können sowohl zur Compilezeit als auch zur Laufzeit ausgeführt werden.",
+                  "Ob Compilezeit oder Laufzeit entscheidet der Kontext der Verwendung."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "constexpr zur Laufzeit",
+                "language": "cpp",
+                "code": "int x;\nstd::cin >> x;\nint y = square(x); // Laufzeit, da x nicht konstant ist"
+              },
+              {
+                "type": "comparison",
+                "title": "const vs. constexpr",
+                "columns": ["const", "constexpr"],
+                "rows": [
+                  {
+                    "aspect": "Zeitpunkt der Auswertung",
+                    "values": ["Laufzeit oder Compilezeit", "Immer Compilezeit möglich"]
+                  },
+                  {
+                    "aspect": "Einsatz",
+                    "values": ["Unveränderlichkeit", "Konstante Ausdrücke"]
+                  }
+                ]
+              },
+              {
+                "type": "pitfall",
+                "title": "constexpr mit nicht-konstanten Werten",
+                "text": "constexpr erfordert zur Compilezeit bekannte Werte, sonst schlägt die Übersetzung fehl."
+              },
+              {
+                "type": "important",
+                "text": "constexpr ist stärker als const und ermöglicht echte Compilezeit-Berechnungen."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "constexpr erzwingt Compilezeit-Auswertbarkeit",
+                  "constexpr Variablen sind echte Konstanten",
+                  "constexpr Funktionen können auch zur Laufzeit genutzt werden",
+                  "constexpr erhöht Effizienz und Typsicherheit"
+                ]
+              }
+            ]
+          }
         ]
       }
     ]
