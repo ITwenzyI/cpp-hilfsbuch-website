@@ -2220,7 +2220,95 @@
         "name": "Grundlagen",
         "icon": "🔧",
         "topics": [
-          { "title": "Funktionsdefinition", "content": { "text": [], "code": [] } },
+          {
+            "title": "Funktionsdefinition",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "Funktionsdefinition",
+                "text": "Die vollständige Beschreibung einer Funktion inklusive Rückgabetyp, Name, Parameterliste und Funktionsrumpf."
+              },
+              {
+                "type": "explanation",
+                "title": "Bestandteile einer Funktionsdefinition",
+                "text": [
+                  "Eine Funktionsdefinition legt fest, was eine Funktion tut und wie sie implementiert ist.",
+                  "Sie besteht aus Rückgabetyp, Funktionsname, Parametern und dem Codeblock."
+                ]
+              },
+              {
+                "type": "list",
+                "title": "Bestandteile",
+                "items": [
+                  "Rückgabetyp",
+                  "Funktionsname",
+                  "Parameterliste",
+                  "Funktionsrumpf"
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Einfache Funktionsdefinition",
+                "language": "cpp",
+                "code": "int add(int a, int b) {\n    // addiert zwei Zahlen\n    return a + b;\n}"
+              },
+              {
+                "type": "definition",
+                "term": "Rückgabetyp",
+                "text": "Der Datentyp des Werts, den eine Funktion zurückliefert."
+              },
+              {
+                "type": "definition",
+                "term": "Funktionsname",
+                "text": "Bezeichner, unter dem die Funktion aufgerufen wird."
+              },
+              {
+                "type": "definition",
+                "term": "Parameterliste",
+                "text": "Liste von Variablen, über die Werte an die Funktion übergeben werden."
+              },
+              {
+                "type": "definition",
+                "term": "Funktionsrumpf",
+                "text": "Der Codeblock, der beim Aufruf der Funktion ausgeführt wird."
+              },
+              {
+                "type": "definition",
+                "term": "void Funktion",
+                "text": "Eine Funktion ohne Rückgabewert."
+              },
+              {
+                "type": "code",
+                "title": "void Funktionsdefinition",
+                "language": "cpp",
+                "code": "void printHello() {\n    // gibt eine Begrüßung aus\n    std::cout << \"Hallo\";\n}"
+              },
+              {
+                "type": "definition",
+                "term": "return",
+                "text": "Anweisung zum Zurückgeben eines Werts und Beenden der Funktion."
+              },
+              {
+                "type": "pitfall",
+                "title": "Fehlender return",
+                "text": "Nicht-void Funktionen müssen in allen Fällen einen Wert zurückgeben."
+              },
+              {
+                "type": "important",
+                "text": "Die Funktionsdefinition legt das Verhalten fest, die Deklaration nur die Schnittstelle."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Eine Funktionsdefinition beschreibt das Verhalten einer Funktion",
+                  "Sie besteht aus Rückgabetyp, Name, Parametern und Rumpf",
+                  "void Funktionen liefern keinen Wert zurück",
+                  "return beendet die Funktion und gibt einen Wert zurück"
+                ]
+              }
+            ]
+          },
           { "title": "Parameter & Rückgabe", "content": { "text": [], "code": [] } },
           { "title": "Überladen", "content": { "text": [], "code": [] } }
         ]
