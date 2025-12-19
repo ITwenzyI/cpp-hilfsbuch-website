@@ -109,193 +109,314 @@
             }
           ]
         },
-{
-  "title": "Wichtige Grundbegriffe in C++",
+          {
+            "title": "Wichtige Grundbegriffe in C++",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "Deklaration",
+                "text": "Macht einen Namen und seinen Typ bekannt, ohne ihn zwingend vollständig festzulegen. (z.B. `int x;`)"
+              },
+              {
+                "type": "definition",
+                "term": "Definition",
+                "text": "Legt Speicher oder die konkrete Implementierung eines Namens fest. (z.B. `int x = 5;`)"
+              },
+              {
+                "type": "definition",
+                "term": "Initialisierung",
+                "text": "Vergibt beim Erzeugen einer Variable direkt einen Startwert."
+              },
+              {
+                "type": "definition",
+                "term": "Zuweisung",
+                "text": "Ändert den Wert einer bereits existierenden Variable."
+              },
+              {
+                "type": "definition",
+                "term": "Variable",
+                "text": "Ein benannter Speicherbereich zur Ablage von Daten."
+              },
+              {
+                "type": "definition",
+                "term": "Datentyp",
+                "text": "Legt fest, welche Art von Wert gespeichert wird und wie viel Speicher benötigt wird."
+              },
+              {
+                "type": "definition",
+                "term": "Referenz",
+                "text": "Ein alternativer Name für ein bereits existierendes Objekt."
+              },
+              {
+                "type": "definition",
+                "term": "Zeiger",
+                "text": "Speichert die Speicheradresse eines Objekts."
+              },
+              {
+                "type": "definition",
+                "term": "Funktion",
+                "text": "Ein benannter Codeblock, der eine bestimmte Aufgabe ausführt."
+              },
+              {
+                "type": "definition",
+                "term": "Parameter",
+                "text": "Platzhalter in der Funktionsdefinition für übergebene Werte."
+              },
+              {
+                "type": "definition",
+                "term": "Argument",
+                "text": "Konkreter Wert, der beim Funktionsaufruf übergeben wird."
+              },
+              {
+                "type": "definition",
+                "term": "Rückgabewert",
+                "text": "Wert, den eine Funktion nach ihrer Ausführung zurückliefert."
+              },
+              {
+                "type": "definition",
+                "term": "Scope",
+                "text": "Der Gültigkeitsbereich, in dem ein Name verwendet werden darf."
+              },
+              {
+                "type": "definition",
+                "term": "Block",
+                "text": "Ein zusammengehöriger Codebereich, der durch geschweifte Klammern begrenzt ist."
+              },
+              {
+                "type": "definition",
+                "term": "Namespace",
+                "text": "Ein Namensraum zur Strukturierung und Vermeidung von Namenskonflikten."
+              },
+              {
+                "type": "definition",
+                "term": "Klasse",
+                "text": "Ein Bauplan für Objekte, der Daten und Funktionen zusammenfasst."
+              },
+              {
+                "type": "definition",
+                "term": "Objekt",
+                "text": "Eine konkrete Instanz einer Klasse."
+              },
+              {
+                "type": "definition",
+                "term": "Konstruktor",
+                "text": "Spezielle Funktion, die beim Erzeugen eines Objekts aufgerufen wird."
+              },
+              {
+                "type": "definition",
+                "term": "Destruktor",
+                "text": "Spezielle Funktion, die beim Zerstören eines Objekts aufgerufen wird."
+              },
+              {
+                "type": "definition",
+                "term": "Header-Datei",
+                "text": "Datei, die Deklarationen für andere Übersetzungseinheiten bereitstellt."
+              },
+              {
+                "type": "definition",
+                "term": "Quell-Datei",
+                "text": "Datei, die die eigentlichen Definitionen und Implementierungen enthält."
+              },
+              {
+                "type": "important",
+                "text": "Diese Begriffe bilden das Fundament zum Verstehen von C++ Code und Compiler-Fehlern."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Deklaration und Definition sind nicht dasselbe",
+                  "Parameter gehören zur Funktion, Argumente zum Aufruf",
+                  "Referenzen und Zeiger arbeiten beide mit bestehenden Objekten",
+                  "Klassen definieren Strukturen, Objekte sind ihre Instanzen"
+                ]
+              }
+            ]
+          },
+          {
+  "title": "Datentypen in C++",
   "difficulty": "basic",
   "blocks": [
     {
       "type": "definition",
-      "term": "Deklaration",
-      "text": "Macht einen Namen und seinen Typ bekannt, ohne ihn zwingend vollständig festzulegen. (z.B. `int x;`)"
-    },
-    {
-      "type": "definition",
-      "term": "Definition",
-      "text": "Legt Speicher oder die konkrete Implementierung eines Namens fest. (z.B. `int x = 5;`)"
-    },
-    {
-      "type": "definition",
-      "term": "Initialisierung",
-      "text": "Vergibt beim Erzeugen einer Variable direkt einen Startwert."
-    },
-    {
-      "type": "definition",
-      "term": "Zuweisung",
-      "text": "Ändert den Wert einer bereits existierenden Variable."
-    },
-    {
-      "type": "definition",
-      "term": "Variable",
-      "text": "Ein benannter Speicherbereich zur Ablage von Daten."
-    },
-    {
-      "type": "definition",
       "term": "Datentyp",
-      "text": "Legt fest, welche Art von Wert gespeichert wird und wie viel Speicher benötigt wird."
+      "text": "Ein Datentyp legt fest, welche Art von Wert gespeichert wird und wie dieser interpretiert wird."
+    },
+    {
+      "type": "explanation",
+      "title": "Grundlegende Datentypen",
+      "text": [
+        "Grundlegende Datentypen sind fest in C++ eingebaut und bilden die Basis aller weiteren Typen.",
+        "Sie unterscheiden sich in Speicherbedarf, Wertebereich und Verwendungszweck."
+      ]
+    },
+    {
+      "type": "list",
+      "title": "Wichtige grundlegende Datentypen",
+      "items": [
+        "int: Ganzzahltyp",
+        "double: Gleitkommazahl",
+        "char: Einzelnes Zeichen",
+        "bool: Wahrheitswert true oder false",
+        "void: Kein Wert"
+      ]
+    },
+    {
+      "type": "code",
+      "title": "Grundlegende Datentypen Beispiel",
+      "language": "cpp",
+      "code": "int a = 5;\ndouble b = 3.14;\nbool ok = true;"
     },
     {
       "type": "definition",
-      "term": "Referenz",
-      "text": "Ein alternativer Name für ein bereits existierendes Objekt."
+      "term": "size_t",
+      "text": "Ein vorzeichenloser Ganzzahltyp zur Darstellung von Größen und Indizes."
+    },
+    {
+      "type": "code",
+      "title": "size_t Beispiel",
+      "language": "cpp",
+      "code": "size_t len = 10;"
     },
     {
       "type": "definition",
-      "term": "Zeiger",
-      "text": "Speichert die Speicheradresse eines Objekts."
+      "term": "std::string",
+      "text": "Ein Standardtyp zur komfortablen Verarbeitung von Texten."
+    },
+    {
+      "type": "code",
+      "title": "std::string Beispiel",
+      "language": "cpp",
+      "code": "std::string name = \"C++\";"
     },
     {
       "type": "definition",
-      "term": "Funktion",
-      "text": "Ein benannter Codeblock, der eine bestimmte Aufgabe ausführt."
+      "term": "nullptr",
+      "text": "Ein spezieller Literalwert für einen ungültigen Zeiger."
+    },
+    {
+      "type": "code",
+      "title": "nullptr Beispiel",
+      "language": "cpp",
+      "code": "int* p = nullptr;"
     },
     {
       "type": "definition",
-      "term": "Parameter",
-      "text": "Platzhalter in der Funktionsdefinition für übergebene Werte."
+      "term": "auto",
+      "text": "Lässt den Compiler den Datentyp einer Variablen automatisch ableiten."
+    },
+    {
+      "type": "code",
+      "title": "auto Beispiel",
+      "language": "cpp",
+      "code": "auto x = 42;"
     },
     {
       "type": "definition",
-      "term": "Argument",
-      "text": "Konkreter Wert, der beim Funktionsaufruf übergeben wird."
+      "term": "decltype",
+      "text": "Ermittelt den Typ eines Ausdrucks, ohne ihn auszuwerten."
+    },
+    {
+      "type": "code",
+      "title": "decltype Beispiel",
+      "language": "cpp",
+      "code": "int a = 0;\ndecltype(a) b = 1;"
     },
     {
       "type": "definition",
-      "term": "Rückgabewert",
-      "text": "Wert, den eine Funktion nach ihrer Ausführung zurückliefert."
+      "term": "struct",
+      "text": "Ein benutzerdefinierter Datentyp zur Bündelung mehrerer Werte."
     },
     {
       "type": "definition",
-      "term": "Scope",
-      "text": "Der Gültigkeitsbereich, in dem ein Name verwendet werden darf."
+      "term": "class",
+      "text": "Ein benutzerdefinierter Datentyp mit Kapselung und Zugriffskontrolle."
+    },
+    {
+      "type": "code",
+      "title": "struct und class mit Funktionen",
+      "language": "cpp",
+      "code": "struct Point {\n    int x;\n    int y;\n\n    void move(int dx, int dy) {\n        x += dx;\n        y += dy;\n    }\n};\n\nclass Counter {\nprivate:\n    int value;\n\npublic:\n    Counter() : value(0) {}\n\n    void increment() {\n        value++;\n    }\n\n    int get() const {\n        return value;\n    }\n};"
     },
     {
       "type": "definition",
-      "term": "Block",
-      "text": "Ein zusammengehöriger Codebereich, der durch geschweifte Klammern begrenzt ist."
+      "term": "enum",
+      "text": "Ein Datentyp mit einer festen Menge benannter Ganzzahlwerte."
+    },
+    {
+      "type": "code",
+      "title": "enum Beispiel",
+      "language": "cpp",
+      "code": "enum Color { Red, Green, Blue };"
     },
     {
       "type": "definition",
-      "term": "Namespace",
-      "text": "Ein Namensraum zur Strukturierung und Vermeidung von Namenskonflikten."
+      "term": "enum class",
+      "text": "Stark typisierte Enumeration mit eigenem Gültigkeitsbereich und ohne implizite Umwandlung zu int."
+    },
+    {
+      "type": "code",
+      "title": "enum class Beispiel",
+      "language": "cpp",
+      "code": "enum class Status { Ok, Error, Unknown };\n\nStatus s = Status::Ok;"
     },
     {
       "type": "definition",
-      "term": "Klasse",
-      "text": "Ein Bauplan für Objekte, der Daten und Funktionen zusammenfasst."
+      "term": "typedef",
+      "text": "Erstellt einen Aliasnamen für einen bestehenden Datentyp."
     },
     {
       "type": "definition",
-      "term": "Objekt",
-      "text": "Eine konkrete Instanz einer Klasse."
+      "term": "using",
+      "text": "Moderne Alternative zu typedef für Typaliasse."
     },
     {
-      "type": "definition",
-      "term": "Konstruktor",
-      "text": "Spezielle Funktion, die beim Erzeugen eines Objekts aufgerufen wird."
+      "type": "code",
+      "title": "typedef und using Beispiel",
+      "language": "cpp",
+      "code": "typedef unsigned int uint;\nusing Index = size_t;"
     },
     {
-      "type": "definition",
-      "term": "Destruktor",
-      "text": "Spezielle Funktion, die beim Zerstören eines Objekts aufgerufen wird."
+      "type": "explanation",
+      "title": "Typumwandlung in C++",
+      "text": [
+        "Typumwandlungen werden verwendet, wenn ein Wert in einem anderen Datentyp weiterverarbeitet werden soll.",
+        "Explizite Casts wie static_cast sind sicherer und besser lesbar als implizite Umwandlungen."
+      ]
     },
     {
-      "type": "definition",
-      "term": "Header-Datei",
-      "text": "Datei, die Deklarationen für andere Übersetzungseinheiten bereitstellt."
+      "type": "list",
+      "title": "Gängige Cast-Arten",
+      "items": [
+        "static_cast: normale, überprüfbare Umwandlungen",
+        "const_cast: Entfernen oder Hinzufügen von const",
+        "reinterpret_cast: bitweise Umdeutung, sehr gefährlich",
+        "dynamic_cast: sichere Laufzeitprüfung bei Vererbung"
+      ]
     },
     {
-      "type": "definition",
-      "term": "Quell-Datei",
-      "text": "Datei, die die eigentlichen Definitionen und Implementierungen enthält."
+      "type": "code",
+      "title": "Typumwandlung Beispiel",
+      "language": "cpp",
+      "code": "double d = 4.9;\nint i = static_cast<int>(d);"
     },
     {
       "type": "important",
-      "text": "Diese Begriffe bilden das Fundament zum Verstehen von C++ Code und Compiler-Fehlern."
+      "text": "Datentypen bestimmen Speicher, Verhalten und Sicherheit von C++ Programmen."
     },
     {
       "type": "summary",
       "points": [
-        "Deklaration und Definition sind nicht dasselbe",
-        "Parameter gehören zur Funktion, Argumente zum Aufruf",
-        "Referenzen und Zeiger arbeiten beide mit bestehenden Objekten",
-        "Klassen definieren Strukturen, Objekte sind ihre Instanzen"
+        "Grundlegende Typen bilden die Basis aller Programme",
+        "size_t, string und nullptr sind zentrale Standardtypen",
+        "auto und decltype vereinfachen typsicheren Code",
+        "struct, class und enum erlauben eigene Datentypen",
+        "using ersetzt typedef in modernem C++"
       ]
     }
   ]
 },
-          { "title": "Datentypen", "content": {
-            "text": [
-              "### === Datentypen in C++ ===\n",
-              "C++ kennt viele eingebaute Typen und erlaubt die Definition eigener Typen.\n",
-              "\n",
-              "---\n",
-              "### Standard-Datentypen\n",
-              "- `int`: Ganzzahl (z.B. `int x = 5;`)\n",
-              "- `float`: Fließkommazahl mit einfacher Genauigkeit\n",
-              "- `double`: Fließkommazahl mit doppelter Genauigkeit\n",
-              "- `char`: Einzelnes Zeichen (z.B. `'A'`)\n",
-              "- `bool`: Wahrheitswert (`true` / `false`)\n",
-              "- `void`: Kein Rückgabewert (z.B. bei `void funktion()`)\n",
-              "\n",
-              "---\n",
-              "### Erweiterte Grundtypen\n",
-              "- `long`, `long long`, `unsigned`, `short`: Varianten von `int`\n",
-              "- `wchar_t`, `char16_t`, `char32_t`: Unicode-Zeichentypen\n",
-              "- `std::string`: String-Klasse (aus `<string>`)\n",
-              "- `std::size_t`: Unsigned Ganzzahl für Größen (z.B. `v.size()`)\n",
-              "- `nullptr_t`: Typ des Literals `nullptr`\n",
-              "\n",
-              "---\n",
-              "### Automatische Typableitung\n",
-              "- `auto`: Typ wird automatisch aus dem Ausdruck ermittelt\n",
-              "- `decltype(...)`: Liefert den Typ eines Ausdrucks\n",
-              "- Beispiel:\n",
-              "```cpp\nint x = 5;\nauto y = x * 2;         // y ist int\ndecltype(y) z = 10;      // z ist auch int\n```\n",
-              "\n",
-              "---\n",
-              "### Eigene Typen\n",
-              "- `struct`: Für einfache Strukturen mit mehreren Feldern\n",
-              "- `class`: Für Klassen mit Methoden und Zugriffskontrolle (public/private)\n",
-              "- `enum`: Für aufzählbare Werte\n",
-              "\n",
-              "#### `enum` Erklärung:\n",
-              "- `enum` erstellt eigene ganzzahlige Werte (standardmäßig beginnend bei 0)\n",
-              "- Beispiel:\n",
-              "```cpp\nenum Farbe { Rot, Gruen, Blau };  // Rot = 0, Gruen = 1, Blau = 2\n```\n",
-              "- Man kann Werte auch selbst zuweisen:\n",
-              "```cpp\nenum Status { OK = 1, FEHLER = 404, NICHT_GEFUNDEN = 4040 };\n```\n",
-              "- Zugriff auf Zahlwert mit `static_cast<int>(enumWert)`:\n",
-              "```cpp\nStatus s = FEHLER;\nstd::cout << static_cast<int>(s);  // Ausgabe: 404\n```\n",
-              "- `enum class` (modernes C++): Streng typisiert, Zugriff nur mit `Status::FEHLER`\n",
-              "\n",
-              "---\n",
-              "### `using/typedef` Erklärung:\n",
-              "- `typedef` (alt) und `using` (modern): Eigene Namen für bestehende Typen\n",
-              "- Beispiel:\n",
-              "```cpp\ntypedef unsigned int uint;\nusing Score = double;\n```",
-              "\n",
-              "---\n",
-              "### Typumwandlung (Casting)\n",
-              "- `static_cast<T>(wert)`: Sicherer Cast zwischen kompatiblen Typen\n",
-              "- `const_cast<T>`: Entfernt `const`\n",
-              "\n",
-              "---\n"
-              ],
-            "code": [
-              "#include <iostream>\n#include <string>\n#include <typeinfo>\n\n// Eigene Struktur\nstruct Person {\n    std::string name;\n    int alter;\n};\n\n// Typalias\nusing Zahl = unsigned int;\n\nenum Farbe { Rot, Gruen, Blau };           // Rot = 0, Gruen = 1, Blau = 2\nenum Status { OK = 1, FEHLER = 404 };      // eigene Werte\n\nint main() {\n    int a = 10;\n    auto b = 3.14;                          // automatisch double\n    decltype(a) c = 5;                      // ebenfalls int\n\n    Person p = {\"Kilian\", 21};\n    Zahl punkte = 150;\n\n    Farbe f = Gruen;\n    Status s = FEHLER;\n\n    std::cout << \"Name: \" << p.name << \", Alter: \" << p.alter << std::endl;         // Ausgabe: Name: Kilian, Alter: 21\n    std::cout << \"Punkte: \" << punkte << std::endl;                                  // Ausgabe: Punkte: 150\n    std::cout << \"Typ von b: \" << typeid(b).name() << std::endl;                     // Ausgabe: Typ von b: double (compilerabhängig)\n    std::cout << \"Fehlercode: \" << static_cast<int>(s) << std::endl;                // Ausgabe: Fehlercode: 404\n\n    return 0;\n}"
-              ]
-            } 
-          },
+
           { "title": "I/O Grundprinzipien", "content": { "text": [], "code": [] } }
         ]
       },
