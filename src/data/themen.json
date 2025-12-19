@@ -1982,7 +1982,90 @@
         "name": "Schleifen",
         "icon": "🔁",
         "topics": [
-          { "title": "for", "content": { "text": [], "code": [] } },
+          {
+            "title": "for Schleife",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "for Schleife",
+                "text": "Eine Schleife, die einen Codeblock eine festgelegte Anzahl von Durchläufen ausführt."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee der for Schleife",
+                "text": [
+                  "Die for Schleife besteht aus Initialisierung, Bedingung und Schritt.",
+                  "Sie eignet sich besonders für zählbasierte Wiederholungen."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Initialisierung",
+                "text": "Wird einmal vor dem ersten Schleifendurchlauf ausgeführt."
+              },
+              {
+                "type": "definition",
+                "term": "Bedingung",
+                "text": "Wird vor jedem Durchlauf geprüft und entscheidet über das Weiterlaufen der Schleife."
+              },
+              {
+                "type": "definition",
+                "term": "Schritt",
+                "text": "Wird nach jedem Schleifendurchlauf ausgeführt."
+              },
+              {
+                "type": "code",
+                "title": "Klassische for Schleife",
+                "language": "cpp",
+                "code": "for (int i = 0; i < 5; i++) {\n    // i läuft von 0 bis 4\n}"
+              },
+              {
+                "type": "explanation",
+                "title": "Ablauf einer for Schleife",
+                "text": [
+                  "Zuerst wird die Initialisierung ausgeführt.",
+                  "Danach wird vor jedem Durchlauf die Bedingung geprüft und am Ende der Schritt ausgeführt."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "for Schleife mit anderer Schrittweite",
+                "language": "cpp",
+                "code": "for (int i = 0; i <= 10; i += 2) {\n    // i nimmt die Werte 0, 2, 4, 6, 8, 10 an\n}"
+              },
+              {
+                "type": "definition",
+                "term": "Bereichsbasierte for Schleife",
+                "text": "Moderne for Schleife zum Durchlaufen von Containern und Arrays."
+              },
+              {
+                "type": "code",
+                "title": "Bereichsbasierte for Schleife",
+                "language": "cpp",
+                "code": "int values[] = {1, 2, 3};\n\nfor (int v : values) {\n    // v nimmt nacheinander die Werte 1, 2, 3 an\n}"
+              },
+              {
+                "type": "pitfall",
+                "title": "Endlosschleife",
+                "text": "Eine falsche Bedingung oder ein fehlender Schritt kann zu einer Endlosschleife führen."
+              },
+              {
+                "type": "important",
+                "text": "for Schleifen eignen sich besonders für bekannte oder zählbare Wiederholungen."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "for Schleifen bestehen aus Initialisierung, Bedingung und Schritt",
+                  "Sie sind ideal für Zählschleifen",
+                  "Schrittweite kann frei gewählt werden",
+                  "Bereichsbasierte for Schleifen vereinfachen Containerzugriffe",
+                  "Sorgfältige Bedingungen verhindern Endlosschleifen"
+                ]
+              }
+            ]
+          },
           { "title": "while", "content": { "text": [], "code": [] } },
           { "title": "do-while", "content": { "text": [], "code": [] } }
         ]
