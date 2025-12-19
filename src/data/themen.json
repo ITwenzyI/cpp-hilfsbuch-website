@@ -2139,7 +2139,74 @@
               }
             ]
           },
-          { "title": "do-while", "content": { "text": [], "code": [] } }
+          {
+            "title": "do-while Schleife",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "do while Schleife",
+                "text": "Eine Schleife, bei der der Codeblock mindestens einmal ausgeführt wird."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee der do while Schleife",
+                "text": [
+                  "Die Bedingung wird erst nach dem Schleifendurchlauf geprüft.",
+                  "Der Schleifenrumpf wird daher immer mindestens einmal ausgeführt."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Fußgesteuerte Schleife",
+                "text": "Eine Schleife, bei der die Bedingung nach dem Schleifenrumpf geprüft wird."
+              },
+              {
+                "type": "code",
+                "title": "Einfache do while Schleife",
+                "language": "cpp",
+                "code": "int i = 0;\n\ndo {\n    // wird mindestens einmal ausgeführt\n    i++;\n} while (i < 5);"
+              },
+              {
+                "type": "explanation",
+                "title": "Typische Einsatzfälle",
+                "text": [
+                  "do while wird genutzt, wenn eine Aktion mindestens einmal erfolgen muss.",
+                  "Häufig bei Menüs oder wiederholten Benutzereingaben."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "do while mit Benutzereingabe",
+                "language": "cpp",
+                "code": "int choice;\n\ndo {\n    // Menü anzeigen\n    std::cin >> choice;\n} while (choice != 0);"
+              },
+              {
+                "type": "definition",
+                "term": "Unterschied zu while",
+                "text": "do while prüft die Bedingung nach dem Durchlauf, while davor."
+              },
+              {
+                "type": "pitfall",
+                "title": "Vergessenes Semikolon",
+                "text": "Nach der while Bedingung der do while Schleife ist ein Semikolon Pflicht."
+              },
+              {
+                "type": "important",
+                "text": "do while garantiert mindestens einen Schleifendurchlauf."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "do while ist eine fußgesteuerte Schleife",
+                  "Der Schleifenrumpf läuft mindestens einmal",
+                  "Die Bedingung wird am Ende geprüft",
+                  "Typisch für Menüs und Eingabeschleifen",
+                  "Semikolon nach while nicht vergessen"
+                ]
+              }
+            ]
+          }
         ]
       }
     ]
