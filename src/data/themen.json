@@ -888,7 +888,79 @@
               }
             ]
           },
-          { "title": "const Parameter", "content": { "text": [], "code": [] } },
+          {
+            "title": "const Parameter in C++",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "const Parameter",
+                "text": "Ein Funktionsparameter, der innerhalb der Funktion nicht verändert werden darf."
+              },
+              {
+                "type": "explanation",
+                "title": "Warum const Parameter verwenden",
+                "text": [
+                  "const Parameter verhindern unbeabsichtigte Änderungen an übergebenen Werten.",
+                  "Sie machen Funktionsschnittstellen klarer und sicherer, besonders bei Referenzen und Zeigern."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "const Wertparameter",
+                "language": "cpp",
+                "code": "void print(const int x)\n{\n    // x darf hier nicht verändert werden\n    // x = 5; // Compilerfehler\n}"
+              },
+              {
+                "type": "definition",
+                "term": "const Referenzparameter",
+                "text": "Ein Parameter, der per Referenz übergeben wird, aber nicht verändert werden darf."
+              },
+              {
+                "type": "code",
+                "title": "const Referenzparameter Beispiel",
+                "language": "cpp",
+                "code": "void print(const std::string& text)\n{\n    // text wird nicht kopiert\n    // text.clear(); // Compilerfehler\n    std::cout << text;\n}"
+              },
+              {
+                "type": "explanation",
+                "title": "Vorteile von const Referenzen",
+                "text": [
+                  "Vermeidet unnötige Kopien großer Objekte.",
+                  "Garantiert, dass die Funktion das Objekt nicht verändert."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "const Zeigerparameter",
+                "text": "Bei Zeigerparametern kann entweder das Ziel oder der Zeiger selbst als const markiert werden."
+              },
+              {
+                "type": "code",
+                "title": "const Zeigerparameter Beispiel",
+                "language": "cpp",
+                "code": "void read(const int* ptr)\n{\n    // *ptr darf nicht verändert werden\n    // *ptr = 10; // Compilerfehler\n}\n\nvoid move(int* const ptr)\n{\n    // ptr darf nicht neu gesetzt werden\n    // ptr = nullptr; // Compilerfehler\n}"
+              },
+              {
+                "type": "pitfall",
+                "title": "const vergessen",
+                "text": "Fehlendes const bei Parametern kann unnötige Einschränkungen für Aufrufer verursachen."
+              },
+              {
+                "type": "important",
+                "text": "const Parameter sind ein Versprechen der Funktion an den Aufrufer."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "const Parameter verhindern Änderungen innerhalb der Funktion",
+                  "const Referenzen sind effizient und sicher",
+                  "Bei Zeigern bestimmt die Position von const die Bedeutung",
+                  "const verbessert Lesbarkeit und API Design"
+                ]
+              }
+            ]
+          },
           { "title": "const Klassenmember", "content": { "text": [], "code": [] } },
           { "title": "const Überladen", "content": { 
             "text": [
