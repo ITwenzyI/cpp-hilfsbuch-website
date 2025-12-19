@@ -1370,7 +1370,83 @@
               }
             ]
           },
-          { "title": "getline", "content": { "text": [], "code": [] } }
+          {
+            "title": "std::getline",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "std::getline",
+                "text": "std::getline liest eine komplette Zeile aus einem Eingabestream bis zum Zeilenumbruch."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von std::getline",
+                "text": [
+                  "std::getline eignet sich zum Einlesen von Texten mit Leerzeichen.",
+                  "Der Zeilenumbruch wird gelesen, aber nicht im Ergebnis gespeichert."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Zeilenweises Einlesen",
+                "text": "Einleseform, bei der der gesamte Inhalt bis zum Zeilenende übernommen wird."
+              },
+              {
+                "type": "code",
+                "title": "Einfache Verwendung von std::getline",
+                "language": "cpp",
+                "code": "std::string line;\nstd::getline(std::cin, line); // liest eine komplette Zeile"
+              },
+              {
+                "type": "explanation",
+                "title": "Unterschied zu std::cin >>",
+                "text": [
+                  "std::cin >> liest nur bis zum nächsten Leerzeichen.",
+                  "std::getline liest die gesamte Zeile inklusive Leerzeichen."
+                ]
+              },
+              {
+                "type": "comparison",
+                "title": "std::getline vs. std::cin >>",
+                "columns": ["std::getline", "std::cin >>"],
+                "rows": [
+                  {
+                    "aspect": "Leerzeichen",
+                    "values": ["Werden mitgelesen", "Beenden die Eingabe"]
+                  },
+                  {
+                    "aspect": "Zeilenumbruch",
+                    "values": ["Beendet das Lesen", "Wird übersprungen"]
+                  }
+                ]
+              },
+              {
+                "type": "pitfall",
+                "title": "std::getline nach std::cin >>",
+                "text": "Nach einer >> Eingabe bleibt der Zeilenumbruch im Stream und wird von getline sofort gelesen."
+              },
+              {
+                "type": "code",
+                "title": "Korrekte Kombination von cin und getline",
+                "language": "cpp",
+                "code": "int age;\nstd::cin >> age;\nstd::cin.ignore(); // entfernt den Zeilenumbruch\n\nstd::string name;\nstd::getline(std::cin, name); // liest den Namen korrekt"
+              },
+              {
+                "type": "important",
+                "text": "std::getline ist die richtige Wahl für ganze Textzeilen."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "std::getline liest komplette Zeilen",
+                  "Leerzeichen sind Teil der Eingabe",
+                  "Unterschiedliches Verhalten zu std::cin >>",
+                  "Nach >> muss oft ignore verwendet werden"
+                ]
+              }
+            ]
+          }
         ]
       },
       {
