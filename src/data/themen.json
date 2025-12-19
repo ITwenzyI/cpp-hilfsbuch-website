@@ -2066,7 +2066,79 @@
               }
             ]
           },
-          { "title": "while", "content": { "text": [], "code": [] } },
+          {
+            "title": "while Schleife",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "while Schleife",
+                "text": "Eine Schleife, die einen Codeblock ausführt, solange eine Bedingung true ist."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee der while Schleife",
+                "text": [
+                  "Die Bedingung wird vor jedem Durchlauf geprüft.",
+                  "Ist die Bedingung false, wird der Schleifenrumpf nicht ausgeführt."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Kopfgesteuerte Schleife",
+                "text": "Eine Schleife, bei der die Bedingung vor dem ersten Durchlauf geprüft wird."
+              },
+              {
+                "type": "code",
+                "title": "Einfache while Schleife",
+                "language": "cpp",
+                "code": "int i = 0;\n\nwhile (i < 5) {\n    // wird ausgeführt, solange i kleiner als 5 ist\n    i++;\n}"
+              },
+              {
+                "type": "explanation",
+                "title": "Typische Einsatzfälle",
+                "text": [
+                  "while Schleifen werden genutzt, wenn die Anzahl der Durchläufe vorher nicht bekannt ist.",
+                  "Häufig wird die Schleife durch Benutzereingaben oder Dateiinhalte gesteuert."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "while mit Eingabe",
+                "language": "cpp",
+                "code": "int value;\n\nwhile (std::cin >> value) {\n    // läuft, solange die Eingabe gültig ist\n}"
+              },
+              {
+                "type": "definition",
+                "term": "Endlosschleife",
+                "text": "Eine Schleife, deren Bedingung niemals false wird."
+              },
+              {
+                "type": "code",
+                "title": "Bewusste Endlosschleife",
+                "language": "cpp",
+                "code": "while (true) {\n    // läuft unendlich\n}"
+              },
+              {
+                "type": "pitfall",
+                "title": "Vergessene Zustandsänderung",
+                "text": "Wird die Schleifenbedingung im Rumpf nicht beeinflusst, entsteht unbeabsichtigt eine Endlosschleife."
+              },
+              {
+                "type": "important",
+                "text": "Die Schleifenbedingung muss irgendwann false werden, außer bei gewollten Endlosschleifen."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "while Schleifen prüfen die Bedingung vor jedem Durchlauf",
+                  "Sie eignen sich für unbestimmte Wiederholungen",
+                  "Die Bedingung steuert den Programmfluss",
+                  "Fehlende Zustandsänderungen führen zu Endlosschleifen"
+                ]
+              }
+            ]
+          },
           { "title": "do-while", "content": { "text": [], "code": [] } }
         ]
       }
