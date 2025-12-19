@@ -542,7 +542,112 @@
         "name": "Operatoren",
         "icon": "➕",
         "topics": [
-          { "title": "Arithmetische Operatoren", "content": { "text": [], "code": [] } },
+          {
+            "title": "Arithmetische Operatoren in C++",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "Arithmetischer Operator",
+                "text": "Ein Operator zur Durchführung mathematischer Berechnungen auf numerischen Datentypen."
+              },
+              {
+                "type": "list",
+                "title": "Grundlegende arithmetische Operatoren",
+                "items": [
+                  "+: Addition",
+                  "-: Subtraktion",
+                  "*: Multiplikation",
+                  "/: Division",
+                  "%: Modulo Restbildung"
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Grundlegende Operatoren Beispiel",
+                "language": "cpp",
+                "code": "int a = 10;\nint b = 3;\nint sum = a + b;\nint diff = a - b;\nint prod = a * b;\nint quot = a / b;\nint rest = a % b;"
+              },
+              {
+                "type": "definition",
+                "term": "Ganzzahldivision",
+                "text": "Division zweier Ganzzahlen, bei der der Nachkommateil verworfen wird."
+              },
+              {
+                "type": "code",
+                "title": "Ganzzahldivision Beispiel",
+                "language": "cpp",
+                "code": "int x = 7 / 2;"
+              },
+              {
+                "type": "definition",
+                "term": "Modulo",
+                "text": "Berechnet den Rest einer Ganzzahldivision."
+              },
+              {
+                "type": "explanation",
+                "title": "Inkrement und Dekrement",
+                "text": [
+                  "Inkrement und Dekrement erhöhen oder verringern einen Wert um eins.",
+                  "Es wird zwischen Präfix und Postfix unterschieden."
+                ]
+              },
+              {
+                "type": "list",
+                "title": "Inkrement und Dekrement Operatoren",
+                "items": [
+                  "++x: Präfix Inkrement",
+                  "x++: Postfix Inkrement",
+                  "--x: Präfix Dekrement",
+                  "x--: Postfix Dekrement"
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Inkrement und Dekrement Beispiel",
+                "language": "cpp",
+                "code": "int i = 5;\nint a = ++i;\nint b = i++;"
+              },
+              {
+                "type": "definition",
+                "term": "Operatorpriorität",
+                "text": "Legt fest, in welcher Reihenfolge Operatoren ausgewertet werden."
+              },
+              {
+                "type": "explanation",
+                "title": "Operatorpriorität und Klammern",
+                "text": [
+                  "Multiplikation und Division werden vor Addition und Subtraktion ausgewertet.",
+                  "Klammern können verwendet werden, um die Auswertungsreihenfolge explizit festzulegen."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Operatorpriorität Beispiel",
+                "language": "cpp",
+                "code": "int r1 = 2 + 3 * 4;\nint r2 = (2 + 3) * 4;"
+              },
+              {
+                "type": "pitfall",
+                "title": "Unerwartete Ganzzahldivision",
+                "text": "Division mit int liefert kein Kommaergebnis, auch wenn das mathematisch erwartet wird."
+              },
+              {
+                "type": "important",
+                "text": "Der Datentyp der Operanden beeinflusst das Ergebnis arithmetischer Operationen."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Arithmetische Operatoren führen grundlegende Berechnungen aus",
+                  "Ganzzahldivision verwirft den Nachkommateil",
+                  "Modulo liefert den Divisionsrest",
+                  "Inkrement und Dekrement unterscheiden Präfix und Postfix",
+                  "Klammern steuern die Auswertungsreihenfolge"
+                ]
+              }
+            ]
+          },
           { "title": "Vergleichsoperatoren", "content": { "text": [], "code": [] } },
           { "title": "Logische Operatoren", "content": { "text": [], "code": [] } }
         ]
