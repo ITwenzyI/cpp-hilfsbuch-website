@@ -1813,7 +1813,91 @@
         "name": "Bedingungen",
         "icon": "❓",
         "topics": [
-          { "title": "if / else", "content": { "text": [], "code": [] } },
+          {
+            "title": "if / else",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "if Anweisung",
+                "text": "Eine Kontrollstruktur, die Code nur dann ausführt, wenn eine Bedingung true ist."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von if und else",
+                "text": [
+                  "Mit if wird eine Bedingung geprüft, die einen booleschen Wert liefert.",
+                  "Mit else kann ein alternativer Codepfad definiert werden, falls die Bedingung false ist."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Einfaches if Beispiel",
+                "language": "cpp",
+                "code": "int x = 5;\n\nif (x > 0) {\n    // wird ausgeführt, wenn x größer als 0 ist\n}"
+              },
+              {
+                "type": "definition",
+                "term": "else",
+                "text": "Ergänzt ein if um einen Codeblock, der ausgeführt wird, wenn die Bedingung false ist."
+              },
+              {
+                "type": "code",
+                "title": "if else Beispiel",
+                "language": "cpp",
+                "code": "int x = -3;\n\nif (x >= 0) {\n    // x ist nicht negativ\n} else {\n    // x ist negativ\n}"
+              },
+              {
+                "type": "definition",
+                "term": "else if",
+                "text": "Ermöglicht das Prüfen mehrerer Bedingungen nacheinander."
+              },
+              {
+                "type": "code",
+                "title": "else if Kette",
+                "language": "cpp",
+                "code": "int value = 10;\n\nif (value < 0) {\n    // negativ\n} else if (value == 0) {\n    // null\n} else {\n    // positiv\n}"
+              },
+              {
+                "type": "definition",
+                "term": "Bedingung",
+                "text": "Ein Ausdruck, der zu true oder false ausgewertet wird."
+              },
+              {
+                "type": "explanation",
+                "title": "Bedingungen formulieren",
+                "text": [
+                  "Bedingungen bestehen meist aus Vergleichs- und logischen Operatoren.",
+                  "Komplexe Bedingungen können mit &&, || und ! kombiniert werden."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Komplexe Bedingung",
+                "language": "cpp",
+                "code": "int age = 20;\nbool hasTicket = true;\n\nif (age >= 18 && hasTicket) {\n    // Zutritt erlaubt\n}"
+              },
+              {
+                "type": "pitfall",
+                "title": "Vergleich mit = statt ==",
+                "text": "Die Verwendung von = statt == in einer Bedingung führt zu logischen Fehlern oder Warnungen."
+              },
+              {
+                "type": "important",
+                "text": "Die Bedingung in if muss immer einen booleschen Wert liefern."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "if steuert bedingte Programmausführung",
+                  "else definiert einen alternativen Pfad",
+                  "else if erlaubt mehrere Bedingungen",
+                  "Bedingungen basieren auf Vergleichen und logischen Operatoren",
+                  "Sorgfältige Formulierung vermeidet logische Fehler"
+                ]
+              }
+            ]
+          },
           { "title": "switch", "content": { "text": [], "code": [] } }
         ]
       },
