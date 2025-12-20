@@ -3672,53 +3672,104 @@
               }
             ]
           },
-          { "title": "new / delete", "content": { 
-            "text": [
-              "### === Heap-Speicher in C++ (new / delete) ===\n",
-              "Mit `new` kann man in C++ **manuell Speicher auf dem Heap** anfordern. Dieser bleibt bestehen, **bis er explizit mit `delete` freigegeben wird**.\n",
-              "\n",
-              "---\n",
-              "### 🔹 Warum Heap?\n",
-              "- Stack ist nur für **kurzlebige, kleine** Daten\n",
-              "- Heap erlaubt **dynamische Größe** und **längere Lebenszeit**\n",
-              "- Wird manuell mit `new` / `delete` oder automatisch mit Smart Pointern verwaltet\n",
-              "\n",
-              "---\n",
-              "### 🔸 `new` für EIN Objekt:\n",
-              "```cpp\nint* zahl = new int(42);\n*zahl = 100;\ndelete zahl; // wichtig!\n```\n",
-              "- Speicher für genau **ein Objekt** wird angefordert\n",
-              "- **`delete`** muss aufgerufen werden, um den Speicher freizugeben\n",
-              "\n",
-              "---\n",
-              "### 🔸 `new[]` für MEHRERE Objekte (Array):\n",
-              "```cpp\nint* arr = new int[5];\narr[0] = 1; arr[1] = 2;\ndelete[] arr; // wichtig!\n```\n",
-              "- Reserviert **zusammenhängenden Speicherplatz** für mehrere Objekte\n",
-              "- Muss mit **`delete[]`** freigegeben werden!\n",
-              "\n",
-              "---\n",
-              "### ❗ Vorsicht bei falscher Kombination:\n",
-              "- `new[]` → `delete[]`\n",
-              "- `new` → `delete`\n",
-              "- Niemals `delete[]` auf `new` oder umgekehrt!\n",
-              "\n",
-              "---\n",
-              "### 🔹 Klassen & Konstruktoren:\n",
-              "```cpp\nclass Punkt {\npublic:\n    Punkt() { std::cout << \"Punkt erstellt\\n\"; }\n    ~Punkt() { std::cout << \"Punkt gelöscht\\n\"; }\n};\n\nPunkt* p1 = new Punkt;      // 1x Konstruktor\nPunkt* p2 = new Punkt[3];   // 3x Konstruktor\n\ndelete p1;      // 1x Destruktor\ndelete[] p2;    // 3x Destruktor\n```\n",
-              "\n",
-              "---\n",
-              "### 🔹 Wann `new[]` statt `new`?\n",
-              "- Wenn du mehrere gleichartige Objekte brauchst → `new[]`\n",
-              "- Wenn du nur ein einzelnes Objekt brauchst → `new`\n",
-              "\n",
-              "---\n",
-              "### ❗ Besser: `std::vector`, `std::unique_ptr<T[]>`, `std::make_shared<T[]>`\n",
-              "👉 Manuelles `new[]` sollte **nur ausnahmsweise** genutzt werden\n",
-              "---\n"
-              ], 
-            "code": [
-              "#include <iostream>\n\nclass Punkt {\npublic:\n    Punkt() { std::cout << \"Punkt erstellt\\n\"; }\n    ~Punkt() { std::cout << \"Punkt gelöscht\\n\"; }\n};\n\nint main() {\n    // new für EIN Objekt\n    int* zahl = new int(42);\n    std::cout << \"Einzelwert: \" << *zahl << std::endl; // 42\n    delete zahl; // Speicher freigeben\n\n    // new[] für MEHRERE Objekte\n    int* array = new int[3];\n    array[0] = 10;\n    array[1] = 20;\n    array[2] = 30;\n    std::cout << \"Array[1]: \" << array[1] << std::endl; // 20\n    delete[] array; // korrekt löschen\n\n    // new / delete mit Klassen\n    Punkt* p1 = new Punkt();    // Punkt erstellt\n    Punkt* pArr = new Punkt[2]; // 2x Punkt erstellt\n\n    delete p1;      // Punkt gelöscht\n    delete[] pArr;  // 2x Punkt gelöscht\n\n    return 0;\n}"
-              ] 
-            } 
+          {
+            "title": "new & delete",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "new",
+                "text": "Operator zum Anfordern von Speicher auf dem Heap und zum Erzeugen eines Objekts."
+              },
+              {
+                "type": "definition",
+                "term": "delete",
+                "text": "Operator zum Freigeben von mit new reserviertem Heap Speicher."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundprinzip von new und delete",
+                "text": [
+                  "new reserviert Speicher und ruft den Konstruktor auf.",
+                  "delete ruft den Destruktor auf und gibt den Speicher frei."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Einfaches new und delete",
+                "language": "cpp",
+                "code": "int* p = new int(10); // Heap Speicher\n// Nutzung von *p\ndelete p;              // Speicher freigeben\np = nullptr;           // guter Stil"
+              },
+              {
+                "type": "definition",
+                "term": "Speicherleck",
+                "text": "Nicht freigegebener Heap Speicher, der nicht mehr erreichbar ist."
+              },
+              {
+                "type": "pitfall",
+                "title": "delete vergessen",
+                "text": "Wird delete nicht aufgerufen, bleibt der Speicher bis Programmende belegt."
+              },
+              {
+                "type": "definition",
+                "term": "new[]",
+                "text": "Reserviert Speicher für ein Array auf dem Heap."
+              },
+              {
+                "type": "definition",
+                "term": "delete[]",
+                "text": "Gibt Speicher frei, der mit new[] reserviert wurde."
+              },
+              {
+                "type": "code",
+                "title": "new[] und delete[]",
+                "language": "cpp",
+                "code": "int* arr = new int[3]; // Array auf dem Heap\narr[0] = 1;\narr[1] = 2;\narr[2] = 3;\n\ndelete[] arr;          // korrektes Freigeben"
+              },
+              {
+                "type": "pitfall",
+                "title": "new[] mit delete",
+                "text": "new[] und delete müssen zusammen verwendet werden, genauso new und delete[]."
+              },
+              {
+                "type": "code",
+                "title": "Falsche Kombination",
+                "language": "cpp",
+                "code": "int* arr = new int[5];\n// delete arr; // falsch, führt zu undefiniertem Verhalten"
+              },
+              {
+                "type": "explanation",
+                "title": "Warum new[] und delete[] zusammengehören",
+                "text": [
+                  "Bei new[] müssen mehrere Destruktoren aufgerufen werden.",
+                  "delete[] weiß, wie viele Elemente zerstört werden müssen."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Dangling Pointer",
+                "text": "Ein Zeiger, der auf bereits freigegebenen Speicher zeigt."
+              },
+              {
+                "type": "pitfall",
+                "title": "Dangling Pointer",
+                "text": "Zugriff auf freigegebenen Speicher führt zu undefiniertem Verhalten."
+              },
+              {
+                "type": "important",
+                "text": "In modernem C++ sollten new und delete möglichst durch Container und Smart Pointer ersetzt werden."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "new reserviert Heap Speicher",
+                  "delete gibt Heap Speicher frei",
+                  "new[] erfordert delete[]",
+                  "Vergessenes delete verursacht Speicherlecks",
+                  "Dangling Pointer sind extrem gefährlich"
+                ]
+              }
+            ]
           }
         ]
       },
