@@ -3256,7 +3256,64 @@
         "name": "Zeiger",
         "icon": "🎯",
         "topics": [
-          { "title": "Pointer Basics", "content": { "text": [], "code": [] } },
+          {
+            "title": "Pointer Basics",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "Zeiger",
+                "text": "Ein Zeiger speichert die Speicheradresse eines Objekts."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von Zeigern",
+                "text": [
+                  "Zeiger ermöglichen den indirekten Zugriff auf Variablen über ihre Adresse.",
+                  "Sie werden häufig für dynamischen Speicher, Arrays und Funktionsparameter verwendet."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Adresse",
+                "text": "Die Speicherposition einer Variable im Arbeitsspeicher."
+              },
+              {
+                "type": "definition",
+                "term": "Dereferenzierung",
+                "text": "Der Zugriff auf den Wert, auf den ein Zeiger zeigt."
+              },
+              {
+                "type": "code",
+                "title": "Pointer Deklaration und Nutzung",
+                "language": "cpp",
+                "code": "int x = 5;\nint* p = &x;     // p speichert die Adresse von x\nint y = *p;      // Dereferenzierung, y wird 5"
+              },
+              {
+                "type": "definition",
+                "term": "Zeigertyp",
+                "text": "Der Typ eines Zeigers gibt an, auf welchen Datentyp er zeigt."
+              },
+              {
+                "type": "pitfall",
+                "title": "Uninitialisierter Zeiger",
+                "text": "Ein nicht initialisierter Zeiger zeigt auf eine undefinierte Adresse."
+              },
+              {
+                "type": "important",
+                "text": "Ein Zeiger sollte immer initialisiert werden, idealerweise mit nullptr."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Zeiger speichern Adressen",
+                  "Dereferenzierung erfolgt mit *",
+                  "Der Zeigertyp bestimmt den Zieltyp",
+                  "Uninitialisierte Zeiger sind gefährlich"
+                ]
+              }
+            ]
+          },
           { "title": "Pointer Arithmetik", "content": { "text": [], "code": [] } },
           { "title": "Nullpointer", "content": { "text": [], "code": [] } }
         ]
