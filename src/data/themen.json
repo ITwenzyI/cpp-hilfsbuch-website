@@ -3777,7 +3777,62 @@
         "name": "RAII & Smart Pointer",
         "icon": "🧠",
         "topics": [
-          { "title": "RAII Prinzip", "content": { "text": [], "code": [] } },
+          {
+            "title": "RAII Prinzip",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "RAII",
+                "text": "RAII steht für Resource Acquisition Is Initialization und koppelt Ressourcen an Objektlebensdauer."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von RAII",
+                "text": [
+                  "Eine Ressource wird im Konstruktor eines Objekts erworben.",
+                  "Die Freigabe erfolgt automatisch im Destruktor, wenn das Objekt den Gültigkeitsbereich verlässt."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Ressource",
+                "text": "Alles, was explizit angefordert und freigegeben werden muss, zum Beispiel Speicher, Dateien oder Mutexes."
+              },
+              {
+                "type": "code",
+                "title": "RAII mit Speicher",
+                "language": "cpp",
+                "code": "class Buffer {\nprivate:\n    int* data;\n\npublic:\n    Buffer() {\n        data = new int[10]; // Ressource erwerben\n    }\n\n    ~Buffer() {\n        delete[] data;      // Ressource freigeben\n    }\n};"
+              },
+              {
+                "type": "explanation",
+                "title": "Vorteile von RAII",
+                "text": [
+                  "Automatische Freigabe auch bei return oder Exceptions.",
+                  "Kein explizites Aufräumen im Code nötig."
+                ]
+              },
+              {
+                "type": "pitfall",
+                "title": "RAII umgehen",
+                "text": "Manuelles new und delete außerhalb von RAII Klassen untergräbt das Prinzip."
+              },
+              {
+                "type": "important",
+                "text": "RAII ist das zentrale Speicherverwaltungsprinzip in modernem C++."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Ressourcen sind an Objekte gebunden",
+                  "Konstruktor erwirbt, Destruktor gibt frei",
+                  "Sicher bei Exceptions",
+                  "Grundlage für Smart Pointer"
+                ]
+              }
+            ]
+          },
           { "title": "Smart Pointer", "content": {
             "text": [
               "### === Smart Pointer in C++ ===\n",
