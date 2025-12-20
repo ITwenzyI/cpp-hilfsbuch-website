@@ -4238,11 +4238,221 @@
       "name": "String Header",
       "icon": "🧵",
       "topics": [
-        { "title": "<string>", "content": { "text": [], "code": [] } },
-        { "title": "<string_view>", "content": { "text": [], "code": [] } },
-        { "title": "<cstring>", "content": { "text": [], "code": [] } },
-        { "title": "<cctype>", "content": { "text": [], "code": [] } },
-        { "title": "<sstream>", "content": { "text": [], "code": [] } }
+          {
+            "title": "<string>",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "<string>",
+                "text": "Der Header <string> stellt den Typ std::string für sichere und dynamische Zeichenketten bereit."
+              },
+              {
+                "type": "explanation",
+                "title": "Zweck des Headers",
+                "text": [
+                  "<string> kapselt Zeichenketten in einer Klasse mit automatischer Speicherverwaltung.",
+                  "Er ersetzt in modernem C++ weitgehend die Arbeit mit C-Strings."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Einfaches Beispiel",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <string>\n\nint main() {\n    std::string text = \"C++\";   // Initialisierung eines std::string\n    text += \" String\";          // Anhängen eines weiteren Textes\n\n    std::cout << text << std::endl; // Ausgabe: C++ String\n}\n"
+              },
+              {
+                "type": "important",
+                "text": "std::string ist der empfohlene Standard für Zeichenketten in C++."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "<string> definiert std::string",
+                  "Automatische Speicherverwaltung",
+                  "Sicherer als C-Strings"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "<string_view>",
+            "difficulty": "intermediate",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "std::string_view",
+                "text": "std::string_view ist eine nicht-besitzende Sicht auf eine Zeichenkette ohne eigene Speicherverwaltung."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee",
+                "text": [
+                  "string_view speichert nur einen Zeiger und eine Länge.",
+                  "Er erlaubt effizientes Arbeiten mit Strings ohne Kopieren."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Verwendung von std::string_view",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <string>\n#include <string_view>\n\nvoid print(std::string_view sv) {\n    std::cout << sv << std::endl; // Gibt den betrachteten String aus\n}\n\nint main() {\n    std::string s = \"Hallo Welt\";\n    print(s);                     // Keine Kopie des Strings\n}\n"
+              },
+              {
+                "type": "pitfall",
+                "title": "Lebensdauer",
+                "text": "std::string_view wird ungültig, sobald der zugrunde liegende String zerstört oder verändert wird."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Kein Besitz am Speicher",
+                  "Sehr effizient",
+                  "Achtung auf Lebensdauer"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "<cstring>",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "<cstring>",
+                "text": "Der Header <cstring> stellt Funktionen zur Arbeit mit C-Strings bereit."
+              },
+              {
+                "type": "explanation",
+                "title": "Inhalt des Headers",
+                "text": [
+                  "<cstring> enthält Funktionen wie strlen, strcpy oder strcmp.",
+                  "Diese arbeiten mit nullterminierten char-Arrays."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Beispiel mit strlen",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <cstring>\n\nint main() {\n    const char text[] = \"Hallo\";\n    std::cout << strlen(text) << std::endl; // Ausgabe: 5\n}\n"
+              },
+              {
+                "type": "important",
+                "text": "Funktionen aus <cstring> sind fehleranfällig und sollten nur bewusst eingesetzt werden."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Arbeit mit C-Strings",
+                  "Keine automatische Sicherheit",
+                  "Historisch aus C übernommen"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "<cctype>",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "<cctype>",
+                "text": "Der Header <cctype> stellt Funktionen zur Zeichenklassifikation bereit."
+              },
+              {
+                "type": "explanation",
+                "title": "Typische Funktionen",
+                "text": [
+                  "Funktionen wie isdigit, isalpha oder toupper prüfen oder verändern einzelne Zeichen.",
+                  "Sie arbeiten auf char-Werten und liefern bool-ähnliche Ergebnisse."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Zeichenprüfung",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <cctype>\n\nint main() {\n    char c = '7';\n\n    if (isdigit(c)) {\n        std::cout << \"Ziffer\" << std::endl; // Wird ausgegeben\n    }\n}\n"
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Klassifikation einzelner Zeichen",
+                  "Häufig in Parsern genutzt",
+                  "Teil der C-Kompatibilität"
+                ]
+              }
+            ]
+          },
+          {
+          "title": "<sstream>",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<sstream>",
+              "text": "Header für String Streams, mit denen Strings wie Ein und Ausgabeströme behandelt werden."
+            },
+            {
+              "type": "explanation",
+              "title": "Einsatzgebiet von <sstream>",
+              "text": [
+                "<sstream> wird genutzt, um Text sicher in andere Datentypen umzuwandeln oder strukturiert zusammenzusetzen.",
+                "Er ist besonders hilfreich beim Parsen von Eingaben oder beim Erzeugen formatierter Strings."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Klassen",
+              "items": [
+                "std::stringstream: Lesen und Schreiben",
+                "std::istringstream: Nur Lesen aus Strings",
+                "std::ostringstream: Nur Schreiben in Strings"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "String zu Zahl umwandeln",
+              "language": "cpp",
+              "code": "#include <sstream>\n\nstd::string text = \"42\";\nstd::stringstream ss(text);\nint value;\nss >> value; // value ist 42"
+            },
+            {
+              "type": "code",
+              "title": "Mehrere Werte aus einem String lesen",
+              "language": "cpp",
+              "code": "std::string line = \"10 20 30\";\nstd::istringstream iss(line);\nint a, b, c;\niss >> a >> b >> c; // a=10, b=20, c=30"
+            },
+            {
+              "type": "code",
+              "title": "Zahl zu String erzeugen",
+              "language": "cpp",
+              "code": "std::ostringstream oss;\noss << 3.14;\nstd::string result = oss.str(); // \"3.14\""
+            },
+            {
+              "type": "code",
+              "title": "Komplexen String zusammensetzen",
+              "language": "cpp",
+              "code": "int id = 5;\nstd::string name = \"Max\";\n\nstd::ostringstream oss;\noss << \"ID=\" << id << \", Name=\" << name;\nstd::string output = oss.str();"
+            },
+            {
+              "type": "pitfall",
+              "title": "stringstream wiederverwenden",
+              "text": "Beim Wiederverwenden muss der Streaminhalt und der Zustand zurückgesetzt werden."
+            },
+            {
+              "type": "important",
+              "text": "<sstream> ist die sichere Alternative zu manueller String Verarbeitung."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Strings können wie Streams gelesen werden",
+                "Ideal für Parsen und Typumwandlungen",
+                "ostringstream zum Erzeugen von Text",
+                "Sicherer als C Funktionen"
+              ]
+            }
+            ]
+          }
         ]
       },
       {
