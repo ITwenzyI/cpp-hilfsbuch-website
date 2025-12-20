@@ -5514,7 +5514,106 @@
             }
           ]
         },
-        { "title": "<memory>", "content": { "text": [], "code": [] } },
+        {
+          "title": "<memory>",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<memory>",
+              "text": "Der Header <memory> stellt Smart Pointer und Hilfsmittel für sichere und moderne Speicherverwaltung bereit."
+            },
+            {
+              "type": "explanation",
+              "title": "Zweck des Headers",
+              "text": [
+                "<memory> abstrahiert dynamische Speicherverwaltung und verhindert viele typische Fehler wie Speicherlecks.",
+                "Statt rohem new und delete werden Smart Pointer verwendet, die Speicher automatisch freigeben."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Smart Pointer Grundidee",
+              "text": [
+                "Smart Pointer kapseln einen rohen Zeiger in einem Objekt mit klarer Besitzsemantik.",
+                "Der Speicher wird automatisch freigegeben, wenn der letzte Besitzer verschwindet."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Smart Pointer",
+              "items": [
+                "std::unique_ptr – exklusiver Besitz eines Objekts",
+                "std::shared_ptr – geteilter Besitz mit Referenzzählung",
+                "std::weak_ptr – schwache Referenz ohne Besitz",
+                "std::make_unique – sichere Erzeugung von unique_ptr",
+                "std::make_shared – effiziente Erzeugung von shared_ptr"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "unique_ptr verwenden",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <memory>\n\nint main() {\n    std::unique_ptr<int> p = std::make_unique<int>(42);\n\n    std::cout << *p << std::endl; // Zugriff auf den Wert\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Besitzübertragung mit move",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <memory>\n\nint main() {\n    std::unique_ptr<int> a = std::make_unique<int>(10);\n    std::unique_ptr<int> b = std::move(a); // Besitz wird übertragen\n\n    if (a == nullptr) {\n        std::cout << \"a ist leer\" << std::endl;\n    }\n\n    std::cout << *b << std::endl; // Ausgabe: 10\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "shared_ptr verwenden",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <memory>\n\nint main() {\n    std::shared_ptr<int> p1 = std::make_shared<int>(5);\n    std::shared_ptr<int> p2 = p1; // Referenzzählung +1\n\n    std::cout << p1.use_count() << std::endl; // Ausgabe: 2\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "weak_ptr zur Zyklusvermeidung",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <memory>\n\nint main() {\n    std::shared_ptr<int> sp = std::make_shared<int>(7);\n    std::weak_ptr<int> wp = sp;\n\n    if (auto locked = wp.lock()) {\n        std::cout << *locked << std::endl; // Zugriff nur wenn Objekt existiert\n    }\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "unique_ptr vs shared_ptr",
+              "columns": ["unique_ptr", "shared_ptr"],
+              "rows": [
+                {
+                  "aspect": "Besitz",
+                  "values": ["Exklusiv", "Geteilt"]
+                },
+                {
+                  "aspect": "Kopierbar",
+                  "values": ["Nein", "Ja"]
+                },
+                {
+                  "aspect": "Overhead",
+                  "values": ["Sehr gering", "Höher durch Referenzzählung"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zyklische Referenzen",
+              "text": "Zwei shared_ptr aufeinander verhindern die Speicherfreigabe und führen zu Speicherlecks."
+            },
+            {
+              "type": "important",
+              "text": "<memory> ist zentral für modernes C++ und sollte rohes new und delete fast immer ersetzen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "<memory> stellt Smart Pointer bereit",
+                "unique_ptr für exklusiven Besitz",
+                "shared_ptr für geteilten Besitz",
+                "weak_ptr verhindert Referenzzyklen",
+                "Automatische Speicherfreigabe erhöht Sicherheit"
+              ]
+            }
+          ]
+        },
         { "title": "<cstdio>", "content": { "text": [], "code": [] } }
         ]
       },
