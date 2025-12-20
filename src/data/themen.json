@@ -5335,7 +5335,92 @@
             }
           ]
         },
-        { "title": "<typeinfo>", "content": { "text": [], "code": [] } },
+        {
+          "title": "<typeinfo>",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<typeinfo>",
+              "text": "Der Header <typeinfo> stellt Laufzeitinformationen über Typen bereit und wird für Runtime Type Information verwendet."
+            },
+            {
+              "type": "explanation",
+              "title": "Zweck des Headers",
+              "text": [
+                "<typeinfo> ermöglicht es, Typinformationen erst zur Laufzeit abzufragen.",
+                "Dies ist vor allem bei Polymorphie und dynamischem Casting relevant."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "RTTI Grundidee",
+              "text": [
+                "RTTI bedeutet, dass der tatsächliche Typ eines Objekts zur Laufzeit bestimmt werden kann.",
+                "Dies funktioniert nur bei Klassen mit mindestens einer virtuellen Funktion."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Bestandteile",
+              "items": [
+                "typeid(expr) – liefert Typinformation eines Ausdrucks",
+                "std::type_info – Klasse zur Repräsentation von Typinformationen",
+                "name() – liefert einen implementationsabhängigen Typnamen",
+                "operator== – Vergleich von Typinformationen"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Typ mit typeid abfragen",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <typeinfo>\n\nint main() {\n    int x = 5;\n    double y = 3.14;\n\n    std::cout << typeid(x).name() << std::endl; // Typ von x\n    std::cout << typeid(y).name() << std::endl; // Typ von y\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "RTTI bei Vererbung",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <typeinfo>\n\nstruct Base {\n    virtual ~Base() {} // notwendig für RTTI\n};\n\nstruct Derived : Base {};\n\nint main() {\n    Base* b = new Derived();\n\n    std::cout << typeid(*b).name() << std::endl; // Tatsächlicher Typ: Derived\n    delete b;\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "typeid vs dynamic_cast",
+              "columns": ["typeid", "dynamic_cast"],
+              "rows": [
+                {
+                  "aspect": "Zweck",
+                  "values": ["Typabfrage", "Sicheres Casten"]
+                },
+                {
+                  "aspect": "Rückgabewert",
+                  "values": ["type_info", "Zeiger oder Referenz"]
+                },
+                {
+                  "aspect": "RTTI notwendig",
+                  "values": ["Ja", "Ja"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Implementationsabhängiger Typname",
+              "text": "Der von name() gelieferte Typname ist nicht standardisiert und nicht portabel."
+            },
+            {
+              "type": "important",
+              "text": "<typeinfo> sollte sparsam eingesetzt werden, da gutes Design meist ohne explizite Typabfragen auskommt."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "<typeinfo> ermöglicht Laufzeit Typinformationen",
+                "typeid liefert std::type_info",
+                "RTTI erfordert virtuelle Funktionen",
+                "Typnamen sind implementationsabhängig"
+              ]
+            }
+          ]
+        },
         { "title": "<new>", "content": { "text": [], "code": [] } },
         { "title": "<memory>", "content": { "text": [], "code": [] } },
         { "title": "<cstdio>", "content": { "text": [], "code": [] } }
