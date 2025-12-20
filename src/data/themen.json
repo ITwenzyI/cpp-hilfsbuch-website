@@ -4175,32 +4175,83 @@
               {
                 "type": "definition",
                 "term": "<string>",
-                "text": "Der Header <string> stellt den Typ std::string für sichere und dynamische Zeichenketten bereit."
+                "text": "Der Header <string> stellt die Klasse std::string und zugehörige Funktionen für sichere und dynamische Zeichenketten bereit."
               },
               {
                 "type": "explanation",
                 "title": "Zweck des Headers",
                 "text": [
-                  "<string> kapselt Zeichenketten in einer Klasse mit automatischer Speicherverwaltung.",
-                  "Er ersetzt in modernem C++ weitgehend die Arbeit mit C-Strings."
+                  "<string> bietet eine moderne Alternative zu C-Strings und kapselt Speicherverwaltung sowie Längenverwaltung vollständig.",
+                  "Strings können sicher kopiert, verglichen, erweitert und verändert werden."
+                ]
+              },
+              {
+                "type": "explanation",
+                "title": "std::string",
+                "text": [
+                  "std::string repräsentiert eine veränderbare Folge von Zeichen mit bekannter Länge.",
+                  "Der Typ verwaltet seinen Speicher selbst und verhindert viele typische Fehler aus der C-Welt."
+                ]
+              },
+              {
+                "type": "list",
+                "title": "Wichtige Funktionen und Methoden",
+                "items": [
+                  "size() / length() – Anzahl der Zeichen",
+                  "empty() – prüft ob der String leer ist",
+                  "operator[] / at() – Zugriff auf einzelne Zeichen",
+                  "append(), operator+= – Anhängen von Text",
+                  "substr(pos, len) – Teilstring erzeugen",
+                  "find(str) – Suche nach Teilstrings",
+                  "c_str() – Zugriff auf C-String Darstellung"
                 ]
               },
               {
                 "type": "code",
-                "title": "Einfaches Beispiel",
+                "title": "Grundlegende Verwendung",
                 "language": "cpp",
-                "code": "#include <iostream>\n#include <string>\n\nint main() {\n    std::string text = \"C++\";   // Initialisierung eines std::string\n    text += \" String\";          // Anhängen eines weiteren Textes\n\n    std::cout << text << std::endl; // Ausgabe: C++ String\n}\n"
+                "code": "#include <iostream>\n#include <string>\n\nint main() {\n    std::string s = \"Hallo\";          // Initialisierung\n    s += \" Welt\";                     // Anhängen\n\n    std::cout << s << std::endl;       // Ausgabe: Hallo Welt\n    std::cout << s.size() << std::endl; // Ausgabe der Länge\n}\n"
+              },
+              {
+                "type": "code",
+                "title": "Zugriff und Teilstrings",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <string>\n\nint main() {\n    std::string text = \"Informatik\";\n\n    char c = text[0];                  // Zugriff ohne Bereichsprüfung\n    char d = text.at(1);               // Zugriff mit Prüfung\n\n    std::string sub = text.substr(0, 4); // \"Info\"\n\n    std::cout << c << \" \" << d << \" \" << sub << std::endl;\n}\n"
+              },
+              {
+                "type": "comparison",
+                "title": "std::string vs C-String",
+                "columns": ["std::string", "char*"],
+                "rows": [
+                  {
+                    "aspect": "Speicherverwaltung",
+                    "values": ["Automatisch", "Manuell"]
+                  },
+                  {
+                    "aspect": "Längeninformation",
+                    "values": ["Direkt verfügbar", "Nur durch strlen"]
+                  },
+                  {
+                    "aspect": "Sicherheit",
+                    "values": ["Hoch", "Fehleranfällig"]
+                  }
+                ]
+              },
+              {
+                "type": "pitfall",
+                "title": "operator[] ohne Prüfung",
+                "text": "Der Zugriff mit operator[] prüft keine Grenzen und kann bei falschen Indizes zu undefiniertem Verhalten führen."
               },
               {
                 "type": "important",
-                "text": "std::string ist der empfohlene Standard für Zeichenketten in C++."
+                "text": "In modernem C++ sollte std::string fast immer gegenüber C-Strings bevorzugt werden."
               },
               {
                 "type": "summary",
                 "points": [
-                  "<string> definiert std::string",
-                  "Automatische Speicherverwaltung",
-                  "Sicherer als C-Strings"
+                  "<string> stellt std::string bereit",
+                  "Automatische Speicherverwaltung erhöht Sicherheit",
+                  "Bietet umfangreiche String-Operationen"
                 ]
               }
             ]
@@ -4211,104 +4262,81 @@
             "blocks": [
               {
                 "type": "definition",
-                "term": "std::string_view",
-                "text": "std::string_view ist eine nicht-besitzende Sicht auf eine Zeichenkette ohne eigene Speicherverwaltung."
+                "term": "<string_view>",
+                "text": "Der Header <string_view> stellt den Typ std::string_view bereit, der eine nicht-besitzende Sicht auf eine Zeichenkette beschreibt."
               },
               {
                 "type": "explanation",
                 "title": "Grundidee",
                 "text": [
-                  "string_view speichert nur einen Zeiger und eine Länge.",
-                  "Er erlaubt effizientes Arbeiten mit Strings ohne Kopieren."
+                  "std::string_view speichert lediglich einen Zeiger auf Zeichen und eine Länge, besitzt aber keinen eigenen Speicher.",
+                  "Dadurch können Strings effizient gelesen und weitergereicht werden, ohne Kopien zu erzeugen."
+                ]
+              },
+              {
+                "type": "explanation",
+                "title": "Typische Einsatzszenarien",
+                "text": [
+                  "Funktionsparameter für nur-lesenden Zugriff auf Strings.",
+                  "Arbeiten mit Teilstrings ohne Erzeugung neuer std::string Objekte."
+                ]
+              },
+              {
+                "type": "list",
+                "title": "Wichtige Eigenschaften",
+                "items": [
+                  "Kein Besitz am Speicher",
+                  "Konstante Zeit für Kopieren und Zuweisung",
+                  "Kann aus std::string, C-String und String-Literalen erstellt werden",
+                  "Nur lesender Zugriff auf die Zeichen"
                 ]
               },
               {
                 "type": "code",
-                "title": "Verwendung von std::string_view",
+                "title": "Verwendung als Funktionsparameter",
                 "language": "cpp",
-                "code": "#include <iostream>\n#include <string>\n#include <string_view>\n\nvoid print(std::string_view sv) {\n    std::cout << sv << std::endl; // Gibt den betrachteten String aus\n}\n\nint main() {\n    std::string s = \"Hallo Welt\";\n    print(s);                     // Keine Kopie des Strings\n}\n"
+                "code": "#include <iostream>\n#include <string>\n#include <string_view>\n\nvoid print(std::string_view sv) {\n    std::cout << sv << std::endl; // Gibt den betrachteten String aus\n}\n\nint main() {\n    std::string s = \"Hallo Welt\";\n    print(s);                     // Keine Kopie von s\n    print(\"C++\");                // Auch String-Literale sind erlaubt\n}\n"
+              },
+              {
+                "type": "code",
+                "title": "Teilstring ohne Kopie",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <string_view>\n\nint main() {\n    std::string_view sv = \"Informatik\";\n    std::string_view sub = sv.substr(0, 4); // Sicht auf \"Info\"\n\n    std::cout << sub << std::endl;           // Ausgabe: Info\n}\n"
+              },
+              {
+                "type": "comparison",
+                "title": "std::string_view vs std::string",
+                "columns": ["std::string_view", "std::string"],
+                "rows": [
+                  {
+                    "aspect": "Speicherbesitz",
+                    "values": ["Nein", "Ja"]
+                  },
+                  {
+                    "aspect": "Kopierkosten",
+                    "values": ["Sehr gering", "Abhängig von Länge"]
+                  },
+                  {
+                    "aspect": "Veränderbarkeit",
+                    "values": ["Nein", "Ja"]
+                  }
+                ]
               },
               {
                 "type": "pitfall",
-                "title": "Lebensdauer",
-                "text": "std::string_view wird ungültig, sobald der zugrunde liegende String zerstört oder verändert wird."
-              },
-              {
-                "type": "summary",
-                "points": [
-                  "Kein Besitz am Speicher",
-                  "Sehr effizient",
-                  "Achtung auf Lebensdauer"
-                ]
-              }
-            ]
-          },
-          {
-            "title": "<cstring>",
-            "difficulty": "basic",
-            "blocks": [
-              {
-                "type": "definition",
-                "term": "<cstring>",
-                "text": "Der Header <cstring> stellt Funktionen zur Arbeit mit C-Strings bereit."
-              },
-              {
-                "type": "explanation",
-                "title": "Inhalt des Headers",
-                "text": [
-                  "<cstring> enthält Funktionen wie strlen, strcpy oder strcmp.",
-                  "Diese arbeiten mit nullterminierten char-Arrays."
-                ]
-              },
-              {
-                "type": "code",
-                "title": "Beispiel mit strlen",
-                "language": "cpp",
-                "code": "#include <iostream>\n#include <cstring>\n\nint main() {\n    const char text[] = \"Hallo\";\n    std::cout << strlen(text) << std::endl; // Ausgabe: 5\n}\n"
+                "title": "Lebensdauerproblem",
+                "text": "Ein std::string_view wird ungültig, sobald der zugrunde liegende String zerstört oder verändert wird."
               },
               {
                 "type": "important",
-                "text": "Funktionen aus <cstring> sind fehleranfällig und sollten nur bewusst eingesetzt werden."
+                "text": "std::string_view eignet sich ideal für nur-lesenden Zugriff, darf aber niemals länger leben als der referenzierte String."
               },
               {
                 "type": "summary",
                 "points": [
-                  "Arbeit mit C-Strings",
-                  "Keine automatische Sicherheit",
-                  "Historisch aus C übernommen"
-                ]
-              }
-            ]
-          },
-          {
-            "title": "<cctype>",
-            "difficulty": "basic",
-            "blocks": [
-              {
-                "type": "definition",
-                "term": "<cctype>",
-                "text": "Der Header <cctype> stellt Funktionen zur Zeichenklassifikation bereit."
-              },
-              {
-                "type": "explanation",
-                "title": "Typische Funktionen",
-                "text": [
-                  "Funktionen wie isdigit, isalpha oder toupper prüfen oder verändern einzelne Zeichen.",
-                  "Sie arbeiten auf char-Werten und liefern bool-ähnliche Ergebnisse."
-                ]
-              },
-              {
-                "type": "code",
-                "title": "Zeichenprüfung",
-                "language": "cpp",
-                "code": "#include <iostream>\n#include <cctype>\n\nint main() {\n    char c = '7';\n\n    if (isdigit(c)) {\n        std::cout << \"Ziffer\" << std::endl; // Wird ausgegeben\n    }\n}\n"
-              },
-              {
-                "type": "summary",
-                "points": [
-                  "Klassifikation einzelner Zeichen",
-                  "Häufig in Parsern genutzt",
-                  "Teil der C-Kompatibilität"
+                  "<string_view> bietet eine effiziente String-Sicht",
+                  "Keine Speicherverwaltung, keine Kopien",
+                  "Lebensdauer des Original-Strings ist entscheidend"
                 ]
               }
             ]
@@ -4381,6 +4409,180 @@
                 "Sicherer als C Funktionen"
               ]
             }
+            ]
+          },
+          {
+            "title": "<cstring>",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "<cstring>",
+                "text": "Der Header <cstring> stellt Funktionen zur Arbeit mit nullterminierten C-Strings und rohen Speicherbereichen bereit."
+              },
+              {
+                "type": "explanation",
+                "title": "Zweck des Headers",
+                "text": [
+                  "<cstring> ist die C++ Variante des C-Headers string.h und enthält niedrigstufige String- und Speicherfunktionen.",
+                  "Die Funktionen arbeiten mit char-Arrays und setzen ein korrekt gesetztes Nullterminierungszeichen voraus."
+                ]
+              },
+              {
+                "type": "explanation",
+                "title": "C-Strings",
+                "text": [
+                  "Ein C-String ist ein Array von char, das mit dem Zeichen '\\0' endet.",
+                  "Die Länge wird nicht gespeichert, sondern zur Laufzeit durch Suchen des Terminators bestimmt."
+                ]
+              },
+              {
+                "type": "list",
+                "title": "Wichtige String-Funktionen",
+                "items": [
+                  "strlen(str) – Länge eines C-Strings ohne '\\0'",
+                  "strcpy(dest, src) – kopiert einen String",
+                  "strncpy(dest, src, n) – kopiert maximal n Zeichen",
+                  "strcmp(a, b) – vergleicht zwei Strings",
+                  "strcat(dest, src) – hängt Strings aneinander"
+                ]
+              },
+              {
+                "type": "list",
+                "title": "Wichtige Speicherfunktionen",
+                "items": [
+                  "memcpy(dest, src, n) – kopiert n Bytes Speicher",
+                  "memmove(dest, src, n) – sicheres Kopieren bei Überlappung",
+                  "memset(ptr, value, n) – setzt Speicher auf einen Wert",
+                  "memcmp(a, b, n) – vergleicht Speicherbereiche"
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Länge und Vergleich von C-Strings",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <cstring>\n\nint main() {\n    const char a[] = \"Hallo\";\n    const char b[] = \"Welt\";\n\n    std::cout << std::strlen(a) << std::endl; // Ausgabe: 5\n    std::cout << std::strcmp(a, b) << std::endl; // Ungleich 0, da verschieden\n}\n"
+              },
+              {
+                "type": "code",
+                "title": "Kopieren von Strings",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <cstring>\n\nint main() {\n    char dest[10];\n    const char src[] = \"C++\";\n\n    std::strcpy(dest, src);           // Kopiert inkl. '\\0'\n    std::cout << dest << std::endl;   // Ausgabe: C++\n}\n"
+              },
+              {
+                "type": "code",
+                "title": "Arbeiten mit Speicherfunktionen",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <cstring>\n\nint main() {\n    int a[3] = {1, 2, 3};\n    int b[3];\n\n    std::memcpy(b, a, sizeof(a));     // Kopiert rohe Bytes\n    std::cout << b[0] << std::endl;   // Ausgabe: 1\n}\n"
+              },
+              {
+                "type": "comparison",
+                "title": "memcpy vs memmove",
+                "columns": ["memcpy", "memmove"],
+                "rows": [
+                  {
+                    "aspect": "Überlappende Speicherbereiche",
+                    "values": ["Nicht erlaubt", "Erlaubt"]
+                  },
+                  {
+                    "aspect": "Performance",
+                    "values": ["Meist schneller", "Etwas langsamer"]
+                  }
+                ]
+              },
+              {
+                "type": "pitfall",
+                "title": "Fehlendes Nullterminierungszeichen",
+                "text": "Fehlt das abschließende '\\0', lesen Funktionen wie strlen oder strcpy über das Arrayende hinaus."
+              },
+              {
+                "type": "important",
+                "text": "Funktionen aus <cstring> sind fehleranfällig und sollten in modernem C++ möglichst durch std::string ersetzt werden."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "<cstring> arbeitet mit C-Strings und rohem Speicher",
+                  "Keine automatische Längen oder Speicherverwaltung",
+                  "Hohe Fehleranfälligkeit bei falscher Nutzung"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "<cctype>",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "<cctype>",
+                "text": "Der Header <cctype> stellt Funktionen zur Klassifikation und einfachen Umwandlung einzelner Zeichen bereit."
+              },
+              {
+                "type": "explanation",
+                "title": "Zweck des Headers",
+                "text": [
+                  "<cctype> ist die C++ Variante des C-Headers ctype.h und arbeitet auf einzelnen Zeichen.",
+                  "Die Funktionen werden häufig beim Parsen von Text, bei Validierungen und einfachen Analysen eingesetzt."
+                ]
+              },
+              {
+                "type": "explanation",
+                "title": "Funktionsprinzip",
+                "text": [
+                  "Die Funktionen prüfen Eigenschaften eines Zeichens wie Ziffer, Buchstabe oder Leerzeichen.",
+                  "Rückgabewerte sind ganzzahlig, werden aber logisch wie bool verwendet."
+                ]
+              },
+              {
+                "type": "list",
+                "title": "Wichtige Prüf-Funktionen",
+                "items": [
+                  "std::isdigit(c) – prüft ob c eine Ziffer ist",
+                  "std::isalpha(c) – prüft ob c ein Buchstabe ist",
+                  "std::isalnum(c) – prüft ob c Buchstabe oder Ziffer ist",
+                  "std::isspace(c) – prüft ob c ein Leerzeichen ist",
+                  "std::islower(c) – prüft ob c klein geschrieben ist",
+                  "std::isupper(c) – prüft ob c groß geschrieben ist"
+                ]
+              },
+              {
+                "type": "list",
+                "title": "Wichtige Umwandlungs-Funktionen",
+                "items": [
+                  "std::tolower(c) – wandelt Zeichen in Kleinbuchstaben um",
+                  "std::toupper(c) – wandelt Zeichen in Großbuchstaben um"
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Zeichen klassifizieren",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <cctype>\n\nint main() {\n    char c = '7';\n\n    if (std::isdigit(c)) {\n        std::cout << \"Ziffer\" << std::endl; // Wird ausgegeben\n    }\n\n    if (std::isalpha(c)) {\n        std::cout << \"Buchstabe\" << std::endl;\n    }\n}\n"
+              },
+              {
+                "type": "code",
+                "title": "Groß- und Kleinschreibung",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <cctype>\n\nint main() {\n    char c = 'a';\n\n    char upper = std::toupper(c); // Wandelt in 'A'\n    char lower = std::tolower('Z'); // Wandelt in 'z'\n\n    std::cout << upper << \" \" << lower << std::endl; // Ausgabe: A z\n}\n"
+              },
+              {
+                "type": "pitfall",
+                "title": "Vorzeichen von char",
+                "text": "Die Funktionen aus <cctype> erwarten unsigned char Werte oder EOF, bei negativem char kann undefiniertes Verhalten auftreten."
+              },
+              {
+                "type": "important",
+                "text": "Vor der Übergabe an <cctype>-Funktionen sollte char bei Bedarf zu unsigned char gecastet werden."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "<cctype> klassifiziert und wandelt einzelne Zeichen",
+                  "Wichtig für Parser und Texteingaben",
+                  "Achtung bei negativem char Wert"
+                ]
+              }
             ]
           }
         ]
