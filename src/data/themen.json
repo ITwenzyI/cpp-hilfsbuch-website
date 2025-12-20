@@ -4463,7 +4463,79 @@
             }
           ]
         },
-        { "title": "<cstdlib>", "content": { "text": [], "code": [] } },
+        {
+          "title": "<cstdlib>",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<cstdlib>",
+              "text": "Der Header <cstdlib> stellt grundlegende Hilfsfunktionen für Speicherverwaltung, Zufallszahlen, Programmsteuerung und Konvertierungen bereit."
+            },
+            {
+              "type": "explanation",
+              "title": "Zweck des Headers",
+              "text": [
+                "<cstdlib> ist die C++ Variante des C-Headers stdlib.h und enthält viele niedrigstufige Standardfunktionen.",
+                "Die Funktionen sind im Namensraum std definiert und werden häufig für systemnahe oder einfache Hilfsaufgaben genutzt."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Einsatzgebiete",
+              "text": [
+                "Erzeugen einfacher Zufallszahlen.",
+                "Konvertieren von Strings in numerische Typen oder Beenden eines Programms."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Funktionen",
+              "items": [
+                "std::rand() – erzeugt eine Pseudozufallszahl",
+                "std::srand(seed) – initialisiert den Zufallszahlengenerator",
+                "std::abs(x) – Absolutwert für Ganzzahlen",
+                "std::atoi(str), std::atof(str) – String zu Zahl Konvertierung",
+                "std::exit(code) – sofortiges Beenden des Programms"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Zufallszahlen erzeugen",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <cstdlib>\n#include <ctime>\n\nint main() {\n    std::srand(std::time(nullptr)); // Initialisierung mit aktueller Zeit\n\n    int r = std::rand() % 10;        // Zufallszahl zwischen 0 und 9\n    std::cout << r << std::endl;     // Beispielausgabe\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "String zu Ganzzahl konvertieren",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <cstdlib>\n\nint main() {\n    const char* text = \"123\";\n\n    int value = std::atoi(text);     // Konvertierung nach int\n    std::cout << value << std::endl; // Ausgabe: 123\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Programm beenden",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <cstdlib>\n\nint main() {\n    std::cout << \"Fehler aufgetreten\" << std::endl;\n    std::exit(1);                    // Beendet das Programm sofort\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "atoi und fehlende Fehlerprüfung",
+              "text": "std::atoi liefert bei ungültigen Eingaben keinen Fehler, sondern 0, was eine sichere Fehlerbehandlung unmöglich macht."
+            },
+            {
+              "type": "important",
+              "text": "Für moderne Zufallszahlen sollte <random> statt rand und srand verwendet werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "<cstdlib> enthält grundlegende Standardfunktionen",
+                "Bietet Zufallszahlen, Konvertierungen und exit",
+                "Viele Funktionen sind historisch und nur eingeschränkt sicher"
+              ]
+            }
+          ]
+        },
         { "title": "<random>", "content": { "text": [], "code": [] } },
         { "title": "<limits>", "content": { "text": [], "code": [] } }
         ]
