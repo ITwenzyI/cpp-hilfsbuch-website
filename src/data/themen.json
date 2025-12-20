@@ -3375,7 +3375,59 @@
               }
             ]
           },
-          { "title": "Nullpointer", "content": { "text": [], "code": [] } }
+          {
+            "title": "Nullpointer",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "Nullpointer",
+                "text": "Ein Zeiger, der auf kein gültiges Objekt zeigt."
+              },
+              {
+                "type": "definition",
+                "term": "nullptr",
+                "text": "Ein spezieller Literalwert zur sicheren Darstellung eines Nullpointers."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von nullptr",
+                "text": [
+                  "nullptr ersetzt ältere Konzepte wie NULL oder 0.",
+                  "Er ist eindeutig als Zeigerwert typisiert."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "nullptr verwenden",
+                "language": "cpp",
+                "code": "int* p = nullptr; // zeigt auf nichts\n\nif (p == nullptr) {\n    // Zeiger ist ungültig\n}"
+              },
+              {
+                "type": "definition",
+                "term": "Nullpointer Dereferenzierung",
+                "text": "Der Zugriff auf einen Nullpointer ist undefiniertes Verhalten."
+              },
+              {
+                "type": "pitfall",
+                "title": "Dereferenzierung von nullptr",
+                "text": "Das Dereferenzieren eines Nullpointers führt meist zu Programmabstürzen."
+              },
+              {
+                "type": "important",
+                "text": "nullptr ist der einzige empfohlene Weg, einen leeren Zeiger darzustellen."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Nullpointer zeigen auf kein Objekt",
+                  "nullptr ist typsicher",
+                  "Vor Dereferenzierung immer prüfen",
+                  "NULL und 0 sollten vermieden werden"
+                ]
+              }
+            ]
+          }
         ]
       },
       {
