@@ -5030,6 +5030,11 @@
               ]
             },
             {
+              "type": "note",
+              "variant": "formatting",
+              "text": "Um Zeit oder Datum zu formatieren, nutzt man den Header <iomanip>, mit der Funktion put_time."
+            },
+            {
               "type": "pitfall",
               "title": "Falsche Uhr für Messungen",
               "text": "system_clock kann durch Systemzeitänderungen springen und ist für Laufzeitmessungen ungeeignet."
@@ -5121,6 +5126,11 @@
                   "values": ["Nein", "Ja"]
                 }
               ]
+            },
+            {
+              "type": "note",
+              "variant": "formatting",
+              "text": "Um Zeit oder Datum zu formatieren, nutzt man den Header <iomanip>, mit der Funktion put_time."
             },
             {
               "type": "pitfall",
