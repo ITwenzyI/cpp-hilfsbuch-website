@@ -3987,10 +3987,251 @@
       "name": "Ein- und Ausgabe",
       "icon": "🖨️",
       "topics": [
-        { "title": "<iostream>", "content": { "text": [], "code": [] } },
-        { "title": "<fstream>", "content": { "text": [], "code": [] } },
-        { "title": "<sstream>", "content": { "text": [], "code": [] } },
-        { "title": "<iomanip>", "content": { "text": [], "code": [] } }
+        {
+          "title": "<iostream>",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<iostream>",
+              "text": "Header für Ein und Ausgabe über die Konsole."
+            },
+            {
+              "type": "explanation",
+              "title": "Zweck von <iostream>",
+              "text": [
+                "<iostream> stellt die grundlegenden Standard Streams für die Konsole bereit.",
+                "Er wird für Benutzereingaben, Ausgaben und einfache Debugzwecke verwendet."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Streams",
+              "items": [
+                "std::cin: Standardeingabe",
+                "std::cout: Standardausgabe",
+                "std::cerr: Fehlerausgabe",
+                "std::clog: Protokollausgabe"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfache Ein und Ausgabe",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint x;\nstd::cin >> x;          // Eingabe\nstd::cout << x << '\\n'; // Ausgabe"
+            },
+            {
+              "type": "important",
+              "text": "<iostream> ist die Basis für nahezu jede Konsolenanwendung."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Grundlegender Ein und Ausgabe Header",
+                "Arbeitet mit Streams",
+                "cin liest, cout schreibt",
+                "cerr für Fehlermeldungen"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "<fstream>",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<fstream>",
+              "text": "Header für dateibasierte Ein und Ausgabe."
+            },
+            {
+              "type": "explanation",
+              "title": "Zweck von <fstream>",
+              "text": [
+                "<fstream> erlaubt das Lesen aus und Schreiben in Dateien.",
+                "Er nutzt dasselbe Stream Prinzip wie <iostream>, aber mit Dateien statt Konsole."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Klassen",
+              "items": [
+                "std::ifstream: Datei lesen",
+                "std::ofstream: Datei schreiben",
+                "std::fstream: Lesen und Schreiben"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Datei schreiben",
+              "language": "cpp",
+              "code": "#include <fstream>\n\nstd::ofstream file(\"data.txt\");\nfile << \"Hallo Datei\";\nfile.close();"
+            },
+            {
+              "type": "pitfall",
+              "title": "Datei nicht geprüft",
+              "text": "Wird der Öffnungszustand nicht geprüft, können Lese oder Schreibfehler unbemerkt bleiben."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Dateibasierte Streams",
+                "ifstream für Lesen",
+                "ofstream für Schreiben",
+                "fstream für beides"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "<sstream>",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<sstream>",
+              "text": "Header für String Streams, mit denen Strings wie Ein und Ausgabeströme behandelt werden."
+            },
+            {
+              "type": "explanation",
+              "title": "Einsatzgebiet von <sstream>",
+              "text": [
+                "<sstream> wird genutzt, um Text sicher in andere Datentypen umzuwandeln oder strukturiert zusammenzusetzen.",
+                "Er ist besonders hilfreich beim Parsen von Eingaben oder beim Erzeugen formatierter Strings."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Klassen",
+              "items": [
+                "std::stringstream: Lesen und Schreiben",
+                "std::istringstream: Nur Lesen aus Strings",
+                "std::ostringstream: Nur Schreiben in Strings"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "String zu Zahl umwandeln",
+              "language": "cpp",
+              "code": "#include <sstream>\n\nstd::string text = \"42\";\nstd::stringstream ss(text);\nint value;\nss >> value; // value ist 42"
+            },
+            {
+              "type": "code",
+              "title": "Mehrere Werte aus einem String lesen",
+              "language": "cpp",
+              "code": "std::string line = \"10 20 30\";\nstd::istringstream iss(line);\nint a, b, c;\niss >> a >> b >> c; // a=10, b=20, c=30"
+            },
+            {
+              "type": "code",
+              "title": "Zahl zu String erzeugen",
+              "language": "cpp",
+              "code": "std::ostringstream oss;\noss << 3.14;\nstd::string result = oss.str(); // \"3.14\""
+            },
+            {
+              "type": "code",
+              "title": "Komplexen String zusammensetzen",
+              "language": "cpp",
+              "code": "int id = 5;\nstd::string name = \"Max\";\n\nstd::ostringstream oss;\noss << \"ID=\" << id << \", Name=\" << name;\nstd::string output = oss.str();"
+            },
+            {
+              "type": "pitfall",
+              "title": "stringstream wiederverwenden",
+              "text": "Beim Wiederverwenden muss der Streaminhalt und der Zustand zurückgesetzt werden."
+            },
+            {
+              "type": "important",
+              "text": "<sstream> ist die sichere Alternative zu manueller String Verarbeitung."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Strings können wie Streams gelesen werden",
+                "Ideal für Parsen und Typumwandlungen",
+                "ostringstream zum Erzeugen von Text",
+                "Sicherer als C Funktionen"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "<iomanip>",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<iomanip>",
+              "text": "Header mit Manipulatoren zur Steuerung der Ausgabeformatierung."
+            },
+            {
+              "type": "explanation",
+              "title": "Einsatzgebiet von <iomanip>",
+              "text": [
+                "<iomanip> verändert, wie Werte ausgegeben werden, nicht die Werte selbst.",
+                "Er wird häufig für saubere Konsolenausgaben und Tabellen verwendet."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Manipulatoren",
+              "items": [
+                "std::setw: Feldbreite setzen",
+                "std::setprecision: Anzahl der Stellen",
+                "std::fixed: feste Nachkommastellen",
+                "std::left / std::right: Ausrichtung",
+                "std::boolalpha: true/false als Text"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Feste Nachkommastellen",
+              "language": "cpp",
+              "code": "#include <iomanip>\n\nstd::cout << std::fixed << std::setprecision(2) << 3.14159; // 3.14"
+            },
+            {
+              "type": "code",
+              "title": "Feldbreite und Ausrichtung",
+              "language": "cpp",
+              "code": "std::cout << std::setw(10) << std::right << 42;\nstd::cout << std::setw(10) << std::left << 42;"
+            },
+            {
+              "type": "code",
+              "title": "Tabellenartige Ausgabe",
+              "language": "cpp",
+              "code": "std::cout << std::setw(10) << \"Name\"\n          << std::setw(5) << \"Age\" << '\\n';\n\nstd::cout << std::setw(10) << \"Anna\"\n          << std::setw(5) << 23 << '\\n';"
+            },
+            {
+              "type": "code",
+              "title": "boolalpha verwenden",
+              "language": "cpp",
+              "code": "bool flag = true;\nstd::cout << std::boolalpha << flag; // gibt \"true\" aus"
+            },
+            {
+              "type": "code",
+              "title": "Manipulatoren kombinieren",
+              "language": "cpp",
+              "code": "double x = 12.3456;\nstd::cout << std::setw(8)\n          << std::fixed\n          << std::setprecision(1)\n          << x;"
+            },
+            {
+              "type": "pitfall",
+              "title": "Persistente Formatierung",
+              "text": "Manipulatoren wie fixed oder setprecision bleiben aktiv, bis sie geändert werden."
+            },
+            {
+              "type": "important",
+              "text": "<iomanip> ist ideal für lesbare Ausgaben ohne eigene Formatierungslogik."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Manipulatoren steuern die Darstellung",
+                "setw für Spaltenbreite",
+                "setprecision und fixed für Zahlen",
+                "Ideal für Tabellen und Reports",
+                "Formatierung wirkt auf den Stream"
+              ]
+            }
+          ]
+        }
         ]
       },
       {
