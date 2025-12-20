@@ -3499,7 +3499,74 @@
               }
             ]
           },
-          { "title": "Referenzparameter", "content": { "text": [], "code": [] } }
+          {
+            "title": "Referenzparameter",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "Referenzparameter",
+                "text": "Ein Funktionsparameter, der per Referenz übergeben wird und direkt auf das Argument zugreift."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von Referenzparametern",
+                "text": [
+                  "Referenzparameter erlauben es, Argumente innerhalb einer Funktion zu verändern.",
+                  "Sie vermeiden Kopien und sind effizient für große Objekte."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Änderbarer Referenzparameter",
+                "text": "Ein Referenzparameter ohne const, der das übergebene Objekt verändern darf."
+              },
+              {
+                "type": "code",
+                "title": "Referenzparameter verändern Wert",
+                "language": "cpp",
+                "code": "void increment(int& x) {\n    x++; // ändert die Originalvariable\n}\n\nint a = 5;\nincrement(a); // a ist jetzt 6"
+              },
+              {
+                "type": "definition",
+                "term": "const Referenzparameter",
+                "text": "Ein Referenzparameter, der nicht verändert werden darf."
+              },
+              {
+                "type": "code",
+                "title": "const Referenzparameter",
+                "language": "cpp",
+                "code": "void print(const std::string& text) {\n    // text wird nicht kopiert\n    std::cout << text;\n}"
+              },
+              {
+                "type": "explanation",
+                "title": "Wann const Referenzen verwenden",
+                "text": [
+                  "Bei großen Objekten, die nicht verändert werden sollen.",
+                  "Als Standard für Lesezugriff in Funktionsschnittstellen."
+                ]
+              },
+              {
+                "type": "pitfall",
+                "title": "Unerwartete Änderungen",
+                "text": "Nicht-const Referenzparameter können Seiteneffekte verursachen."
+              },
+              {
+                "type": "important",
+                "text": "Standardregel: Übergabe per Wert für kleine Typen, per const Referenz für große Typen."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Referenzparameter greifen direkt auf Argumente zu",
+                  "Sie vermeiden Kopien",
+                  "Nicht-const Referenzen erlauben Änderungen",
+                  "const Referenzen verhindern Seiteneffekte",
+                  "Referenzparameter sind sicherer als Zeiger"
+                ]
+              }
+            ]
+          }
         ]
       }
     ]
