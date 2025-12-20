@@ -5421,7 +5421,99 @@
             }
           ]
         },
-        { "title": "<new>", "content": { "text": [], "code": [] } },
+        {
+          "title": "<new>",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<new>",
+              "text": "Der Header <new> stellt Mechanismen für dynamische Speicherallokation und Speicherfehlerbehandlung bereit."
+            },
+            {
+              "type": "explanation",
+              "title": "Zweck des Headers",
+              "text": [
+                "<new> definiert die Operatoren new und delete sowie Hilfsmittel zur Kontrolle ihres Verhaltens.",
+                "Er wird verwendet, wenn Speicher dynamisch zur Laufzeit angefordert oder freigegeben wird."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "new und delete",
+              "text": [
+                "new reserviert Speicher und ruft anschließend den Konstruktor eines Objekts auf.",
+                "delete ruft den Destruktor auf und gibt den reservierten Speicher wieder frei."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Bestandteile",
+              "items": [
+                "operator new – reserviert Speicher",
+                "operator delete – gibt Speicher frei",
+                "std::nothrow – unterdrückt Exceptions bei Speicherfehlern",
+                "std::bad_alloc – Exception bei fehlgeschlagener Allokation",
+                "placement new – Konstruktion an vorgegebenem Speicherort"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Dynamische Speicherallokation",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <new>\n\nint main() {\n    int* p = new int(42);          // Speicher reservieren und Wert setzen\n    std::cout << *p << std::endl; // Ausgabe: 42\n    delete p;                     // Speicher freigeben\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "new mit nothrow",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <new>\n\nint main() {\n    int* p = new (std::nothrow) int;\n\n    if (p == nullptr) {\n        std::cout << \"Kein Speicher verfügbar\" << std::endl;\n    } else {\n        *p = 10;\n        std::cout << *p << std::endl;\n        delete p;\n    }\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "placement new",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <new>\n\nstruct Test {\n    int x;\n    Test(int v) : x(v) {}\n};\n\nint main() {\n    alignas(Test) char buffer[sizeof(Test)];\n\n    Test* t = new (buffer) Test(5); // Objekt im bestehenden Speicher konstruieren\n    std::cout << t->x << std::endl; // Ausgabe: 5\n\n    t->~Test(); // Destruktor manuell aufrufen\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "new vs malloc",
+              "columns": ["new", "malloc"],
+              "rows": [
+                {
+                  "aspect": "Konstruktoraufruf",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "Typensicherheit",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "Fehlerbehandlung",
+                  "values": ["Exception", "nullptr"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Vergessenes delete",
+              "text": "Nicht freigegebener Speicher führt zu Speicherlecks."
+            },
+            {
+              "type": "important",
+              "text": "In modernem C++ sollten new und delete möglichst durch Smart Pointer ersetzt werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "<new> steuert dynamische Speicherallokation",
+                "new ruft Konstruktoren auf, delete Destruktoren",
+                "std::bad_alloc signalisiert Speicherfehler",
+                "placement new konstruiert Objekte in vorhandenem Speicher"
+              ]
+            }
+          ]
+        },
         { "title": "<memory>", "content": { "text": [], "code": [] } },
         { "title": "<cstdio>", "content": { "text": [], "code": [] } }
         ]
