@@ -3434,7 +3434,71 @@
         "name": "Referenzen",
         "icon": "🔗",
         "topics": [
-          { "title": "Referenzen Basics", "content": { "text": [], "code": [] } },
+          {
+            "title": "Referenzen Basics",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "Referenz",
+                "text": "Eine Referenz ist ein alternativer Name für ein bereits existierendes Objekt."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von Referenzen",
+                "text": [
+                  "Referenzen ermöglichen den direkten Zugriff auf eine Variable, ohne deren Adresse explizit zu verwenden.",
+                  "Sie verhalten sich wie Aliase und sind nach der Initialisierung fest gebunden."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Initialisierung einer Referenz",
+                "text": "Eine Referenz muss beim Erzeugen an ein Objekt gebunden werden."
+              },
+              {
+                "type": "code",
+                "title": "Referenz deklarieren",
+                "language": "cpp",
+                "code": "int x = 10;\nint& ref = x; // ref ist ein Alias für x"
+              },
+              {
+                "type": "definition",
+                "term": "Alias Verhalten",
+                "text": "Änderungen über die Referenz wirken sich direkt auf das referenzierte Objekt aus."
+              },
+              {
+                "type": "code",
+                "title": "Alias Beispiel",
+                "language": "cpp",
+                "code": "ref = 20;      // ändert x\nint y = x;     // y ist 20"
+              },
+              {
+                "type": "definition",
+                "term": "Neu binden",
+                "text": "Referenzen können nach der Initialisierung nicht auf ein anderes Objekt zeigen."
+              },
+              {
+                "type": "pitfall",
+                "title": "Uninitialisierte Referenz",
+                "text": "Referenzen müssen immer initialisiert werden, sonst ist der Code ungültig."
+              },
+              {
+                "type": "important",
+                "text": "Referenzen sind keine Zeiger und können nicht null sein."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Referenzen sind Aliase für bestehende Objekte",
+                  "Sie müssen sofort initialisiert werden",
+                  "Referenzen können nicht neu gebunden werden",
+                  "Zugriff erfolgt ohne Dereferenzierung",
+                  "Referenzen können nicht null sein"
+                ]
+              }
+            ]
+          },
           { "title": "Referenzparameter", "content": { "text": [], "code": [] } }
         ]
       }
