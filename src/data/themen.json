@@ -5614,7 +5614,102 @@
             }
           ]
         },
-        { "title": "<cstdio>", "content": { "text": [], "code": [] } }
+        {
+          "title": "<cstdio>",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<cstdio>",
+              "text": "Der Header <cstdio> stellt C-kompatible Funktionen für Ein- und Ausgabe über Dateien und Standardstreams bereit."
+            },
+            {
+              "type": "explanation",
+              "title": "Zweck des Headers",
+              "text": [
+                "<cstdio> ist die C++ Variante des C-Headers stdio.h und arbeitet mit C-Streams.",
+                "Er wird für einfache, schnelle oder systemnahe Ein- und Ausgabeoperationen genutzt."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "C-Streams",
+              "text": [
+                "Ein- und Ausgabe erfolgt über FILE* Objekte.",
+                "Standardstreams sind stdin, stdout und stderr."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Funktionen",
+              "items": [
+                "printf(format, ...) – formatierte Ausgabe",
+                "scanf(format, ...) – formatierte Eingabe",
+                "fprintf(stream, ...) – Ausgabe in Datei",
+                "fscanf(stream, ...) – Eingabe aus Datei",
+                "fopen(name, mode) – Datei öffnen",
+                "fclose(file) – Datei schließen",
+                "fgets(buffer, n, stream) – Zeile lesen",
+                "fputs(text, stream) – Text schreiben"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Formatierte Ausgabe mit printf",
+              "language": "cpp",
+              "code": "#include <cstdio>\n\nint main() {\n    int x = 5;\n    double y = 3.14;\n\n    std::printf(\"x = %d, y = %.2f\\n\", x, y); // Formatierte Ausgabe\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Datei schreiben",
+              "language": "cpp",
+              "code": "#include <cstdio>\n\nint main() {\n    FILE* f = std::fopen(\"test.txt\", \"w\");\n\n    if (f != nullptr) {\n        std::fprintf(f, \"Hallo Datei\\n\");\n        std::fclose(f);\n    }\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Datei lesen",
+              "language": "cpp",
+              "code": "#include <cstdio>\n\nint main() {\n    char buffer[100];\n    FILE* f = std::fopen(\"test.txt\", \"r\");\n\n    if (f != nullptr) {\n        std::fgets(buffer, 100, f);\n        std::printf(\"%s\", buffer);\n        std::fclose(f);\n    }\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "<cstdio> vs <iostream>",
+              "columns": ["<cstdio>", "<iostream>"],
+              "rows": [
+                {
+                  "aspect": "Typensicherheit",
+                  "values": ["Gering", "Hoch"]
+                },
+                {
+                  "aspect": "Performance",
+                  "values": ["Oft höher", "Etwas geringer"]
+                },
+                {
+                  "aspect": "Modernes C++",
+                  "values": ["Nein", "Ja"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "scanf und Formatfehler",
+              "text": "Falsche Formatstrings bei scanf führen leicht zu undefiniertem Verhalten."
+            },
+            {
+              "type": "important",
+              "text": "In modernem C++ sollten <iostream> oder <fstream> bevorzugt werden, außer bei bewusster C-Kompatibilität."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "<cstdio> stellt C-Style Ein- und Ausgabe bereit",
+                "Arbeitet mit FILE* und Formatstrings",
+                "Schnell, aber nicht typsicher",
+                "Heute meist durch iostreams ersetzt"
+              ]
+            }
+          ]
+        }
         ]
       },
       {
