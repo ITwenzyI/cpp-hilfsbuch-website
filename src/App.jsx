@@ -255,33 +255,36 @@ function App() {
               {/* Category Button */}
               <button
                 className="w-full text-left px-4 py-2 rounded-xl bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 flex justify-between"
-                onClick={() => toggleCategory(cat.category)}
+                onClick={() => toggleCategory(`cat:${cat.category}`)}
               >
                 <span>{cat.icon} {cat.category}</span>
-                <span>{expandedCategories.includes(cat.category) ? "▲" : "▼"}</span>
+                <span>{expandedCategories.includes(`cat:${cat.category}`) ? "▲" : "▼"}</span>
               </button>
 
               {/* Subcategories */}
-              {expandedCategories.includes(cat.category) && (
+              {expandedCategories.includes(`cat:${cat.category}`) && (
                 <ul className="ml-4 mt-1 space-y-1">
                   {cat.subcategories.map((sub, subIndex) => (
                     <li key={subIndex}>
                       <button
-                        onClick={() =>
-                          setExpandedCategories((prev) =>
-                            prev.includes(sub.name)
-                              ? prev.filter((c) => c !== sub.name)
-                              : [...prev, sub.name]
-                          )
-                        }
+                        onClick={() => {
+                        const key = `sub:${cat.category}:${sub.name}`;
+                        setExpandedCategories((prev) =>
+                          prev.includes(key)
+                            ? prev.filter((c) => c !== key)
+                            : [...prev, key]
+                        );
+                      }}
                         className="w-full text-left px-4 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded flex justify-between"
                       >
                         <span>{sub.icon} {sub.name}</span>
-                        <span>{expandedCategories.includes(sub.name) ? "▲" : "▼"}</span>
+                        <span>
+                          {expandedCategories.includes(`sub:${cat.category}:${sub.name}`) ? "▲" : "▼"}
+                        </span>
                       </button>
 
                       {/* Topics */}
-                      {expandedCategories.includes(sub.name) && (
+                      {expandedCategories.includes(`sub:${cat.category}:${sub.name}`) && (
                         <ul className="ml-4 mt-1 space-y-1">
                           {sub.topics.map((topic, topicIndex) => (
                             <li key={topicIndex}>
