@@ -5247,7 +5247,94 @@
             }
           ]
         },
-        { "title": "<future>", "content": { "text": [], "code": [] } },
+        {
+          "title": "<future>",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<future>",
+              "text": "Der Header <future> stellt Mechanismen zur asynchronen Ausführung und zum sicheren Austausch von Ergebnissen zwischen Threads bereit."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "<future> kapselt nebenläufige Berechnungen und deren Ergebnisse in Objekten.",
+                "Das Ergebnis wird später abgeholt, sobald die Berechnung abgeschlossen ist."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Zentrale Typen",
+              "text": [
+                "std::future repräsentiert ein zukünftiges Ergebnis einer Berechnung.",
+                "std::promise dient dazu, ein Ergebnis explizit zu setzen.",
+                "std::async startet eine Funktion asynchron und liefert ein future zurück."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Bestandteile",
+              "items": [
+                "std::future<T> – Zugriff auf ein späteres Ergebnis",
+                "std::promise<T> – Setzen eines Ergebnisses",
+                "std::async – komfortabler Start asynchroner Aufgaben",
+                "get() – holt das Ergebnis und blockiert falls nötig",
+                "wait() – wartet auf Abschluss ohne Ergebnisabfrage"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Asynchrone Berechnung mit async",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <future>\n\nint berechne() {\n    return 42;\n}\n\nint main() {\n    std::future<int> f = std::async(std::launch::async, berechne);\n\n    int ergebnis = f.get();        // Blockiert bis Ergebnis verfügbar ist\n    std::cout << ergebnis << std::endl; // Ausgabe: 42\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "future blockiert bei get",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <future>\n#include <chrono>\n#include <thread>\n\nint arbeit() {\n    std::this_thread::sleep_for(std::chrono::seconds(2)); // Simuliert Arbeit\n    return 7;\n}\n\nint main() {\n    std::future<int> f = std::async(std::launch::async, arbeit);\n\n    std::cout << \"Warte auf Ergebnis...\" << std::endl;\n    std::cout << f.get() << std::endl; // Wartet ca. 2 Sekunden\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "future vs thread",
+              "columns": ["std::future", "std::thread"],
+              "rows": [
+                {
+                  "aspect": "Rückgabewert",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "Fehlerübertragung",
+                  "values": ["Ja, per Exception", "Nein"]
+                },
+                {
+                  "aspect": "Synchronisation",
+                  "values": ["Automatisch", "Manuell"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "get nur einmal erlaubt",
+              "text": "std::future::get darf nur einmal aufgerufen werden, danach ist das future leer."
+            },
+            {
+              "type": "important",
+              "text": "<future> vereinfacht nebenläufige Programmierung erheblich, da Ergebnisse und Exceptions sicher übertragen werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "<future> ermöglicht asynchrone Berechnungen mit Rückgabewert",
+                "std::async ist der einfachste Einstieg",
+                "get blockiert bis das Ergebnis verfügbar ist",
+                "Exceptions werden automatisch weitergereicht"
+              ]
+            }
+          ]
+        },
         { "title": "<typeinfo>", "content": { "text": [], "code": [] } },
         { "title": "<new>", "content": { "text": [], "code": [] } },
         { "title": "<memory>", "content": { "text": [], "code": [] } },
