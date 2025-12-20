@@ -3833,51 +3833,146 @@
               }
             ]
           },
-          { "title": "Smart Pointer", "content": {
-            "text": [
-              "### === Smart Pointer in C++ ===\n",
-              "Smart Pointer verwalten dynamischen Speicher **automatisch** und verhindern typische Fehler wie **Speicherlecks**, **doppelte `delete`s** oder **Zugriffe auf ungültige Speicherbereiche**.\n",
-              "Sie gehören zum Header `<memory>` und sind seit **C++11** verfügbar.\n",
-              "\n",
-              "---\n",
-              "### Warum Smart Pointer?\n",
-              "- Kein manuelles `delete` nötig\n",
-              "- Klare Besitzverhältnisse\n",
-              "- Automatische Speicherfreigabe beim Verlassen des Scopes\n",
-              "\n",
-              "---\n",
-              "### 🔹 `std::unique_ptr<T>`\n",
-              "- **Exklusiver Besitz**: Nur ein Zeiger kann auf das Objekt zeigen\n",
-              "- **Nicht kopierbar**, aber **verschiebbar** (`std::move`)\n",
-              "- Objekt wird beim Verlassen des Scopes automatisch gelöscht\n",
-              "```cpp\nstd::unique_ptr<int> ptr = std::make_unique<int>(10);\nptr.reset(); // manuelles Löschen möglich\n```\n",
-              "\n",
-              "---\n",
-              "### 🔹 `std::shared_ptr<T>`\n",
-              "- **Mehrere Besitzer** teilen sich das Objekt\n",
-              "- Automatische Löschung, wenn **alle Kopien** verschwinden\n",
-              "- Intern wird ein **Referenzzähler** verwaltet (`use_count()`)\n",
-              "```cpp\nstd::shared_ptr<int> a = std::make_shared<int>(5);\nstd::shared_ptr<int> b = a; // b zeigt ebenfalls auf das Objekt\nstd::cout << a.use_count(); // 2\nb.reset(); // b gibt das Objekt frei\nstd::cout << a.use_count(); // 1\n```\n",
-              "- `reset()` löscht den eigenen Bezug, nicht das Objekt, solange noch andere `shared_ptr` existieren\n",
-              "\n",
-              "---\n",
-              "### 🔹 `std::weak_ptr<T>`\n",
-              "- Beobachtet ein Objekt von `shared_ptr`, **ohne den Zähler zu erhöhen**\n",
-              "- Kann ungültig werden → **immer mit `.lock()` prüfen**\n",
-              "```cpp\nstd::weak_ptr<int> w = a;\nif (auto sp = w.lock()) { std::cout << *sp; }\n```\n",
-              "\n",
-              "---\n",
-              "### 🔍 Vergleichstabelle:\n",
-              "| Typ           | Besitz       | Kopierbar? | Besonderheit                     |\n",
-              "| `unique_ptr`  | exklusiv     | ❌ nein     | nur mit `std::move` übertragbar  |\n",
-              "| `shared_ptr`  | gemeinsam    | ✅ ja       | Zähler zählt aktive Referenzen   |\n",
-              "| `weak_ptr`    | kein Besitz  | ✅ ja       | Beobachtet ohne mitzuzählen      |\n",
-              "---\n"
-              ],
-            "code": [
-              "#include <iostream>\n#include <memory>\n\nclass Beispiel {\npublic:\n    Beispiel() { std::cout << \"Konstruktor\\n\"; }\n    ~Beispiel() { std::cout << \"Destruktor\\n\"; }\n    void anzeigen() { std::cout << \"Hallo Welt\\n\"; }\n};\n\nint main() {\n    // unique_ptr\n    std::unique_ptr<Beispiel> up = std::make_unique<Beispiel>();\n    up->anzeigen(); // Hallo Welt\n    up.reset();     // Speicher freigeben\n\n    // shared_ptr\n    std::shared_ptr<Beispiel> sp1 = std::make_shared<Beispiel>();\n    std::shared_ptr<Beispiel> sp2 = sp1; // Referenzzähler = 2\n    std::cout << \"shared_ptr Zähler: \" << sp1.use_count() << std::endl; // 2\n\n    sp2.reset(); // sp2 gibt das Objekt frei\n    std::cout << \"nach reset Zähler: \" << sp1.use_count() << std::endl; // 1\n\n    // weak_ptr\n    std::weak_ptr<Beispiel> wp = sp1;\n    if (auto temp = wp.lock()) {\n        temp->anzeigen(); // Hallo Welt\n    }\n\n    sp1.reset(); // Letzter shared_ptr gibt frei → Destruktor wird aufgerufen\n\n    return 0;\n}"
-              ]
-            } 
+          {
+            "title": "Smart Pointer",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "Smart Pointer",
+                "text": "Objekte, die Zeiger kapseln und Speicher automatisch nach RAII verwalten."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von Smart Pointern",
+                "text": [
+                  "Smart Pointer ersetzen rohe Zeiger mit automatischer Speicherfreigabe.",
+                  "Sie verhindern Speicherlecks und Dangling Pointer."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "std::unique_ptr",
+                "text": [
+                  "Ein Smart Pointer mit exklusivem Besitz an einer Ressource.", 
+                  " Objekt wird beim Verlassen des Scopes automatisch gelöscht"
+                ]
+              },
+              {
+                "type": "code",
+                "title": "unique_ptr Beispiel",
+                "language": "cpp",
+                "code": "#include <memory>\n\nstd::unique_ptr<int> p = std::make_unique<int>(5);\n// kein delete nötig"
+              },
+              {
+                "type": "definition",
+                "term": "Move Semantik",
+                "text": "Überträgt Besitz einer Ressource von einem Objekt auf ein anderes."
+              },
+              {
+                "type": "code",
+                "title": "unique_ptr verschieben",
+                "language": "cpp",
+                "code": "std::unique_ptr<int> a = std::make_unique<int>(3);\nstd::unique_ptr<int> b = std::move(a); // Besitzwechsel"
+              },
+              {
+                "type": "definition",
+                "term": "std::shared_ptr",
+                "text": "Ein Smart Pointer mit gemeinsamem Besitz und Referenzzählung. Automatische Löschung, wenn alle Kopien verschwinden."
+              },
+              {
+                "type": "code",
+                "title": "shared_ptr Beispiel",
+                "language": "cpp",
+                "code": "#include <memory>\n\nstd::shared_ptr<int> p1 = std::make_shared<int>(10);\nstd::shared_ptr<int> p2 = p1; // geteilter Besitz"
+              },
+              {
+                "type": "explanation",
+                "title": "Referenzzählung bei std::shared_ptr",
+                "text": [
+                  "std::shared_ptr verwaltet eine Ressource über eine interne Referenzzählung.",
+                  "Die Ressource wird automatisch freigegeben, wenn die Referenzzählung auf null fällt."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "use_count",
+                "text": "Gibt die aktuelle Anzahl der shared_ptr zurück, die dieselbe Ressource besitzen."
+              },
+              {
+                "type": "code",
+                "title": "Referenzzählung abfragen",
+                "language": "cpp",
+                "code": "std::shared_ptr<int> p1 = std::make_shared<int>(42);\nstd::shared_ptr<int> p2 = p1;\n\nstd::size_t count = p1.use_count(); // count ist 2"
+              },
+              {
+                "type": "note",
+                "variant": "info",
+                "text": "use_count dient nur zur Diagnose. Logik sollte nicht davon abhängig gemacht werden."
+              },
+              {
+                "type": "definition",
+                "term": "reset",
+                "text": "Löst einen shared_ptr von seiner Ressource und verringert die Referenzzählung."
+              },
+              {
+                "type": "code",
+                "title": "shared_ptr freigeben",
+                "language": "cpp",
+                "code": "std::shared_ptr<int> p = std::make_shared<int>(5);\n\np.reset(); // Referenzzählung wird reduziert\n// wenn dies der letzte shared_ptr war, wird die Ressource gelöscht"
+              },
+              {
+                "type": "explanation",
+                "title": "Wann wird die Ressource gelöscht",
+                "text": [
+                  "Die Ressource wird automatisch zerstört, sobald der letzte shared_ptr sie freigibt.",
+                  "Das kann durch reset oder durch Verlassen des Gültigkeitsbereichs passieren."
+                ]
+              },
+              {
+                "type": "important",
+                "text": "shared_ptr Speicher wird niemals manuell gelöscht, sondern immer über Referenzzählung."
+              },
+              {
+                "type": "definition",
+                "term": "std::weak_ptr",
+                "text": "Ein nicht-besitzender Smart Pointer zur Beobachtung eines shared_ptr ohne den Zähler zu erhöhen."
+              },
+              {
+                "type": "code",
+                "title": "weak_ptr Beispiel",
+                "language": "cpp",
+                "code": "std::weak_ptr<int> w = p1;\nif (auto sp = w.lock()) {\n    // Ressource existiert noch\n}"
+              },
+              {
+                "type": "explanation",
+                "title": "weak_ptr::lock",
+                "text": [
+                  "lock erzeugt aus einem std::weak_ptr temporär einen std::shared_ptr.",
+                  "Existiert die verwaltete Ressource noch, liefert lock einen gültigen shared_ptr.",
+                  "Wurde die Ressource bereits freigegeben, liefert lock einen leeren shared_ptr."
+                ]
+              },
+              {
+                "type": "pitfall",
+                "title": "Zyklische Referenzen",
+                "text": "shared_ptr Zyklen verhindern automatische Freigabe ohne weak_ptr."
+              },
+              {
+                "type": "important",
+                "text": "unique_ptr ist Standardwahl, shared_ptr nur bei echtem geteiltem Besitz."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Smart Pointer implementieren RAII",
+                  "unique_ptr für exklusiven Besitz",
+                  "shared_ptr für geteilten Besitz",
+                  "weak_ptr bricht Besitzzyklen",
+                  "Rohzeiger möglichst vermeiden"
+                ]
+              }
+            ]
           }
         ]
       }
