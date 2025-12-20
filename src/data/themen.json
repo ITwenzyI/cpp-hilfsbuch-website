@@ -4159,7 +4159,7 @@
             {
               "type": "pitfall",
               "title": "Abhängigkeit von <ctime>",
-              "text": "put_time benoetigt eine gueltige tm Struktur, die meist aus <ctime> stammt."
+              "text": "put_time benötigt eine gueltige tm Struktur, die meist aus <ctime> stammt."
             },
             {
               "type": "important",
@@ -5119,7 +5119,7 @@
                 },
                 {
                   "aspect": "Zeitmessung",
-                  "values": ["Eingeschraenkt", "Flexibel"]
+                  "values": ["Eingeschränkt", "Flexibel"]
                 },
                 {
                   "aspect": "Modernes C++",
@@ -5157,7 +5157,96 @@
       "name": "System & Low-Level",
       "icon": "🧰",
       "topics": [
-        { "title": "<thread>", "content": { "text": [], "code": [] } },
+        {
+          "title": "<thread>",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<thread>",
+              "text": "Der Header <thread> stellt Funktionen und Typen zur nebenläufigen Ausführung von Code in eigenen Threads bereit."
+            },
+            {
+              "type": "explanation",
+              "title": "Zweck des Headers",
+              "text": [
+                "<thread> ermöglicht es, mehrere Ausführungsstränge parallel oder nebenläufig laufen zu lassen.",
+                "Jeder Thread führt eine Funktion unabhängig vom aufrufenden Thread aus."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "std::thread",
+              "text": [
+                "std::thread repräsentiert einen ausführenden Thread.",
+                "Ein Thread startet sofort bei der Konstruktion und muss vor Programmende beendet oder verbunden werden."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Funktionen",
+              "items": [
+                "std::thread – startet einen neuen Thread",
+                "join() – wartet auf das Ende eines Threads",
+                "detach() – trennt den Thread vom Objekt",
+                "std::this_thread::sleep_for – pausiert den aktuellen Thread",
+                "std::this_thread::get_id – liefert die Thread ID"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfacher Thread",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <thread>\n\nvoid work() {\n    std::cout << \"Thread läuft\" << std::endl;\n}\n\nint main() {\n    std::thread t(work); // Startet neuen Thread\n    t.join();            // Wartet bis Thread fertig ist\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "sleep_for verwenden",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <thread>\n#include <chrono>\n\nint main() {\n    std::cout << \"Start\" << std::endl;\n\n    std::this_thread::sleep_for(std::chrono::seconds(2)); // Pausiert für 2 Sekunden\n\n    std::cout << \"Weiter\" << std::endl;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "sleep_for",
+              "text": [
+                "sleep_for pausiert den aktuell laufenden Thread für eine bestimmte Zeitspanne.",
+                "Die Zeitspanne wird als std::chrono::duration übergeben."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "join vs detach",
+              "columns": ["join()", "detach()"],
+              "rows": [
+                {
+                  "aspect": "Warten auf Thread",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "Lebensdauer kontrollierbar",
+                  "values": ["Ja", "Nein"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Vergessener join",
+              "text": "Wird ein joinbarer Thread nicht gejoint oder detached, beendet std::terminate das Programm."
+            },
+            {
+              "type": "important",
+              "text": "sleep_for gehört zu <thread>, nutzt aber Zeittypen aus <chrono>."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "<thread> ermöglicht nebenläufige Ausührung",
+                "Threads müssen gejoint oder detached werden",
+                "sleep_for pausiert den aktuellen Thread kontrolliert"
+              ]
+            }
+          ]
+        },
         { "title": "<future>", "content": { "text": [], "code": [] } },
         { "title": "<typeinfo>", "content": { "text": [], "code": [] } },
         { "title": "<new>", "content": { "text": [], "code": [] } },
