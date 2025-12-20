@@ -4636,7 +4636,95 @@
             }
           ]
         },
-        { "title": "<limits>", "content": { "text": [], "code": [] } }
+        {
+          "title": "<limits>",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<limits>",
+              "text": "Der Header <limits> stellt zur Compilezeit abrufbare Eigenschaften fundamentaler Datentypen bereit."
+            },
+            {
+              "type": "explanation",
+              "title": "Zweck des Headers",
+              "text": [
+                "<limits> erlaubt es, Grenzwerte und Eigenschaften von Datentypen wie int, double oder char programmatisch abzufragen.",
+                "Dadurch wird Code robuster, portabler und unabhängig von konkreten Plattformannahmen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "numeric_limits",
+              "text": [
+                "Die zentrale Schnittstelle ist die Templateklasse std::numeric_limits<T>.",
+                "Sie stellt statische Konstanten und Funktionen für den jeweiligen Typ T bereit."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Eigenschaften",
+              "items": [
+                "min() – kleinster darstellbarer Wert",
+                "max() – größter darstellbarer Wert",
+                "lowest() – kleinster darstellbarer Wert inklusive negativer Zahlen",
+                "epsilon() – kleinste Differenz bei Gleitkommazahlen",
+                "is_integer – prüft ob der Typ ganzzahlig ist",
+                "digits – Anzahl der Binärstellen des Typs"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Grenzwerte eines int",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <limits>\n\nint main() {\n    std::cout << std::numeric_limits<int>::min() << std::endl; // Kleinster int-Wert\n    std::cout << std::numeric_limits<int>::max() << std::endl; // Größter int-Wert\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Gleitkomma Eigenschaften",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <limits>\n\nint main() {\n    std::cout << std::numeric_limits<double>::epsilon() << std::endl; // Maschinengenauigkeit\n    std::cout << std::numeric_limits<double>::lowest() << std::endl;  // Kleinster Wert\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Typ Eigenschaften abfragen",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <limits>\n\nint main() {\n    std::cout << std::numeric_limits<int>::is_integer << std::endl; // 1 fuer int\n    std::cout << std::numeric_limits<double>::is_integer << std::endl; // 0 fuer double\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "min vs lowest",
+              "columns": ["min()", "lowest()"],
+              "rows": [
+                {
+                  "aspect": "Ganzzahltypen",
+                  "values": ["Kleinster negativer Wert", "Identisch zu min()"]
+                },
+                {
+                  "aspect": "Gleitkommatypen",
+                  "values": ["Kleinster positiver Wert", "Kleinster negativer Wert"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "min bei double",
+              "text": "Bei Gleitkommazahlen liefert min() nicht den negativsten Wert, sondern den kleinsten positiven normalisierten Wert."
+            },
+            {
+              "type": "important",
+              "text": "<limits> sollte immer verwendet werden statt fest kodierter Zahlen wie INT_MAX oder magischer Konstanten."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "<limits> liefert Typgrenzen zur Compilezeit",
+                "numeric_limits ist typsicher und portabel",
+                "Besonders wichtig für robuste numerische Programme"
+              ]
+            }
+          ]
+        }
         ]
       },
       {
