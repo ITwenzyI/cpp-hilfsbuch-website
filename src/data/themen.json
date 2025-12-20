@@ -4536,7 +4536,106 @@
             }
           ]
         },
-        { "title": "<random>", "content": { "text": [], "code": [] } },
+        {
+          "title": "<random>",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<random>",
+              "text": "Der Header <random> stellt moderne, flexible und statistisch saubere Zufallszahlengeneratoren und Verteilungen bereit."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "<random> trennt klar zwischen Zufallszahlengeneratoren und Wahrscheinlichkeitsverteilungen.",
+                "Dadurch ist die Erzeugung reproduzierbarer und qualitativ hochwertiger Zufallszahlen möglich."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Aufbau des Random-Systems",
+              "text": [
+                "Ein Generator erzeugt rohe Zufallswerte, zum Beispiel std::mt19937.",
+                "Eine Verteilung formt diese Werte in den gewünschten Zahlenbereich oder die gewünschte Statistik um."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Generatoren",
+              "items": [
+                "std::mt19937 – Mersenne-Twister mit 32 Bit",
+                "std::mt19937_64 – Mersenne-Twister mit 64 Bit",
+                "std::default_random_engine – Implementierungsabhängiger Standardgenerator"
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Verteilungen",
+              "items": [
+                "std::uniform_int_distribution – Gleichverteilung ganzer Zahlen",
+                "std::uniform_real_distribution – Gleichverteilung reeller Zahlen",
+                "std::normal_distribution – Normalverteilung",
+                "std::bernoulli_distribution – Wahr oder Falsch mit Wahrscheinlichkeit p"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Moderne Zufallszahlen für ganze Zahlen",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <random>\n\nint main() {\n    std::random_device rd;           // Liefert einen nichtdeterministischen Seed\n    std::mt19937 gen(rd());           // Initialisierung des Generators\n    std::uniform_int_distribution<int> dist(1, 6); // Zahlen von 1 bis 6\n\n    int wuerfel = dist(gen);           // Erzeugt eine Zufallszahl\n    std::cout << wuerfel << std::endl; // Beispielausgabe\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Zufallszahlen für Gleitkommazahlen",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <random>\n\nint main() {\n    std::mt19937 gen(42); // Fester Seed für reproduzierbare Ergebnisse\n    std::uniform_real_distribution<double> dist(0.0, 1.0);\n\n    double value = dist(gen);\n    std::cout << value << std::endl; // Zufallszahl zwischen 0.0 und 1.0\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Normalverteilung",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <random>\n\nint main() {\n    std::mt19937 gen(std::random_device{}());\n    std::normal_distribution<double> dist(0.0, 1.0); // Mittelwert 0, Standardabweichung 1\n\n    double x = dist(gen);\n    std::cout << x << std::endl; // Beispielausgabe\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Vergleich mit rand",
+              "columns": ["<random>", "rand()"],
+              "rows": [
+                {
+                  "aspect": "Qualität",
+                  "values": ["Hoch und kontrollierbar", "Gering"]
+                },
+                {
+                  "aspect": "Verteilungen",
+                  "values": ["Viele vorhanden", "Nur Gleichverteilung"]
+                },
+                {
+                  "aspect": "Reproduzierbarkeit",
+                  "values": ["Gezielt steuerbar", "Unzuverlässig"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Seed mehrfach setzen",
+              "text": "Wird der Generator in kurzen Zeitabständen neu gesät, können identische Zufallsfolgen entstehen."
+            },
+            {
+              "type": "important",
+              "text": "<random> ist der empfohlene Weg für Zufallszahlen in modernem C++ und ersetzt rand und srand."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "<random> trennt Generator und Verteilung",
+                "Erlaubt hochwertige und reproduzierbare Zufallszahlen",
+                "Sollte rand vollständig ersetzen"
+              ]
+            }
+          ]
+        },
         { "title": "<limits>", "content": { "text": [], "code": [] } }
         ]
       },
