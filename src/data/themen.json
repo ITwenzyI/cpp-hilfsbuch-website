@@ -5033,7 +5033,99 @@
             }
           ]
         },
-        { "title": "<ctime>", "content": { "text": [], "code": [] } }
+        {
+          "title": "<ctime>",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<ctime>",
+              "text": "Der Header <ctime> stellt C-kompatible Funktionen und Typen zur Arbeit mit Kalenderzeit und Uhrzeit bereit."
+            },
+            {
+              "type": "explanation",
+              "title": "Zweck des Headers",
+              "text": [
+                "<ctime> ist die C++ Variante des C-Headers time.h und arbeitet mit der Systemzeit.",
+                "Er bietet einfache, aber unflexible Mechanismen zur Zeitmessung und Zeitdarstellung."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Zentrale Typen",
+              "text": [
+                "time_t repräsentiert einen Zeitpunkt als Sekunden seit der Epoch.",
+                "struct tm speichert eine aufgeschlüsselte Kalenderzeit wie Jahr, Monat und Tag."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Funktionen",
+              "items": [
+                "std::time(nullptr) – aktuelle Systemzeit als time_t",
+                "std::localtime – Umwandlung von time_t in lokale Zeit",
+                "std::gmtime – Umwandlung in UTC Zeit",
+                "std::difftime – Differenz zweier Zeitpunkte",
+                "std::asctime – Umwandlung von tm in lesbaren Text",
+                "std::ctime – Umwandlung von time_t in lesbaren Text"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Aktuelle Zeit ermitteln",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <ctime>\n\nint main() {\n    std::time_t now = std::time(nullptr); // Aktuelle Zeit\n    std::cout << now << std::endl;        // Sekunden seit Epoch\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Kalenderzeit mit tm",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <ctime>\n\nint main() {\n    std::time_t now = std::time(nullptr);\n    std::tm* local = std::localtime(&now); // Lokale Zeit\n\n    std::cout << local->tm_year + 1900 << std::endl; // Jahr\n    std::cout << local->tm_mon + 1 << std::endl;     // Monat\n    std::cout << local->tm_mday << std::endl;        // Tag\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Zeitdifferenz berechnen",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <ctime>\n\nint main() {\n    std::time_t t1 = 1000;\n    std::time_t t2 = 1500;\n\n    double diff = std::difftime(t2, t1); // Differenz in Sekunden\n    std::cout << diff << std::endl;      // Ausgabe: 500\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "<ctime> vs <chrono>",
+              "columns": ["<ctime>", "<chrono>"],
+              "rows": [
+                {
+                  "aspect": "Typensicherheit",
+                  "values": ["Gering", "Hoch"]
+                },
+                {
+                  "aspect": "Zeitmessung",
+                  "values": ["Eingeschraenkt", "Flexibel"]
+                },
+                {
+                  "aspect": "Modernes C++",
+                  "values": ["Nein", "Ja"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "localtime und Thread-Sicherheit",
+              "text": "std::localtime liefert einen Zeiger auf statischen Speicher und ist nicht thread-sicher."
+            },
+            {
+              "type": "important",
+              "text": "<ctime> ist historisch und sollte in modernem C++ nach Möglichkeit durch <chrono> ersetzt werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "<ctime> arbeitet mit System und Kalenderzeit",
+                "Einfach, aber wenig typsicher",
+                "Heute meist durch <chrono> ersetzt"
+              ]
+            }
+          ]
+        }
         ]
       },
       {
