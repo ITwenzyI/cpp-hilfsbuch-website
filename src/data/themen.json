@@ -3314,7 +3314,67 @@
               }
             ]
           },
-          { "title": "Pointer Arithmetik", "content": { "text": [], "code": [] } },
+          {
+            "title": "Pointer Arithmetik",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "Pointer Arithmetik",
+                "text": "Rechenoperationen auf Zeigern, die sich an der Größe des Zieltyps orientieren."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee der Pointer Arithmetik",
+                "text": [
+                  "Zeiger können vor und zurück bewegt werden.",
+                  "Die Schrittweite entspricht der Größe des Datentyps."
+                ]
+              },
+              {
+                "type": "definition",
+                "term": "Inkrementieren eines Zeigers",
+                "text": "Verschiebt den Zeiger auf das nächste Element desselben Typs."
+              },
+              {
+                "type": "code",
+                "title": "Pointer Arithmetik mit Arrays",
+                "language": "cpp",
+                "code": "int arr[3] = {10, 20, 30};\nint* p = arr;        // zeigt auf arr[0]\nint a = *p;          // 10\np++;                 // zeigt auf arr[1]\nint b = *p;          // 20"
+              },
+              {
+                "type": "definition",
+                "term": "Array und Pointer",
+                "text": "Der Name eines Arrays zerfällt oft implizit zu einem Zeiger auf das erste Element."
+              },
+              {
+                "type": "explanation",
+                "title": "Erlaubte und unerlaubte Operationen",
+                "text": [
+                  "Addition und Subtraktion mit Ganzzahlen ist erlaubt.",
+                  "Addition zweier Zeiger ist nicht erlaubt."
+                ]
+              },
+              {
+                "type": "pitfall",
+                "title": "Außerhalb des Arrays",
+                "text": "Pointer Arithmetik außerhalb der Arraygrenzen führt zu undefiniertem Verhalten."
+              },
+              {
+                "type": "important",
+                "text": "Pointer Arithmetik ist eng an Arrays gebunden und erfordert große Sorgfalt."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Pointer bewegen sich in Schritten der Typgröße",
+                  "Typischer Einsatz bei Arrays",
+                  "Arrayname verhält sich wie Zeiger",
+                  "Grenzen dürfen nicht überschritten werden"
+                ]
+              }
+            ]
+          },
           { "title": "Nullpointer", "content": { "text": [], "code": [] } }
         ]
       },
