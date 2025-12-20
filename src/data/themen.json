@@ -4389,7 +4389,80 @@
       "name": "Mathematik & Zufall",
       "icon": "🧮",
       "topics": [
-        { "title": "<cmath>", "content": { "text": [], "code": [] } },
+        {
+          "title": "<cmath>",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<cmath>",
+              "text": "Der Header <cmath> stellt mathematische Funktionen für Gleitkomma- und Ganzzahlberechnungen bereit."
+            },
+            {
+              "type": "explanation",
+              "title": "Zweck des Headers",
+              "text": [
+                "<cmath> enthält elementare mathematische Funktionen wie Wurzeln, Potenzen, Logarithmen und trigonometrische Funktionen.",
+                "Die Funktionen sind größtenteils aus der C-Standardbibliothek übernommen, aber im Namensraum std definiert."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Einsatzgebiete",
+              "text": [
+                "Numerische Berechnungen in Technik, Physik und Informatik.",
+                "Mathematische Transformationen, Simulationen und Auswertungen."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Funktionen",
+              "items": [
+                "sqrt(x) – Quadratwurzel",
+                "pow(x, y) – Potenzfunktion",
+                "abs(x) – Absolutwert",
+                "sin(x), cos(x), tan(x) – Trigonometrische Funktionen",
+                "log(x), log10(x) – Logarithmen",
+                "floor(x), ceil(x), round(x) – Rundungsfunktionen"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Quadratwurzel und Potenz",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <cmath>\n\nint main() {\n    double x = 9.0;\n    double y = 2.0;\n\n    std::cout << std::sqrt(x) << std::endl; // Ausgabe: 3\n    std::cout << std::pow(x, y) << std::endl; // Ausgabe: 81\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Trigonometrische Funktionen",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <cmath>\n\nint main() {\n    double angle = 3.141592653589793 / 2.0; // pi/2\n\n    std::cout << std::sin(angle) << std::endl; // Ausgabe: 1\n    std::cout << std::cos(angle) << std::endl; // Ausgabe: 0\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Rundungsfunktionen",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <cmath>\n\nint main() {\n    double v = 3.7;\n\n    std::cout << std::floor(v) << std::endl; // Ausgabe: 3\n    std::cout << std::ceil(v) << std::endl;  // Ausgabe: 4\n    std::cout << std::round(v) << std::endl; // Ausgabe: 4\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Ganzzahlargumente",
+              "text": "Viele Funktionen aus <cmath> arbeiten intern mit Gleitkommazahlen, was bei Ganzzahlargumenten zu impliziten Typumwandlungen führt."
+            },
+            {
+              "type": "important",
+              "text": "Trigonometrische Funktionen erwarten Winkel immer im Bogenmaß, nicht in Grad."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "<cmath> stellt mathematische Standardfunktionen bereit",
+                "Funktionen liegen im Namensraum std",
+                "Trigonometrische Funktionen arbeiten mit Bogenmaß"
+              ]
+            }
+          ]
+        },
         { "title": "<cstdlib>", "content": { "text": [], "code": [] } },
         { "title": "<random>", "content": { "text": [], "code": [] } },
         { "title": "<limits>", "content": { "text": [], "code": [] } }
