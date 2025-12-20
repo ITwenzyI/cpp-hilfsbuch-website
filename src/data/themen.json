@@ -4933,7 +4933,106 @@
       "name": "Zeit & Timing",
       "icon": "⏱️",
       "topics": [
-        { "title": "<chrono>", "content": { "text": [], "code": [] } },
+        {
+          "title": "<chrono>",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "<chrono>",
+              "text": "Der Header <chrono> stellt typsichere Zeitpunkte, Zeitspannen und Uhren für Zeitmessung und Zeitberechnungen bereit."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "<chrono> trennt klar zwischen Zeitpunkten, Zeitdauern und Uhren.",
+                "Zeit wird nicht als nackte Zahl behandelt, sondern als eigener Typ mit Einheit."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Zentrale Konzepte",
+              "text": [
+                "std::chrono::duration beschreibt eine Zeitspanne wie Sekunden oder Millisekunden.",
+                "std::chrono::time_point beschreibt einen konkreten Zeitpunkt relativ zu einer Uhr."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Uhren",
+              "items": [
+                "std::chrono::steady_clock – monotone Uhr für Zeitmessungen",
+                "std::chrono::system_clock – Systemzeit und Kalenderzeit",
+                "std::chrono::high_resolution_clock – möglichst hohe Auflösung"
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Zeitdauern",
+              "items": [
+                "std::chrono::seconds",
+                "std::chrono::milliseconds",
+                "std::chrono::microseconds",
+                "std::chrono::nanoseconds"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Zeit messen mit steady_clock",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <chrono>\n\nint main() {\n    auto start = std::chrono::steady_clock::now();\n\n    for (volatile int i = 0; i < 1000000; ++i) {\n        // Leere Schleife zur Laufzeitmessung\n    }\n\n    auto end = std::chrono::steady_clock::now();\n    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);\n\n    std::cout << duration.count() << std::endl; // Vergangene Zeit in ms\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Arbeiten mit durations",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <chrono>\n\nint main() {\n    std::chrono::seconds s(2);\n    std::chrono::milliseconds ms = s; // Implizite Umrechnung\n\n    std::cout << ms.count() << std::endl; // Ausgabe: 2000\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "system_clock und aktuelle Zeit",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <chrono>\n\nint main() {\n    auto now = std::chrono::system_clock::now();\n    auto seconds = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch());\n\n    std::cout << seconds.count() << std::endl; // Sekunden seit Epoch\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "steady_clock vs system_clock",
+              "columns": ["steady_clock", "system_clock"],
+              "rows": [
+                {
+                  "aspect": "Monoton",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "Geeignet für Messungen",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "Bezug zur Uhrzeit",
+                  "values": ["Nein", "Ja"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Falsche Uhr für Messungen",
+              "text": "system_clock kann durch Systemzeitänderungen springen und ist für Laufzeitmessungen ungeeignet."
+            },
+            {
+              "type": "important",
+              "text": "Für Zeitmessungen sollte immer steady_clock verwendet werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "<chrono> bietet typsichere Zeitmessung",
+                "Trennung von duration, time_point und clock",
+                "steady_clock ist Standard für Laufzeitmessungen"
+              ]
+            }
+          ]
+        },
         { "title": "<ctime>", "content": { "text": [], "code": [] } }
         ]
       },
