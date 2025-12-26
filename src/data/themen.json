@@ -4212,13 +4212,13 @@
                 "type": "list",
                 "title": "Wichtige Funktionen und Methoden",
                 "items": [
-                  "size() / length() – Anzahl der Zeichen",
-                  "empty() – prüft ob der String leer ist",
-                  "operator[] / at() – Zugriff auf einzelne Zeichen",
-                  "append(), operator+= – Anhängen von Text",
-                  "substr(pos, len) – Teilstring erzeugen",
-                  "find(str) – Suche nach Teilstrings",
-                  "c_str() – Zugriff auf C-String Darstellung"
+                  "size() / length() - Anzahl der Zeichen",
+                  "empty() - prüft ob der String leer ist",
+                  "operator[] / at() - Zugriff auf einzelne Zeichen",
+                  "append(), operator+= - Anhängen von Text",
+                  "substr(pos, len) - Teilstring erzeugen",
+                  "find(str) - Suche nach Teilstrings",
+                  "c_str() - Zugriff auf C-String Darstellung"
                 ]
               },
               {
@@ -4455,21 +4455,21 @@
                 "type": "list",
                 "title": "Wichtige String-Funktionen",
                 "items": [
-                  "strlen(str) – Länge eines C-Strings ohne '\\0'",
-                  "strcpy(dest, src) – kopiert einen String",
-                  "strncpy(dest, src, n) – kopiert maximal n Zeichen",
-                  "strcmp(a, b) – vergleicht zwei Strings",
-                  "strcat(dest, src) – hängt Strings aneinander"
+                  "strlen(str) - Länge eines C-Strings ohne '\\0'",
+                  "strcpy(dest, src) - kopiert einen String",
+                  "strncpy(dest, src, n) - kopiert maximal n Zeichen",
+                  "strcmp(a, b) - vergleicht zwei Strings",
+                  "strcat(dest, src) - hängt Strings aneinander"
                 ]
               },
               {
                 "type": "list",
                 "title": "Wichtige Speicherfunktionen",
                 "items": [
-                  "memcpy(dest, src, n) – kopiert n Bytes Speicher",
-                  "memmove(dest, src, n) – sicheres Kopieren bei Überlappung",
-                  "memset(ptr, value, n) – setzt Speicher auf einen Wert",
-                  "memcmp(a, b, n) – vergleicht Speicherbereiche"
+                  "memcpy(dest, src, n) - kopiert n Bytes Speicher",
+                  "memmove(dest, src, n) - sicheres Kopieren bei Überlappung",
+                  "memset(ptr, value, n) - setzt Speicher auf einen Wert",
+                  "memcmp(a, b, n) - vergleicht Speicherbereiche"
                 ]
               },
               {
@@ -4553,20 +4553,20 @@
                 "type": "list",
                 "title": "Wichtige Prüf-Funktionen",
                 "items": [
-                  "std::isdigit(c) – prüft ob c eine Ziffer ist",
-                  "std::isalpha(c) – prüft ob c ein Buchstabe ist",
-                  "std::isalnum(c) – prüft ob c Buchstabe oder Ziffer ist",
-                  "std::isspace(c) – prüft ob c ein Leerzeichen ist",
-                  "std::islower(c) – prüft ob c klein geschrieben ist",
-                  "std::isupper(c) – prüft ob c groß geschrieben ist"
+                  "std::isdigit(c) - prüft ob c eine Ziffer ist",
+                  "std::isalpha(c) - prüft ob c ein Buchstabe ist",
+                  "std::isalnum(c) - prüft ob c Buchstabe oder Ziffer ist",
+                  "std::isspace(c) - prüft ob c ein Leerzeichen ist",
+                  "std::islower(c) - prüft ob c klein geschrieben ist",
+                  "std::isupper(c) - prüft ob c groß geschrieben ist"
                 ]
               },
               {
                 "type": "list",
                 "title": "Wichtige Umwandlungs-Funktionen",
                 "items": [
-                  "std::tolower(c) – wandelt Zeichen in Kleinbuchstaben um",
-                  "std::toupper(c) – wandelt Zeichen in Großbuchstaben um"
+                  "std::tolower(c) - wandelt Zeichen in Kleinbuchstaben um",
+                  "std::toupper(c) - wandelt Zeichen in Großbuchstaben um"
                 ]
               },
               {
@@ -4635,12 +4635,12 @@
               "type": "list",
               "title": "Wichtige Funktionen",
               "items": [
-                "sqrt(x) – Quadratwurzel",
-                "pow(x, y) – Potenzfunktion",
-                "abs(x) – Absolutwert",
-                "sin(x), cos(x), tan(x) – Trigonometrische Funktionen",
-                "log(x), log10(x) – Logarithmen",
-                "floor(x), ceil(x), round(x) – Rundungsfunktionen"
+                "sqrt(x) - Quadratwurzel",
+                "pow(x, y) - Potenzfunktion",
+                "abs(x) - Absolutwert",
+                "sin(x), cos(x), tan(x) - Trigonometrische Funktionen",
+                "log(x), log10(x) - Logarithmen",
+                "floor(x), ceil(x), round(x) - Rundungsfunktionen"
               ]
             },
             {
@@ -4709,11 +4709,11 @@
               "type": "list",
               "title": "Wichtige Funktionen",
               "items": [
-                "std::rand() – erzeugt eine Pseudozufallszahl",
-                "std::srand(seed) – initialisiert den Zufallszahlengenerator",
-                "std::abs(x) – Absolutwert für Ganzzahlen",
-                "std::atoi(str), std::atof(str) – String zu Zahl Konvertierung",
-                "std::exit(code) – sofortiges Beenden des Programms"
+                "std::rand() - erzeugt eine Pseudozufallszahl",
+                "std::srand(seed) - initialisiert den Zufallszahlengenerator",
+                "std::abs(x) - Absolutwert für Ganzzahlen",
+                "std::atoi(str), std::atof(str) - String zu Zahl Konvertierung",
+                "std::exit(code) - sofortiges Beenden des Programms"
               ]
             },
             {
@@ -4782,19 +4782,19 @@
               "type": "list",
               "title": "Wichtige Generatoren",
               "items": [
-                "std::mt19937 – Mersenne-Twister mit 32 Bit",
-                "std::mt19937_64 – Mersenne-Twister mit 64 Bit",
-                "std::default_random_engine – Implementierungsabhängiger Standardgenerator"
+                "std::mt19937 - Mersenne-Twister mit 32 Bit",
+                "std::mt19937_64 - Mersenne-Twister mit 64 Bit",
+                "std::default_random_engine - Implementierungsabhängiger Standardgenerator"
               ]
             },
             {
               "type": "list",
               "title": "Wichtige Verteilungen",
               "items": [
-                "std::uniform_int_distribution – Gleichverteilung ganzer Zahlen",
-                "std::uniform_real_distribution – Gleichverteilung reeller Zahlen",
-                "std::normal_distribution – Normalverteilung",
-                "std::bernoulli_distribution – Wahr oder Falsch mit Wahrscheinlichkeit p"
+                "std::uniform_int_distribution - Gleichverteilung ganzer Zahlen",
+                "std::uniform_real_distribution - Gleichverteilung reeller Zahlen",
+                "std::normal_distribution - Normalverteilung",
+                "std::bernoulli_distribution - Wahr oder Falsch mit Wahrscheinlichkeit p"
               ]
             },
             {
@@ -4882,12 +4882,12 @@
               "type": "list",
               "title": "Wichtige Eigenschaften",
               "items": [
-                "min() – kleinster darstellbarer Wert",
-                "max() – größter darstellbarer Wert",
-                "lowest() – kleinster darstellbarer Wert inklusive negativer Zahlen",
-                "epsilon() – kleinste Differenz bei Gleitkommazahlen",
-                "is_integer – prüft ob der Typ ganzzahlig ist",
-                "digits – Anzahl der Binärstellen des Typs"
+                "min() - kleinster darstellbarer Wert",
+                "max() - größter darstellbarer Wert",
+                "lowest() - kleinster darstellbarer Wert inklusive negativer Zahlen",
+                "epsilon() - kleinste Differenz bei Gleitkommazahlen",
+                "is_integer - prüft ob der Typ ganzzahlig ist",
+                "digits - Anzahl der Binärstellen des Typs"
               ]
             },
             {
@@ -4977,9 +4977,9 @@
               "type": "list",
               "title": "Wichtige Uhren",
               "items": [
-                "std::chrono::steady_clock – monotone Uhr für Zeitmessungen",
-                "std::chrono::system_clock – Systemzeit und Kalenderzeit",
-                "std::chrono::high_resolution_clock – möglichst hohe Auflösung"
+                "std::chrono::steady_clock - monotone Uhr für Zeitmessungen",
+                "std::chrono::system_clock - Systemzeit und Kalenderzeit",
+                "std::chrono::high_resolution_clock - möglichst hohe Auflösung"
               ]
             },
             {
@@ -5082,12 +5082,12 @@
               "type": "list",
               "title": "Wichtige Funktionen",
               "items": [
-                "std::time(nullptr) – aktuelle Systemzeit als time_t",
-                "std::localtime – Umwandlung von time_t in lokale Zeit",
-                "std::gmtime – Umwandlung in UTC Zeit",
-                "std::difftime – Differenz zweier Zeitpunkte",
-                "std::asctime – Umwandlung von tm in lesbaren Text",
-                "std::ctime – Umwandlung von time_t in lesbaren Text"
+                "std::time(nullptr) - aktuelle Systemzeit als time_t",
+                "std::localtime - Umwandlung von time_t in lokale Zeit",
+                "std::gmtime - Umwandlung in UTC Zeit",
+                "std::difftime - Differenz zweier Zeitpunkte",
+                "std::asctime - Umwandlung von tm in lesbaren Text",
+                "std::ctime - Umwandlung von time_t in lesbaren Text"
               ]
             },
             {
@@ -5186,11 +5186,11 @@
               "type": "list",
               "title": "Wichtige Funktionen",
               "items": [
-                "std::thread – startet einen neuen Thread",
-                "join() – wartet auf das Ende eines Threads",
-                "detach() – trennt den Thread vom Objekt",
-                "std::this_thread::sleep_for – pausiert den aktuellen Thread",
-                "std::this_thread::get_id – liefert die Thread ID"
+                "std::thread - startet einen neuen Thread",
+                "join() - wartet auf das Ende eines Threads",
+                "detach() - trennt den Thread vom Objekt",
+                "std::this_thread::sleep_for - pausiert den aktuellen Thread",
+                "std::this_thread::get_id - liefert die Thread ID"
               ]
             },
             {
@@ -5277,11 +5277,11 @@
               "type": "list",
               "title": "Wichtige Bestandteile",
               "items": [
-                "std::future<T> – Zugriff auf ein späteres Ergebnis",
-                "std::promise<T> – Setzen eines Ergebnisses",
-                "std::async – komfortabler Start asynchroner Aufgaben",
-                "get() – holt das Ergebnis und blockiert falls nötig",
-                "wait() – wartet auf Abschluss ohne Ergebnisabfrage"
+                "std::future<T> - Zugriff auf ein späteres Ergebnis",
+                "std::promise<T> - Setzen eines Ergebnisses",
+                "std::async - komfortabler Start asynchroner Aufgaben",
+                "get() - holt das Ergebnis und blockiert falls nötig",
+                "wait() - wartet auf Abschluss ohne Ergebnisabfrage"
               ]
             },
             {
@@ -5364,10 +5364,10 @@
               "type": "list",
               "title": "Wichtige Bestandteile",
               "items": [
-                "typeid(expr) – liefert Typinformation eines Ausdrucks",
-                "std::type_info – Klasse zur Repräsentation von Typinformationen",
-                "name() – liefert einen implementationsabhängigen Typnamen",
-                "operator== – Vergleich von Typinformationen"
+                "typeid(expr) - liefert Typinformation eines Ausdrucks",
+                "std::type_info - Klasse zur Repräsentation von Typinformationen",
+                "name() - liefert einen implementationsabhängigen Typnamen",
+                "operator== - Vergleich von Typinformationen"
               ]
             },
             {
@@ -5450,11 +5450,11 @@
               "type": "list",
               "title": "Wichtige Bestandteile",
               "items": [
-                "operator new – reserviert Speicher",
-                "operator delete – gibt Speicher frei",
-                "std::nothrow – unterdrückt Exceptions bei Speicherfehlern",
-                "std::bad_alloc – Exception bei fehlgeschlagener Allokation",
-                "placement new – Konstruktion an vorgegebenem Speicherort"
+                "operator new - reserviert Speicher",
+                "operator delete - gibt Speicher frei",
+                "std::nothrow - unterdrückt Exceptions bei Speicherfehlern",
+                "std::bad_alloc - Exception bei fehlgeschlagener Allokation",
+                "placement new - Konstruktion an vorgegebenem Speicherort"
               ]
             },
             {
@@ -5543,11 +5543,11 @@
               "type": "list",
               "title": "Wichtige Smart Pointer",
               "items": [
-                "std::unique_ptr – exklusiver Besitz eines Objekts",
-                "std::shared_ptr – geteilter Besitz mit Referenzzählung",
-                "std::weak_ptr – schwache Referenz ohne Besitz",
-                "std::make_unique – sichere Erzeugung von unique_ptr",
-                "std::make_shared – effiziente Erzeugung von shared_ptr"
+                "std::unique_ptr - exklusiver Besitz eines Objekts",
+                "std::shared_ptr - geteilter Besitz mit Referenzzählung",
+                "std::weak_ptr - schwache Referenz ohne Besitz",
+                "std::make_unique - sichere Erzeugung von unique_ptr",
+                "std::make_shared - effiziente Erzeugung von shared_ptr"
               ]
             },
             {
@@ -5643,14 +5643,14 @@
               "type": "list",
               "title": "Wichtige Funktionen",
               "items": [
-                "printf(format, ...) – formatierte Ausgabe",
-                "scanf(format, ...) – formatierte Eingabe",
-                "fprintf(stream, ...) – Ausgabe in Datei",
-                "fscanf(stream, ...) – Eingabe aus Datei",
-                "fopen(name, mode) – Datei öffnen",
-                "fclose(file) – Datei schließen",
-                "fgets(buffer, n, stream) – Zeile lesen",
-                "fputs(text, stream) – Text schreiben"
+                "printf(format, ...) - formatierte Ausgabe",
+                "scanf(format, ...) - formatierte Eingabe",
+                "fprintf(stream, ...) - Ausgabe in Datei",
+                "fscanf(stream, ...) - Eingabe aus Datei",
+                "fopen(name, mode) - Datei öffnen",
+                "fclose(file) - Datei schließen",
+                "fgets(buffer, n, stream) - Zeile lesen",
+                "fputs(text, stream) - Text schreiben"
               ]
             },
             {
