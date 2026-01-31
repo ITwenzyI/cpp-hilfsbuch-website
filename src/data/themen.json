@@ -5941,7 +5941,118 @@
           }
         ]
       },
-        { "title": "<functional>", "content": { "text": [], "code": [] } },
+      {
+        "title": "<functional>",
+        "difficulty": "intermediate",
+        "blocks": [
+          {
+            "type": "definition",
+            "term": "<functional>",
+            "text": "Der Header <functional> stellt Funktionsobjekte, Wrapper und Hilfsmittel für funktionale Programmierung in C++ bereit."
+          },
+          {
+            "type": "explanation",
+            "title": "Grundidee",
+            "text": [
+              "<functional> ermöglicht es, Funktionen wie Werte zu behandeln.",
+              "Funktionen, Lambdas und Funktionsobjekte können einheitlich gespeichert und weitergereicht werden."
+            ]
+          },
+          {
+            "type": "explanation",
+            "title": "Funktionsobjekte",
+            "text": [
+              "Ein Funktionsobjekt ist ein Objekt, das den operator() überlädt.",
+              "Viele Standard-Funktionsobjekte sind bereits in <functional> definiert."
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Wichtige Funktionsobjekte",
+            "items": [
+              "std::plus<T>: a + b, std::minus<T>: a - b, std::multiplies<T>: a * b, std::divides<T>: a / b - arithmetische Operationen",
+              "std::less, std::greater - Vergleichsoperationen",
+              "std::logical_and<T>: a && b, std::logical_or - logische Operationen"
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Wichtige Bestandteile",
+            "items": [
+              "std::function - typsicherer Funktionswrapper",
+              "std::bind - teilweise Funktionsbindung",
+              "std::ref / std::cref - Referenzen in Funktionsobjekten"
+            ]
+          },
+          {
+            "type": "code",
+            "title": "std::function verwenden",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <functional>\n\nint add(int a, int b) {\n    return a + b;\n}\n\nint main() {\n    std::function<int(int, int)> f = add;\n    std::cout << f(2, 3) << std::endl; // Ausgabe: 5\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "Lambda mit std::function",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <functional>\n\nint main() {\n    std::function<bool(int)> ist_gerade = [](int x) {\n        return x % 2 == 0;\n    };\n\n    std::cout << ist_gerade(4) << std::endl; // Ausgabe: 1\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "std::bind verwenden (mit _1 und _3)",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <functional>\n\n// Funktion mit drei Parametern\nint combine(int a, int b, int c) {\n    return a + b * c;\n}\n\nint main() {\n    // Erstes Beispiel: einfacher bind mit einem Platzhalter\n    auto f = std::bind(\n        combine,\n        10,                     // a = 10 (fest gebunden)\n        std::placeholders::_1,  // b = erstes Argument beim Aufruf\n        2                       // c = 2 (fest gebunden)\n    );\n\n    // f(x) entspricht intern: combine(10, x, 2)\n    std::cout << f(3) << std::endl; // 10 + 3*2 = 16\n\n\n    // Zweites Beispiel: Nutzung von _3\n    auto g = std::bind(\n        combine,\n        std::placeholders::_3,  // a = drittes Argument beim Aufruf\n        5,                      // b = 5 (fest gebunden)\n        std::placeholders::_1   // c = erstes Argument beim Aufruf\n    );\n\n    // Aufruf von g mit drei Argumenten:\n    // g(x, y, z) -> combine(z, 5, x)\n    std::cout << g(2, 99, 4) << std::endl; // 4 + 5*2 = 14\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "std::ref: bind kopiert sonst, ref ändert das",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <functional>\n\nint main() {\n    int x = 10;\n\n    // Ohne std::ref würde bind x kopieren.\n    // Dann würde die Änderung nur die Kopie betreffen.\n    auto addToX = std::bind(\n        std::plus<int>{},        // Funktionsobjekt: plus(a, b) -> a + b\n        std::ref(x),             // a referenziert x (kein Kopieren)\n        std::placeholders::_1    // b kommt beim Aufruf\n    );\n\n    // addToX(5) berechnet x + 5\n    // Wir weisen das Ergebnis wieder x zu, um die Änderung sichtbar zu machen.\n    x = addToX(5);\n\n    std::cout << x << std::endl; // Ausgabe: 15\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "std::cref: bind liest aus einer Referenz, ohne zu kopieren",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <functional>\n\nint main() {\n    int x = 10;\n\n    // std::cref(x) speichert eine Referenz auf x, aber als const Referenz.\n    // Das ist sinnvoll, wenn du garantiert nicht ändern willst oder darfst.\n    auto addX = std::bind(\n        std::plus<int>{},        // a + b\n        std::cref(x),            // a ist const Referenz auf x\n        std::placeholders::_1    // b kommt beim Aufruf\n    );\n\n    // addX(7) bedeutet intern: x + 7\n    std::cout << addX(7) << std::endl; // Ausgabe: 17\n\n    // x bleibt unverändert, weil wir nur gelesen haben.\n    std::cout << x << std::endl; // Ausgabe: 10\n}\n"
+          },
+          {
+            "type": "comparison",
+            "title": "std::function vs Template-Parameter",
+            "columns": ["std::function", "Template"],
+            "rows": [
+              {
+                "aspect": "Flexibilität",
+                "values": ["Sehr hoch", "Hoch"]
+              },
+              {
+                "aspect": "Laufzeit-Overhead",
+                "values": ["Vorhanden", "Keiner"]
+              },
+              {
+                "aspect": "Typ-Erasure",
+                "values": ["Ja", "Nein"]
+              }
+            ]
+          },
+          {
+            "type": "pitfall",
+            "title": "Overhead von std::function",
+            "text": "std::function verursacht Laufzeit-Overhead und sollte in Performance-kritischem Code bewusst eingesetzt werden."
+          },
+          {
+            "type": "important",
+            "text": "<functional> ist zentral für moderne C++ APIs, Callback-Mechanismen und Algorithmen."
+          },
+          {
+            "type": "summary",
+            "points": [
+              "<functional> unterstützt funktionale Programmierung",
+              "std::function kapselt Funktionen typsicher",
+              "Funktionsobjekte und Lambdas sind gleichwertig nutzbar",
+              "std::bind ermöglicht partielle Funktionsbindung"
+            ]
+          }
+        ]
+      },
         { "title": "<initializer_list>", "content": { "text": [], "code": [] } },
         { "title": "<tuple>", "content": { "text": [], "code": [] } },
         { "title": "<utility> (pair, swap)", "content": { "text": [], "code": [] } }
