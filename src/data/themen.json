@@ -94,11 +94,6 @@
               "text": "Moderne C++ Projekte legen großen Wert auf sprechende Namen, da Code häufiger gelesen als geschrieben wird."
             },
             {
-              "type": "note",
-              "variant": "exam",
-              "text": "In Prüfungen wird oft erwartet, dass Bezeichner sinnvoll gewählt sind, auch wenn die Syntax korrekt ist."
-            },
-            {
               "type": "summary",
               "points": [
                 "C++ erlaubt viele Namen, aber nicht jeder ist sinnvoll",
@@ -6905,17 +6900,94 @@
           ]
         },
         {
-          "title": "explicit",
-          "difficulty": "basic",
+          "title": "explicit & friend",
+          "difficulty": "intermediate",
           "blocks": [
-            
-          ]
-        },
-        {
-          "title": "friend",
-          "difficulty": "basic",
-          "blocks": [
-            
+            {
+              "type": "definition",
+              "term": "explicit und friend",
+              "text": "explicit verhindert implizite Typumwandlungen bei Konstruktoren, friend erlaubt gezielten Zugriff auf private Klassenbestandteile."
+            },
+            {
+              "type": "explanation",
+              "title": "explicit",
+              "text": [
+                "Das Schlüsselwort explicit wird bei Konstruktoren mit einem Parameter verwendet.",
+                "Es verhindert implizite Typkonvertierungen, die sonst automatisch vom Compiler durchgeführt würden."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Warum explicit wichtig ist",
+              "text": [
+                "Implizite Konvertierungen können zu unerwartetem Verhalten und schwer auffindbaren Fehlern führen.",
+                "explicit macht Konstruktoraufrufe bewusst und eindeutig."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Implizite Konvertierung ohne explicit",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Zahl {\npublic:\n    Zahl(int x) : x(x) {}\n\n    int x;\n};\n\nvoid ausgabe(Zahl z) {\n    std::cout << z.x << std::endl;\n}\n\nint main() {\n    ausgabe(5); // implizite Konvertierung von int zu Zahl\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "explicit verhindert implizite Konvertierung",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Zahl {\npublic:\n    explicit Zahl(int x) : x(x) {}\n\n    int x;\n};\n\nvoid ausgabe(Zahl z) {\n    std::cout << z.x << std::endl;\n}\n\nint main() {\n    // ausgabe(5); // Fehler: implizite Konvertierung verboten\n    ausgabe(Zahl(5)); // expliziter Aufruf\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "friend",
+              "text": [
+                "Mit friend kann einer fremden Funktion oder Klasse Zugriff auf private und protected Member gewährt werden.",
+                "friend durchbricht gezielt die Kapselung, ohne die Member öffentlich zu machen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "friend Funktion",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Geheim {\n    int wert = 42;\n\n    friend void zeige(const Geheim& g);\n};\n\nvoid zeige(const Geheim& g) {\n    std::cout << g.wert << std::endl; // Zugriff erlaubt\n}\n\nint main() {\n    Geheim g;\n    zeige(g);\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "friend Klasse",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass A {\n    int x = 10;\n\n    friend class B;\n};\n\nclass B {\npublic:\n    void drucke(const A& a) {\n        std::cout << a.x << std::endl; // Zugriff auf private Member\n    }\n};\n\nint main() {\n    A a;\n    B b;\n    b.drucke(a);\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "explicit vs friend",
+              "columns": ["explicit", "friend"],
+              "rows": [
+                {
+                  "aspect": "Zweck",
+                  "values": ["Verhindert implizite Konvertierung", "Erlaubt privaten Zugriff"]
+                },
+                {
+                  "aspect": "Beeinflusst Kapselung",
+                  "values": ["Nein", "Ja"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Übermäßiger friend Einsatz",
+              "text": "Zu viele friend Deklarationen schwächen die Kapselung und erschweren Wartung."
+            },
+            {
+              "type": "important",
+              "text": "explicit sollte standardmäßig bei Ein-Parameter-Konstruktoren verwendet werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "explicit verhindert unerwünschte implizite Konvertierungen",
+                "friend erlaubt gezielten Zugriff auf private Member",
+                "Beide Schlüsselwörter erhöhen Code-Sicherheit bei richtiger Nutzung"
+              ]
+            }
           ]
         },
         {
