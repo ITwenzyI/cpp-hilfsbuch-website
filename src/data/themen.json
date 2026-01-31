@@ -6991,10 +6991,87 @@
           ]
         },
         {
-          "title": "Getter- und Setter-Funktionen",
+          "title": "Getter-Funktionen & Setter-Funktionen",
           "difficulty": "basic",
           "blocks": [
-            
+            {
+              "type": "definition",
+              "term": "Getter und Setter",
+              "text": "Getter- und Setter-Funktionen sind Methoden, mit denen kontrolliert auf private Attribute einer Klasse zugegriffen wird."
+            },
+            {
+              "type": "explanation",
+              "title": "Zweck von Getter und Setter",
+              "text": [
+                "Sie kapseln den Zugriff auf interne Daten einer Klasse.",
+                "Dadurch können Invarianten und Validierungen zentral sichergestellt werden."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Getter-Funktionen",
+              "text": [
+                "Getter liefern den aktuellen Wert eines Attributs zurück.",
+                "Sie sollten den Zustand des Objekts nicht verändern."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Setter-Funktionen",
+              "text": [
+                "Setter setzen oder ändern den Wert eines Attributs.",
+                "Dabei kann überprüft werden, ob der neue Wert gültig ist."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Best Practices",
+              "items": [
+                "Attribute private halten",
+                "Getter möglichst const deklarieren",
+                "Validierung im Setter durchführen",
+                "Nicht für jedes Attribut automatisch Setter bereitstellen"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfache Getter und Setter",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Person {\npublic:\n    void setAlter(int neuesAlter) {\n        if (neuesAlter >= 0) {\n            alter = neuesAlter;\n        }\n    }\n\n    int getAlter() const {\n        return alter;\n    }\n\nprivate:\n    int alter = 0;\n};\n\nint main() {\n    Person p;\n    p.setAlter(25);\n    std::cout << p.getAlter() << std::endl; // Ausgabe: 25\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Direkter Zugriff vs Getter/Setter",
+              "columns": ["Direkter Zugriff", "Getter/Setter"],
+              "rows": [
+                {
+                  "aspect": "Kapselung",
+                  "values": ["Keine", "Vorhanden"]
+                },
+                {
+                  "aspect": "Validierung möglich",
+                  "values": ["Nein", "Ja"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Triviale Getter und Setter",
+              "text": "Unkritische Weitergabe aller Attribute als Getter und Setter kann unnötigen Boilerplate-Code erzeugen."
+            },
+            {
+              "type": "important",
+              "text": "Getter und Setter sollten Verhalten ausdrücken und nicht nur als mechanischer Zugriff dienen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Getter lesen, Setter schreiben Attribute",
+                "Kapselung schützt interne Zustände",
+                "Validierung im Setter erhöht Sicherheit",
+                "Getter sollten const sein"
+              ]
+            }
           ]
         }
       ]
