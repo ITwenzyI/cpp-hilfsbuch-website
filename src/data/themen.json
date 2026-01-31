@@ -7081,7 +7081,81 @@
         "name": "Vererbung",
         "icon": "🌳",
         "topics": [
-          { "title": "Basisklassen", "content": { "text": [], "code": [] } },
+        {
+          "title": "Basisklassen",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Basisklasse",
+              "text": "Eine Basisklasse ist eine Klasse, von der andere Klassen Eigenschaften und Verhalten erben."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee der Vererbung",
+              "text": [
+                "Vererbung ermöglicht es, gemeinsamen Code in einer Basisklasse zu bündeln.",
+                "Abgeleitete Klassen erweitern oder spezialisieren das Verhalten der Basisklasse."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Basisklasse und abgeleitete Klasse",
+              "text": [
+                "Die Basisklasse definiert gemeinsame Attribute und Methoden.",
+                "Die abgeleitete Klasse erbt diese Bestandteile und kann sie nutzen oder überschreiben."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Zugriff in der Vererbung",
+              "items": [
+                "public Member sind in abgeleiteten Klassen zugreifbar",
+                "protected Member sind nur für abgeleitete Klassen sichtbar",
+                "private Member sind nicht direkt zugreifbar"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfache Basisklasse",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Tier {\npublic:\n    void sprechen() const {\n        std::cout << \"Tier macht ein Geräusch\" << std::endl;\n    }\n\nprotected:\n    int alter = 0;\n};\n\nclass Hund : public Tier {\npublic:\n    void bellen() const {\n        std::cout << \"Hund bellt\" << std::endl;\n    }\n};\n\nint main() {\n    Hund h;\n    h.sprechen(); // geerbte Methode\n    h.bellen();   // eigene Methode\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Basisklasse vs abgeleitete Klasse",
+              "columns": ["Basisklasse", "Abgeleitete Klasse"],
+              "rows": [
+                {
+                  "aspect": "Rolle",
+                  "values": ["Allgemein", "Spezialisiert"]
+                },
+                {
+                  "aspect": "Code-Wiederverwendung",
+                  "values": ["Definiert", "Nutzt"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Private Member",
+              "text": "Private Member der Basisklasse sind in abgeleiteten Klassen nicht direkt zugreifbar."
+            },
+            {
+              "type": "important",
+              "text": "Basisklassen sollten eine klare, stabile Schnittstelle für abgeleitete Klassen bereitstellen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Basisklassen bündeln gemeinsamen Code",
+                "Abgeleitete Klassen erweitern Verhalten",
+                "Zugriff wird durch public, protected und private gesteuert",
+                "Vererbung fördert Wiederverwendbarkeit"
+              ]
+            }
+          ]
+        },
           { "title": "Polymorphie", "content": { "text": [], "code": [] } },
           { "title": "virtual / override", "content": { "text": [], "code": [] } },
           { "title": "Abstrakte Klassen und Schnittstellenklassen", "content": { "text": [], "code": [] } },
