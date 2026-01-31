@@ -54,20 +54,29 @@ function App() {
       return;
     }
 
-    // flatten all topics
+    // flatten all topics (inkl. übergeordnetes Topic aus der Reihenfolge)
     const allTopics = themen.flatMap((cat) =>
-      cat.subcategories.flatMap((sub) =>
-      sub.topics.map((topic) => ({
-        ...topic,
-        category: cat.category,
-        categoryIcon: cat.icon,
-        subcategory: sub.name,
-        subcategoryIcon: sub.icon,
-        searchText: buildSearchText(topic),
-        matchInfo: findMatchInBlocks(topic, query)
-      }))
-      )
+      cat.subcategories.flatMap((sub) => {
+        let currentHeaderTitle = null;
+
+        return sub.topics.map((topic) => {
+          const isHeader = /^<.*>$/.test(topic.title);
+          if (isHeader) currentHeaderTitle = topic.title;
+
+          return {
+            ...topic,
+            category: cat.category,
+            categoryIcon: cat.icon,
+            subcategory: sub.name,
+            subcategoryIcon: sub.icon,
+            parentTopic: isHeader ? null : currentHeaderTitle,
+            searchText: buildSearchText(topic),
+            matchInfo: findMatchInBlocks(topic, query),
+          };
+        });
+      })
     );
+
 
     const fuse = new Fuse(allTopics, {
       keys: [
@@ -243,6 +252,8 @@ function App() {
 
   // Search result list item
   const renderSearchResult = (topic, idx) => {
+    console.log(topic.title, topic.parentTopic);
+
   const match = topic.matchInfo;
 
   let fullText = "";
@@ -289,6 +300,12 @@ function App() {
         <p className="text-xs text-gray-500 mb-2">
           {topic.categoryIcon} {topic.category} › {topic.subcategoryIcon} {topic.subcategory}
         </p>
+
+        {topic.parentTopic && topic.parentTopic !== topic.title && (
+        <p className="text-xs text-gray-500 mb-1">
+          Topic: {topic.parentTopic}
+        </p>
+      )}
 
         {match?.where && (
         <p className="text-xs text-gray-500 mb-1">
