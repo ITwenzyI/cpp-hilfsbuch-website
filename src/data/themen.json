@@ -7239,7 +7239,100 @@
             }
           ]
         },
-          { "title": "Abstrakte Klassen und Schnittstellenklassen", "content": { "text": [], "code": [] } },
+        {
+          "title": "Abstrakte Klassen & Schnittstellenklassen",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Abstrakte Klasse",
+              "text": "Eine abstrakte Klasse ist eine Klasse, die nicht instanziiert werden kann und mindestens eine reine virtuelle Funktion besitzt."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee abstrakter Klassen",
+              "text": [
+                "Abstrakte Klassen definieren ein gemeinsames Verhalten für abgeleitete Klassen.",
+                "Sie dienen als konzeptionelle Basis und erzwingen bestimmte Funktionen in Unterklassen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Reine virtuelle Funktionen",
+              "text": [
+                "Eine reine virtuelle Funktion wird mit = 0 deklariert.",
+                "Abgeleitete Klassen müssen diese Funktion implementieren, um instanziierbar zu sein."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Abstrakte Klasse mit reiner virtueller Funktion",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Form {\npublic:\n    virtual double flaeche() const = 0; // reine virtuelle Funktion\n\n    virtual ~Form() = default;\n};\n\nclass Rechteck : public Form {\npublic:\n    Rechteck(double b, double h) : breite(b), hoehe(h) {}\n\n    double flaeche() const override {\n        return breite * hoehe;\n    }\n\nprivate:\n    double breite;\n    double hoehe;\n};\n\nint main() {\n    Form* f = new Rechteck(3, 4);\n    std::cout << f->flaeche() << std::endl; // Ausgabe: 12\n    delete f;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Schnittstellenklassen",
+              "text": [
+                "Eine Schnittstellenklasse ist eine spezielle Form der abstrakten Klasse.",
+                "Sie enthält ausschließlich reine virtuelle Funktionen und meist keine Attribute."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Merkmale von Schnittstellenklassen",
+              "items": [
+                "Nur reine virtuelle Funktionen",
+                "Keine oder nur konstante Attribute",
+                "Kein konkretes Verhalten",
+                "Öffentliche virtuelle Schnittstelle"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Schnittstellenklasse Beispiel",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Druckbar {\npublic:\n    virtual void drucken() const = 0;\n    virtual ~Druckbar() = default;\n};\n\nclass Bericht : public Druckbar {\npublic:\n    void drucken() const override {\n        std::cout << \"Bericht wird gedruckt\" << std::endl;\n    }\n};\n\nint main() {\n    Druckbar* d = new Bericht();\n    d->drucken();\n    delete d;\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Abstrakte Klasse vs Schnittstellenklasse",
+              "columns": ["Abstrakte Klasse", "Schnittstellenklasse"],
+              "rows": [
+                {
+                  "aspect": "Enthält Implementierungen",
+                  "values": ["Möglich", "Nein"]
+                },
+                {
+                  "aspect": "Attribute",
+                  "values": ["Erlaubt", "In der Regel nicht"]
+                },
+                {
+                  "aspect": "Ziel",
+                  "values": ["Gemeinsame Basis", "Reine Schnittstelle"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Vergessene Implementierung",
+              "text": "Wird eine reine virtuelle Funktion nicht implementiert, bleibt die abgeleitete Klasse abstrakt."
+            },
+            {
+              "type": "important",
+              "text": "Abstrakte Klassen und Schnittstellen fördern sauberes Design und klare Verantwortlichkeiten."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Abstrakte Klassen sind nicht instanziierbar",
+                "Reine virtuelle Funktionen erzwingen Implementierung",
+                "Schnittstellenklassen definieren nur Verträge",
+                "Virtuelle Destruktoren sind Pflicht"
+              ]
+            }
+          ]
+        },
           { "title": "Finale Klassen und Memberfunktionen", "content": { "text": [], "code": [] } },
           { "title": "Kovariante Rückgabetypen", "content": { "text": [], "code": [] } },
           { "title": "Object Slicing", "content": { "text": [], "code": [] } },
