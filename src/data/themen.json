@@ -5716,7 +5716,121 @@
       "name": "Algorithmen & Utility Header",
       "icon": "📦",
       "topics": [
-        { "title": "<algorithm>", "content": { "text": [], "code": [] } },
+       {
+        "title": "<algorithm>",
+        "difficulty": "basic",
+        "blocks": [
+          {
+            "type": "definition",
+            "term": "<algorithm>",
+            "text": "Der Header <algorithm> stellt eine große Sammlung generischer Algorithmen zur Verarbeitung von Containern bereit."
+          },
+          {
+            "type": "explanation",
+            "title": "Grundidee",
+            "text": [
+              "<algorithm> arbeitet iteratorbasiert und ist dadurch unabhängig vom konkreten Containertyp.",
+              "Die Algorithmen trennen klar Datenhaltung von Verarbeitung und fördern wiederverwendbaren Code."
+            ]
+          },
+          {
+            "type": "explanation",
+            "title": "Zusammenspiel mit Containern",
+            "text": [
+              "Algorithmen arbeiten typischerweise mit Iteratorpaaren wie begin() und end().",
+              "Sie funktionieren mit Standardcontainern wie vector, list, array oder deque."
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Wichtige Such- und Zählalgorithmen",
+            "items": [
+              "std::find - sucht erstes Vorkommen eins Elements",
+              "std::count - zählt Vorkommen eines Werts",
+              "std::count_if - zählt mit Prädikat(Bedingungen)",
+              "std::find_if - sucht mit Bedingung",
+              "std::all_of / any_of / none_of - logische Prüfungen"
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Wichtige Änderungsalgorithmen",
+            "items": [
+              "std::sort - sortiert Elemente",
+              "std::reverse - kehrt Reihenfolge um",
+              "std::remove - entfernt logisch Elemente, verschiebt sie nach hinten und gibt einen Iterator auf den Beginn der entfernten Elemente zurück. Containergröße bleibt unverändert",
+              "std::unique - entfernt logisch aufeinanderfolgende Duplikate, verschiebt sie nach hinten und gibt einen Iterator auf den Beginn der entfernten Elemente zurück. Containergröße bleibt unverändert",
+              "std::transform - transformiert Elemente durch eine Funktion und speichert die Ergebnisse im Zielcontainer"
+            ]
+          },
+          {
+            "type": "code",
+            "title": "Suchen und Zählen",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n\nint main() {\n    std::vector<int> v = {1, 2, 3, 2, 4};\n\n    auto it = std::find(v.begin(), v.end(), 2);\n    int anzahl = std::count(v.begin(), v.end(), 2);\n\n    std::cout << anzahl << std::endl; // Ausgabe: 2\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "Sortieren mit sort",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n\nint main() {\n    std::vector<int> v = {4, 1, 3, 2};\n\n    std::sort(v.begin(), v.end()); // Aufsteigend sortieren\n\n    for (int x : v) {\n        std::cout << x << \" \";\n    }\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "remove-erase Idiom",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n\nint main() {\n    std::vector<int> v = {1, 2, 3, 2, 4};\n\n    v.erase(std::remove(v.begin(), v.end(), 2), v.end());\n\n    for (int x : v) {\n        std::cout << x << \" \"; // Ausgabe: 1 3 4\n    }\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "Transformieren mit transform",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n\nint main() {\n    // Ausgangscontainer\n    std::vector<int> v = {1, 2, 3, 4};\n\n    // std::transform arbeitet elementweise:\n    // 1. v.begin()  -> Start des Eingabebereichs\n    // 2. v.end()    -> Ende des Eingabebereichs\n    // 3. v.begin()  -> Start des Zielbereichs\n    //                 (hier: wir schreiben die Ergebnisse direkt wieder in denselben Vector)\n    // 4. Lambda     -> Funktion, die auf jedes Element angewendet wird\n    std::transform(\n        v.begin(),   // Eingabe: erstes Element\n        v.end(),     // Eingabe: letztes Element (exklusiv)\n        v.begin(),   // Ausgabe: Zielposition für das Ergebnis\n        [](int x) {  // Lambda-Funktion: nimmt ein Element x\n            return x * 2; // und gibt das transformierte Element zurück\n        }\n    );\n\n    // Ausgabe des transformierten Vektors\n    for (int x : v) {\n        std::cout << x << \" \"; // Ausgabe: 2 4 6 8\n    }\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "Prüfen mit all_of, any_of und none_of",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n\nint main() {\n    // Beispielcontainer\n    std::vector<int> v = {2, 4, 6, 8};\n\n    // all_of: prüft, ob ALLE Elemente die Bedingung erfüllen\n    // → true, wenn jedes Element die Lambda-Bedingung erfüllt\n    bool alleGerade = std::all_of(\n        v.begin(),\n        v.end(),\n        [](int x) {\n            return x % 2 == 0; // Bedingung: Element ist gerade\n        }\n    );\n\n    // any_of: prüft, ob MINDESTENS EIN Element die Bedingung erfüllt\n    bool mindestensEinsGroesserFuenf = std::any_of(\n        v.begin(),\n        v.end(),\n        [](int x) {\n            return x > 5; // Bedingung: Element ist größer als 5\n        }\n    );\n\n    // none_of: prüft, ob KEIN Element die Bedingung erfüllt\n    bool keinNegatives = std::none_of(\n        v.begin(),\n        v.end(),\n        [](int x) {\n            return x < 0; // Bedingung: Element ist negativ\n        }\n    );\n\n    // Ergebnisse ausgeben\n    std::cout << std::boolalpha;\n    std::cout << \"alle gerade: \" << alleGerade << std::endl;               // true\n    std::cout << \"mindestens eins > 5: \" << mindestensEinsGroesserFuenf << std::endl; // true\n    std::cout << \"kein negatives: \" << keinNegatives << std::endl;         // true\n}\n"
+          },
+          {
+            "type": "comparison",
+            "title": "Algorithmen vs Container-Methoden",
+            "columns": ["<algorithm>", "Container-Methoden"],
+            "rows": [
+              {
+                "aspect": "Generisch",
+                "values": ["Ja", "Nein"]
+              },
+              {
+                "aspect": "Iteratorbasiert",
+                "values": ["Ja", "Nein"]
+              },
+              {
+                "aspect": "Wiederverwendbarkeit",
+                "values": ["Hoch", "Begrenzt"]
+              }
+            ]
+          },
+          {
+            "type": "pitfall",
+            "title": "remove löscht nicht wirklich",
+            "text": "std::remove verschiebt Elemente nur und ändert nicht die Containergröße."
+          },
+          {
+            "type": "important",
+            "text": "<algorithm> ist zentral für idiomatisches(typisch) und modernes C++ und sollte gegenüber manuellen Schleifen bevorzugt werden."
+          },
+          {
+            "type": "summary",
+            "points": [
+              "<algorithm> bietet viele generische Algorithmen",
+              "Arbeitet iteratorbasiert mit Containern",
+              "Fördert sauberen und wiederverwendbaren Code"
+            ]
+          }
+        ]
+      },
         { "title": "<iterator>", "content": { "text": [], "code": [] } },
         { "title": "<functional>", "content": { "text": [], "code": [] } },
         { "title": "<initializer_list>", "content": { "text": [], "code": [] } },
