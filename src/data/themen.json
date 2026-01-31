@@ -5041,7 +5041,7 @@
               "type": "code",
               "title": "Zeit messen mit steady_clock",
               "language": "cpp",
-              "code": "#include <iostream>\n#include <chrono>\n\nint main() {\n    auto start = std::chrono::steady_clock::now();\n\n    for (volatile int i = 0; i < 1000000; ++i) {\n        // Leere Schleife zur Laufzeitmessung\n    }\n\n    auto end = std::chrono::steady_clock::now();\n    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);\n\n    std::cout << duration.count() << std::endl; // Vergangene Zeit in ms\n}\n"
+              "code": "#include <iostream>\n#include <chrono>\n\nint main() {\n    auto start = std::chrono::steady_clock::now();\n\n    for (int i = 0; i < 1000000; ++i) {\n        // Leere Schleife zur Laufzeitmessung\n    }\n\n    auto end = std::chrono::steady_clock::now();\n    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);\n\n    std::cout << duration.count() << std::endl; // Vergangene Zeit in ms\n}\n"
             },
             {
               "type": "code",
@@ -5053,7 +5053,7 @@
               "type": "code",
               "title": "system_clock und aktuelle Zeit",
               "language": "cpp",
-              "code": "#include <iostream>\n#include <chrono>\n\nint main() {\n    auto now = std::chrono::system_clock::now();\n    auto seconds = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch());\n\n    std::cout << seconds.count() << std::endl; // Sekunden seit Epoch\n}\n"
+              "code": "#include <iostream>\n#include <chrono>\n\nint main() {\n    auto now = std::chrono::system_clock::now();\n    auto seconds = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch());\n\n    std::cout << seconds.count() << std::endl; // Sekunden seit Epoche\n}\n"
             },
             {
               "type": "comparison",
