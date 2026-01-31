@@ -7333,7 +7333,86 @@
             }
           ]
         },
-          { "title": "Finale Klassen und Memberfunktionen", "content": { "text": [], "code": [] } },
+        {
+          "title": "final Klassen & Memberfunktionen",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "final",
+              "text": "Das Schlüsselwort final verhindert weitere Vererbung von Klassen oder das Überschreiben virtueller Memberfunktionen."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von final",
+              "text": [
+                "final wird eingesetzt, um eine Klasse oder eine virtuelle Funktion bewusst abzuschließen.",
+                "Dadurch wird sichergestellt, dass bestimmtes Verhalten nicht mehr verändert werden kann."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "final bei Klassen",
+              "text": [
+                "Eine mit final deklarierte Klasse kann nicht mehr abgeleitet werden.",
+                "Dies ist sinnvoll für Klassen mit abgeschlossener Implementierung oder sicherheitskritischem Verhalten."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Finale Klasse",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Logger final {\npublic:\n    void log() const {\n        std::cout << \"Logeintrag\" << std::endl;\n    }\n};\n\n// class FileLogger : public Logger {}; // Fehler: Vererbung verboten\n\nint main() {\n    Logger l;\n    l.log();\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "final bei Memberfunktionen",
+              "text": [
+                "Virtuelle Funktionen können mit final markiert werden.",
+                "Dadurch wird verhindert, dass abgeleitete Klassen diese Funktion überschreiben."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Finale Memberfunktion",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Basis {\npublic:\n    virtual void ausgabe() const {\n        std::cout << \"Basis\" << std::endl;\n    }\n};\n\nclass Abgeleitet : public Basis {\npublic:\n    void ausgabe() const final {\n        std::cout << \"Abgeleitet\" << std::endl;\n    }\n};\n\n// class Weiter : public Abgeleitet {\n// public:\n//     void ausgabe() const override {} // Fehler: Funktion ist final\n// };\n\nint main() {\n    Basis* b = new Abgeleitet();\n    b->ausgabe();\n    delete b;\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "final Klasse vs final Funktion",
+              "columns": ["final Klasse", "final Funktion"],
+              "rows": [
+                {
+                  "aspect": "Vererbung verhindern",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "Überschreiben verhindern",
+                  "values": ["Indirekt", "Ja"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu restriktiver Einsatz",
+              "text": "Übermäßiger Einsatz von final kann Erweiterbarkeit und Testbarkeit unnötig einschränken."
+            },
+            {
+              "type": "important",
+              "text": "final macht Designentscheidungen explizit und verhindert unbeabsichtigte Erweiterungen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "final verhindert weitere Vererbung",
+                "finale Memberfunktionen dürfen nicht überschrieben werden",
+                "Erhöht Stabilität und Designklarheit",
+                "Sollte bewusst und sparsam eingesetzt werden"
+              ]
+            }
+          ]
+        },
           { "title": "Kovariante Rückgabetypen", "content": { "text": [], "code": [] } },
           { "title": "Object Slicing", "content": { "text": [], "code": [] } },
           { "title": "Mehrfachvererbung", "content": { "text": [], "code": [] } }
