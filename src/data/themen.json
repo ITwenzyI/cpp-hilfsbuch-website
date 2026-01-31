@@ -5831,7 +5831,116 @@
           }
         ]
       },
-        { "title": "<iterator>", "content": { "text": [], "code": [] } },
+      {
+        "title": "<iterator>",
+        "difficulty": "basic",
+        "blocks": [
+          {
+            "type": "definition",
+            "term": "<iterator>",
+            "text": "Der Header <iterator> stellt Iterator-Typen, Hilfsfunktionen und Iterator-Adapter für die Arbeit mit Containern bereit."
+          },
+          {
+            "type": "explanation",
+            "title": "Grundidee",
+            "text": [
+              "Iteratoren abstrahieren den Zugriff auf Container, ohne deren interne Struktur offenzulegen.",
+              "Sie ermöglichen es Algorithmen, unabhängig vom konkreten Containertyp zu arbeiten."
+            ]
+          },
+          {
+            "type": "explanation",
+            "title": "Iterator-Kategorien",
+            "text": [
+              "Iterator-Kategorien beschreiben die Fähigkeiten eines Iterators und bestimmen, welche Operationen und Laufzeiten ein Algorithmus nutzen darf.",
+              "Algorithmen aus <algorithm> setzen bestimmte Iterator-Kategorien voraus."
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Wichtige Iterator-Kategorien",
+            "items": [
+              "Input Iterator - lesender Vorwärtszugriff, kein Mehrfachdurchlauf garantiert",
+              "Output Iterator - schreibender Zugriff, kein Lesen möglich",
+              "Forward Iterator - les- und schreibbar mit Mehrfachdurchlauf",
+              "Bidirectional Iterator - Vorwärts- und Rückwärtsbewegung",
+              "Random Access Iterator - direkter Sprung auf beliebige Positionen"
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Wichtige Bestandteile aus <iterator>",
+            "items": [
+              "std::iterator_traits - Typ- und Eigenschaftsinformationen eines Iterators",
+              "std::advance - Iterator um n Positionen verschieben",
+              "std::distance - Abstand zwischen zwei Iteratoren berechnen",
+              "std::next / std::prev - neuen Iterator relativ zu einem bestehenden erzeugen",
+              "Iterator-Adapter wie back_inserter - ermöglichen sicheres Einfügen in Container"
+            ]
+          },
+          {
+            "type": "code",
+            "title": "Iterator bewegen mit advance",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <vector>\n#include <iterator>\n\nint main() {\n    std::vector<int> v = {10, 20, 30, 40};\n    auto it = v.begin();\n\n    std::advance(it, 2); // Bewegt Iterator zwei Positionen weiter\n    std::cout << *it << std::endl; // Ausgabe: 30\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "Abstand zwischen Iteratoren",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <vector>\n#include <iterator>\n\nint main() {\n    std::vector<int> v = {1, 2, 3, 4, 5};\n\n    auto d = std::distance(v.begin(), v.end());\n    std::cout << d << std::endl; // Ausgabe: 5\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "Iterator-Adapter back_inserter",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <vector>\n#include <iterator>\n#include <algorithm>\n\nint main() {\n    // Quellcontainer mit Daten\n    std::vector<int> a = {1, 2, 3};\n\n    // Zielcontainer ist leer\n    std::vector<int> b;\n\n    // std::copy kopiert Elemente von a nach b\n    // Problem: b ist leer und hat keinen reservierten Speicher\n    // Lösung: std::back_inserter erzeugt einen speziellen Iterator,\n    //          der intern b.push_back(x) aufruft\n    std::copy(\n        a.begin(),           // Start des Eingabebereichs\n        a.end(),             // Ende des Eingabebereichs\n        std::back_inserter(b) // Ziel: fügt Elemente sicher mit push_back ein\n    );\n\n    // Ausgabe des Zielcontainers\n    for (int x : b) {\n        std::cout << x << \" \"; // Ausgabe: 1 2 3\n    }\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "Iterator traits",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <vector>\n#include <iterator>\n\n// Generische Funktion, die mit beliebigen Iteratoren arbeitet\ntemplate <typename Iterator>\nvoid printFirstElement(Iterator it) {\n    // iterator_traits extrahiert Typinformationen aus dem Iterator. Hier int\n    using ValueType = typename std::iterator_traits<Iterator>::value_type;\n\n    // Jetzt kennen wir den Typ der Elemente, auf die der Iterator zeigt\n    ValueType value = *it;\n\n    std::cout << value << std::endl;\n}\n\nint main() {\n    std::vector<int> v = {10, 20, 30};\n\n    // Übergabe eines Vector-Iterators\n    printFirstElement(v.begin()); // Ausgabe: 10\n}\n"
+          },
+          {
+            "type": "comparison",
+            "title": "Iterator-Kategorien im Vergleich",
+            "columns": ["Kategorie", "Fähigkeiten"],
+            "rows": [
+              {
+                "aspect": "Input Iterator",
+                "values": ["Lesen", "Einmaliger Zugriff"]
+              },
+              {
+                "aspect": "Bidirectional Iterator",
+                "values": ["Vorwärts und rückwärts", "Mehrfacher Zugriff"]
+              },
+              {
+                "aspect": "Random Access Iterator",
+                "values": ["Direkter Indexzugriff", "Arithmetik möglich"]
+              }
+            ]
+          },
+          {
+            "type": "pitfall",
+            "title": "Ungültige Iteratoren",
+            "text": "Operationen wie Einfügen oder Löschen können Iteratoren ungültig machen."
+          },
+          {
+            "type": "important",
+            "text": "<iterator> ist zentral für das Zusammenspiel von Containern und Algorithmen in C++."
+          },
+          {
+            "type": "summary",
+            "points": [
+              "<iterator> definiert Iterator-Konzepte und Hilfsfunktionen",
+              "Iteratoren abstrahieren Containerzugriff",
+              "advance und distance sind zentrale Werkzeuge",
+              "Iterator-Adapter erleichtern sicheres Einfügen"
+            ]
+          }
+        ]
+      },
         { "title": "<functional>", "content": { "text": [], "code": [] } },
         { "title": "<initializer_list>", "content": { "text": [], "code": [] } },
         { "title": "<tuple>", "content": { "text": [], "code": [] } },
