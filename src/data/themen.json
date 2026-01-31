@@ -7413,9 +7413,110 @@
             }
           ]
         },
-          { "title": "Kovariante Rückgabetypen", "content": { "text": [], "code": [] } },
-          { "title": "Object Slicing", "content": { "text": [], "code": [] } },
-          { "title": "Mehrfachvererbung", "content": { "text": [], "code": [] } }
+        {
+          "title": "Mehrfachvererbung",
+          "difficulty": "advanced",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Mehrfachvererbung",
+              "text": "Mehrfachvererbung bezeichnet die Vererbung von mehr als einer Basisklasse in einer abgeleiteten Klasse."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee der Mehrfachvererbung",
+              "text": [
+                "Eine Klasse kann gleichzeitig Eigenschaften und Verhalten aus mehreren Basisklassen übernehmen.",
+                "Dies ermöglicht flexible Modellierung, erhöht aber die Komplexität des Designs."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Einsatzfälle",
+              "text": [
+                "Kombination unabhängiger Rollen oder Fähigkeiten.",
+                "Implementierung mehrerer Schnittstellen in einer Klasse."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Probleme der Mehrfachvererbung",
+              "items": [
+                "Namenskonflikte zwischen Basisklassen",
+                "Mehrdeutiger Zugriff auf Member",
+                "Diamond-Problem",
+                "Erhöhte Komplexität"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfache Mehrfachvererbung",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Druckbar {\npublic:\n    void drucken() const {\n        std::cout << \"Drucken\" << std::endl;\n    }\n};\n\nclass Speicherbar {\npublic:\n    void speichern() const {\n        std::cout << \"Speichern\" << std::endl;\n    }\n};\n\nclass Dokument : public Druckbar, public Speicherbar {\n};\n\nint main() {\n    Dokument d;\n    d.drucken();\n    d.speichern();\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Diamond-Problem",
+              "text": [
+                "Das Diamond-Problem entsteht, wenn zwei Basisklassen von einer gemeinsamen Oberklasse erben.",
+                "Die abgeleitete Klasse enthält dann mehrere Kopien der gemeinsamen Basisklasse."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Diamond-Problem ohne virtuelle Vererbung",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Basis {\npublic:\n    int wert = 1;\n};\n\nclass Links : public Basis {};\nclass Rechts : public Basis {};\n\nclass Unten : public Links, public Rechts {};\n\nint main() {\n    Unten u;\n    // u.wert = 5; // Fehler: Mehrdeutig\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Virtuelle Vererbung",
+              "text": [
+                "Virtuelle Vererbung stellt sicher, dass eine gemeinsame Basisklasse nur einmal existiert.",
+                "Sie wird mit virtual in der Vererbungsdeklaration angegeben."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Diamond-Problem mit virtueller Vererbung",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Basis {\npublic:\n    int wert = 1;\n};\n\nclass Links : public virtual Basis {};\nclass Rechts : public virtual Basis {};\n\nclass Unten : public Links, public Rechts {};\n\nint main() {\n    Unten u;\n    u.wert = 5; // eindeutig\n    std::cout << u.wert << std::endl;\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Normale vs virtuelle Vererbung",
+              "columns": ["Normale Vererbung", "Virtuelle Vererbung"],
+              "rows": [
+                {
+                  "aspect": "Anzahl Basisobjekte",
+                  "values": ["Mehrere", "Genau eines"]
+                },
+                {
+                  "aspect": "Komplexität",
+                  "values": ["Geringer", "Höher"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Übermäßige Nutzung",
+              "text": "Mehrfachvererbung kann Design unnötig verkomplizieren und sollte gezielt eingesetzt werden."
+            },
+            {
+              "type": "important",
+              "text": "Mehrfachvererbung ist sinnvoll bei Schnittstellen, bei Klassen mit Implementierung jedoch riskant."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Mehrfachvererbung erlaubt mehrere Basisklassen",
+                "Kann zu Mehrdeutigkeiten führen",
+                "Diamond-Problem ist zentraler Sonderfall",
+                "Virtuelle Vererbung löst das Diamond-Problem"
+              ]
+            }
+          ]
+        }
         ]
       }
     ]
