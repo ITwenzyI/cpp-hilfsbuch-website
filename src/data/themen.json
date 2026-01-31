@@ -6145,8 +6145,204 @@
           }
         ]
       },
-        { "title": "<tuple>", "content": { "text": [], "code": [] } },
-        { "title": "<utility> (pair, swap)", "content": { "text": [], "code": [] } }
+      {
+        "title": "<tuple>",
+        "difficulty": "basic",
+        "blocks": [
+          {
+            "type": "definition",
+            "term": "<tuple>",
+            "text": "Der Header <tuple> stellt den Typ std::tuple zur Speicherung einer festen Anzahl heterogener Werte bereit."
+          },
+          {
+            "type": "explanation",
+            "title": "Grundidee",
+            "text": [
+              "std::tuple kann mehrere Werte unterschiedlicher Typen in einem Objekt bündeln.",
+              "Im Gegensatz zu Structs sind die Elemente positionsbasiert und nicht benannt."
+            ]
+          },
+          {
+            "type": "explanation",
+            "title": "Eigenschaften von std::tuple",
+            "text": [
+              "Die Anzahl und Typen der Elemente sind zur Compilezeit festgelegt.",
+              "Zugriff erfolgt über Indizes oder über strukturierte Bindungen."
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Wichtige Bestandteile",
+            "items": [
+              "std::tuple<T, S, ...> - Tupeltyp mit beliebigen Typen",
+              "std::make_tuple - erstellt ein Tupel mit Typableitung",
+              "std::get<I> - Zugriff auf ein Element per Index",
+              "std::tie - Bindet Variablen an Tupel",
+              "std::tuple_size - Anzahl der Elemente"
+            ]
+          },
+          {
+            "type": "code",
+            "title": "Einfaches tuple erstellen",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <tuple>\n\nint main() {\n    std::tuple<int, double, char> t(1, 3.14, 'a');\n\n    std::cout << std::get<0>(t) << std::endl; // Ausgabe: 1\n    std::cout << std::get<1>(t) << std::endl; // Ausgabe: 3.14\n    std::cout << std::get<2>(t) << std::endl; // Ausgabe: a\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "make_tuple verwenden",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <tuple>\n\nint main() {\n    auto t = std::make_tuple(42, true, 2.5);\n\n    std::cout << std::get<1>(t) << std::endl; // Ausgabe: 1\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "Strukturierte Bindung (neue Variablen)",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <tuple>\n\nint main() {\n    std::tuple<int, double> t(7, 4.2);\n\n    auto [a, b] = t; // Entpacken des Tupels und binden an neue Variablen\n    std::cout << a << \" \" << b << std::endl;\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "tuple mit std::tie zerlegen (bestehende Variablen)",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <tuple>\n\nstd::tuple<int, int> berechne() {\n    return {10, 20};\n}\n\nint main() {\n    int a;\n    int b;\n\n    // std::tie bindet die Tuple-Elemente an bestehende Variablen\n    std::tie(a, b) = berechne();\n\n    std::cout << a << \" \" << b << std::endl; // Ausgabe: 10 20\n}\n"
+          },
+          {
+            "type": "comparison",
+            "title": "tuple vs struct",
+            "columns": ["std::tuple", "struct"],
+            "rows": [
+              {
+                "aspect": "Elementnamen",
+                "values": ["Nein", "Ja"]
+              },
+              {
+                "aspect": "Typheterogen",
+                "values": ["Ja", "Ja"]
+              },
+              {
+                "aspect": "Lesbarkeit",
+                "values": ["Geringer", "Höher"]
+              }
+            ]
+          },
+          {
+            "type": "pitfall",
+            "title": "Unübersichtlicher Code",
+            "text": "Zugriff über Indizes wie get<2> kann die Lesbarkeit stark verschlechtern."
+          },
+          {
+            "type": "important",
+            "text": "std::tuple eignet sich gut für Rückgabewerte, sollte aber nicht als Ersatz für klar benannte Structs missbraucht werden."
+          },
+          {
+            "type": "summary",
+            "points": [
+              "<tuple> bündelt heterogene Werte",
+              "Zugriff über Indizes oder strukturierte Bindungen",
+              "Geeignet für Rückgabewerte mehrerer Werte",
+              "Structs sind oft besser lesbar"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "<utility> (pair, swap)",
+        "difficulty": "basic",
+        "blocks": [
+          {
+            "type": "definition",
+            "term": "<utility>",
+            "text": "Der Header <utility> stellt grundlegende Hilfstypen und Funktionen wie std::pair und std::swap bereit."
+          },
+          {
+            "type": "explanation",
+            "title": "Zweck des Headers",
+            "text": [
+              "<utility> enthält kleine, aber zentrale Bausteine der Standardbibliothek.",
+              "Viele Container, Algorithmen und APIs bauen intern auf diesen Typen auf."
+            ]
+          },
+          {
+            "type": "explanation",
+            "title": "std::pair",
+            "text": [
+              "std::pair speichert genau zwei Werte, die unterschiedliche Typen haben können.",
+              "Der Zugriff erfolgt über die öffentlichen Member first und second."
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Wichtige Bestandteile",
+            "items": [
+              "std::pair<T1, T2> - Tupel aus genau zwei Werten",
+              "std::make_pair - erstellt ein pair mit Typableitung",
+              "first / second - Zugriff auf die Elemente",
+              "std::swap - tauscht zwei Werte",
+              "std::move - wandelt ein Objekt in einen rvalue um, sodass ein Move möglich ist"
+            ]
+          },
+          {
+            "type": "code",
+            "title": "pair erstellen und verwenden",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <utility>\n\nint main() {\n    std::pair<int, std::string> p(1, \"eins\");\n\n    std::cout << p.first << std::endl;  // Ausgabe: 1\n    std::cout << p.second << std::endl; // Ausgabe: eins\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "make_pair und strukturierte Bindung",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <utility>\n\nint main() {\n    auto p = std::make_pair(10, 3.14);\n\n    auto [a, b] = p; // Strukturierte Bindung\n    std::cout << a << \" \" << b << std::endl;\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "swap verwenden",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <utility>\n\nint main() {\n    int a = 5;\n    int b = 10;\n\n    std::swap(a, b); // Werte tauschen\n\n    std::cout << a << \" \" << b << std::endl; // Ausgabe: 10 5\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "std::move: Besitz von Ressourcen übertragen",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <vector>\n#include <utility>\n\nint main() {\n    std::vector<int> a = {1, 2, 3, 4};\n\n    // a besitzt initial 4 Elemente\n    std::cout << \"a.size() vor move: \" << a.size() << std::endl;\n    // Ausgabe: a.size() vor move: 4\n\n    // std::move wandelt a in einen rvalue um\n    // Der Move-Konstruktor von std::vector wird verwendet\n    std::vector<int> b = std::move(a);\n\n    // b übernimmt den Speicher von a\n    std::cout << \"b.size(): \" << b.size() << std::endl;\n    // Ausgabe: b.size(): 4\n\n    // a ist nach dem Move weiterhin gültig,\n    // aber sein Inhalt ist nicht mehr definiert\n    // Bei std::vector ist a typischerweise leer\n    std::cout << \"a.size() nach move: \" << a.size() << std::endl;\n    // Typische Ausgabe: a.size() nach move: 0\n}\n"
+          },
+          {
+            "type": "comparison",
+            "title": "pair vs tuple",
+            "columns": ["std::pair", "std::tuple"],
+            "rows": [
+              {
+                "aspect": "Anzahl Elemente",
+                "values": ["Genau 2", "Beliebig"]
+              },
+              {
+                "aspect": "Lesbarkeit",
+                "values": ["Höher", "Geringer"]
+              },
+              {
+                "aspect": "Typableitung",
+                "values": ["make_pair", "make_tuple"]
+              }
+            ]
+          },
+          {
+            "type": "pitfall",
+            "title": "first und second",
+            "text": "Die Bedeutung von first und second ist semantisch nicht festgelegt und kann Code schwer lesbar machen."
+          },
+          {
+            "type": "important",
+            "text": "std::pair eignet sich gut für einfache Zweierkombinationen, sollte aber nicht komplexe Datenstrukturen ersetzen."
+          },
+          {
+            "type": "summary",
+            "points": [
+              "<utility> stellt pair und swap bereit",
+              "std::pair bündelt zwei Werte",
+              "swap tauscht Inhalte effizient",
+              "Für mehr als zwei Werte ist tuple besser geeignet"
+            ]
+          }
+        ]
+      }
         ]
       }
     ]
