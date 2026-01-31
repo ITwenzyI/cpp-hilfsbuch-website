@@ -6822,9 +6822,86 @@
         },
         {
           "title": "Implizite Klassenbestandteile & = delete",
-          "difficulty": "basic",
+          "difficulty": "intermediate",
           "blocks": [
-            
+            {
+              "type": "definition",
+              "term": "Implizite Klassenbestandteile",
+              "text": "Implizite Klassenbestandteile sind spezielle Memberfunktionen, die der Compiler automatisch generiert, wenn sie nicht explizit definiert werden."
+            },
+            {
+              "type": "explanation",
+              "title": "Automatisch generierte Funktionen",
+              "text": [
+                "Der Compiler erzeugt bestimmte Memberfunktionen automatisch, wenn keine eigene Implementierung vorhanden ist.",
+                "Dieses Verhalten kann zu unerwarteten Kopien oder Zuweisungen führen, insbesondere bei Ressourcenverwaltung."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Implizit generierte Memberfunktionen",
+              "items": [
+                "Standardkonstruktor",
+                "Destruktor",
+                "Copy-Konstruktor",
+                "Copy-Zuweisungsoperator",
+                "Move-Konstruktor",
+                "Move-Zuweisungsoperator"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Steuerung mit = delete",
+              "text": [
+                "Mit = delete kann die automatische Generierung oder Nutzung bestimmter Funktionen verboten werden.",
+                "Dadurch wird fehlerhafte oder unerwünschte Verwendung bereits zur Compilezeit verhindert."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Kopieren verbieten mit = delete",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass NichtKopierbar {\npublic:\n    NichtKopierbar() = default;\n    NichtKopierbar(const NichtKopierbar&) = delete;\n    NichtKopierbar& operator=(const NichtKopierbar&) = delete;\n};\n\nint main() {\n    NichtKopierbar a;\n    // NichtKopierbar b = a; // Fehler: Copy-Konstruktor ist gelöscht\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Gezielte Standardimplementierung",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Einfach {\npublic:\n    Einfach() = default; // explizit erlaubter Standardkonstruktor\n};\n\nint main() {\n    Einfach e;\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Implizit vs explizit gelöscht",
+              "columns": ["Implizit generiert", "= delete"],
+              "rows": [
+                {
+                  "aspect": "Verfügbarkeit",
+                  "values": ["Automatisch", "Verboten"]
+                },
+                {
+                  "aspect": "Fehlerzeitpunkt",
+                  "values": ["Zur Laufzeit möglich", "Zur Compilezeit"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Unerwartete Kopien",
+              "text": "Ohne explizite Kontrolle kann der Compiler Kopieroperationen erzeugen, die bei Ressourcen zu Fehlern führen."
+            },
+            {
+              "type": "important",
+              "text": "= delete ist ein wichtiges Werkzeug, um Klassenschnittstellen eindeutig und sicher zu gestalten."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Compiler erzeugt spezielle Memberfunktionen automatisch",
+                "= delete verbietet deren Nutzung explizit",
+                "Fehler werden zur Compilezeit erkannt",
+                "Besonders wichtig bei Ressourcenverwaltung"
+              ]
+            }
           ]
         },
         {
