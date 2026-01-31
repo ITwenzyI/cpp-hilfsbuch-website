@@ -7156,8 +7156,89 @@
             }
           ]
         },
-          { "title": "Polymorphie", "content": { "text": [], "code": [] } },
-          { "title": "virtual / override", "content": { "text": [], "code": [] } },
+        {
+          "title": "Polymorphie mit virtual & override",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Polymorphie",
+              "text": "Polymorphie bezeichnet die Fähigkeit, dass unterschiedliche Objekte über eine gemeinsame Basisklassen-Schnittstelle unterschiedlich reagieren."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Polymorphie basiert auf Vererbung und virtuellen Funktionen.",
+                "Ein Basisklassen-Zeiger oder eine Referenz kann auf Objekte verschiedener abgeleiteter Klassen zeigen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "virtual",
+              "text": [
+                "Mit virtual deklarierte Funktionen werden dynamisch gebunden.",
+                "Welche Implementierung aufgerufen wird, entscheidet sich zur Laufzeit anhand des tatsächlichen Objekttyps."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "override",
+              "text": [
+                "override kennzeichnet explizit das Überschreiben einer virtuellen Funktion.",
+                "Der Compiler prüft die Signatur und verhindert unbeabsichtigtes Überladen statt Überschreiben."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Voraussetzungen für Polymorphie",
+              "items": [
+                "Vererbung zwischen Basisklasse und abgeleiteten Klassen",
+                "Virtuelle Funktion in der Basisklasse",
+                "Zugriff über Basisklassen-Zeiger oder Referenz"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Polymorpher Aufruf mit virtual und override",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Tier {\npublic:\n    virtual void sprechen() const {\n        std::cout << \"Tier macht ein Geräusch\" << std::endl;\n    }\n\n    virtual ~Tier() = default; // Virtueller Destruktor\n};\n\nclass Hund : public Tier {\npublic:\n    void sprechen() const override {\n        std::cout << \"Hund bellt\" << std::endl;\n    }\n};\n\nclass Katze : public Tier {\npublic:\n    void sprechen() const override {\n        std::cout << \"Katze miaut\" << std::endl;\n    }\n};\n\nint main() {\n    Tier* t1 = new Hund();\n    Tier* t2 = new Katze();\n\n    t1->sprechen(); // Hund bellt\n    t2->sprechen(); // Katze miaut\n\n    delete t1;\n    delete t2;\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Ohne virtual vs mit virtual",
+              "columns": ["Ohne virtual", "Mit virtual"],
+              "rows": [
+                {
+                  "aspect": "Bindungszeitpunkt",
+                  "values": ["Compilezeit", "Laufzeit"]
+                },
+                {
+                  "aspect": "Aufgerufene Funktion",
+                  "values": ["Basisklasse", "Tatsächlicher Objekttyp"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Fehlender virtueller Destruktor",
+              "text": "Wird ein Objekt über einen Basisklassen-Zeiger gelöscht ohne virtuellen Destruktor, entsteht undefiniertes Verhalten."
+            },
+            {
+              "type": "important",
+              "text": "Basisklassen mit virtuellen Funktionen sollten immer einen virtuellen Destruktor besitzen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Polymorphie ermöglicht unterschiedliches Verhalten über eine gemeinsame Schnittstelle",
+                "virtual aktiviert dynamische Bindung",
+                "override schützt vor falschem Überschreiben",
+                "Virtuelle Destruktoren sind essenziell"
+              ]
+            }
+          ]
+        },
           { "title": "Abstrakte Klassen und Schnittstellenklassen", "content": { "text": [], "code": [] } },
           { "title": "Finale Klassen und Memberfunktionen", "content": { "text": [], "code": [] } },
           { "title": "Kovariante Rückgabetypen", "content": { "text": [], "code": [] } },
