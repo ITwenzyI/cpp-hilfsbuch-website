@@ -6744,10 +6744,80 @@
           ]
         },
         {
-          "title": "Rule of 5",
-          "difficulty": "basic",
+          "title": "Rule of Five",
+          "difficulty": "intermediate",
           "blocks": [
-            
+            {
+              "type": "definition",
+              "term": "Rule of Five",
+              "text": "Die Rule of Five besagt, dass eine Klasse bei eigener Ressourcenverwaltung in der Regel fünf spezielle Memberfunktionen explizit definieren sollte."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Sobald eine Klasse eine Ressource wie dynamischen Speicher, Dateien oder Handles besitzt, reicht das implizite Verhalten des Compilers oft nicht aus.",
+                "Die Rule of Five erweitert die frühere Rule of Three um Move-Semantik."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Die fünf speziellen Memberfunktionen",
+              "text": [
+                "Diese Funktionen steuern Erzeugung, Kopieren, Verschieben und Zerstörung von Objekten.",
+                "Sie müssen konsistent zusammen implementiert werden, um Fehler zu vermeiden."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Bestandteile der Rule of Five",
+              "items": [
+                "Destruktor",
+                "Copy-Konstruktor",
+                "Copy-Zuweisungsoperator",
+                "Move-Konstruktor",
+                "Move-Zuweisungsoperator"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispielklasse mit Ressource",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <utility>\n\nclass Puffer {\npublic:\n    int* daten;\n\n    // Konstruktor\n    Puffer(int wert) : daten(new int(wert)) {}\n\n    // Destruktor\n    ~Puffer() {\n        delete daten;\n    }\n\n    // Copy-Konstruktor\n    Puffer(const Puffer& other) : daten(new int(*other.daten)) {}\n\n    // Copy-Zuweisungsoperator\n    Puffer& operator=(const Puffer& other) {\n        if (this != &other) {\n            delete daten;\n            daten = new int(*other.daten);\n        }\n        return *this;\n    }\n\n    // Move-Konstruktor\n    Puffer(Puffer&& other) noexcept : daten(other.daten) {\n        other.daten = nullptr;\n    }\n\n    // Move-Zuweisungsoperator\n    Puffer& operator=(Puffer&& other) noexcept {\n        if (this != &other) {\n            delete daten;\n            daten = other.daten;\n            other.daten = nullptr;\n        }\n        return *this;\n    }\n};\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Rule of Three vs Rule of Five",
+              "columns": ["Rule of Three", "Rule of Five"],
+              "rows": [
+                {
+                  "aspect": "Berücksichtigung von Move-Semantik",
+                  "values": ["Nein", "Ja"]
+                },
+                {
+                  "aspect": "Moderne C++ Relevanz",
+                  "values": ["Begrenzt", "Hoch"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Unvollständige Implementierung",
+              "text": "Wer nur einige der fünf Funktionen definiert, riskiert inkonsistentes Verhalten und Speicherfehler."
+            },
+            {
+              "type": "important",
+              "text": "Wenn keine eigene Ressource verwaltet wird, sollten diese Funktionen gar nicht definiert werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Rule of Five gilt bei eigener Ressourcenverwaltung",
+                "Umfasst Copy und Move Semantik",
+                "Verhindert Speicherfehler und doppeltes Freigeben",
+                "Ohne Ressourcen besser gar nicht implementieren"
+              ]
+            }
           ]
         },
         {
