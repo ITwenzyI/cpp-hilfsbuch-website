@@ -6540,6 +6540,55 @@
               ]
             }
           ]
+        },
+        {
+          "title": "Copy Constructor & Assignment",
+          "difficulty": "basic",
+          "blocks": [
+            
+          ]
+        },
+        {
+          "title": "Move Constructor & Rvalue-Referenz",
+          "difficulty": "basic",
+          "blocks": [
+            
+          ]
+        },
+        {
+          "title": "Rule of 5",
+          "difficulty": "basic",
+          "blocks": [
+            
+          ]
+        },
+        {
+          "title": "Implizite Klassenbestandteile & = delete",
+          "difficulty": "basic",
+          "blocks": [
+            
+          ]
+        },
+        {
+          "title": "explicit",
+          "difficulty": "basic",
+          "blocks": [
+            
+          ]
+        },
+        {
+          "title": "friend",
+          "difficulty": "basic",
+          "blocks": [
+            
+          ]
+        },
+        {
+          "title": "Getter- und Setter-Funktionen",
+          "difficulty": "basic",
+          "blocks": [
+            
+          ]
         }
       ]
       },
@@ -6550,7 +6599,12 @@
         "topics": [
           { "title": "Basisklassen", "content": { "text": [], "code": [] } },
           { "title": "Polymorphie", "content": { "text": [], "code": [] } },
-          { "title": "virtual / override", "content": { "text": [], "code": [] } }
+          { "title": "virtual / override", "content": { "text": [], "code": [] } },
+          { "title": "Abstrakte Klassen und Schnittstellenklassen", "content": { "text": [], "code": [] } },
+          { "title": "Finale Klassen und Memberfunktionen", "content": { "text": [], "code": [] } },
+          { "title": "Kovariante Rückgabetypen", "content": { "text": [], "code": [] } },
+          { "title": "Object Slicing", "content": { "text": [], "code": [] } },
+          { "title": "Mehrfachvererbung", "content": { "text": [], "code": [] } }
         ]
       }
     ]
