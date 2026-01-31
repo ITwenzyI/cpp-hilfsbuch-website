@@ -6542,10 +6542,97 @@
           ]
         },
         {
-          "title": "Copy Constructor & Assignment",
+          "title": "Copy-Konstruktor & Zuweisungsoperator",
           "difficulty": "basic",
           "blocks": [
-            
+            {
+              "type": "definition",
+              "term": "Copy-Konstruktor und Copy-Zuweisungsoperator",
+              "text": "Der Copy-Konstruktor erstellt ein neues Objekt als Kopie eines bestehenden, der Zuweisungsoperator überschreibt ein bestehendes Objekt mit den Werten eines anderen."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Beide Mechanismen regeln, wie Objekte kopiert werden.",
+                "Sie sind besonders wichtig, wenn eine Klasse Ressourcen wie Speicher oder Dateien verwaltet."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Copy-Konstruktor",
+              "text": [
+                "Der Copy-Konstruktor wird beim Erzeugen eines neuen Objekts aus einem bestehenden aufgerufen.",
+                "Er hat die Signatur Klasse(const Klasse& other)."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Copy-Zuweisungsoperator",
+              "text": [
+                "Der Zuweisungsoperator wird aufgerufen, wenn ein existierendes Objekt einem anderen zugewiesen wird.",
+                "Er hat die Signatur Klasse& operator=(const Klasse& other)."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Aufrufstellen",
+              "items": [
+                "Übergabe von Objekten per Wert an Funktionen",
+                "Rückgabe von Objekten per Wert",
+                "Zuweisung mit dem = Operator",
+                "Initialisierung aus einem bestehenden Objekt"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfacher Copy-Konstruktor",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Punkt {\npublic:\n    int x;\n\n    Punkt(int x) : x(x) {}\n\n    Punkt(const Punkt& other) : x(other.x) {\n        std::cout << \"Copy-Konstruktor\" << std::endl;\n    }\n};\n\nint main() {\n    Punkt a(5);\n    Punkt b = a; // Copy-Konstruktor\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Copy-Zuweisungsoperator",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Punkt {\npublic:\n    int x;\n\n    Punkt(int x) : x(x) {}\n\n    Punkt& operator=(const Punkt& other) {\n        if (this != &other) {\n            x = other.x; // Selbstzuweisung prüfen\n        }\n        return *this;\n    }\n};\n\nint main() {\n    Punkt a(1);\n    Punkt b(2);\n\n    b = a; // Copy-Zuweisung\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Copy-Konstruktor vs Zuweisung",
+              "columns": ["Copy-Konstruktor", "Zuweisungsoperator"],
+              "rows": [
+                {
+                  "aspect": "Objekt existiert bereits",
+                  "values": ["Nein", "Ja"]
+                },
+                {
+                  "aspect": "Wird bei Initialisierung aufgerufen",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "Muss Selbstzuweisung prüfen",
+                  "values": ["Nein", "Ja"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Flache Kopie bei Ressourcen",
+              "text": "Bei Klassen mit Zeigern führt eine flache Kopie oft zu doppeltem Freigeben oder Speicherfehlern."
+            },
+            {
+              "type": "important",
+              "text": "Sobald eine Klasse Ressourcen besitzt, müssen Copy-Konstruktor und Zuweisungsoperator bewusst definiert werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Copy-Konstruktor erzeugt neue Objekte",
+                "Zuweisungsoperator überschreibt bestehende Objekte",
+                "Selbstzuweisung muss berücksichtigt werden",
+                "Besonders wichtig bei Ressourcenverwaltung"
+              ]
+            }
           ]
         },
         {
