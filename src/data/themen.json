@@ -6636,10 +6636,111 @@
           ]
         },
         {
-          "title": "Move Constructor & Rvalue-Referenz",
-          "difficulty": "basic",
+          "title": "Move-Konstruktor & Move-Zuweisung & Rvalue-Referenzen",
+          "difficulty": "intermediate",
           "blocks": [
-            
+            {
+              "type": "definition",
+              "term": "Move-Semantik",
+              "text": "Move-Semantik erlaubt das effiziente Übertragen von Ressourcen aus temporären Objekten mithilfe von Rvalue-Referenzen."
+            },
+            {
+              "type": "explanation",
+              "title": "Motivation",
+              "text": [
+                "Das Kopieren von Objekten mit dynamischen Ressourcen ist teuer.",
+                "Move-Semantik ermöglicht es, Besitz zu übernehmen statt Daten zu kopieren."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Rvalue-Referenzen",
+              "text": [
+                "Rvalue-Referenzen werden mit && deklariert.",
+                "Sie binden an temporäre Objekte oder an Objekte, die explizit mit std::move markiert wurden."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Move-Konstruktor",
+              "text": [
+                "Der Move-Konstruktor erzeugt ein neues Objekt, indem er Ressourcen aus einem anderen Objekt übernimmt.",
+                "Er hat die Signatur Klasse(Klasse&& other)."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Move-Zuweisungsoperator",
+              "text": [
+                "Der Move-Zuweisungsoperator überschreibt ein bestehendes Objekt mit den Ressourcen eines anderen.",
+                "Er hat die Signatur Klasse& operator=(Klasse&& other)."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Einsatzfälle",
+              "items": [
+                "Rückgabe großer Objekte aus Funktionen",
+                "Einfügen in Container wie std::vector",
+                "Explizite Verwendung von std::move",
+                "Optimierung von Performance-kritischem Code"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Move-Konstruktor",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <utility>\n\nclass Puffer {\npublic:\n    int* daten;\n\n    Puffer(int wert) {\n        daten = new int(wert);\n    }\n\n    Puffer(Puffer&& other) noexcept : daten(other.daten) {\n        other.daten = nullptr;\n        std::cout << \"Move-Konstruktor\" << std::endl;\n    }\n\n    ~Puffer() {\n        delete daten;\n    }\n};\n\nint main() {\n    Puffer a(5);\n    Puffer b = std::move(a); // Move-Konstruktor\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Move-Zuweisungsoperator",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <utility>\n\nclass Puffer {\npublic:\n    int* daten;\n\n    Puffer(int wert) {\n        daten = new int(wert);\n    }\n\n    Puffer& operator=(Puffer&& other) noexcept {\n        if (this != &other) {\n            delete daten;            // Alte Ressource freigeben\n            daten = other.daten;     // Ressource übernehmen\n            other.daten = nullptr;   // Quelle leeren\n        }\n        return *this;\n    }\n\n    ~Puffer() {\n        delete daten;\n    }\n};\n\nint main() {\n    Puffer a(1);\n    Puffer b(2);\n\n    b = std::move(a); // Move-Zuweisung\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Rvalue-Referenz als Parameter",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <string>\n\nvoid verarbeite(std::string&& s) {\n    std::cout << s << std::endl;\n}\n\nint main() {\n    verarbeite(std::string(\"Hallo\")); // temporäres Objekt\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Copy vs Move",
+              "columns": ["Copy", "Move"],
+              "rows": [
+                {
+                  "aspect": "Ressourcenbehandlung",
+                  "values": ["Kopieren", "Übernehmen"]
+                },
+                {
+                  "aspect": "Kosten",
+                  "values": ["Hoch", "Sehr gering"]
+                },
+                {
+                  "aspect": "Zustand der Quelle",
+                  "values": ["Unverändert", "Gültig aber leer"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Vergessene Absicherung",
+              "text": "Wird die Quelle nach der Move-Operation nicht korrekt geleert, kann es zu doppeltem Freigeben kommen."
+            },
+            {
+              "type": "important",
+              "text": "Move-Konstruktoren und Move-Zuweisungsoperatoren sollten noexcept sein, damit Standardcontainer sie effizient nutzen können."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Rvalue-Referenzen ermöglichen Move-Semantik",
+                "Move-Konstruktor erzeugt neue Objekte effizient",
+                "Move-Zuweisung überschreibt bestehende Objekte",
+                "std::move markiert Objekte als verschiebbar"
+              ]
+            }
           ]
         },
         {
