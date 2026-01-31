@@ -6391,6 +6391,7 @@
         "topics": [
           { "title": "vector", "content": { "text": [], "code": [] } },
           { "title": "array", "content": { "text": [], "code": [] } },
+          { "title": "list", "content": { "text": [], "code": [] } },
           { "title": "deque", "content": { "text": [], "code": [] } }
         ]
       },
@@ -6409,14 +6410,6 @@
           { "title": "stack", "content": { "text": [], "code": [] } },
           { "title": "queue", "content": { "text": [], "code": [] } },
           { "title": "priority_queue", "content": { "text": [], "code": [] } }
-        ]
-      },
-      {
-        "name": "Utility Types",
-        "icon": "🧰",
-        "topics": [
-          { "title": "pair", "content": { "text": [], "code": [] } },
-          { "title": "tuple", "content": { "text": [], "code": [] } }
         ]
       }
     ]
