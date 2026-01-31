@@ -3988,7 +3988,7 @@
       "icon": "🖨️",
       "topics": [
         {
-          "title": "<iostream>",
+          "title": "iostream",
           "difficulty": "basic",
           "blocks": [
             {
@@ -4054,7 +4054,7 @@
           ]
         },
         {
-          "title": "<fstream>",
+          "title": "fstream",
           "difficulty": "basic",
           "blocks": [
             {
@@ -4114,7 +4114,7 @@
           ]
         },
         {
-          "title": "<iomanip>",
+          "title": "iomanip",
           "difficulty": "basic",
           "blocks": [
             {
@@ -4214,7 +4214,7 @@
       "icon": "🧵",
       "topics": [
           {
-            "title": "<string>",
+            "title": "string",
             "difficulty": "basic",
             "blocks": [
               {
@@ -4302,7 +4302,7 @@
             ]
           },
           {
-            "title": "<string_view>",
+            "title": "string_view",
             "difficulty": "intermediate",
             "blocks": [
               {
@@ -4387,7 +4387,7 @@
             ]
           },
           {
-          "title": "<sstream>",
+          "title": "sstream",
           "difficulty": "basic",
           "blocks": [
             {
@@ -4457,7 +4457,7 @@
             ]
           },
           {
-            "title": "<cstring>",
+            "title": "cstring",
             "difficulty": "basic",
             "blocks": [
               {
@@ -4555,7 +4555,7 @@
             ]
           },
           {
-            "title": "<cctype>",
+            "title": "cctype",
             "difficulty": "basic",
             "blocks": [
               {
@@ -4637,7 +4637,7 @@
       "icon": "🧮",
       "topics": [
         {
-          "title": "<cmath>",
+          "title": "cmath",
           "difficulty": "basic",
           "blocks": [
             {
@@ -4726,7 +4726,7 @@
           ]
         },
         {
-          "title": "<cstdlib>",
+          "title": "cstdlib",
           "difficulty": "basic",
           "blocks": [
             {
@@ -4799,7 +4799,7 @@
           ]
         },
         {
-          "title": "<random>",
+          "title": "random",
           "difficulty": "intermediate",
           "blocks": [
             {
@@ -4899,7 +4899,7 @@
           ]
         },
         {
-          "title": "<limits>",
+          "title": "limits",
           "difficulty": "basic",
           "blocks": [
             {
@@ -4994,7 +4994,7 @@
       "icon": "⏱️",
       "topics": [
         {
-          "title": "<chrono>",
+          "title": "chrono",
           "difficulty": "intermediate",
           "blocks": [
             {
@@ -5099,7 +5099,7 @@
           ]
         },
         {
-          "title": "<ctime>",
+          "title": "ctime",
           "difficulty": "basic",
           "blocks": [
             {
@@ -5203,7 +5203,7 @@
       "icon": "🧰",
       "topics": [
         {
-          "title": "<thread>",
+          "title": "thread",
           "difficulty": "basic",
           "blocks": [
             {
@@ -5293,7 +5293,7 @@
           ]
         },
         {
-          "title": "<future>",
+          "title": "future",
           "difficulty": "intermediate",
           "blocks": [
             {
@@ -5381,7 +5381,7 @@
           ]
         },
         {
-          "title": "<typeinfo>",
+          "title": "typeinfo",
           "difficulty": "basic",
           "blocks": [
             {
@@ -5467,7 +5467,7 @@
           ]
         },
         {
-          "title": "<new>",
+          "title": "new",
           "difficulty": "basic",
           "blocks": [
             {
@@ -5560,7 +5560,7 @@
           ]
         },
         {
-          "title": "<memory>",
+          "title": "memory",
           "difficulty": "basic",
           "blocks": [
             {
@@ -5660,7 +5660,7 @@
           ]
         },
         {
-          "title": "<cstdio>",
+          "title": "cstdio",
           "difficulty": "basic",
           "blocks": [
             {
@@ -5762,7 +5762,7 @@
       "icon": "📦",
       "topics": [
        {
-        "title": "<algorithm>",
+        "title": "algorithm",
         "difficulty": "basic",
         "blocks": [
           {
@@ -5877,7 +5877,7 @@
         ]
       },
       {
-        "title": "<iterator>",
+        "title": "iterator",
         "difficulty": "basic",
         "blocks": [
           {
@@ -5987,7 +5987,7 @@
         ]
       },
       {
-        "title": "<functional>",
+        "title": "functional",
         "difficulty": "intermediate",
         "blocks": [
           {
@@ -6099,7 +6099,7 @@
         ]
       },
       {
-        "title": "<initializer_list>",
+        "title": "initializer_list",
         "difficulty": "basic",
         "blocks": [
           {
@@ -6191,7 +6191,7 @@
         ]
       },
       {
-        "title": "<tuple>",
+        "title": "tuple",
         "difficulty": "basic",
         "blocks": [
           {
@@ -6290,7 +6290,7 @@
         ]
       },
       {
-        "title": "<utility> (pair, swap)",
+        "title": "utility (pair, swap)",
         "difficulty": "basic",
         "blocks": [
           {
