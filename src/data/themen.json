@@ -4010,15 +4010,33 @@
               "items": [
                 "std::cin: Standardeingabe",
                 "std::cout: Standardausgabe",
-                "std::cerr: Fehlerausgabe",
-                "std::clog: Protokollausgabe"
+                "std::cerr: Fehlerausgabe → ungepuffert → sofort sichtbar",
+                "std::clog: Protokollausgabe → gepuffert → bei Flush oder Ende sichtbar"
               ]
             },
             {
               "type": "code",
-              "title": "Einfache Ein und Ausgabe",
+              "title": "Standard Ein und Ausgabe mit cin und cout",
               "language": "cpp",
-              "code": "#include <iostream>\n\nint x;\nstd::cin >> x;          // Eingabe\nstd::cout << x << '\\n'; // Ausgabe"
+              "code": "#include <iostream>\n\nint main() {\n    int x;\n\n    std::cin >> x;               // Liest eine Zahl von der Standardeingabe\n    std::cout << x << '\\n';      // Gibt die Zahl auf der Standardausgabe aus\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Fehlerausgabe mit cerr → ungepuffert → sofort sichtbar",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint main() {\n    int x;\n\n    // Versuch, eine Zahl einzulesen\n    if (!(std::cin >> x)) {\n        // std::cerr ist für Fehlermeldungen gedacht\n        // Die Ausgabe ist ungepuffert und erscheint sofort\n        // Auch wenn die normale Ausgabe (cout) umgeleitet ist\n        std::cerr << \"Fehler: Ungültige Eingabe\" << std::endl;\n        // Typische Ausgabe auf stderr:\n        // Fehler: Ungültige Eingabe\n        return 1;\n    }\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Log-Ausgabe mit clog → gepuffert → bei Flush oder Ende sichtbar",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint main() {\n    // std::clog ist für Log- und Statusmeldungen gedacht\n    // Die Ausgabe ist gepuffert (effizienter als cerr)\n    std::clog << \"Programmstart\" << std::endl;\n    // Typische Ausgabe auf stderr (gepuffert):\n    // Programmstart\n\n    int x = 42;\n\n    // Log-Meldung über internen Zustand\n    std::clog << \"Verarbeite Wert: \" << x << std::endl;\n    // Typische Ausgabe:\n    // Verarbeite Wert: 42\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Vergleich von cout, cerr und clog",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint main() {\n    std::cout << \"Normale Ausgabe\" << std::endl;\n    std::clog << \"Log Meldung\" << std::endl;\n    std::cerr << \"Fehlermeldung\" << std::endl;\n}\n"
             },
             {
               "type": "important",
