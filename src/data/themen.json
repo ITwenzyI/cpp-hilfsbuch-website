@@ -6401,10 +6401,149 @@
         "name": "Basics",
         "icon": "🧱",
         "topics": [
-          { "title": "Klassen Grundlagen", "content": { "text": [], "code": [] } },
-          { "title": "Konstruktoren & Destruktoren", "content": { "text": [], "code": [] } }
-        ]
+        {
+          "title": "Klassen Grundlagen",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Klasse",
+              "text": "Eine Klasse ist ein benutzerdefinierter Datentyp, der Daten und zugehörige Funktionen kapselt."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von Klassen",
+              "text": [
+                "Klassen sind das zentrale Konzept der objektorientierten Programmierung in C++.",
+                "Sie bündeln Daten und Verhalten und bilden reale oder logische Konzepte ab."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Bestandteile einer Klasse",
+              "text": [
+                "Eine Klasse besteht aus Attributen für den Zustand und Methoden für das Verhalten.",
+                "Über Zugriffsspezifizierer wird gesteuert, welche Teile von außen sichtbar sind."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Zugriffsspezifizierer",
+              "items": [
+                "public - von überall zugreifbar",
+                "private - nur innerhalb der Klasse zugreifbar",
+                "protected - innerhalb der Klasse und abgeleiteter Klassen"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfache Klasse",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Person {\npublic:\n    void begruessen() {\n        std::cout << \"Hallo\" << std::endl;\n    }\n\nprivate:\n    int alter;\n};\n\nint main() {\n    Person p;\n    p.begruessen(); // Zugriff auf öffentliche Methode\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "class vs struct",
+              "columns": ["class", "struct"],
+              "rows": [
+                {
+                  "aspect": "Standard-Zugriff",
+                  "values": ["private", "public"]
+                },
+                {
+                  "aspect": "Einsatz",
+                  "values": ["Objektorientierung", "Datenstrukturen"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Fehlende Kapselung",
+              "text": "Öffentliche Attribute verletzen die Kapselung und machen Code schwer wartbar."
+            },
+            {
+              "type": "important",
+              "text": "Klassen sollten Daten kapseln und nur notwendige Schnittstellen nach außen anbieten."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Klassen bündeln Daten und Verhalten",
+                "Zugriff wird über public, private und protected gesteuert",
+                "Kapselung ist ein zentrales OOP-Prinzip"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Konstruktoren & Destruktoren",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Konstruktor und Destruktor",
+              "text": "Konstruktoren initialisieren Objekte beim Erzeugen, Destruktoren räumen beim Zerstören auf."
+            },
+            {
+              "type": "explanation",
+              "title": "Konstruktoren",
+              "text": [
+                "Ein Konstruktor wird automatisch beim Erzeugen eines Objekts aufgerufen.",
+                "Er hat keinen Rückgabetyp und trägt den gleichen Namen wie die Klasse."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Destruktoren",
+              "text": [
+                "Ein Destruktor wird automatisch beim Zerstören eines Objekts aufgerufen.",
+                "Er wird häufig genutzt, um Ressourcen wie Speicher oder Dateien freizugeben."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Eigenschaften",
+              "items": [
+                "Konstruktoren können überladen werden",
+                "Destruktoren haben keine Parameter",
+                "Pro Klasse existiert maximal ein Destruktor"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Konstruktor und Destruktor",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Test {\npublic:\n    Test() {\n        std::cout << \"Konstruktor\" << std::endl;\n    }\n\n    ~Test() {\n        std::cout << \"Destruktor\" << std::endl;\n    }\n};\n\nint main() {\n    Test t; // Konstruktor wird aufgerufen\n} // Destruktor wird hier automatisch aufgerufen\n"
+            },
+            {
+              "type": "code",
+              "title": "Konstruktor mit Parametern",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Punkt {\npublic:\n    Punkt(int x, int y) : x(x), y(y) {}\n\n    void anzeigen() {\n        std::cout << x << \", \" << y << std::endl;\n    }\n\nprivate:\n    int x;\n    int y;\n};\n\nint main() {\n    Punkt p(3, 4);\n    p.anzeigen();\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Nicht initialisierte Attribute",
+              "text": "Werden Attribute nicht im Konstruktor initialisiert, können undefinierte Werte entstehen."
+            },
+            {
+              "type": "important",
+              "text": "Initialisierung sollte bevorzugt über Initialisierungslisten erfolgen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Konstruktoren initialisieren Objekte",
+                "Destruktoren geben Ressourcen frei",
+                "Initialisierungslisten sind Best Practice",
+                "Automatischer Aufruf durch Lebensdauer"
+              ]
+            }
+          ]
+        }
+      ]
       },
+
       {
         "name": "Vererbung",
         "icon": "🌳",
