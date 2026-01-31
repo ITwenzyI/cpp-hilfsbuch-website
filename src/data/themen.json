@@ -4081,9 +4081,21 @@
             },
             {
               "type": "code",
-              "title": "Datei schreiben",
+              "title": "Datei schreiben mit ofstream",
               "language": "cpp",
-              "code": "#include <fstream>\n\nstd::ofstream file(\"data.txt\");\nfile << \"Hallo Datei\";\nfile.close();"
+              "code": "#include <iostream>\n#include <fstream>\n\nint main() {\n    // ofstream = output file stream (nur schreiben)\n    std::ofstream file(\"daten.txt\");\n\n    // Prüfen, ob die Datei erfolgreich geöffnet wurde\n    if (!file) {\n        std::cerr << \"Fehler: Datei konnte nicht geöffnet werden\" << std::endl;\n        return 1;\n    }\n\n    // Schreiben funktioniert wie bei std::cout\n    file << \"Hallo Datei\" << std::endl;\n    file << 42 << std::endl;\n\n    // Datei explizit schließen (optional, passiert auch im Destruktor)\n    file.close();\n\n    // Typischer Inhalt von daten.txt:\n    // Hallo Datei\n    // 42\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Datei lesen mit ifstream",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <fstream>\n#include <string>\n\nint main() {\n    // ifstream = input file stream (nur lesen)\n    std::ifstream file(\"daten.txt\");\n\n    // Prüfen, ob die Datei existiert und geöffnet werden konnte\n    if (!file) {\n        std::cerr << \"Fehler: Datei konnte nicht geöffnet werden\" << std::endl;\n        return 1;\n    }\n\n    std::string line;\n\n    // Zeilenweises Lesen bis Dateiende\n    while (std::getline(file, line)) {\n        std::cout << line << std::endl;\n    }\n\n    // Datei schließen (optional)\n    file.close();\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Datei lesen und schreiben mit fstream",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <fstream>\n#include <string>\n\nint main() {\n    // fstream kann lesen UND schreiben\n    std::fstream file(\"log.txt\", std::ios::in | std::ios::out | std::ios::app);\n\n    // ios::app -> Schreiben immer ans Dateiende\n\n    if (!file) {\n        std::cerr << \"Fehler: Datei konnte nicht geöffnet werden\" << std::endl;\n        return 1;\n    }\n\n    // Schreiben in die Datei\n    file << \"Neue Log-Zeile\" << std::endl;\n\n    // Zurück an den Anfang springen, um zu lesen\n    file.seekg(0);\n\n    std::string line;\n    while (std::getline(file, line)) {\n        std::cout << line << std::endl;\n    }\n\n    file.close();\n}\n"
             },
             {
               "type": "pitfall",
@@ -4655,10 +4667,25 @@
               "items": [
                 "sqrt(x) - Quadratwurzel",
                 "pow(x, y) - Potenzfunktion",
+                "",
                 "abs(x) - Absolutwert",
+                "copysign(a, b) - Betrag von a, Vorzeichen von b",
+                "",
                 "sin(x), cos(x), tan(x) - Trigonometrische Funktionen",
-                "log(x), log10(x) - Logarithmen",
-                "floor(x), ceil(x), round(x) - Rundungsfunktionen"
+                "asin(x), acos(x), atan(x) - Trigonometrische Umkehrfunktionen",
+                "",
+                "log(x) - natürlicher Logarithmus (ln)",
+                "log10(x) - Logarithmus zur Basis 10", 
+                "",
+                "floor(x) - rundet nach unten",
+                "ceil(x) - rundet nach oben",
+                "round(x) - rundet zur nächsten ganzen Zahl",
+                "trunc(x) - schneidet Nachkommastellen ab",
+                "",
+                "fmin(a, b) - kleinere Zahl (float-sicher)",
+                "fmax(a, b) - größere Zahl",
+                "isinf(x) - prüft auf ±∞",
+                "isnan(x) - prüft auf NaN"
               ]
             },
             {
