@@ -4182,7 +4182,7 @@
               "type": "explanation",
               "title": "put_time",
               "text": [
-                "std::put_time formatiert Zeitangaben aus einer tm Struktur fuer die Ausgabe.",
+                "std::put_time formatiert Zeitangaben aus einer tm Struktur für die Ausgabe.",
                 "Das Format folgt den gleichen Platzhaltern wie strftime aus der C Bibliothek."
               ]
             },
@@ -4951,7 +4951,7 @@
               "type": "code",
               "title": "Typ Eigenschaften abfragen",
               "language": "cpp",
-              "code": "#include <iostream>\n#include <limits>\n\nint main() {\n    std::cout << std::numeric_limits<int>::is_integer << std::endl; // 1 fuer int\n    std::cout << std::numeric_limits<double>::is_integer << std::endl; // 0 fuer double\n}\n"
+              "code": "#include <iostream>\n#include <limits>\n\nint main() {\n    std::cout << std::numeric_limits<int>::is_integer << std::endl; // 1 für int\n    std::cout << std::numeric_limits<double>::is_integer << std::endl; // 0 für double\n}\n"
             },
             {
               "type": "comparison",
