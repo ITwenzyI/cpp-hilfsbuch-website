@@ -6053,7 +6053,98 @@
           }
         ]
       },
-        { "title": "<initializer_list>", "content": { "text": [], "code": [] } },
+      {
+        "title": "<initializer_list>",
+        "difficulty": "basic",
+        "blocks": [
+          {
+            "type": "definition",
+            "term": "<initializer_list>",
+            "text": "Der Header <initializer_list> stellt den Typ std::initializer_list für Initialisierung mit geschweiften Klammern bereit."
+          },
+          {
+            "type": "explanation",
+            "title": "Grundidee",
+            "text": [
+              "<initializer_list> ermöglicht die Übergabe einer Liste von Werten in geschweiften Klammern.",
+              "Dies wird häufig für Konstruktoren und Funktionsparameter genutzt."
+            ]
+          },
+          {
+            "type": "explanation",
+            "title": "std::initializer_list",
+            "text": [
+              "std::initializer_list erlaubt es, mehrere Werte kompakt mit {} an Funktionen oder Konstruktoren zu übergeben, ohne einen Container zu erzeugen.",
+              "std::initializer_list repräsentiert eine unveränderliche Sequenz von Elementen gleichen Typs.",
+              "Die enthaltenen Elemente sind konstant und können nicht verändert werden."
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Typische Einsatzgebiete",
+            "items": [
+              "Initialisierung von Containern wie std::vector oder std::set",
+              "Konstruktoren mit variabler Anzahl an Argumenten",
+              "Funktionsaufrufe mit Listenliteralen"
+            ]
+          },
+          {
+            "type": "code",
+            "title": "Container-Initialisierung",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> v = {1, 2, 3, 4};\n\n    for (int x : v) {\n        std::cout << x << \" \";\n    }\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "Konstruktor mit initializer_list",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <initializer_list>\n\nstruct Summe {\n    int wert = 0;\n\n    Summe(std::initializer_list<int> liste) {\n        for (int x : liste) {\n            wert += x;\n        }\n    }\n};\n\nint main() {\n    Summe s = {1, 2, 3};\n    std::cout << s.wert << std::endl; // Ausgabe: 6\n}\n"
+          },
+          {
+            "type": "code",
+            "title": "Als Funktionsparameter",
+            "language": "cpp",
+            "code": "#include <iostream>\n#include <initializer_list>\n\nvoid drucke(std::initializer_list<int> liste) {\n    for (int x : liste) {\n        std::cout << x << \" \";\n    }\n}\n\nint main() {\n    drucke({5, 10, 15});\n}\n"
+          },
+          {
+            "type": "comparison",
+            "title": "initializer_list vs Container",
+            "columns": ["initializer_list", "Container"],
+            "rows": [
+              {
+                "aspect": "Veränderbar",
+                "values": ["Nein", "Ja"]
+              },
+              {
+                "aspect": "Besitzt Speicher",
+                "values": ["Nein", "Ja"]
+              },
+              {
+                "aspect": "Lebensdauer",
+                "values": ["Kurzzeitig", "Verwaltet"]
+              }
+            ]
+          },
+          {
+            "type": "pitfall",
+            "title": "Mehrdeutige Konstruktoren",
+            "text": "Konstruktoren mit initializer_list werden bei geschweiften Klammern bevorzugt und können andere Konstruktoren verdrängen."
+          },
+          {
+            "type": "important",
+            "text": "<initializer_list> vereinfacht Initialisierung, sollte aber bewusst eingesetzt werden."
+          },
+          {
+            "type": "summary",
+            "points": [
+              "<initializer_list> ermöglicht Initialisierung mit {}",
+              "Elemente sind konstant und nicht veränderbar",
+              "Häufig in Konstruktoren und Containern",
+              "Kann zu Mehrdeutigkeiten führen"
+            ]
+          }
+        ]
+      },
         { "title": "<tuple>", "content": { "text": [], "code": [] } },
         { "title": "<utility> (pair, swap)", "content": { "text": [], "code": [] } }
         ]
