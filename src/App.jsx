@@ -62,7 +62,9 @@ function App() {
         category: cat.category,
         categoryIcon: cat.icon,
         subcategory: sub.name,
-        subcategoryIcon: sub.icon
+        subcategoryIcon: sub.icon,
+        searchText: buildSearchText(topic),
+        matchInfo: findMatchInBlocks(topic, query)
       }))
       )
     );
@@ -70,7 +72,7 @@ function App() {
     const fuse = new Fuse(allTopics, {
       keys: [
         { name: "title", weight: 0.6 },
-        { name: "content.text", weight: 0.3 },
+        { name: "searchText", weight: 0.4 },
         { name: "subcategory", weight: 0.07 },
         { name: "category", weight: 0.03 },
       ],
@@ -124,6 +126,95 @@ function App() {
     );
   };
 
+    const buildSearchText = (topic) => {
+    let text = topic.title + " ";
+
+    if (topic.blocks) {
+      topic.blocks.forEach((block) => {
+        Object.values(block).forEach((value) => {
+          if (typeof value === "string") {
+            text += value + " ";
+          } else if (Array.isArray(value)) {
+            value.forEach((v) => {
+              if (typeof v === "string") text += v + " ";
+              if (typeof v === "object" && v !== null) {
+                Object.values(v).forEach((inner) => {
+                  if (typeof inner === "string") text += inner + " ";
+                });
+              }
+            });
+          }
+        });
+      });
+    }
+
+    return text.toLowerCase();
+  };
+
+  const findMatchInBlocks = (topic, query) => {
+  const q = (query || "").trim().toLowerCase();
+  if (!q || !topic?.blocks) return null;
+
+  const makeLabel = (block) => {
+    if (block.type === "definition") return `Definition: ${block.term || ""}`.trim();
+    if (block.type === "code") return `Code: ${block.title || ""}`.trim();
+    if (block.type === "list") return `Liste: ${block.title || ""}`.trim();
+    if (block.type === "explanation") return `Erklärung: ${block.title || ""}`.trim();
+    if (block.type === "comparison") return `Vergleich: ${block.title || ""}`.trim();
+    if (block.type === "note") return `Hinweis`;
+    if (block.type === "important") return `Wichtig`;
+    if (block.type === "pitfall") return `Fehler: ${block.title || ""}`.trim();
+    if (block.type === "summary") return `Zusammenfassung`;
+    if (block.type === "example") return `Beispiel: ${block.title || ""}`.trim();
+    return block.type;
+  };
+
+  const candidates = [];
+
+  for (const block of topic.blocks) {
+    const label = makeLabel(block);
+
+    // Strings
+    for (const [key, value] of Object.entries(block)) {
+      if (typeof value === "string") {
+        candidates.push({ label, text: value });
+      }
+    }
+
+    // Arrays (strings oder objects)
+    for (const value of Object.values(block)) {
+      if (Array.isArray(value)) {
+        for (const item of value) {
+          if (typeof item === "string") candidates.push({ label, text: item });
+          if (item && typeof item === "object") {
+            for (const inner of Object.values(item)) {
+              if (typeof inner === "string") candidates.push({ label, text: inner });
+              if (Array.isArray(inner)) {
+                inner.forEach((x) => {
+                  if (typeof x === "string") candidates.push({ label, text: x });
+                });
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Finde erstes Feld, das den Query enthält
+  for (const c of candidates) {
+    const lower = c.text.toLowerCase();
+    const idx = lower.indexOf(q);
+    if (idx !== -1) {
+      const snippet = getSnippet(c.text, query, 140);
+      return { where: c.label, snippet };
+    }
+  }
+
+  return null;
+};
+
+
   /* ============================================================================
      RENDER HELPERS (UI COMPOSITION)
   ============================================================================ */
@@ -152,23 +243,27 @@ function App() {
 
   // Search result list item
   const renderSearchResult = (topic, idx) => {
-    // Build full searchable text
-    let fullText = "";
+  const match = topic.matchInfo;
 
-    if (Array.isArray(topic.content?.text)) {
-      fullText += topic.content.text.join(" ");
-    } else if (typeof topic.content?.text === "string") {
-      fullText += topic.content.text;
-    }
+  let fullText = "";
 
-    if (Array.isArray(topic.content?.code)) {
-      fullText += " " + topic.content.code.join(" ");
-    } else if (typeof topic.content?.code === "string") {
-      fullText += " " + topic.content.code;
-    }
+  if (Array.isArray(topic.content?.text)) {
+    fullText += topic.content.text.join(" ");
+  } else if (typeof topic.content?.text === "string") {
+    fullText += topic.content.text;
+  }
 
-    fullText = fullText.trim();
-    const snippet = getSnippet(fullText, searchTerm);
+  if (Array.isArray(topic.content?.code)) {
+    fullText += " " + topic.content.code.join(" ");
+  } else if (typeof topic.content?.code === "string") {
+    fullText += " " + topic.content.code;
+  }
+
+  fullText = fullText.trim();
+
+  const legacySnippet = getSnippet(fullText, searchTerm);
+  const snippetToShow = match?.snippet || legacySnippet;
+
 
     return (
       <li
@@ -195,14 +290,20 @@ function App() {
           {topic.categoryIcon} {topic.category} › {topic.subcategoryIcon} {topic.subcategory}
         </p>
 
-        {snippet && (
-          <p
-            className="text-sm text-gray-700 dark:text-gray-300"
-            dangerouslySetInnerHTML={{
-              __html: highlightMatch(snippet, searchTerm),
-            }}
-          />
-        )}
+        {match?.where && (
+        <p className="text-xs text-gray-500 mb-1">
+          Treffer in: {match.where}
+        </p>
+      )}
+
+      {snippetToShow && (
+        <p
+          className="text-sm text-gray-700 dark:text-gray-300"
+          dangerouslySetInnerHTML={{
+            __html: highlightMatch(snippetToShow, searchTerm),
+          }}
+        />
+      )}
       </li>
     );
   };
