@@ -10105,8 +10105,24 @@
             }
           ]
         },
-          { "title": "Ordnerstruktur Vorlage", "content": { "text": [], "code": [] } },
-          { "title": "Modulares Projekt Setup", "content": { "text": [], "code": [] } }
+        {
+          "title": "Projektvorlagen - Ordnerstruktur",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "code",
+              "title": "Ordnerstruktur Vorlage",
+              "language": "cpp",
+              "code": "// Projektname/\n// ├─ CMakeLists.txt\n// ├─ src/\n// │  ├─ main.cpp\n// │  ├─ app.cpp\n// │  └─ app.hpp\n// ├─ include/\n// │  └─ app.hpp\n// ├─ tests/\n// │  └─ test_app.cpp\n// └─ build/\n//    └─ (Build-Ausgabe)\n"
+            },
+            {
+              "type": "code",
+              "title": "Modulares Projekt Setup",
+              "language": "cpp",
+              "code": "// Projektname/\n// ├─ CMakeLists.txt\n// ├─ src/\n// │  ├─ main.cpp\n// │  └─ CMakeLists.txt\n// ├─ core/\n// │  ├─ core.cpp\n// │  ├─ core.hpp\n// │  └─ CMakeLists.txt\n// ├─ utils/\n// │  ├─ utils.cpp\n// │  ├─ utils.hpp\n// │  └─ CMakeLists.txt\n// ├─ include/\n// │  ├─ core.hpp\n// │  └─ utils.hpp\n// └─ build/\n//    └─ (Build-Ausgabe)\n"
+            }
+          ]
+        }
         ]
       }
     ]
