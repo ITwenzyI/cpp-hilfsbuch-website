@@ -7677,7 +7677,74 @@
         "name": "enum",
         "icon": "🔢",
         "topics": [
-          { "title": "enum Grundlagen", "content": { "text": [], "code": [] } }
+        {
+          "title": "enum Grundlagen",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "enum",
+              "text": "Ein enum ist ein benutzerdefinierter Aufzählungstyp, der eine endliche Menge benannter ganzzahliger Werte definiert."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von enum",
+              "text": [
+                "enum wird verwendet, um zusammengehörige konstante Werte logisch zu gruppieren.",
+                "Dadurch wird Code lesbarer und weniger fehleranfällig als mit reinen Ganzzahlen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Eigenschaften",
+              "text": [
+                "Enum-Werte sind intern Ganzzahlen.",
+                "Die erste Konstante beginnt standardmäßig bei 0 und wird hochgezählt.",
+                "Enum-Namen liegen im umgebenden Namensraum."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Einsatzgebiete",
+              "items": [
+                "Zustände und Statuswerte",
+                "Optionen oder Modi",
+                "Ergebnisse von Funktionen",
+                "Endliche Auswahlmöglichkeiten"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches enum",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nenum Farbe {\n    Rot,\n    Gruen,\n    Blau\n};\n\nint main() {\n    Farbe f = Rot;\n\n    if (f == Rot) {\n        std::cout << \"Rot\" << std::endl;\n    }\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Enum mit expliziten Werten",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nenum Status {\n    OK = 0,\n    Fehler = 1,\n    Unbekannt = 100\n};\n\nint main() {\n    Status s = Fehler;\n    std::cout << s << std::endl; // Ausgabe: 1\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Namenskonflikte",
+              "text": "Enum-Werte liegen im gleichen Namensraum und können mit anderen Namen kollidieren."
+            },
+            {
+              "type": "important",
+              "text": "Enums ersetzen magische Zahlen und machen Code verständlicher."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "enum definiert benannte Ganzzahlwerte",
+                "Standardstartwert ist 0",
+                "Verbessert Lesbarkeit und Wartbarkeit",
+                "Geeignet für endliche Zustände"
+              ]
+            }
+          ]
+        }
         ]
       },
       {
