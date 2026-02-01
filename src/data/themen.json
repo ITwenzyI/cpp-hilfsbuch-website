@@ -8097,51 +8097,88 @@
             }
           ]
         }
+
         ]
       },
       {
-        "name": "Klassenmember & Attribute",
+        "name": "Member & Attribute",
         "icon": "🧩",
         "topics": [
-          { "title": "static Member", "content": { 
-            "text": [    
-              "### === `static` in C++ ===\n",
-              "`static` hat in C++ mehrere Bedeutungen - je nachdem, **wo** es verwendet wird:\n",
-              "\n",
-              "---\n",
-              "### 🔹 `static` innerhalb einer Funktion:\n",
-              "- Variable wird **nur einmal erstellt** (beim ersten Aufruf)\n",
-              "- Bleibt zwischen Aufrufen **erhalten**\n",
-              "```cpp\nvoid zähler() {\n    static int x = 0;\n    x++;\n    std::cout << x << std::endl;\n}\n```\n",
-              "\n",
-              "---\n",
-              "### 🔹 `static` in Klassen (statisch für alle Objekte):\n",
-              "- Variable gehört **zur Klasse, nicht zum Objekt**\n",
-              "- Wird **außerhalb der Klasse** definiert\n",
-              "- Gleicher Wert für **alle Instanzen**\n",
-              "```cpp\nclass Test {\npublic:\n    static int anzahl;\n};\n\nint Test::anzahl = 0;\n```\n",
-              "\n",
-              "---\n",
-              "### 🔹 `static` bei Klassenfunktionen:\n",
-              "- Funktion gehört **nicht zu einem Objekt**, sondern zur **Klasse selbst**\n",
-              "- Kein Zugriff auf `this` oder andere Nicht-static-Member\n",
-              "- Wird über `Klassenname::Funktion()` aufgerufen\n",
-              "```cpp\nclass Utils {\npublic:\n    static int verdoppeln(int x) {\n        return x * 2;\n    }\n};\n\nint y = Utils::verdoppeln(5);  // 10\n```\n",
-              "\n",
-              "---\n",
-              "### 🔹 `static` bei Funktionen (außerhalb von Klassen):\n",
-              "- Funktion ist **nur innerhalb derselben Datei sichtbar** (file-scope)\n",
-              "- Nützlich zur Kapselung beim Modularisieren\n",
-              "```cpp\nstatic int intern() {\n    return 123;\n}\n```\n",
-              "\n",
-              "👉 `static` hilft, **Lebensdauer zu steuern**, **Speicher zu sparen** und **Sichtbarkeit einzuschränken**.\n",
-              "---\n"
-              ], 
-            "code": [
-              "#include <iostream>\n\nclass Test {\npublic:\n    static int zähler;\n    void erhöhen() {\n        zähler++;\n    }\n};\n\nint Test::zähler = 0;\n\nvoid funktionMitStatic() {\n    static int x = 0;\n    x++;\n    std::cout << \"static in Funktion: \" << x << std::endl; // 1, dann 2\n}\n\n// statische Klassenfunktion\nclass Utils {\npublic:\n    static int verdoppeln(int x) {\n        return x * 2;\n    }\n};\n\n// statische Funktion außerhalb einer Klasse\nstatic void dateiLokal() {\n    std::cout << \"Nur in dieser Datei sichtbar.\" << std::endl;\n}\n\nint main() {\n    Test a, b;\n    a.erhöhen();\n    b.erhöhen();\n    std::cout << \"static in Klasse: \" << Test::zähler << std::endl; // Ausgabe: 2\n\n    funktionMitStatic(); // Ausgabe: 1\n    funktionMitStatic(); // Ausgabe: 2\n\n    std::cout << \"Utils::verdoppeln: \" << Utils::verdoppeln(7) << std::endl; // Ausgabe: 14\n\n    dateiLokal(); // Ausgabe: Nur in dieser Datei sichtbar.\n\n    return 0;\n}"
-              ] 
-            } 
-          },
+        {
+          "title": "static Member",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "static Member",
+              "text": "Static Member sind Klassenmitglieder, die zur Klasse selbst gehören und nicht zu einzelnen Objekten."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Ein static Member existiert genau einmal, unabhängig davon, wie viele Objekte einer Klasse erzeugt werden.",
+                "Alle Instanzen greifen auf denselben static Member zu."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Static Attribute",
+              "text": [
+                "Static Attribute speichern klassenweite Zustände oder Zähler.",
+                "Sie müssen genau einmal definiert werden, meist in einer Source-Datei."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Static Memberfunktionen",
+              "text": [
+                "Static Memberfunktionen gehören zur Klasse und nicht zu einem Objekt.",
+                "Sie können nur auf andere static Member zugreifen."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Eigenschaften von static Membern",
+              "items": [
+                "Gehören zur Klasse, nicht zur Instanz",
+                "Existieren unabhängig von Objekten",
+                "Zugriff über Klassenname::Member",
+                "Nützlich für Zähler, Hilfsfunktionen und Konstanten"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Static Attribut",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Zaehler {\npublic:\n    static int anzahl;\n};\n\nint Zaehler::anzahl = 0; // Definition des static Attributs\n\nint main() {\n    Zaehler::anzahl++;\n    Zaehler::anzahl++;\n    std::cout << Zaehler::anzahl << std::endl; // Ausgabe: 2\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Static Memberfunktion",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Rechner {\npublic:\n    static int add(int a, int b) {\n        return a + b;\n    }\n};\n\nint main() {\n    std::cout << Rechner::add(3, 4) << std::endl; // Ausgabe: 7\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Zugriff auf nicht-static Member",
+              "text": "Static Memberfunktionen können nicht direkt auf nicht-static Attribute zugreifen."
+            },
+            {
+              "type": "important",
+              "text": "Static Member sind ideal für klassenweite Informationen und Funktionen ohne Objektbezug."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Static Member gehören zur Klasse",
+                "Existieren genau einmal",
+                "Zugriff über Klassenname::",
+                "Keine Objektinstanz notwendig"
+              ]
+            }
+          ]
+        },
           { "title": "mutable Member", "content": { 
             "text": [  
               "### === `mutable` in C++ ===\n",
