@@ -9120,7 +9120,103 @@
         "name": "Adapter",
         "icon": "🗃️",
         "topics": [
-          { "title": "stack", "content": { "text": [], "code": [] } },
+        {
+          "title": "std::stack",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "std::stack",
+              "text": "std::stack ist ein Container-Adapter, der das LIFO-Prinzip verwendet, bei dem das zuletzt eingefügte Element zuerst entfernt wird."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundkonzept",
+              "text": [
+                "std::stack stellt eine Stapelstruktur bereit.",
+                "Der Zugriff ist nur auf das oberste Element erlaubt."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Container-Adapter",
+              "text": [
+                "std::stack ist kein eigenständiger Container.",
+                "Er nutzt intern standardmäßig std::deque als Speicherstruktur."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Benötigter Header",
+              "items": [
+                "<stack>"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Zentrale Operationen",
+              "text": [
+                "push legt ein Element oben auf den Stack.",
+                "pop entfernt das oberste Element.",
+                "top liefert Zugriff auf das oberste Element.",
+                "empty und size liefern Zustandsinformationen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Grundlegende Nutzung von std::stack",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <stack>\n\nint main() {\n    std::stack<int> s;\n\n    s.push(1);\n    s.push(2);\n    s.push(3);\n\n    std::cout << s.top() << std::endl; // Ausgabe: 3\n    s.pop();\n    std::cout << s.top() << std::endl; // Ausgabe: 2\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Einschränkungen",
+              "text": [
+                "Es gibt keinen direkten Zugriff auf andere Elemente als das oberste.",
+                "Iteratoren werden nicht bereitgestellt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "empty und size",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <stack>\n\nint main() {\n    std::stack<int> s;\n\n    std::cout << s.empty() << std::endl; // true\n    s.push(5);\n    std::cout << s.size() << std::endl;  // 1\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "std::stack vs std::vector",
+              "columns": ["std::stack", "std::vector"],
+              "rows": [
+                {
+                  "aspect": "Zugriff",
+                  "values": ["Nur oberstes Element", "Beliebiger Index"]
+                },
+                {
+                  "aspect": "Datenstruktur",
+                  "values": ["LIFO", "Sequenziell"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zugriff nach pop",
+              "text": "Nach pop darf top nicht mehr verwendet werden, da das Element entfernt wurde."
+            },
+            {
+              "type": "important",
+              "text": "std::stack eignet sich für Algorithmen mit Rückverfolgung oder verschachtelten Aufrufen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "std::stack arbeitet nach dem LIFO-Prinzip",
+                "Zugriff nur auf das oberste Element",
+                "Kein direkter Iteratorzugriff",
+                "Container-Adapter auf Basis von std::deque"
+              ]
+            }
+          ]
+        },
           { "title": "queue", "content": { "text": [], "code": [] } },
           { "title": "priority_queue", "content": { "text": [], "code": [] } }
         ]
