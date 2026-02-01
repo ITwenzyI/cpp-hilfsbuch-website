@@ -7997,41 +7997,106 @@
             }
           ]
         },
-          { "title": "using namespace", "content": { 
-            "text": [
-                "### `using namespace` (nicht immer empfohlen)\n",
-                "- Mit `using namespace std;` kann man `std::cout` einfach als `cout` schreiben\n",
-                "- Nachteil: Alle Namen des Namespace werden global sichtbar → Konfliktgefahr\n",
-                "- Besser: Nur gezielt importieren\n",
-                "```cpp\nusing std::cout;\nusing std::endl;\n```\n",
-                "\n"
-              ], 
-            "code": [] } },
-          { "title": "namespace vs. class", "content": { 
-            "text": [ 
-                "### === Unterschied: Namespace vs. Class ===\n",
-                "`namespace` und `class` dienen beide zur Strukturierung, haben aber völlig unterschiedliche Funktionen:\n",
-                "\n",
-                "---\n",
-                "| Merkmal              | `namespace`                            | `class` / `struct`                        |\n",
-                "| Zweck                | Gruppierung von Code                   | Bauplan für Objekte (Daten + Methoden)    |\n",
-                "| Objekte erzeugbar?   | ❌ Nein                                 | ✅ Ja                                      |\n",
-                "| Zugriff              | `Mathe::addiere()`                     | `objekt.methode()` oder `Klasse::static()`|\n",
-                "| Sichtbarkeit         | Alles `public`                         | Zugriffskontrolle mit `public/private`    |\n",
-                "| Typ im Code?         | Kein eigener Typ                       | Eigener Datentyp                          |\n",
-                "| Nutzung              | Organisation, Modularisierung          | Modellierung realer Dinge                 |\n",
-                "\n",
-                "---\n",
-                "### Beispiel zur Verdeutlichung:\n",
-                "```cpp\nnamespace Mathe {\n    int addiere(int a, int b) {\n        return a + b;\n    }\n}\n\nclass Person {\npublic:\n    std::string name;\n    int alter;\n};\n\nint main() {\n    int summe = Mathe::addiere(2, 3);       // Namespace-Funktion\n    Person p = {\"Kilian\", 22};              // Objekt einer Klasse\n    return 0;\n}\n```\n",
-                "\n",
-                "### 👉 Merksatz",
-                "`namespace` ist **eine Ordnungsbox**, `class` ist **der Inhalt mit Logik und Zustand**.\n",
-                "---\n"
-            ], 
-            "code": [] 
-            } 
-          }
+        {
+          "title": "using namespace",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "using namespace",
+              "text": "using namespace bindet alle Namen eines Namespaces in den aktuellen Gültigkeitsbereich ein."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von using namespace",
+              "text": [
+                "using namespace erspart das wiederholte Schreiben des Namespace-Namens.",
+                "Alle enthaltenen Namen werden so behandelt, als lägen sie im aktuellen Scope."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Namensauflösung",
+              "text": [
+                "Bei mehreren gleichnamigen Bezeichnern entscheidet die Namensauflösungsregel des Compilers.",
+                "Lokale Namen haben Vorrang vor eingebundenen Namespace-Namen."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Mögliche Probleme",
+              "items": [
+                "Namenskonflikte bei gleichnamigen Funktionen oder Typen",
+                "Unklare Herkunft von Bezeichnern",
+                "Schwer wartbarer Code in großen Projekten",
+                "Probleme beim Einbinden mehrerer Bibliotheken"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "using namespace verwenden",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nusing namespace std;\n\nint main() {\n    cout << \"Hallo\" << endl; // std:: wird nicht benötigt\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Namenskonflikt durch using namespace",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nnamespace A {\n    void funktion() {\n        std::cout << \"A\" << std::endl;\n    }\n}\n\nnamespace B {\n    void funktion() {\n        std::cout << \"B\" << std::endl;\n    }\n}\n\nusing namespace A;\nusing namespace B;\n\nint main() {\n    // funktion(); // Fehler: Mehrdeutig\n    A::funktion();\n    B::funktion();\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Gezieltes using",
+              "text": [
+                "Statt ganzer Namespaces können einzelne Namen importiert werden.",
+                "Dies reduziert das Risiko von Namenskonflikten erheblich."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Gezieltes using-Deklaration",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nusing std::cout;\nusing std::endl;\n\nint main() {\n    cout << \"Gezielt\" << endl;\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "using namespace vs qualifizierter Zugriff",
+              "columns": ["using namespace", "Qualifizierter Zugriff"],
+              "rows": [
+                {
+                  "aspect": "Kurzschreibweise",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "Namenssicherheit",
+                  "values": ["Gering", "Hoch"]
+                },
+                {
+                  "aspect": "Empfehlung in Header-Dateien",
+                  "values": ["Nein", "Ja"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "using namespace in Header-Dateien",
+              "text": "using namespace in Header-Dateien zwingt allen Einbindern diese Namen auf und kann massive Konflikte verursachen."
+            },
+            {
+              "type": "important",
+              "text": "using namespace sollte nur lokal und bewusst eingesetzt werden, niemals global oder in Header-Dateien."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "using namespace bindet alle Namen eines Namespaces ein",
+                "Kann zu Namenskonflikten führen",
+                "Gezieltes using ist sicherer",
+                "Qualifizierter Zugriff ist Best Practice"
+              ]
+            }
+          ]
+        }
         ]
       },
       {
