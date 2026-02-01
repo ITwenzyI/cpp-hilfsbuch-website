@@ -10009,7 +10009,54 @@
             }
           ]
         },
-          { "title": "tuple / pair Beispiel", "content": { "text": [], "code": [] } }
+        {
+          "title": "std::pair und std::tuple Vorlage",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "code",
+              "title": "std::pair Grundgerüst",
+              "language": "cpp",
+              "code": "#include <utility>\n\nint main() {\n    std::pair<int, double> p;\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "std::pair mit Initialisierung",
+              "language": "cpp",
+              "code": "#include <utility>\n#include <string>\n\nint main() {\n    std::pair<int, std::string> p1(1, \"eins\");\n    std::pair<int, std::string> p2 = {2, \"zwei\"};\n    auto p3 = std::make_pair(3, \"drei\");\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Zugriff auf pair",
+              "language": "cpp",
+              "code": "#include <utility>\n#include <iostream>\n\nint main() {\n    std::pair<int, int> p = {10, 20};\n\n    std::cout << p.first << std::endl;\n    std::cout << p.second << std::endl;\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "std::tuple Grundgerüst",
+              "language": "cpp",
+              "code": "#include <tuple>\n\nint main() {\n    std::tuple<int, double, char> t;\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "std::tuple mit Initialisierung",
+              "language": "cpp",
+              "code": "#include <tuple>\n#include <string>\n\nint main() {\n    std::tuple<int, std::string, double> t1(1, \"eins\", 1.5);\n    auto t2 = std::make_tuple(2, \"zwei\", 2.5);\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Zugriff auf tuple",
+              "language": "cpp",
+              "code": "#include <tuple>\n#include <iostream>\n\nint main() {\n    std::tuple<int, int, int> t = {1, 2, 3};\n\n    std::cout << std::get<0>(t) << std::endl;\n    std::cout << std::get<1>(t) << std::endl;\n    std::cout << std::get<2>(t) << std::endl;\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Strukturierte Bindung mit tuple",
+              "language": "cpp",
+              "code": "#include <tuple>\n#include <string>\n\nint main() {\n    std::tuple<int, std::string, double> t = {1, \"eins\", 3.14};\n\n    auto [id, name, wert] = t;\n\n    return 0;\n}\n"
+            }
+          ]
+        }
         ]
       },
       {
