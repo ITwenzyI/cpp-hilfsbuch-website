@@ -7819,7 +7819,98 @@
             }
           ]
         },
-          { "title": "enum class vs enum", "content": { "text": [], "code": [] } }
+        {
+          "title": "enum class vs. enum",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "enum vs enum class",
+              "text": "enum ist ein klassischer Aufzählungstyp mit schwacher Typisierung, enum class ist ein stark typisierter Aufzählungstyp mit eigenem Gültigkeitsbereich."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee des Vergleichs",
+              "text": [
+                "Beide Konstrukte dienen zur Definition endlicher Mengen benannter Werte.",
+                "enum class wurde eingeführt, um Sicherheits- und Designprobleme klassischer Enums zu lösen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Klassisches enum",
+              "text": [
+                "Enum-Werte liegen im umgebenden Namensraum.",
+                "Es existiert eine implizite Umwandlung zu Ganzzahlen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "enum class",
+              "text": [
+                "Enum-Werte sind im Gültigkeitsbereich des Typs gekapselt.",
+                "Es gibt keine implizite Umwandlung zu Ganzzahlen."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Direkter Vergleich",
+              "columns": ["enum", "enum class"],
+              "rows": [
+                {
+                  "aspect": "Typisierung",
+                  "values": ["Schwach", "Stark"]
+                },
+                {
+                  "aspect": "Namensraum",
+                  "values": ["Umgebend", "Eigener Typbereich"]
+                },
+                {
+                  "aspect": "Implizite Umwandlung zu int",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "Namenskonflikte möglich",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "Empfehlung in modernem C++",
+                  "values": ["Eingeschränkt", "Bevorzugt"]
+                }
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Klassisches enum",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nenum Farbe {\n    Rot,\n    Gruen\n};\n\nint main() {\n    Farbe f = Rot;\n    int x = f; // implizite Umwandlung erlaubt\n    std::cout << x << std::endl;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "enum class",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nenum class Farbe {\n    Rot,\n    Gruen\n};\n\nint main() {\n    Farbe f = Farbe::Rot;\n    // int x = f; // Fehler: keine implizite Umwandlung\n    int x = static_cast<int>(f);\n    std::cout << x << std::endl;\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Unbeabsichtigte Typvermischung",
+              "text": "Klassische Enums können versehentlich mit Ganzzahlen oder anderen Enums vermischt werden."
+            },
+            {
+              "type": "important",
+              "text": "In modernem C++ sollte enum class verwendet werden, außer es gibt einen triftigen Grund für enum."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "enum ist schwach typisiert",
+                "enum class ist stark typisiert",
+                "enum class vermeidet Namenskonflikte",
+                "enum class ist Standard in modernem C++"
+              ]
+            }
+          ]
+        }
         ]
       },
       {
