@@ -8986,7 +8986,134 @@
             }
           ]
         },
-          { "title": "set", "content": { "text": [], "code": [] } }
+        {
+          "title": "std::set",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "std::set",
+              "text": "std::set ist ein assoziativer STL-Container, der eindeutige Elemente automatisch sortiert speichert."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundkonzept",
+              "text": [
+                "std::set speichert nur Schlüssel ohne zugehörigen Wert.",
+                "Jedes Element kommt höchstens einmal vor."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Interne Struktur",
+              "text": [
+                "std::set ist typischerweise als balancierter Suchbaum implementiert.",
+                "Alle grundlegenden Operationen laufen in logarithmischer Zeit."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Benötigter Header",
+              "items": [
+                "<set>"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Einfügen von Elementen",
+              "text": [
+                "insert fügt ein Element ein, wenn es noch nicht existiert.",
+                "Doppelte Werte werden ignoriert."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "insert verwenden",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <set>\n\nint main() {\n    std::set<int> s;\n\n    s.insert(3);\n    s.insert(1);\n    s.insert(3); // wird ignoriert\n\n    for (int x : s) {\n        std::cout << x << \" \";\n    }\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Suche und Zugriff",
+              "text": [
+                "find sucht nach einem Element und liefert einen Iterator.",
+                "count prüft, ob ein Element vorhanden ist."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "find und count",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <set>\n\nint main() {\n    std::set<int> s = {1, 2, 3};\n\n    if (s.count(2)) {\n        std::cout << \"Gefunden\" << std::endl;\n    }\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Elemente entfernen",
+              "text": [
+                "erase entfernt Elemente nach Wert oder Iterator.",
+                "clear entfernt alle Elemente."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "erase und clear",
+              "language": "cpp",
+              "code": "#include <set>\n\nint main() {\n    std::set<int> s = {1, 2, 3};\n\n    s.erase(2);\n    s.clear();\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Iteration",
+              "text": [
+                "Iteration erfolgt immer in sortierter Reihenfolge.",
+                "Elemente sind unveränderlich über Iteratoren."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Iterieren über set",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <set>\n\nint main() {\n    std::set<int> s = {3, 1, 2};\n\n    for (int x : s) {\n        std::cout << x << \" \";\n    }\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "std::set vs std::vector",
+              "columns": ["std::set", "std::vector"],
+              "rows": [
+                {
+                  "aspect": "Eindeutige Elemente",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "Sortiert",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "Zugriff per Index",
+                  "values": ["Nicht möglich", "O(1)"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Elemente ändern",
+              "text": "Elemente dürfen nicht direkt verändert werden, da dies die Sortierung zerstören würde."
+            },
+            {
+              "type": "important",
+              "text": "std::set ist ideal für eindeutige, sortierte Datenmengen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "std::set speichert eindeutige Werte",
+                "Automatisch sortiert",
+                "Logarithmische Laufzeit",
+                "Kein Indexzugriff",
+                "Geeignet für Mengen"
+              ]
+            }
+          ]
+        }
         ]
       },
       {
