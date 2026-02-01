@@ -9817,9 +9817,42 @@
         "name": "Basis Vorlagen",
         "icon": "📘",
         "topics": [
-          { "title": "main.cpp Grundgerüst", "content": { "text": [], "code": [] } },
-          { "title": "Hello World Vorlage", "content": { "text": [], "code": [] } },
-          { "title": "Input/Output Vorlage", "content": { "text": [], "code": [] } }
+        {
+          "title": "main.cpp Grundgerüst",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "code",
+              "title": "Minimaler Einstiegspunkt",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint main() {\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Standardstruktur mit Ausgabe",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint main() {\n    std::cout << \"Programm gestartet\" << std::endl;\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "main mit Argumenten",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint main(int argc, char* argv[]) {\n    std::cout << \"Anzahl Argumente: \" << argc << std::endl;\n\n    for (int i = 0; i < argc; ++i) {\n        std::cout << \"Arg \" << i << \": \" << argv[i] << std::endl;\n    }\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Hello World",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint main() {\n    std::cout << \"Hello World\" << std::endl;\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Einfache Ein- und Ausgabe",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <string>\n\nint main() {\n    std::string name;\n    int alter;\n\n    std::cout << \"Name eingeben: \";\n    std::cin >> name;\n\n    std::cout << \"Alter eingeben: \";\n    std::cin >> alter;\n\n    std::cout << \"Hallo \" << name << \", du bist \" << alter << \" Jahre alt.\" << std::endl;\n\n    return 0;\n}\n"
+            }
+          ]
+        }
         ]
       },
       {
