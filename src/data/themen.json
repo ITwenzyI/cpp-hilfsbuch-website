@@ -9314,7 +9314,112 @@
             }
           ]
         },
-          { "title": "priority_queue", "content": { "text": [], "code": [] } }
+        {
+          "title": "std::priority_queue",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "std::priority_queue",
+              "text": "std::priority_queue ist ein Container-Adapter, der stets das Element mit der höchsten Priorität bereitstellt."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundkonzept",
+              "text": [
+                "std::priority_queue organisiert Elemente nach Priorität.",
+                "Der Zugriff erfolgt immer auf das aktuell wichtigste Element."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Interne Struktur",
+              "text": [
+                "Intern basiert std::priority_queue auf einem Heap.",
+                "Standardmäßig wird ein Max-Heap verwendet."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Benötigter Header",
+              "items": [
+                "<queue>"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Zentrale Operationen",
+              "text": [
+                "push fügt ein Element ein.",
+                "pop entfernt das Element mit der höchsten Priorität.",
+                "top liefert Zugriff auf das wichtigste Element.",
+                "empty und size geben Zustandsinformationen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Grundlegende Nutzung von std::priority_queue",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <queue>\n\nint main() {\n    std::priority_queue<int> pq;\n\n    pq.push(3);\n    pq.push(1);\n    pq.push(5);\n\n    std::cout << pq.top() << std::endl; // Ausgabe: 5\n    pq.pop();\n    std::cout << pq.top() << std::endl; // Ausgabe: 3\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Min-Heap erstellen",
+              "text": [
+                "Durch einen Comparator kann die Ordnung umgekehrt werden.",
+                "So lässt sich ein Min-Heap realisieren."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "priority_queue als Min-Heap",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <queue>\n#include <vector>\n#include <functional>\n\nint main() {\n    std::priority_queue<int, std::vector<int>, std::greater<int>> pq;\n\n    pq.push(3);\n    pq.push(1);\n    pq.push(5);\n\n    std::cout << pq.top() << std::endl; // Ausgabe: 1\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Einschränkungen",
+              "text": [
+                "Es gibt keinen direkten Zugriff auf alle Elemente.",
+                "Iteratoren werden nicht bereitgestellt."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "std::priority_queue vs std::queue",
+              "columns": ["std::priority_queue", "std::queue"],
+              "rows": [
+                {
+                  "aspect": "Ordnungsprinzip",
+                  "values": ["Priorität", "FIFO"]
+                },
+                {
+                  "aspect": "Zugriff",
+                  "values": ["Höchste Priorität", "Vorderstes Element"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Reihenfolge missverstehen",
+              "text": "Die priority_queue ist nicht vollständig sortiert, nur das oberste Element ist garantiert korrekt."
+            },
+            {
+              "type": "important",
+              "text": "std::priority_queue ist ideal für Scheduling, Dijkstra und Ereignisverwaltung."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "std::priority_queue stellt immer das wichtigste Element bereit",
+                "Basiert auf einem Heap",
+                "Standardmäßig Max-Heap",
+                "Min-Heap über Comparator möglich",
+                "Kein direkter Iteratorzugriff"
+              ]
+            }
+          ]
+        }
         ]
       }
     ]
