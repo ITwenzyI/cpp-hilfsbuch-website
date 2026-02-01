@@ -10140,8 +10140,428 @@
         "name": "SQLite",
         "icon": "🧱",
         "topics": [
-          { "title": "SQLite Grundlagen", "content": { "text": [], "code": [] } },
-          { "title": "prepare / bind / step / finalize", "content": { "text": [], "code": [] } },
+        {
+          "title": "SQLite Grundlagen",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "SQLite",
+              "text": "SQLite ist eine serverlose, dateibasierte relationale Datenbank, die ohne separate Datenbanksoftware auskommt."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von SQLite",
+              "text": [
+                "SQLite ist eine eingebettete Datenbank, die direkt in eine Anwendung integriert wird.",
+                "Es existiert kein Serverprozess, alle Zugriffe erfolgen direkt auf eine Datenbankdatei."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Datenbank als Datei",
+              "text": [
+                "Eine SQLite-Datenbank besteht aus genau einer Datei.",
+                "Diese Datei enthält Tabellen, Indizes, Trigger und alle gespeicherten Daten."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Eigenschaften von SQLite",
+              "text": [
+                "Keine Installation oder Konfiguration notwendig.",
+                "Sehr geringe Abhängigkeiten.",
+                "ACID-konforme Transaktionen trotz einfacher Architektur."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Einsatzgebiete",
+              "items": [
+                "Desktop-Anwendungen",
+                "Mobile Apps",
+                "Embedded Systeme",
+                "Lokale Tools und Prototypen"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "SQLite im Vergleich zu Server-Datenbanken",
+              "text": [
+                "SQLite eignet sich nicht für viele gleichzeitige Schreibzugriffe.",
+                "Für lokale und einzelne Anwendungen ist SQLite oft die einfachste Lösung."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "SQLite in C++ Projekten",
+              "text": [
+                "In C++ wird SQLite nicht über die Standardbibliothek bereitgestellt.",
+                "Der Zugriff erfolgt über externe Header und Bibliotheksdateien."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Einbindung als Bibliothek",
+              "text": [
+                "SQLite kann als bereits kompilierte Systembibliothek eingebunden werden.",
+                "Alternativ kann der SQLite-Quellcode direkt in das Projekt integriert werden."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Falsche Erwartung an Parallelität",
+              "text": "SQLite ist keine Mehrbenutzer-Datenbank und skaliert nicht für viele gleichzeitige Schreibzugriffe."
+            },
+            {
+              "type": "important",
+              "text": "SQLite ist ideal für lokale, einfache und robuste Datenhaltung ohne Server."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "SQLite ist serverlos und dateibasiert",
+                "Eine Datenbank entspricht einer Datei",
+                "Kein Teil der C++ Standardbibliothek",
+                "Einbindung als Systembibliothek oder Quellcode möglich",
+                "Geeignet für lokale Anwendungen"
+              ]
+            }
+          ]
+        },
+
+        {
+          "title": "SQLite einbinden",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "SQLite Bibliothek",
+              "text": "SQLite kann in C++ Projekten als externe Bibliothek eingebunden und über die C-API genutzt werden."
+            },
+            {
+              "type": "explanation",
+              "title": "Einbindung als Systembibliothek",
+              "text": [
+                "SQLite ist auf vielen Systemen bereits als Bibliothek installiert.",
+                "Es wird lediglich der Header eingebunden und gegen die Bibliothek gelinkt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "CMake Einbindung von SQLite",
+              "language": "cpp",
+              "code": "cmake_minimum_required(VERSION 3.16)\n\nproject(SQLiteBeispiel LANGUAGES CXX)\n\nfind_package(SQLite3 REQUIRED)\n\nadd_executable(App main.cpp)\n\ntarget_link_libraries(App PRIVATE SQLite::SQLite3)\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Header einbinden",
+              "text": [
+                "Nach dem Linken kann der SQLite Header direkt verwendet werden.",
+                "Die API steht dann im gesamten Projekt zur Verfügung."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "SQLite Header einbinden",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Sehr kurze Verwendung",
+              "text": [
+                "Die Datenbank wird geöffnet und direkt wieder geschlossen.",
+                "Dies zeigt den minimalen Einstiegspunkt für SQLite."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Minimale Nutzung von SQLite",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n\nint main() {\n    sqlite3* db = nullptr;\n\n    if (sqlite3_open(\"example.db\", &db) == SQLITE_OK) {\n        // Datenbank erfolgreich geöffnet\n        sqlite3_close(db);\n    }\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "important",
+              "text": "SQLite wird in C++ immer über eine externe Bibliothek genutzt und ist kein Teil der Standardbibliothek."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "SQLite kann als Systembibliothek eingebunden werden",
+                "CMake nutzt dafür find_package(SQLite3)",
+                "Header sqlite3.h wird eingebunden",
+                "Zugriff erfolgt über sqlite3*",
+                "Geeignet für schnelle lokale Datenhaltung"
+              ]
+            }
+          ]
+        },
+
+        {
+          "title": "DB erstellen und als Zeiger übergeben",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "sqlite3*",
+              "text": "sqlite3* ist ein Zeiger auf eine geöffnete SQLite-Datenbank und repräsentiert die aktive Verbindung."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Eine SQLite-Datenbank wird einmal geöffnet und als sqlite3* gespeichert.",
+                "Dieser Zeiger kann sicher an Funktionen übergeben werden, die mit der Datenbank arbeiten."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Lebensdauer der Datenbank",
+              "text": [
+                "Die Datenbank wird vor der Nutzung geöffnet.",
+                "Sie bleibt gültig, bis sqlite3_close aufgerufen wird."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Datenbank erstellen und öffnen",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n\nsqlite3* openDatabase() {\n    sqlite3* db = nullptr;\n\n    int rc = sqlite3_open(\"example.db\", &db);\n\n    if (rc != SQLITE_OK) {\n        // Fehler beim Öffnen\n        sqlite3_close(db);\n        return nullptr;\n    }\n\n    return db; // Zeiger auf geöffnete Datenbank\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Übergabe an Funktionen",
+              "text": [
+                "Der sqlite3* Zeiger wird als Funktionsparameter übergeben.",
+                "Alle Funktionen arbeiten auf derselben Datenbankverbindung."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Funktion mit Datenbankzeiger",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n\nvoid createTable(sqlite3* db) {\n    const char* sql =\n        \"CREATE TABLE IF NOT EXISTS users (\"\n        \"id INTEGER PRIMARY KEY,\"\n        \"name TEXT\"\n        \");\";\n\n    sqlite3_exec(db, sql, nullptr, nullptr, nullptr);\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Zusammenspiel im main",
+              "text": [
+                "Die Datenbank wird einmal geöffnet.",
+                "Der Zeiger wird an mehrere Funktionen weitergereicht."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Komplettes Beispiel",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n#include <iostream>\n\nsqlite3* openDatabase() {\n    sqlite3* db = nullptr;\n    if (sqlite3_open(\"example.db\", &db) != SQLITE_OK) {\n        sqlite3_close(db);\n        return nullptr;\n    }\n    return db;\n}\n\nvoid createTable(sqlite3* db) {\n    const char* sql =\n        \"CREATE TABLE IF NOT EXISTS users (\"\n        \"id INTEGER PRIMARY KEY,\"\n        \"name TEXT\"\n        \");\";\n\n    sqlite3_exec(db, sql, nullptr, nullptr, nullptr);\n}\n\nint main() {\n    sqlite3* db = openDatabase();\n\n    if (!db) {\n        std::cout << \"Datenbank konnte nicht geöffnet werden\" << std::endl;\n        return 1;\n    }\n\n    createTable(db); // Übergabe des Zeigers\n\n    sqlite3_close(db); // Datenbank sauber schließen\n    return 0;\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Ungültiger Datenbankzeiger",
+              "text": "Wird sqlite3_close aufgerufen, darf der sqlite3* Zeiger nicht mehr verwendet werden."
+            },
+            {
+              "type": "important",
+              "text": "Der sqlite3* Zeiger repräsentiert die gesamte Datenbankverbindung und sollte zentral verwaltet werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "sqlite3_open erzeugt eine Datenbankverbindung",
+                "Die Verbindung wird als sqlite3* gespeichert",
+                "Der Zeiger kann an Funktionen übergeben werden",
+                "Alle Funktionen arbeiten auf derselben Datenbank",
+                "sqlite3_close beendet die Verbindung"
+              ]
+            }
+          ]
+        },
+
+        {
+          "title": "SQLite Datenbankklasse",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "RAII Datenbankklasse",
+              "text": "Eine Datenbankklasse kapselt eine SQLite-Verbindung und verwaltet Öffnen und Schließen über Konstruktor und Destruktor."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Die Datenbank wird beim Erzeugen des Objekts geöffnet.",
+                "Beim Zerstören des Objekts wird die Verbindung automatisch geschlossen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Pfadbasierte Datenbankerstellung",
+              "text": [
+                "Der Pfad zur Datenbankdatei wird dem Konstruktor übergeben.",
+                "Existiert die Datei nicht, wird sie automatisch erstellt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Database Klasse (Header und Implementierung)",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n#include <string>\n#include <stdexcept>\n\nclass Database {\npublic:\n    explicit Database(const std::string& dbPfad)\n        : db(nullptr)\n    {\n        // Öffnet bestehende Datenbank oder erstellt neue Datei\n        if (sqlite3_open(dbPfad.c_str(), &db) != SQLITE_OK) {\n            std::string fehler = sqlite3_errmsg(db);\n            sqlite3_close(db);\n            db = nullptr;\n            throw std::runtime_error(\"Datenbank konnte nicht geöffnet werden: \" + fehler);\n        }\n    }\n\n    ~Database() {\n        // Schließt die Datenbank automatisch\n        if (db) {\n            sqlite3_close(db);\n            db = nullptr;\n        }\n    }\n\n    // Zugriff auf rohe SQLite Verbindung\n    sqlite3* get() const {\n        return db;\n    }\n\n    // Kopieren verbieten\n    Database(const Database&) = delete;\n    Database& operator=(const Database&) = delete;\n\n    // Verschieben erlauben\n    Database(Database&& other) noexcept : db(other.db) {\n        other.db = nullptr;\n    }\n\n    Database& operator=(Database&& other) noexcept {\n        if (this != &other) {\n            if (db) {\n                sqlite3_close(db);\n            }\n            db = other.db;\n            other.db = nullptr;\n        }\n        return *this;\n    }\n\nprivate:\n    sqlite3* db;\n};\n"
+            },
+            {
+              "type": "code",
+              "title": "Verwendung der Database Klasse",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint main() {\n    try {\n        Database db(\"data/meine_datenbank.db\");\n\n        // Zugriff auf sqlite3* für weitere Operationen\n        sqlite3* handle = db.get();\n        (void)handle; // Platzhalter für weitere Nutzung\n    }\n    catch (const std::exception& e) {\n        std::cout << e.what() << std::endl;\n        return 1;\n    }\n\n    // Datenbank wird hier automatisch geschlossen\n    return 0;\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Mehrfaches Schließen",
+              "text": "sqlite3_close darf nur einmal aufgerufen werden und muss durch saubere Besitzverhältnisse abgesichert sein."
+            },
+            {
+              "type": "important",
+              "text": "Eine RAII-Datenbankklasse verhindert Lecks und stellt korrektes Öffnen und Schließen sicher."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Datenbank wird über Pfad im Konstruktor geöffnet",
+                "Nicht vorhandene Datei wird automatisch erstellt",
+                "Destruktor schließt die Verbindung",
+                "Kopieren ist verboten, Verschieben erlaubt",
+                "RAII ist Best Practice für SQLite in C++"
+              ]
+            }
+          ]
+        },
+
+        {
+          "title": "DB Ablauf: prepare / bind / step / finalize",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Prepared Statement Ablauf",
+              "text": "Der prepare / bind / step / finalize Ablauf beschreibt die korrekte und sichere Nutzung von SQL-Statements mit der SQLite C-API."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee des Ablaufs",
+              "text": [
+                "SQL-Anweisungen werden einmal vorbereitet und anschließend ausgeführt.",
+                "Daten und SQL-Code sind strikt getrennt, was Sicherheit und Performance erhöht."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Die vier Schritte",
+              "items": [
+                "prepare: SQL vorbereiten und kompilieren",
+                "bind: Parameter an das Statement binden",
+                "step: Statement ausführen",
+                "finalize: Ressourcen freigeben"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "1. prepare - SQL vorbereiten",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n\nsqlite3_stmt* stmt = nullptr;\n\nconst char* sql = \"INSERT INTO users (name, alter) VALUES (?, ?);\";\n\n// SQL wird vorbereitet und intern kompiliert\nint rc = sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr);\n\nif (rc != SQLITE_OK) {\n    // Vorbereitung fehlgeschlagen\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "prepare erklärt",
+              "text": [
+                "sqlite3_prepare_v2 analysiert und kompiliert den SQL-String.",
+                "Das Ergebnis ist ein sqlite3_stmt Objekt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "2. bind - Parameter binden",
+              "language": "cpp",
+              "code": "// Platzhalter werden von links nach rechts nummeriert: ?1, ?2, ...\nsqlite3_bind_text(stmt, 1, \"Anna\", -1, SQLITE_TRANSIENT);\nsqlite3_bind_int(stmt, 2, 25);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "bind erklärt",
+              "text": [
+                "bind ersetzt die Platzhalter ? im SQL-Statement.",
+                "Datentypen werden explizit gebunden, z. B. int, text oder double."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "3. step - Statement ausführen",
+              "language": "cpp",
+              "code": "int result = sqlite3_step(stmt);\n\nif (result == SQLITE_DONE) {\n    // INSERT, UPDATE oder DELETE erfolgreich\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "step erklärt",
+              "text": [
+                "sqlite3_step führt das vorbereitete Statement aus.",
+                "Bei INSERT liefert es SQLITE_DONE."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "step bei SELECT",
+              "language": "cpp",
+              "code": "while (sqlite3_step(stmt) == SQLITE_ROW) {\n    int id = sqlite3_column_int(stmt, 0);\n    const unsigned char* name = sqlite3_column_text(stmt, 1);\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "SELECT mit step",
+              "text": [
+                "Jeder Aufruf von step liefert eine Zeile.",
+                "SQLITE_ROW signalisiert, dass Daten verfügbar sind."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "4. finalize - Statement freigeben",
+              "language": "cpp",
+              "code": "// Statement und alle internen Ressourcen freigeben\nsqlite3_finalize(stmt);\nstmt = nullptr;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "finalize erklärt",
+              "text": [
+                "finalize MUSS immer aufgerufen werden.",
+                "Nicht freigegebene Statements führen zu Speicherlecks."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Kompletter Ablauf in einem Beispiel",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n\nvoid insertUser(sqlite3* db) {\n    sqlite3_stmt* stmt = nullptr;\n\n    const char* sql = \"INSERT INTO users (name, alter) VALUES (?, ?);\";\n\n    sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr);\n\n    sqlite3_bind_text(stmt, 1, \"Max\", -1, SQLITE_TRANSIENT);\n    sqlite3_bind_int(stmt, 2, 30);\n\n    sqlite3_step(stmt);\n\n    sqlite3_finalize(stmt);\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Statement vergessen zu finalisieren",
+              "text": "Ein fehlendes sqlite3_finalize führt zu Speicherlecks und blockierten Ressourcen."
+            },
+            {
+              "type": "important",
+              "text": "prepare, bind, step und finalize gehören immer zusammen und dürfen niemals getrennt betrachtet werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "prepare kompiliert SQL",
+                "bind setzt Parameter sicher",
+                "step führt das Statement aus",
+                "finalize gibt Ressourcen frei",
+                "Standardablauf für jede SQLite-Operation"
+              ]
+            }
+          ]
+        },
           { "title": "CRUD Operationen", "content": { "text": [], "code": [] } }
         ]
       }
