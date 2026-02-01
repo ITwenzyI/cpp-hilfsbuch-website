@@ -10063,7 +10063,48 @@
         "name": "Projekt Vorlagen",
         "icon": "🗂️",
         "topics": [
-          { "title": "CMakeLists.txt Minimal", "content": { "text": [], "code": [] } },
+        {
+          "title": "CMakeLists.txt Vorlagen",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "code",
+              "title": "Minimale CMakeLists.txt",
+              "language": "cpp",
+              "code": "cmake_minimum_required(VERSION 3.16)\n\nproject(MeinProjekt LANGUAGES CXX)\n\nadd_executable(MeinProgramm main.cpp)\n"
+            },
+            {
+              "type": "code",
+              "title": "CMakeLists.txt mit C++ Standard",
+              "language": "cpp",
+              "code": "cmake_minimum_required(VERSION 3.16)\n\nproject(MeinProjekt LANGUAGES CXX)\n\nadd_executable(MeinProgramm main.cpp)\n\ntarget_compile_features(MeinProgramm PRIVATE cxx_std_20)\n"
+            },
+            {
+              "type": "code",
+              "title": "Projekt mit mehreren Quelldateien",
+              "language": "cpp",
+              "code": "cmake_minimum_required(VERSION 3.16)\n\nproject(MehrDateien LANGUAGES CXX)\n\nadd_executable(App\n    main.cpp\n    foo.cpp\n    foo.hpp\n)\n\ntarget_compile_features(App PRIVATE cxx_std_20)\n"
+            },
+            {
+              "type": "code",
+              "title": "Projekt mit Bibliothek",
+              "language": "cpp",
+              "code": "cmake_minimum_required(VERSION 3.16)\n\nproject(BibliotheksProjekt LANGUAGES CXX)\n\nadd_library(util util.cpp util.hpp)\nadd_executable(App main.cpp)\n\ntarget_compile_features(util PUBLIC cxx_std_20)\n\ntarget_link_libraries(App PRIVATE util)\n"
+            },
+            {
+              "type": "code",
+              "title": "Include-Verzeichnisse pro Target",
+              "language": "cpp",
+              "code": "cmake_minimum_required(VERSION 3.16)\n\nproject(IncludeBeispiel LANGUAGES CXX)\n\nadd_executable(App main.cpp)\n\ntarget_include_directories(App\n    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include\n)\n"
+            },
+            {
+              "type": "code",
+              "title": "Build-Typ und Compiler-Optionen",
+              "language": "cpp",
+              "code": "cmake_minimum_required(VERSION 3.16)\n\nproject(BuildTyp LANGUAGES CXX)\n\nadd_executable(App main.cpp)\n\ntarget_compile_features(App PRIVATE cxx_std_20)\n\ntarget_compile_options(App PRIVATE -Wall -Wextra -Wpedantic)\n"
+            }
+          ]
+        },
           { "title": "Ordnerstruktur Vorlage", "content": { "text": [], "code": [] } },
           { "title": "Modulares Projekt Setup", "content": { "text": [], "code": [] } }
         ]
