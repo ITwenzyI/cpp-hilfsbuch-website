@@ -7917,41 +7917,86 @@
         "name": "namespace",
         "icon": "🌐",
         "topics": [
-          { "title": "namespace Grundlagen", "content": {
-            "text": [
-                "### === Namespaces in C++ ===\n",
-                "`namespace` dient zur Gruppierung von Funktionen, Klassen und Variablen unter einem gemeinsamen Namen, um Namenskonflikte zu vermeiden.\n",
-                "\n",
-                "---\n",
-                "### Warum Namespaces?\n",
-                "- Zwei Funktionen mit gleichem Namen können in unterschiedlichen Namespaces existieren\n",
-                "- Große Projekte (oder Bibliotheken wie `std`) nutzen Namespaces zur Trennung von Modulen\n",
-                "\n",
-                "---\n",
-                "### Verwendung von Namespaces\n",
-                "- Definition:\n",
-                "```cpp\nnamespace Mathe {\n    int addiere(int a, int b) {\n        return a + b;\n    }\n}\n```\n",
-                "- Aufruf:\n",
-                "```cpp\nint ergebnis = Mathe::addiere(3, 4);\n```\n",
-                "\n",
-                "---\n",
-                "### Anonyme Namespaces (Datei-spezifisch)\n",
-                "- Alles in einem anonymen Namespace ist **nur in der aktuellen Datei sichtbar**\n",
-                "```cpp\nnamespace {\n    int geheim() { return 42; }\n}\n```\n",
-                "\n",
-                "---\n",
-                "### Verschachtelte Namespaces (modernes C++)\n",
-                "```cpp\nnamespace Projekt::Modul {\n    void machWas() {}\n}\n```\n",
-                "\n",
-                "👉 `std` ist das bekannteste Beispiel: `std::cout`, `std::string`, `std::vector`, ...\n",
-                "👉 Namespaces verbessern Struktur, Lesbarkeit und Wartbarkeit von Code\n",
-                "---\n"
-              ],
-              "code": [
-                "#include <iostream>\n\n// Eigener Namespace\nnamespace Mathe {\n    int addiere(int a, int b) {\n        return a + b;\n    }\n}\n\n// Verschachtelter Namespace\nnamespace Projekt::Modul {\n    void info() {\n        std::cout << \"Modul aktiv\" << std::endl;\n    }\n}\n\nint main() {\n    int summe = Mathe::addiere(3, 4);\n    std::cout << \"Summe: \" << summe << std::endl;          // Ausgabe: Summe: 7\n\n    Projekt::Modul::info();                                 // Ausgabe: Modul aktiv\n\n    // using-Anweisung (gezielt)\n    using std::cout;\n    using std::endl;\n    cout << \"Hallo aus main()\" << endl;                      // Ausgabe: Hallo aus main()\n\n    return 0;\n}"
+        {
+          "title": "namespace Grundlagen",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "namespace",
+              "text": "Ein namespace ist ein Gültigkeitsbereich zur Strukturierung von Namen und zur Vermeidung von Namenskonflikten."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von namespace",
+              "text": [
+                "Namespaces gruppieren zusammengehörige Funktionen, Klassen und Variablen.",
+                "Sie verhindern Kollisionen gleichnamiger Bezeichner in größeren Programmen."
               ]
-            } 
-          },
+            },
+            {
+              "type": "explanation",
+              "title": "Eigenschaften",
+              "text": [
+                "Namespaces können verschachtelt werden.",
+                "Der Zugriff erfolgt über den Scope-Operator \"::\".",
+                "Namespaces erzeugen keinen eigenen Speicher."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Einsatzgebiete",
+              "items": [
+                "Strukturierung großer Codebasen",
+                "Trennung von Bibliotheken",
+                "Vermeidung von Namenskonflikten",
+                "Klarere Schnittstellen"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfacher namespace",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nnamespace Mathe {\n    int add(int a, int b) {\n        return a + b;\n    }\n}\n\nint main() {\n    std::cout << Mathe::add(2, 3) << std::endl; // Ausgabe: 5\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Verschachtelte Namespaces",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nnamespace Projekt {\n    namespace Modul {\n        void info() {\n            std::cout << \"Modul\" << std::endl;\n        }\n    }\n}\n\nint main() {\n    Projekt::Modul::info();\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Namespaces zur Strukturierung von Code",
+              "language": "cpp",
+              "code": "#include <iostream>\n\n// Namespace für mathematische Funktionen\nnamespace math {\n\n    int add(int a, int b) {\n        return a + b;\n    }\n\n    int mul(int a, int b) {\n        return a * b;\n    }\n}\n\n// Namespace für Logging-Funktionen\nnamespace log {\n\n    void print(const std::string& msg) {\n        std::cout << \"[LOG] \" << msg << std::endl;\n    }\n\n}\n\n// Verschachtelter Namespace (seit C++17 bevorzugte Schreibweise)\nnamespace util::debug {\n\n    void printValue(int x) {\n        std::cout << \"[DEBUG] Wert = \" << x << std::endl;\n    }\n\n}\n\nint main() {\n    // Zugriff mit vollqualifiziertem Namen\n    int sum = math::add(3, 4);\n    int product = math::mul(3, 4);\n\n    log::print(\"Berechnung abgeschlossen\");\n\n    util::debug::printValue(sum);\n\n    // Ausgabe:\n    // [LOG] Berechnung abgeschlossen\n    // [DEBUG] Wert = 7\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Klasse in einem Namespace",
+              "language": "cpp",
+              "code": "#include <iostream>\n\n// Oberer Namespace für Hilfsfunktionen\nnamespace util {\n\n    // Klasse gehört logisch zu util\n    class Counter {\n    public:\n        Counter() : value(0) {}\n\n        void increment() {\n            ++value;\n        }\n\n        int get() const {\n            return value;\n        }\n\n    private:\n        int value;\n    };\n\n    // Unter-Namespace für Debug-Funktionen\n    namespace debug {\n\n        // Funktion arbeitet mit der Klasse aus util\n        void printCounter(const Counter& c) {\n            std::cout << \"[DEBUG] Counter = \" << c.get() << std::endl;\n        }\n\n    }\n}\n\nint main() {\n    // Vollqualifizierter Zugriff auf die Klasse\n    util::Counter c;\n\n    c.increment();\n    c.increment();\n\n    // Zugriff auf Unter-Namespace\n    util::debug::printCounter(c);\n\n    // Ausgabe:\n    // [DEBUG] Counter = 2\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "using namespace std",
+              "text": "using namespace std kann Namenskonflikte verursachen und sollte in Header-Dateien vermieden werden."
+            },
+            {
+              "type": "important",
+              "text": "Namespaces sind essenziell für sauberen, wartbaren und modularen Code."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Namespaces strukturieren Namen",
+                "Verhindern Namenskonflikte",
+                "Zugriff über ::",
+                "Wichtig für große Projekte"
+              ]
+            }
+          ]
+        },
           { "title": "using namespace", "content": { 
             "text": [
                 "### `using namespace` (nicht immer empfohlen)\n",
