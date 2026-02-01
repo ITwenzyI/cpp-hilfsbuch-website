@@ -8297,6 +8297,11 @@
     ]
   },
 
+
+
+
+  
+
   {
     "category": "STL Container",
     "icon": "📦",
@@ -8342,69 +8347,6 @@
           { "title": "Fehlerbehandlung (try/catch)", "content": { "text": [], "code": [] } },
           { "title": "Präprozessor (#define)", "content": { "text": [], "code": [] } },
           { "title": "CMake Basics", "content": { "text": [], "code": [] } }
-        ]
-      },
-      {
-        "name": "Windows / Clion",
-        "icon": "⭐",
-        "topics": [
-          { "title": "Console Ausgabe UTF-8 Windows", "content": {
-            "text": [
-              "\n\n### === Console Ausgabe UTF-8 in Clion Windows ===\n\n\n",
-              "In Clion auf Windows, zeigt die Console keine Ü,Ä,Ö usw. an, wenn man nicht bestimmte Dinge beachtet und einstellt.\n\n",
-              "---\n",
-              "## 🔹 FONT Einstellen:",
-              "Zudem ist zu empfehlen, die Schriftart umzustellen, damit keine Formatierungsfehler erscheinen.\n",
-              "### 🔹 Einstellung in CLion\n",
-              "Einstellungen / Editor / General / Font dort \"Font: Consolar Size: 13.0 Line height: 1.2\"\n\n\n",
-              "---\n",
-              "### CODE in main.lua:"
-              ],
-            "code": [
-              "#include <windows.h> \n#include <io.h> \n#include <fcntl.h> \n\n\nint main() {\n SetConsoleOutputCP(CP_UTF8); \n return 0; \n}"
-              ]
-            } 
-          },
-          { "title": "Working Directory in CLion", "content": {
-            "text": [
-              "### === Dateien richtig speichern mit eigenem `data/`-Ordner ===\n",
-              "Standardmäßig speichert CLion Programme ihre Ausgabedateien im `cmake-build-debug/`-Ordner. Wenn du stattdessen möchtest, dass Dateien in einem eigenen `data/`-Ordner **im Projektverzeichnis** landen (z.B. `data/info.txt`), musst du das Arbeitsverzeichnis („Working Directory“) ändern.\n",
-              "\n",
-              "### 🔹 Zielstruktur\n",
-              "```",
-              "Projektordner/\n",
-              "├── CMakeLists.txt\n",
-              "├── data/\n",
-              "└── cmake-build-debug/",
-              "```",
-              "\n",
-              "### 🔹 Einstellung in CLion\n",
-              "1. Klicke oben rechts auf das Dropdown mit dem Projektnamen.\n",
-              "2. Wähle **„Edit Configurations…“**.\n",
-              "3. Wähle deine aktuelle Run-Konfiguration (z.B. dein Projekt).\n",
-              "4. Im Feld **„Working directory“** trägst du ein: `$ProjectFileDir$`\n",
-              "   → Das sorgt dafür, dass Pfade wie `data/info.txt` aus dem Projektordner gelesen/geschrieben werden.\n",
-              "\n",
-              "### 🔹 Prüfen im Code\n",
-              "- Nutze `std::filesystem::current_path()` um den aktuellen Pfad im Programm zu sehen:",
-              "\n",
-              "```cpp",
-              "std::cout << \"Arbeitsverzeichnis: \" << std::filesystem::current_path() << std::endl;",
-              "```",
-              "\n",
-              "---\n",
-              "### 🔹 Hinweis\n",
-              "- Erstelle den Ordner `data/` manuell im Projektverzeichnis oder per Code:",
-              "```cpp",
-              "std::filesystem::create_directories(\"data\");",
-              "```",
-              "---\n"
-              ],
-            "code": [
-              "#include <iostream>\n#include <filesystem>\n\nint main() {\n  std::cout << \"Aktuelles Arbeitsverzeichnis: \" << std::filesystem::current_path() << std::endl;\n\n  std::string pfad = \"data/test.txt\";\n  std::filesystem::create_directories(\"data\");\n  std::ofstream out(pfad);\n  out << \"Testzeile\\n\";\n  out.close();\n\n  std::cout << \"Datei erfolgreich erstellt unter: \" << pfad << std::endl;\n  return 0;\n}"
-              ]
-            } 
-          }
         ]
       }
     ]
