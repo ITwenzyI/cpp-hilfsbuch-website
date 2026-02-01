@@ -9433,7 +9433,123 @@
         "name": "Fortgeschritten",
         "icon": "⭐",
         "topics": [
-          { "title": "Fehlerbehandlung (try/catch)", "content": { "text": [], "code": [] } },
+        {
+          "title": "Fehlerbehandlung (try, catch und Exceptions)",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Exception",
+              "text": "Eine Exception ist ein Mechanismus zur Behandlung von Laufzeitfehlern durch Werfen und Abfangen von Fehlerobjekten."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee der Fehlerbehandlung",
+              "text": [
+                "Exceptions trennen Fehlerbehandlung vom normalen Programmablauf.",
+                "Fehler werden nicht über Rückgabewerte signalisiert, sondern explizit geworfen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "try, throw und catch",
+              "text": [
+                "try umschließt Code, in dem Fehler auftreten können.",
+                "throw löst eine Exception aus.",
+                "catch fängt eine geworfene Exception ab und behandelt sie."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Vorteile von Exceptions",
+              "items": [
+                "Saubere Trennung von Logik und Fehlerbehandlung",
+                "Keine Fehlercodes nötig",
+                "Fehler können über Funktionsgrenzen hinweg propagiert werden",
+                "Zentrale Behandlung möglich"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches try catch Beispiel",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <stdexcept>\n\nint teilen(int a, int b) {\n    if (b == 0) {\n        throw std::runtime_error(\"Division durch null\");\n    }\n    return a / b;\n}\n\nint main() {\n    try {\n        std::cout << teilen(10, 2) << std::endl;\n        std::cout << teilen(10, 0) << std::endl; // wirft Exception\n    }\n    catch (const std::runtime_error& e) {\n        std::cout << \"Fehler: \" << e.what() << std::endl;\n    }\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Ablauf bei einer Exception",
+              "text": [
+                "Beim throw wird der normale Kontrollfluss sofort verlassen.",
+                "Der Stack wird abgebaut, bis ein passender catch-Block gefunden wird."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Standard-Exception-Hierarchie",
+              "text": [
+                "C++ stellt eine Hierarchie von Exception-Typen bereit.",
+                "std::exception ist die Basisklasse vieler Standard-Exceptions."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Häufige Exception-Typen",
+              "items": [
+                "std::runtime_error",
+                "std::logic_error",
+                "std::out_of_range",
+                "std::invalid_argument"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Mehrere catch-Blöcke",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <stdexcept>\n\nint main() {\n    try {\n        throw std::out_of_range(\"Index außerhalb des Bereichs\");\n    }\n    catch (const std::out_of_range& e) {\n        std::cout << \"Out of range: \" << e.what() << std::endl;\n    }\n    catch (const std::exception& e) {\n        std::cout << \"Allgemeiner Fehler: \" << e.what() << std::endl;\n    }\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "catch Reihenfolge",
+              "text": [
+                "Spezifische Exceptions müssen vor allgemeineren gefangen werden.",
+                "Andernfalls werden sie nie erreicht."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Eigene Exception-Klasse",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <stdexcept>\n\nclass DateiFehler : public std::runtime_error {\npublic:\n    explicit DateiFehler(const std::string& msg)\n        : std::runtime_error(msg) {}\n};\n\nint main() {\n    try {\n        throw DateiFehler(\"Datei konnte nicht geöffnet werden\");\n    }\n    catch (const DateiFehler& e) {\n        std::cout << \"Dateifehler: \" << e.what() << std::endl;\n    }\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Exceptions und RAII",
+              "text": [
+                "Beim Stack-Unwinding werden lokale Objekte korrekt zerstört.",
+                "RAII stellt sicher, dass Ressourcen auch bei Fehlern freigegeben werden."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Exceptions für normale Kontrolle",
+              "text": "Exceptions sollten nicht für normalen Programmfluss oder häufige Fälle verwendet werden."
+            },
+            {
+              "type": "important",
+              "text": "Exceptions signalisieren außergewöhnliche Fehlerzustände und keine regulären Ergebnisse."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "try umschließt fehleranfälligen Code",
+                "throw löst eine Exception aus",
+                "catch behandelt den Fehler",
+                "Exceptions propagieren über Funktionsgrenzen",
+                "RAII sorgt für sichere Ressourcenfreigabe"
+              ]
+            }
+          ]
+        },
           { "title": "Präprozessor (#define)", "content": { "text": [], "code": [] } },
           { "title": "CMake Basics", "content": { "text": [], "code": [] } }
         ]
