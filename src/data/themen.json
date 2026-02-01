@@ -9550,7 +9550,114 @@
             }
           ]
         },
-          { "title": "Präprozessor (#define)", "content": { "text": [], "code": [] } },
+        {
+          "title": "Präprozessor und #define",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "#define",
+              "text": "#define ist eine Präprozessor-Anweisung zur Ersetzung von Text vor der eigentlichen Kompilierung."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee des Präprozessors",
+              "text": [
+                "Der Präprozessor arbeitet vor dem Compiler und verändert den Quelltext.",
+                "#define ersetzt symbolische Namen rein textuell, ohne Typprüfung."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Einfache Makros",
+              "text": [
+                "Konstanten können mit #define definiert werden.",
+                "Die Ersetzung erfolgt überall im Code, wo der Name vorkommt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Konstantes Makro",
+              "language": "cpp",
+              "code": "#include <iostream>\n\n#define PI 3.14159\n\nint main() {\n    std::cout << PI << std::endl; // wird durch 3.14159 ersetzt\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Funktionsähnliche Makros",
+              "text": [
+                "Makros können Parameter besitzen und wie Funktionen aussehen.",
+                "Es findet keine Typprüfung statt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Funktionsähnliches Makro",
+              "language": "cpp",
+              "code": "#include <iostream>\n\n#define QUADRAT(x) ((x) * (x))\n\nint main() {\n    int a = 3;\n    std::cout << QUADRAT(a + 1) << std::endl; // (a + 1) * (a + 1)\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Probleme von Makros",
+              "text": [
+                "Mehrfachauswertung von Argumenten kann zu Fehlern führen.",
+                "Debugging ist erschwert, da Makros keine echten Funktionen sind."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Weitere Präprozessor-Anweisungen",
+              "items": [
+                "#undef zum Entfernen eines Makros",
+                "#ifdef / #ifndef für bedingte Kompilierung",
+                "#if / #else / #endif für Bedingungen"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Bedingte Kompilierung",
+              "language": "cpp",
+              "code": "#include <iostream>\n\n#define DEBUG\n\nint main() {\n#ifdef DEBUG\n    std::cout << \"Debug-Modus aktiv\" << std::endl;\n#endif\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "#define vs const",
+              "columns": ["#define", "const"],
+              "rows": [
+                {
+                  "aspect": "Typprüfung",
+                  "values": ["Nein", "Ja"]
+                },
+                {
+                  "aspect": "Sichtbarkeit",
+                  "values": ["Textuell", "Gültigkeitsbereich"]
+                },
+                {
+                  "aspect": "Debugging",
+                  "values": ["Schwierig", "Einfach"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Makros statt moderner Alternativen",
+              "text": "#define sollte nicht für Konstanten oder Funktionen verwendet werden, wenn constexpr oder inline möglich sind."
+            },
+            {
+              "type": "important",
+              "text": "In modernem C++ sollten constexpr, const und inline Funktionen #define weitgehend ersetzen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "#define führt textuelle Ersetzung durch",
+                "Keine Typprüfung",
+                "Funktionsähnliche Makros sind fehleranfällig",
+                "Bedingte Kompilierung ist ein Hauptanwendungsfall",
+                "Moderne Alternativen bevorzugen"
+              ]
+            }
+          ]
+        },
           { "title": "CMake Basics", "content": { "text": [], "code": [] } }
         ]
       }
