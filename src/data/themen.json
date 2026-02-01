@@ -9859,8 +9859,24 @@
         "name": "Klassen Vorlagen",
         "icon": "🧱",
         "topics": [
-          { "title": "Klasse mit Header & cpp", "content": { "text": [], "code": [] } },
-          { "title": "Getter & Setter", "content": { "text": [], "code": [] } },
+        {
+          "title": "Header- und cpp-Datei Vorlage (.hpp mit Header-Guard)",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "code",
+              "title": "Klassen-Header (MyClass.hpp)",
+              "language": "cpp",
+              "code": "#ifndef MYCLASS_HPP\n#define MYCLASS_HPP\n\n#include <string>\n\nclass MyClass {\npublic:\n    MyClass();\n    explicit MyClass(const std::string& name);\n    ~MyClass();\n\n    void setName(const std::string& name);\n    std::string getName() const;\n\nprivate:\n    std::string name;\n};\n\n#endif // MYCLASS_HPP\n"
+            },
+            {
+              "type": "code",
+              "title": "Klassen-Implementierung (MyClass.cpp)",
+              "language": "cpp",
+              "code": "#include \"MyClass.hpp\"\n\nMyClass::MyClass() : name(\"default\") {}\n\nMyClass::MyClass(const std::string& name) : name(name) {}\n\nMyClass::~MyClass() {}\n\nvoid MyClass::setName(const std::string& name) {\n    this->name = name;\n}\n\nstd::string MyClass::getName() const {\n    return name;\n}\n"
+            }
+          ]
+        },
           { "title": "Konstruktoren Beispiel", "content": { "text": [], "code": [] } }
         ]
       },
