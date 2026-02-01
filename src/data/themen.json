@@ -8858,7 +8858,134 @@
         "name": "Assoziative Container",
         "icon": "🗂️",
         "topics": [
-          { "title": "map", "content": { "text": [], "code": [] } },
+        {
+          "title": "std::map",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "std::map",
+              "text": "std::map ist ein assoziativer STL-Container, der Schlüssel-Wert-Paare sortiert und eindeutig nach Schlüsseln speichert."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundkonzept",
+              "text": [
+                "std::map speichert Elemente automatisch sortiert nach dem Schlüssel.",
+                "Jeder Schlüssel kommt höchstens einmal vor."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Interne Struktur",
+              "text": [
+                "std::map ist typischerweise als balancierter Suchbaum implementiert.",
+                "Alle grundlegenden Operationen laufen in logarithmischer Zeit."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Benötigter Header",
+              "items": [
+                "<map>"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Einfügen von Elementen",
+              "text": [
+                "insert fügt ein Schlüssel-Wert-Paar ein, wenn der Schlüssel noch nicht existiert.",
+                "operator[] erzeugt bei Bedarf automatisch einen Eintrag."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "insert und operator[]",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <map>\n#include <string>\n\nint main() {\n    std::map<int, std::string> m;\n\n    m.insert({1, \"eins\"});\n    m[2] = \"zwei\"; // erzeugt Eintrag falls nicht vorhanden\n\n    std::cout << m[1] << std::endl;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Zugriff und Suche",
+              "text": [
+                "find sucht nach einem Schlüssel und liefert einen Iterator.",
+                "count prüft, ob ein Schlüssel existiert."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "find und count",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <map>\n\nint main() {\n    std::map<int, int> m = {{1, 10}, {2, 20}};\n\n    auto it = m.find(2);\n    if (it != m.end()) {\n        std::cout << it->second << std::endl;\n    }\n\n    std::cout << m.count(3) << std::endl; // 0 oder 1\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Elemente entfernen",
+              "text": [
+                "erase entfernt Elemente nach Schlüssel oder Iterator.",
+                "clear entfernt alle Einträge."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "erase und clear",
+              "language": "cpp",
+              "code": "#include <map>\n\nint main() {\n    std::map<int, int> m = {{1, 10}, {2, 20}};\n\n    m.erase(1);\n    m.clear();\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Iteration",
+              "text": [
+                "Iteration erfolgt immer in sortierter Reihenfolge der Schlüssel.",
+                "Iteratoren liefern Zugriff auf Schlüssel und Wert."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Iterieren über map",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <map>\n\nint main() {\n    std::map<int, int> m = {{2, 20}, {1, 10}};\n\n    for (const auto& p : m) {\n        std::cout << p.first << \": \" << p.second << std::endl;\n    }\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "std::map vs std::unordered_map",
+              "columns": ["std::map", "std::unordered_map"],
+              "rows": [
+                {
+                  "aspect": "Ordnung",
+                  "values": ["Sortiert", "Nicht sortiert"]
+                },
+                {
+                  "aspect": "Zeitkomplexität",
+                  "values": ["O(log n)", "Ø O(1)"]
+                },
+                {
+                  "aspect": "Iterator-Reihenfolge",
+                  "values": ["Deterministisch", "Nicht definiert"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "operator[] bei Lesen",
+              "text": "operator[] erzeugt bei nicht vorhandenem Schlüssel automatisch einen Eintrag."
+            },
+            {
+              "type": "important",
+              "text": "std::map eignet sich für geordnete Schlüssel-Wert-Daten mit stabiler Iterationsreihenfolge."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "std::map speichert sortierte Schlüssel-Wert-Paare",
+                "Eindeutige Schlüssel",
+                "Logarithmische Laufzeit",
+                "Sortierte Iteration",
+                "Geeignet für geordnete Daten"
+              ]
+            }
+          ]
+        },
           { "title": "set", "content": { "text": [], "code": [] } }
         ]
       },
