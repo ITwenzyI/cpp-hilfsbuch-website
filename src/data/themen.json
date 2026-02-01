@@ -7534,9 +7534,144 @@
         "name": "struct",
         "icon": "📦",
         "topics": [
-          { "title": "struct Grundlagen", "content": { "text": [], "code": [] } },
-          { "title": "struct vs class", "content": { "text": [], "code": [] } }
-        ]
+        {
+          "title": "struct Grundlagen",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "struct",
+              "text": "struct ist ein benutzerdefinierter Datentyp zur Bündelung mehrerer zusammengehöriger Daten unter einem Namen."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von struct",
+              "text": [
+                "structs dienen dazu, einfache Daten logisch zusammenzufassen.",
+                "Der Fokus liegt typischerweise auf Daten und nicht auf komplexem Verhalten."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Eigenschaften",
+              "text": [
+                "Alle Member sind standardmäßig öffentlich zugreifbar.",
+                "structs können Attribute, Methoden, Konstruktoren und Destruktoren enthalten."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Einsatzgebiete",
+              "items": [
+                "Zusammenfassen von Messwerten oder Koordinaten",
+                "Einfache Rückgabestrukturen von Funktionen",
+                "Plain-Data-Strukturen ohne Invarianten"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches struct",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nstruct Punkt {\n    int x;\n    int y;\n};\n\nint main() {\n    Punkt p{3, 4};\n    std::cout << p.x << \", \" << p.y << std::endl;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "struct mit Methode",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nstruct Rechteck {\n    int breite;\n    int hoehe;\n\n    int flaeche() const {\n        return breite * hoehe;\n    }\n};\n\nint main() {\n    Rechteck r{5, 4};\n    std::cout << r.flaeche() << std::endl;\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Fehlende Validierung",
+              "text": "Öffentliche Attribute erlauben unkontrollierte Zustandsänderungen."
+            },
+            {
+              "type": "important",
+              "text": "structs eignen sich besonders für einfache, datenorientierte Typen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "struct bündelt zusammengehörige Daten",
+                "Member sind standardmäßig public",
+                "Geeignet für einfache Datenstrukturen"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "struct vs class",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "struct und class",
+              "text": "struct und class sind nahezu identische Sprachkonstrukte in C++ mit unterschiedlichem Standard-Zugriffsverhalten."
+            },
+            {
+              "type": "explanation",
+              "title": "Gemeinsamkeiten",
+              "text": [
+                "Beide können Attribute, Methoden, Konstruktoren und Destruktoren enthalten.",
+                "Beide unterstützen Vererbung, Polymorphie und Zugriffsspezifizierer."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Zentraler Unterschied",
+              "text": [
+                "Bei struct sind Member standardmäßig public.",
+                "Bei class sind Member standardmäßig private."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Direkter Vergleich",
+              "columns": ["struct", "class"],
+              "rows": [
+                {
+                  "aspect": "Standard-Zugriff",
+                  "values": ["public", "private"]
+                },
+                {
+                  "aspect": "Typischer Einsatzzweck",
+                  "values": ["Datenstruktur", "Objekt mit Logik"]
+                }
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Standard-Zugriff bei struct",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nstruct A {\n    int x; // public\n};\n\nint main() {\n    A a;\n    a.x = 5;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Standard-Zugriff bei class",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass B {\n    int x; // private\n};\n\nint main() {\n    B b;\n    // b.x = 5; // Fehler: private Zugriff\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Falsche Semantik",
+              "text": "Die Wahl von struct oder class sollte die beabsichtigte Bedeutung des Typs widerspiegeln."
+            },
+            {
+              "type": "important",
+              "text": "Die Wahl zwischen struct und class ist semantisch und konzeptionell, nicht technisch."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "struct und class sind technisch gleichwertig",
+                "Unterschied liegt im Standard-Zugriff",
+                "struct für Daten, class für Logik",
+                "Semantik sollte klar erkennbar sein"
+              ]
+            }
+          ]
+        }
+      ]
       },
       {
         "name": "enum",
