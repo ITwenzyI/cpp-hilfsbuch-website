@@ -9877,7 +9877,48 @@
             }
           ]
         },
-          { "title": "Konstruktoren Beispiel", "content": { "text": [], "code": [] } }
+        {
+          "title": "Konstruktoren",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "code",
+              "title": "Konstruktor mit Initialisierungsliste (:)",
+              "language": "cpp",
+              "code": "#include <string>\n\nclass Person {\npublic:\n    Person(const std::string& name, int alter)\n        : name(name), alter(alter) // Initialisierungsliste\n    {}\n\nprivate:\n    std::string name;\n    int alter;\n};\n"
+            },
+            {
+              "type": "code",
+              "title": "Konstruktor mit mehreren Attributen und Defaultwerten",
+              "language": "cpp",
+              "code": "#include <string>\n\nclass Fahrzeug {\npublic:\n    Fahrzeug(const std::string& marke, int baujahr, double preis)\n        : marke(marke), baujahr(baujahr), preis(preis)\n    {}\n\nprivate:\n    std::string marke;\n    int baujahr;\n    double preis;\n};\n"
+            },
+            {
+              "type": "code",
+              "title": "Initialisierung im Konstruktor-Rumpf ({ })",
+              "language": "cpp",
+              "code": "#include <string>\n\nclass Benutzer {\npublic:\n    Benutzer(const std::string& name, int alter) {\n        this->name = name;   // Zuweisung im Rumpf\n        this->alter = alter;\n    }\n\nprivate:\n    std::string name;\n    int alter;\n};\n"
+            },
+            {
+              "type": "code",
+              "title": "Kombination aus Initialisierungsliste und Rumpf",
+              "language": "cpp",
+              "code": "#include <string>\n#include <iostream>\n\nclass Konto {\npublic:\n    Konto(const std::string& inhaber, double startGuthaben)\n        : inhaber(inhaber), guthaben(startGuthaben)\n    {\n        // Zusätzliche Logik im Rumpf\n        std::cout << \"Konto erstellt\" << std::endl;\n    }\n\nprivate:\n    std::string inhaber;\n    double guthaben;\n};\n"
+            },
+            {
+              "type": "code",
+              "title": "Konstruktor mit Defaultwerten in der Signatur",
+              "language": "cpp",
+              "code": "#include <string>\n\nclass Benutzer {\npublic:\n    Benutzer(const std::string& name = \"Unbekannt\", int alter = 0)\n        : name(name), alter(alter)\n    {}\n\nprivate:\n    std::string name;\n    int alter;\n};\n"
+            },
+            {
+              "type": "code",
+              "title": "Konstruktor mit Defaultwerten und zusätzlicher Logik",
+              "language": "cpp",
+              "code": "#include <string>\n#include <iostream>\n\nclass Konto {\npublic:\n    Konto(const std::string& inhaber = \"Gast\", double guthaben = 0.0)\n        : inhaber(inhaber), guthaben(guthaben)\n    {\n        // Zusätzliche Initialisierungslogik\n        std::cout << \"Konto erstellt\" << std::endl;\n    }\n\nprivate:\n    std::string inhaber;\n    double guthaben;\n};\n"
+            }
+          ]
+        }
         ]
       },
       {
