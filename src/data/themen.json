@@ -9217,7 +9217,103 @@
             }
           ]
         },
-          { "title": "queue", "content": { "text": [], "code": [] } },
+        {
+          "title": "std::queue",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "std::queue",
+              "text": "std::queue ist ein Container-Adapter, der das FIFO-Prinzip verwendet, bei dem das zuerst eingefügte Element zuerst entfernt wird."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundkonzept",
+              "text": [
+                "std::queue modelliert eine Warteschlange.",
+                "Elemente werden hinten eingefügt und vorne entfernt."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Container-Adapter",
+              "text": [
+                "std::queue ist kein eigenständiger Container.",
+                "Intern wird standardmäßig std::deque verwendet."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Benötigter Header",
+              "items": [
+                "<queue>"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Zentrale Operationen",
+              "text": [
+                "push fügt ein Element am Ende ein.",
+                "pop entfernt das vorderste Element.",
+                "front und back liefern Zugriff auf Anfang und Ende.",
+                "empty und size geben Zustandsinformationen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Grundlegende Nutzung von std::queue",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <queue>\n\nint main() {\n    std::queue<int> q;\n\n    q.push(1);\n    q.push(2);\n    q.push(3);\n\n    std::cout << q.front() << std::endl; // Ausgabe: 1\n    q.pop();\n    std::cout << q.front() << std::endl; // Ausgabe: 2\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Einschränkungen",
+              "text": [
+                "Kein direkter Zugriff auf mittlere Elemente.",
+                "Iteratoren werden nicht bereitgestellt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "front, back, empty und size",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <queue>\n\nint main() {\n    std::queue<int> q;\n\n    std::cout << q.empty() << std::endl; // true\n    q.push(10);\n    q.push(20);\n\n    std::cout << q.front() << std::endl; // 10\n    std::cout << q.back() << std::endl;  // 20\n    std::cout << q.size() << std::endl;  // 2\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "std::queue vs std::deque",
+              "columns": ["std::queue", "std::deque"],
+              "rows": [
+                {
+                  "aspect": "Zugriff",
+                  "values": ["FIFO eingeschränkt", "Voller Zugriff"]
+                },
+                {
+                  "aspect": "Abstraktion",
+                  "values": ["Warteschlange", "Sequenzieller Container"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zugriff nach pop",
+              "text": "Nach pop darf front nicht mehr verwendet werden, da das Element entfernt wurde."
+            },
+            {
+              "type": "important",
+              "text": "std::queue ist ideal für Breitensuche, Scheduling und Producer-Consumer-Modelle."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "std::queue arbeitet nach dem FIFO-Prinzip",
+                "Zugriff nur vorne und hinten",
+                "Kein direkter Zugriff auf mittlere Elemente",
+                "Container-Adapter auf Basis von std::deque"
+              ]
+            }
+          ]
+        },
           { "title": "priority_queue", "content": { "text": [], "code": [] } }
         ]
       }
