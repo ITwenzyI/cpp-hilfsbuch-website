@@ -7751,7 +7751,74 @@
         "name": "enum class",
         "icon": "🧩",
         "topics": [
-          { "title": "enum class Grundlagen", "content": { "text": [], "code": [] } },
+        {
+          "title": "enum class Grundlagen",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "enum class",
+              "text": "enum class ist ein stark typisierter Aufzählungstyp mit eigenem Gültigkeitsbereich und ohne implizite Umwandlung in Ganzzahlen."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von enum class",
+              "text": [
+                "enum class wurde eingeführt, um typische Probleme klassischer Enums zu vermeiden.",
+                "Die Aufzählungswerte sind klar gekapselt und typsicher."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Eigenschaften",
+              "text": [
+                "Enum-Werte liegen im Namensraum des enum class Typs.",
+                "Es gibt keine implizite Umwandlung zu int.",
+                "Der zugrundeliegende Typ kann explizit festgelegt werden."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Vorteile von enum class",
+              "items": [
+                "Keine Namenskonflikte",
+                "Starke Typisierung",
+                "Bessere Lesbarkeit",
+                "Höhere Typsicherheit"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches enum class",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nenum class Farbe {\n    Rot,\n    Gruen,\n    Blau\n};\n\nint main() {\n    Farbe f = Farbe::Rot;\n\n    if (f == Farbe::Rot) {\n        std::cout << \"Rot\" << std::endl;\n    }\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Expliziter zugrundeliegender Typ",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nenum class Status : int {\n    OK = 0,\n    Fehler = 1,\n    Unbekannt = 100\n};\n\nint main() {\n    Status s = Status::Fehler;\n    std::cout << static_cast<int>(s) << std::endl; // Ausgabe: 1\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Vergessener Scope",
+              "text": "Enum-Werte müssen immer mit dem Typnamen qualifiziert werden, zum Beispiel Farbe::Rot."
+            },
+            {
+              "type": "important",
+              "text": "enum class sollte in modernem C++ dem klassischen enum vorgezogen werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "enum class ist stark typisiert",
+                "Keine implizite Umwandlung zu int",
+                "Eigener Gültigkeitsbereich",
+                "Bevorzugt in modernem C++"
+              ]
+            }
+          ]
+        },
           { "title": "enum class vs enum", "content": { "text": [], "code": [] } }
         ]
       },
