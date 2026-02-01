@@ -9,7 +9,7 @@
         "icon": "📘",
         "topics": [
           {
-          "title": "Namensgebung in C++",
+          "title": "Namensgebung ",
           "difficulty": "basic",
           "blocks": [
             {
@@ -105,7 +105,7 @@
           ]
         },
           {
-            "title": "Wichtige Grundbegriffe in C++",
+            "title": "Wichtige Grundbegriffe ",
             "difficulty": "basic",
             "blocks": [
               {
@@ -229,7 +229,7 @@
             ]
           },
           {
-            "title": "Datentypen in C++",
+            "title": "Datentypen ",
             "difficulty": "basic",
             "blocks": [
               {
@@ -412,7 +412,7 @@
             ]
           },
           {
-            "title": "I/O Grundprinzipien in C++",
+            "title": "I/O Grundprinzipien",
             "difficulty": "basic",
             "blocks": [
               {
@@ -538,7 +538,7 @@
         "icon": "➕",
         "topics": [
           {
-            "title": "Arithmetische Operatoren in C++",
+            "title": "Arithmetische Operatoren",
             "difficulty": "basic",
             "blocks": [
               {
@@ -644,7 +644,7 @@
             ]
           },
           {
-            "title": "Vergleichsoperatoren in C++",
+            "title": "Vergleichsoperatoren ",
             "difficulty": "basic",
             "blocks": [
               {
@@ -715,7 +715,7 @@
             ]
           },
           {
-            "title": "Logische Operatoren in C++",
+            "title": "Logische Operatoren ",
             "difficulty": "basic",
             "blocks": [
               {
@@ -803,7 +803,7 @@
         "icon": "📘",
         "topics": [
           {
-            "title": "const Variablen in C++",
+            "title": "const Variablen ",
             "difficulty": "basic",
             "blocks": [
               {
@@ -884,7 +884,7 @@
             ]
           },
           {
-            "title": "const Parameter in C++",
+            "title": "const Parameter ",
             "difficulty": "basic",
             "blocks": [
               {
@@ -957,7 +957,7 @@
             ]
           },
           {
-            "title": "const Klassenmember in C++",
+            "title": "const Klassenmember ",
             "difficulty": "basic",
             "blocks": [
               {
@@ -1024,7 +1024,7 @@
             ]
           },
           {
-            "title": "const Überladung in C++",
+            "title": "const Überladung ",
             "difficulty": "basic",
             "blocks": [
               {
@@ -1086,7 +1086,7 @@
             ]
           },
           {
-            "title": "constexpr in C++",
+            "title": "constexpr ",
             "difficulty": "basic",
             "blocks": [
               {
@@ -8179,35 +8179,98 @@
             }
           ]
         },
-          { "title": "mutable Member", "content": { 
-            "text": [  
-              "### === `mutable` in C++ ===\n",
-              "`mutable` erlaubt es, einen Member einer Klasse **trotz `const`-Funktion zu verändern**.\n",
-              "\n",
-              "---\n",
-              "### Wann braucht man das?\n",
-              "- Normalerweise dürfen `const`-Funktionen **keine Membervariablen verändern**.\n",
-              "- Mit `mutable` kann man **gezielt Ausnahmen** machen, z.B. für Logging, Caching oder Zugriffszähler.\n",
-              "\n",
-              "---\n",
-              "### Auch ohne `const` nützlich:\n",
-              "- `mutable`-Member sind **immer unabhängig von `const`**, also z.B. nicht betroffen von `const`-Zustand anderer Objekte.\n",
-              "- Sie können **immer verändert werden**, auch außerhalb von `const`-Kontexten - z.B. als interne Zähler oder Zustände.\n",
-              "\n",
-              "---\n",
-              "### Wichtig:\n",
-              "- `mutable` funktioniert **nur bei Membervariablen**.\n",
-              "- Hat **nichts** mit `const` Variablen zu tun - es ist ein **Zugriffs-Modifier** für Klassenmitglieder.\n",
-              "\n",
-              "👉 Vorsicht beim Einsatz: `mutable` kann das `const`-Versprechen brechen!\n",
-              "---\n"
-              ], 
-            "code": [
-              "#include <iostream>\n#include <string>\n\nclass Datei {\nprivate:\n  std::string inhalt;\n  mutable int leseZähler = 0;  // darf auch in const-Funktion verändert werden\n\npublic:\n  Datei(std::string i) : inhalt(i) {}\n\n  std::string lesen() const {\n    leseZähler++;  // erlaubt, da mutable\n    return inhalt;\n  }\n\n  int getLeseZähler() const {\n    return leseZähler;\n  }\n};\n\nint main() {\n  const Datei d(\"Hallo Welt\");\n  std::cout << d.lesen() << std::endl;  // Ausgabe: Hallo Welt\n  std::cout << d.lesen() << std::endl;  // Ausgabe: Hallo Welt\n  std::cout << \"Anzahl Lesezugriffe: \" << d.getLeseZähler() << std::endl;  // Ausgabe: 2\n\n  return 0;\n}"
-              ] 
-            } 
-          },
-          { "title": "const Memberfunktionen", "content": { "text": [], "code": [] } }
+        
+        {
+          "title": "const Memberfunktionen & mutable Member",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "const und mutable",
+              "text": "const Memberfunktionen schützen den Objektzustand, mutable erlaubt gezielte Änderungen einzelner Attribute trotz const."
+            },
+            {
+              "type": "explanation",
+              "title": "const Memberfunktionen",
+              "text": [
+                "Eine const Memberfunktion garantiert, dass der sichtbare Zustand des Objekts nicht verändert wird.",
+                "Innerhalb einer const Funktion dürfen keine normalen Member geändert werden."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Logische vs physische Konstanz",
+              "text": [
+                "Const schützt die logische Konstanz eines Objekts aus Sicht des Nutzers.",
+                "mutable erlaubt interne, technische Änderungen ohne Verletzung dieser Logik."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "mutable Member",
+              "text": [
+                "mutable hebt die const Einschränkung für einzelne Attribute auf.",
+                "Damit können interne Zustände auch in const Memberfunktionen geändert werden."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Einsatzgebiete",
+              "items": [
+                "Caching von berechneten Werten",
+                "Lazy Evaluation",
+                "Zugriffs- oder Statistikzähler",
+                "Interne Debug- oder Logging-Daten"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "const Memberfunktion ohne mutable",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Punkt {\npublic:\n    Punkt(int x, int y) : x(x), y(y) {}\n\n    int getX() const {\n        return x; // erlaubt\n    }\n\n    // void setX(int v) const { x = v; } // Fehler: Änderung nicht erlaubt\n\nprivate:\n    int x;\n    int y;\n};\n"
+            },
+            {
+              "type": "code",
+              "title": "mutable für Cache in const Funktion",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Quadrat {\npublic:\n    Quadrat(int s) : seite(s) {}\n\n    int flaeche() const {\n        if (!cacheGueltig) {\n            cache = seite * seite; // erlaubt durch mutable\n            cacheGueltig = true;\n        }\n        return cache;\n    }\n\nprivate:\n    int seite;\n    mutable int cache = 0;\n    mutable bool cacheGueltig = false;\n};\n\nint main() {\n    const Quadrat q(4);\n    std::cout << q.flaeche() << std::endl; // Ausgabe: 16\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "const ohne mutable vs mit mutable",
+              "columns": ["const ohne mutable", "const mit mutable"],
+              "rows": [
+                {
+                  "aspect": "Änderung von Membern",
+                  "values": ["Verboten", "Gezielt erlaubt"]
+                },
+                {
+                  "aspect": "Geeignet für Cache",
+                  "values": ["Nein", "Ja"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Missbrauch von mutable",
+              "text": "mutable darf nicht verwendet werden, um fachlich relevante Zustandsänderungen zu verstecken."
+            },
+            {
+              "type": "important",
+              "text": "const und mutable dienen der klaren Trennung zwischen logischer Schnittstelle und interner Implementierung."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "const schützt die logische Objektkonstanz",
+                "mutable erlaubt interne Änderungen",
+                "Typisch für Cache und Lazy Evaluation",
+                "Missbrauch führt zu unklarem Design"
+              ]
+            }
+          ]
+        }
+        
         ]
       }
     ]
