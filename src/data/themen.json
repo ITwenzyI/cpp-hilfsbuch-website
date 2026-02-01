@@ -10562,7 +10562,96 @@
             }
           ]
         },
-          { "title": "CRUD Operationen", "content": { "text": [], "code": [] } }
+        {
+          "title": "CRUD Operationen",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "CRUD",
+              "text": "CRUD steht für Create, Read, Update und Delete und beschreibt die vier Grundoperationen auf Daten in einer Datenbank."
+            },
+            {
+              "type": "explanation",
+              "title": "Voraussetzung: Tabelle und Spalten",
+              "text": [
+                "Die Beispiele gehen von einer Tabelle users aus.",
+                "Schema: users(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, age INTEGER)."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Benötigte Header",
+              "items": [
+                "<sqlite3.h>",
+                "<string>",
+                "<optional>",
+                "<vector>",
+                "<iostream>"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Create: Tabelle anlegen (prepare / step / finalize)",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n#include <iostream>\n\nbool createUsersTable(sqlite3* db) {\n    const char* sql = R\"(\n        CREATE TABLE IF NOT EXISTS users (\n            id INTEGER PRIMARY KEY AUTOINCREMENT,\n            name TEXT NOT NULL,\n            age INTEGER\n        );\n    )\";\n\n    sqlite3_stmt* stmt = nullptr;\n\n    // 1. prepare\n    // Parst SQL, prüft Syntax und erstellt ein ausführbares Statement-Objekt.\n    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {\n        std::cerr << \"Prepare-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        return false;\n    }\n\n    // 2. step\n    // Für DDL wie CREATE TABLE erwartet man SQLITE_DONE.\n    int rc = sqlite3_step(stmt);\n    if (rc != SQLITE_DONE) {\n        std::cerr << \"Step-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        sqlite3_finalize(stmt);\n        return false;\n    }\n\n    // 3. finalize\n    sqlite3_finalize(stmt);\n\n    return true;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Create: Datensatz einfügen (INSERT) mit prepare / bind / step / finalize",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n#include <string>\n#include <iostream>\n\nbool insertUser(sqlite3* db, const std::string& name, int age) {\n    sqlite3_stmt* stmt = nullptr;\n\n    const char* sql = \"INSERT INTO users (name, age) VALUES (?, ?);\";\n\n    // 1. prepare\n    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {\n        std::cerr << \"Prepare-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        return false;\n    }\n\n    // 2. bind\n    sqlite3_bind_text(stmt, 1, name.c_str(), -1, SQLITE_TRANSIENT);\n    sqlite3_bind_int(stmt, 2, age);\n\n    // 3. step\n    int rc = sqlite3_step(stmt);\n    if (rc != SQLITE_DONE) {\n        std::cerr << \"Step-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        sqlite3_finalize(stmt);\n        return false;\n    }\n\n    // 4. finalize\n    sqlite3_finalize(stmt);\n    return true;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Read: Einzelnen Datensatz lesen (SELECT) und Spalten auslesen",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n#include <string>\n#include <optional>\n#include <iostream>\n\nstruct User {\n    int id;\n    std::string name;\n    int age;\n};\n\nstd::optional<User> findUserById(sqlite3* db, int id) {\n    sqlite3_stmt* stmt = nullptr;\n\n    const char* sql = \"SELECT id, name, age FROM users WHERE id = ?;\";\n\n    // 1. prepare\n    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {\n        std::cerr << \"Prepare-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        return std::nullopt;\n    }\n\n    // 2. bind\n    sqlite3_bind_int(stmt, 1, id);\n\n    // 3. step\n    int rc = sqlite3_step(stmt);\n    if (rc != SQLITE_ROW) {\n        // SQLITE_DONE bedeutet: keine Zeile gefunden\n        if (rc != SQLITE_DONE) {\n            std::cerr << \"Step-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        }\n        sqlite3_finalize(stmt);\n        return std::nullopt;\n    }\n\n    // 4. columns lesen\n    User u;\n    u.id = sqlite3_column_int(stmt, 0);\n\n    const unsigned char* outName = sqlite3_column_text(stmt, 1);\n    u.name = outName ? reinterpret_cast<const char*>(outName) : \"\";\n\n    u.age = sqlite3_column_int(stmt, 2);\n\n    // 5. finalize\n    sqlite3_finalize(stmt);\n    return u;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Read: Alle Datensätze lesen (SELECT) in std::vector",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n#include <string>\n#include <vector>\n#include <iostream>\n\nstruct User {\n    int id;\n    std::string name;\n    int age;\n};\n\nstd::vector<User> getAllUsers(sqlite3* db) {\n    std::vector<User> users;\n    sqlite3_stmt* stmt = nullptr;\n\n    const char* sql = \"SELECT id, name, age FROM users ORDER BY id;\";\n\n    // 1. prepare\n    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {\n        std::cerr << \"Prepare-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        return users;\n    }\n\n    // 2. step Schleife\n    while (true) {\n        int rc = sqlite3_step(stmt);\n\n        if (rc == SQLITE_ROW) {\n            User u;\n            u.id = sqlite3_column_int(stmt, 0);\n\n            const unsigned char* name = sqlite3_column_text(stmt, 1);\n            u.name = name ? reinterpret_cast<const char*>(name) : \"\";\n\n            u.age = sqlite3_column_int(stmt, 2);\n            users.push_back(u);\n            continue;\n        }\n\n        if (rc == SQLITE_DONE) {\n            break; // fertig\n        }\n\n        std::cerr << \"Step-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        break;\n    }\n\n    // 3. finalize\n    sqlite3_finalize(stmt);\n    return users;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Update: Datensatz ändern (UPDATE) und Ergebnis prüfen",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n#include <string>\n#include <iostream>\n\nbool updateUserName(sqlite3* db, int id, const std::string& neuerName) {\n    sqlite3_stmt* stmt = nullptr;\n\n    const char* sql = \"UPDATE users SET name = ? WHERE id = ?;\";\n\n    // 1. prepare\n    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {\n        std::cerr << \"Prepare-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        return false;\n    }\n\n    // 2. bind\n    sqlite3_bind_text(stmt, 1, neuerName.c_str(), -1, SQLITE_TRANSIENT);\n    sqlite3_bind_int(stmt, 2, id);\n\n    // 3. step\n    int rc = sqlite3_step(stmt);\n    if (rc != SQLITE_DONE) {\n        std::cerr << \"Step-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        sqlite3_finalize(stmt);\n        return false;\n    }\n\n    // 4. finalize\n    sqlite3_finalize(stmt);\n\n    // sqlite3_changes: Anzahl geänderter Zeilen durch das letzte Statement\n    return sqlite3_changes(db) > 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Delete: Datensatz löschen (DELETE) und Ergebnis prüfen",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n#include <iostream>\n\nbool deleteUserById(sqlite3* db, int id) {\n    sqlite3_stmt* stmt = nullptr;\n\n    const char* sql = \"DELETE FROM users WHERE id = ?;\";\n\n    // 1. prepare\n    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {\n        std::cerr << \"Prepare-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        return false;\n    }\n\n    // 2. bind\n    sqlite3_bind_int(stmt, 1, id);\n\n    // 3. step\n    int rc = sqlite3_step(stmt);\n    if (rc != SQLITE_DONE) {\n        std::cerr << \"Step-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        sqlite3_finalize(stmt);\n        return false;\n    }\n\n    // 4. finalize\n    sqlite3_finalize(stmt);\n\n    return sqlite3_changes(db) > 0;\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "DDL und Rückgabecode",
+              "text": "Bei CREATE TABLE liefert sqlite3_step bei Erfolg SQLITE_DONE, nicht SQLITE_ROW."
+            },
+            {
+              "type": "pitfall",
+              "title": "finalize vergessen",
+              "text": "Wenn sqlite3_finalize fehlt, bleiben Ressourcen belegt und es entstehen Leaks oder Locks."
+            },
+            {
+              "type": "important",
+              "text": "Best Practice: Auch für CREATE TABLE und andere DDL immer prepare, step und finalize verwenden und Fehler über sqlite3_errmsg ausgeben."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Create: CREATE TABLE mit prepare/step/finalize und INSERT mit prepare/bind/step/finalize",
+                "Read: SELECT mit SQLITE_ROW und sqlite3_column_*",
+                "Update: UPDATE und sqlite3_changes prüfen",
+                "Delete: DELETE und sqlite3_changes prüfen",
+                "Jedes Statement braucht finalize, auch bei Fehlern"
+              ]
+            }
+          ]
+        }
         ]
       }
     ]
