@@ -8290,7 +8290,79 @@
         "name": "Grundlagen",
         "icon": "🧩",
         "topics": [
-          { "title": "Funktionstemplates", "content": { "text": [], "code": [] } },
+        {
+          "title": "Funktionstemplates",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Funktionstemplate",
+              "text": "Ein Funktionstemplate ist eine Vorlage für Funktionen, die mit verschiedenen Datentypen arbeiten kann."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von Funktionstemplates",
+              "text": [
+                "Funktionstemplates ermöglichen generischen Code ohne Duplikation.",
+                "Der konkrete Typ wird vom Compiler zur Compilezeit eingesetzt."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Typinferenz",
+              "text": [
+                "Der Compiler leitet die Template-Typen meist automatisch aus den Funktionsargumenten ab.",
+                "Explizite Typangaben sind nur in Sonderfällen notwendig."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Eigenschaften von Funktionstemplates",
+              "items": [
+                "Typsicher zur Compilezeit",
+                "Kein Laufzeit-Overhead",
+                "Code-Wiederverwendung für viele Typen",
+                "Fehler werden beim Instanziieren erkannt"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches Funktionstemplate",
+              "language": "cpp",
+              "code": "#include <iostream>\n\ntemplate <typename T>\nT add(T a, T b) {\n    return a + b;\n}\n\nint main() {\n    std::cout << add(2, 3) << std::endl;       // int\n    std::cout << add(1.5, 2.5) << std::endl;   // double\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Explizite Template-Argumente",
+              "language": "cpp",
+              "code": "#include <iostream>\n\ntemplate <typename T>\nT quadrieren(T x) {\n    return x * x;\n}\n\nint main() {\n    std::cout << quadrieren<int>(4) << std::endl;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Mehrere Template-Typen",
+              "language": "cpp",
+              "code": "#include <iostream>\n\ntemplate <typename T, typename U>\nauto multipliziere(T a, U b) {\n    return a * b;\n}\n\nint main() {\n    std::cout << multipliziere(3, 2.5) << std::endl; // double\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Ungeeignete Typen",
+              "text": "Funktionstemplates setzen voraus, dass die verwendeten Typen die benötigten Operationen unterstützen."
+            },
+            {
+              "type": "important",
+              "text": "Funktionstemplates werden zur Compilezeit instanziiert und verursachen keinen Laufzeit-Overhead."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Funktionstemplates ermöglichen generischen Code",
+                "Typen werden zur Compilezeit eingesetzt",
+                "Typinferenz erfolgt meist automatisch",
+                "Fehler werden früh erkannt"
+              ]
+            }
+          ]
+        },
           { "title": "Klassentemplates", "content": { "text": [], "code": [] } }
         ]
       }
@@ -8300,7 +8372,7 @@
 
 
 
-  
+
 
   {
     "category": "STL Container",
