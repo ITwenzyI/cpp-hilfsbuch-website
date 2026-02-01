@@ -9967,7 +9967,48 @@
             }
           ]
         },
-          { "title": "map Beispiel", "content": { "text": [], "code": [] } },
+        {
+          "title": "std::map Vorlage",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "code",
+              "title": "map Grundgerüst",
+              "language": "cpp",
+              "code": "#include <map>\n\nint main() {\n    std::map<int, int> m;\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "map mit Initialisierung",
+              "language": "cpp",
+              "code": "#include <map>\n#include <string>\n\nint main() {\n    std::map<int, std::string> m = {\n        {1, \"eins\"},\n        {2, \"zwei\"},\n        {3, \"drei\"}\n    };\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Elemente einfügen",
+              "language": "cpp",
+              "code": "#include <map>\n#include <string>\n\nint main() {\n    std::map<int, std::string> m;\n\n    m.insert({1, \"eins\"});\n    m[2] = \"zwei\"; // erzeugt Eintrag falls nicht vorhanden\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Zugriff und Suche",
+              "language": "cpp",
+              "code": "#include <map>\n#include <iostream>\n#include <string>\n\nint main() {\n    std::map<int, std::string> m = {{1, \"eins\"}, {2, \"zwei\"}};\n\n    if (m.count(1)) {\n        std::cout << m[1] << std::endl;\n    }\n\n    auto it = m.find(2);\n    if (it != m.end()) {\n        std::cout << it->second << std::endl;\n    }\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Iteration über map",
+              "language": "cpp",
+              "code": "#include <map>\n#include <iostream>\n#include <string>\n\nint main() {\n    std::map<int, std::string> m = {{2, \"zwei\"}, {1, \"eins\"}};\n\n    for (const auto& pair : m) {\n        std::cout << pair.first << \": \" << pair.second << std::endl;\n    }\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Elemente entfernen",
+              "language": "cpp",
+              "code": "#include <map>\n\nint main() {\n    std::map<int, int> m = {{1, 10}, {2, 20}, {3, 30}};\n\n    m.erase(2); // entfernt Schlüssel 2\n    m.clear();  // entfernt alle Elemente\n\n    return 0;\n}\n"
+            }
+          ]
+        },
           { "title": "tuple / pair Beispiel", "content": { "text": [], "code": [] } }
         ]
       },
