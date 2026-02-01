@@ -8363,7 +8363,73 @@
             }
           ]
         },
-          { "title": "Klassentemplates", "content": { "text": [], "code": [] } }
+        {
+          "title": "Klassentemplates",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Klassentemplate",
+              "text": "Ein Klassentemplate ist eine Vorlage für Klassen, die mit unterschiedlichen Datentypen instanziiert werden kann."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von Klassentemplates",
+              "text": [
+                "Klassentemplates ermöglichen die Definition generischer Datenstrukturen.",
+                "Der konkrete Typ wird beim Erzeugen der Klasse festgelegt."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Instanziierung",
+              "text": [
+                "Ein Klassentemplate erzeugt erst bei der Verwendung mit einem konkreten Typ eine echte Klasse.",
+                "Jede Typinstanziierung erzeugt eine eigene Klassenvariante."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Eigenschaften von Klassentemplates",
+              "items": [
+                "Typsicher zur Compilezeit",
+                "Keine Laufzeitkosten",
+                "Hohe Wiederverwendbarkeit",
+                "Fehler werden beim Instanziieren sichtbar"
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches Klassentemplate",
+              "language": "cpp",
+              "code": "#include <iostream>\n\ntemplate <typename T>\nclass Box {\npublic:\n    Box(T wert) : wert(wert) {}\n\n    T get() const {\n        return wert;\n    }\n\nprivate:\n    T wert;\n};\n\nint main() {\n    Box<int> a(5);\n    Box<double> b(3.14);\n\n    std::cout << a.get() << std::endl;\n    std::cout << b.get() << std::endl;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Klassentemplate mit mehreren Typen",
+              "language": "cpp",
+              "code": "#include <iostream>\n\ntemplate <typename T, typename U>\nclass Paar {\npublic:\n    Paar(T erstes, U zweites) : erstes(erstes), zweites(zweites) {}\n\n    T getErstes() const {\n        return erstes;\n    }\n\n    U getZweites() const {\n        return zweites;\n    }\n\nprivate:\n    T erstes;\n    U zweites;\n};\n\nint main() {\n    Paar<int, double> p(1, 2.5);\n    std::cout << p.getErstes() << \", \" << p.getZweites() << std::endl;\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Definition im Header",
+              "text": "Klassentemplates müssen vollständig im Header definiert sein, da der Compiler den Code sehen muss."
+            },
+            {
+              "type": "important",
+              "text": "Klassentemplates werden zur Compilezeit instanziiert und sind vollständig typsicher."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Klassentemplates definieren generische Klassen",
+                "Typen werden bei der Instanziierung festgelegt",
+                "Keine Laufzeitkosten",
+                "Ideal für generische Datenstrukturen"
+              ]
+            }
+          ]
+        }
         ]
       }
     ]
