@@ -8591,8 +8591,136 @@
             }
           ]
         },
-          { "title": "array", "content": { "text": [], "code": [] } },
-          { "title": "list", "content": { "text": [], "code": [] } },
+        {
+          "title": "std::list",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "std::list",
+              "text": "list ist ein sequenzieller STL-Container, der Elemente als doppelt verkettete Liste speichert."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundkonzept",
+              "text": [
+                "std::list speichert jedes Element in einem eigenen Knoten mit Verweisen auf Vorgänger und Nachfolger.",
+                "Die Elemente liegen nicht zusammenhängend im Speicher."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Zentrale Eigenschaften",
+              "text": [
+                "Konstante Zeit für Einfügen und Entfernen an beliebiger Position.",
+                "Kein direkter Indexzugriff möglich.",
+                "Iteratoren bleiben beim Einfügen und Entfernen anderer Elemente gültig."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Benötigter Header",
+              "items": [
+                "<list>"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Größe und Zustand",
+              "text": [
+                "size liefert die aktuelle Anzahl der Elemente.",
+                "empty prüft, ob die Liste leer ist."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "size und empty",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <list>\n\nint main() {\n    std::list<int> l = {1, 2, 3};\n\n    std::cout << l.size() << std::endl;\n    std::cout << l.empty() << std::endl; // false\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Elemente einfügen",
+              "text": [
+                "push_back und push_front fügen Elemente am Ende oder Anfang ein.",
+                "insert fügt Elemente an einer Iteratorposition ein."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "push_front, push_back und insert",
+              "language": "cpp",
+              "code": "#include <list>\n\nint main() {\n    std::list<int> l;\n\n    l.push_back(2);\n    l.push_front(1);\n\n    auto it = l.begin();\n    ++it;\n    l.insert(it, 42); // Einfügen in der Mitte\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Elemente entfernen",
+              "text": [
+                "pop_front und pop_back entfernen das erste oder letzte Element.",
+                "erase entfernt das Element an einer Iteratorposition."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "pop und erase",
+              "language": "cpp",
+              "code": "#include <list>\n\nint main() {\n    std::list<int> l = {1, 2, 3};\n\n    l.pop_front(); // entfernt 1\n    l.pop_back();  // entfernt 3\n\n    auto it = l.begin();\n    l.erase(it); // entfernt 2\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Spezielle Memberfunktionen",
+              "text": [
+                "remove entfernt alle Elemente mit einem bestimmten Wert.",
+                "splice verschiebt Elemente effizient zwischen Listen.",
+                "sort sortiert die Liste ohne zusätzliche Speicherallokation."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "remove, splice und sort",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <list>\n\nint main() {\n    std::list<int> a = {3, 1, 2, 2};\n    std::list<int> b = {10, 20};\n\n    a.remove(2);      // entfernt alle 2er\n    a.sort();         // sortiert die Liste\n    a.splice(a.end(), b); // verschiebt alle Elemente aus b nach a\n\n    for (int x : a) {\n        std::cout << x << \" \";\n    }\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "std::list vs std::vector",
+              "columns": ["std::list", "std::vector"],
+              "rows": [
+                {
+                  "aspect": "Speicherlayout",
+                  "values": ["Nicht zusammenhängend", "Zusammenhängend"]
+                },
+                {
+                  "aspect": "Einfügen in der Mitte",
+                  "values": ["Sehr effizient", "Teuer"]
+                },
+                {
+                  "aspect": "Indexzugriff",
+                  "values": ["Nicht möglich", "O(1)"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Falsche Containerwahl",
+              "text": "std::list ist für zufälligen Zugriff ungeeignet und oft langsamer als std::vector durch schlechte Cache-Lokalität."
+            },
+            {
+              "type": "important",
+              "text": "std::list ist ideal, wenn häufiges Einfügen und Entfernen an beliebigen Positionen benötigt wird."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "std::list ist eine doppelt verkettete Liste",
+                "Kein Indexzugriff",
+                "Stabile Iteratoren",
+                "Effizientes Einfügen und Entfernen",
+                "Spezielle Funktionen wie splice und remove"
+              ]
+            }
+          ]
+        },
           { "title": "deque", "content": { "text": [], "code": [] } }
         ]
       },
