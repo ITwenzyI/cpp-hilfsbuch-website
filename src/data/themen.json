@@ -8721,7 +8721,137 @@
             }
           ]
         },
-          { "title": "deque", "content": { "text": [], "code": [] } }
+        {
+          "title": "std::deque",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "std::deque",
+              "text": "std::deque ist ein sequenzieller STL-Container mit effizientem Einfügen und Entfernen an beiden Enden."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundkonzept",
+              "text": [
+                "std::deque steht für double ended queue.",
+                "Die Elemente liegen in mehreren zusammenhängenden Speicherblöcken, nicht in einem einzigen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Zentrale Eigenschaften",
+              "text": [
+                "Konstanter Zeitaufwand für push_front und push_back.",
+                "Direkter Indexzugriff ähnlich wie bei std::vector.",
+                "Bessere Flexibilität an den Enden als std::vector."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Benötigter Header",
+              "items": [
+                "<deque>"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Zugriff und Größe",
+              "text": [
+                "operator[] und at ermöglichen direkten Zugriff auf Elemente.",
+                "size und empty liefern Informationen über den Zustand des Containers."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Zugriff auf Elemente",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <deque>\n\nint main() {\n    std::deque<int> d = {10, 20, 30};\n\n    std::cout << d[0] << std::endl;\n    std::cout << d.at(1) << std::endl;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Elemente einfügen",
+              "text": [
+                "push_back fügt am Ende ein.",
+                "push_front fügt am Anfang ein.",
+                "emplace_back und emplace_front konstruieren Elemente direkt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "push_front und push_back",
+              "language": "cpp",
+              "code": "#include <deque>\n\nint main() {\n    std::deque<int> d;\n\n    d.push_back(2);\n    d.push_front(1);\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Elemente entfernen",
+              "text": [
+                "pop_back entfernt das letzte Element.",
+                "pop_front entfernt das erste Element.",
+                "clear entfernt alle Elemente."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "pop_front und pop_back",
+              "language": "cpp",
+              "code": "#include <deque>\n\nint main() {\n    std::deque<int> d = {1, 2, 3};\n\n    d.pop_front(); // entfernt 1\n    d.pop_back();  // entfernt 3\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Iteratoren und Algorithmen",
+              "text": [
+                "std::deque unterstützt Random-Access-Iteratoren.",
+                "Alle STL-Algorithmen können verwendet werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "std::sort mit deque",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <deque>\n#include <algorithm>\n\nint main() {\n    std::deque<int> d = {3, 1, 4, 1, 5};\n\n    std::sort(d.begin(), d.end());\n\n    for (int x : d) {\n        std::cout << x << \" \";\n    }\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "std::deque vs std::vector",
+              "columns": ["std::deque", "std::vector"],
+              "rows": [
+                {
+                  "aspect": "Einfügen vorne",
+                  "values": ["Effizient", "Teuer"]
+                },
+                {
+                  "aspect": "Speicherlayout",
+                  "values": ["Blockweise", "Zusammenhängend"]
+                },
+                {
+                  "aspect": "Cache-Lokalität",
+                  "values": ["Etwas schlechter", "Sehr gut"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Unnötiger Einsatz",
+              "text": "std::deque ist oft langsamer als std::vector, wenn kein push_front benötigt wird."
+            },
+            {
+              "type": "important",
+              "text": "std::deque ist sinnvoll, wenn häufiger Zugriff an beiden Enden benötigt wird."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "std::deque ist eine doppelseitige Warteschlange",
+                "Direkter Indexzugriff möglich",
+                "Effizientes Einfügen an beiden Enden",
+                "Random-Access-Iteratoren",
+                "Alternative zu std::vector bei push_front Bedarf"
+              ]
+            }
+          ]
+        }
         ]
       },
       {
