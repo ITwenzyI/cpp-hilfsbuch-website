@@ -9925,7 +9925,48 @@
         "name": "STL Vorlagen",
         "icon": "📦",
         "topics": [
-          { "title": "vector Beispiel", "content": { "text": [], "code": [] } },
+        {
+          "title": "std::vector Vorlage",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "code",
+              "title": "Vector Grundgerüst",
+              "language": "cpp",
+              "code": "#include <vector>\n\nint main() {\n    std::vector<int> v;\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Vector mit Initialisierung",
+              "language": "cpp",
+              "code": "#include <vector>\n\nint main() {\n    std::vector<int> v = {1, 2, 3, 4, 5};\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Elemente hinzufügen und entfernen",
+              "language": "cpp",
+              "code": "#include <vector>\n\nint main() {\n    std::vector<int> v;\n\n    v.push_back(1);\n    v.push_back(2);\n    v.emplace_back(3);\n\n    v.pop_back();\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Iteration über vector",
+              "language": "cpp",
+              "code": "#include <vector>\n#include <iostream>\n\nint main() {\n    std::vector<int> v = {1, 2, 3};\n\n    for (int x : v) {\n        std::cout << x << std::endl;\n    }\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Zugriff auf Elemente",
+              "language": "cpp",
+              "code": "#include <vector>\n#include <iostream>\n\nint main() {\n    std::vector<int> v = {10, 20, 30};\n\n    int a = v[0];      // kein Bounds-Check\n    int b = v.at(1);   // mit Bounds-Check\n\n    std::cout << a << \" \" << b << std::endl;\n\n    return 0;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Vector reservieren",
+              "language": "cpp",
+              "code": "#include <vector>\n\nint main() {\n    std::vector<int> v;\n\n    v.reserve(100); // Speicher vorab reservieren\n\n    return 0;\n}\n"
+            }
+          ]
+        },
           { "title": "map Beispiel", "content": { "text": [], "code": [] } },
           { "title": "tuple / pair Beispiel", "content": { "text": [], "code": [] } }
         ]
