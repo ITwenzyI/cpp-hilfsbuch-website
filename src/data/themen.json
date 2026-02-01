@@ -8448,7 +8448,149 @@
         "name": "Sequenzcontainer",
         "icon": "📚",
         "topics": [
-          { "title": "vector", "content": { "text": [], "code": [] } },
+        {
+          "title": "std::vector",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "std::vector",
+              "text": "std::vector ist ein sequenzieller STL-Container, der Elemente in zusammenhängendem Speicher ablegt und seine Größe dynamisch anpasst."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundkonzept",
+              "text": [
+                "std::vector verhält sich wie ein dynamisches Array mit automatischer Speicherverwaltung.",
+                "Die Elemente liegen zusammenhängend im Speicher, was schnellen Indexzugriff ermöglicht."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Speicherverhalten",
+              "text": [
+                "Beim Wachsen kann der Vector seinen Speicher neu allozieren.",
+                "Dabei werden alle Elemente in einen neuen Speicherbereich kopiert oder verschoben."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Benötigter Header",
+              "items": [
+                "<vector>"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Größe und Kapazität",
+              "text": [
+                "size gibt die aktuelle Anzahl der gespeicherten Elemente an.",
+                "capacity beschreibt, wie viele Elemente ohne erneute Reallokation gespeichert werden können."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "size und capacity",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> v;\n\n    v.push_back(1);\n    v.push_back(2);\n\n    std::cout << v.size() << std::endl;     // Anzahl Elemente\n    std::cout << v.capacity() << std::endl; // reservierter Speicher\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Elemente hinzufügen",
+              "text": [
+                "push_back fügt ein bereits existierendes Objekt am Ende ein.",
+                "emplace_back konstruiert das Objekt direkt im Speicher des Vectors."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "push_back vs emplace_back",
+              "language": "cpp",
+              "code": "#include <vector>\n#include <string>\n\nint main() {\n    std::vector<std::string> v;\n\n    v.push_back(std::string(\"Hallo\"));\n    v.emplace_back(\"Welt\"); // effizienter\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Zugriff auf Elemente",
+              "text": [
+                "operator[] bietet schnellen Zugriff ohne Bereichsprüfung.",
+                "at prüft die Grenzen und wirft bei Fehlern eine Exception."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "operator[] vs at",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> v = {10, 20, 30};\n\n    std::cout << v[0] << std::endl;    // kein Check\n    std::cout << v.at(1) << std::endl; // mit Check\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Entfernen von Elementen",
+              "text": [
+                "pop_back entfernt das letzte Element.",
+                "clear entfernt alle Elemente, behält aber die Kapazität."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Elemente entfernen",
+              "language": "cpp",
+              "code": "#include <vector>\n\nint main() {\n    std::vector<int> v = {1, 2, 3};\n\n    v.pop_back(); // entfernt 3\n    v.clear();    // Vector ist leer\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Iteratoren",
+              "text": [
+                "std::vector stellt begin und end Iteratoren bereit.",
+                "Iteratoren ermöglichen die Nutzung von STL-Algorithmen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Iterieren mit Iteratoren",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> v = {1, 2, 3};\n\n    for (auto it = v.begin(); it != v.end(); ++it) {\n        std::cout << *it << std::endl;\n    }\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Zusammenspiel mit Algorithmen",
+              "text": [
+                "std::vector ist optimal für STL-Algorithmen geeignet.",
+                "Die zusammenhängende Speicherstruktur sorgt für hohe Performance."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "std::sort mit vector",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n\nint main() {\n    std::vector<int> v = {3, 1, 4, 1, 5};\n\n    std::sort(v.begin(), v.end());\n\n    for (int x : v) {\n        std::cout << x << \" \";\n    }\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "std::vector: wichtiges im Überblick (ausführlich kommentiert)",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <numeric>\n\n// Kleine Hilfsfunktion: Vector ausgeben\nstatic void printVec(const std::vector<int>& v, const char* name) {\n    std::cout << name << \" (size=\" << v.size()\n              << \", capacity=\" << v.capacity() << \"): \";\n\n    for (int x : v) {\n        std::cout << x << \" \";\n    }\n    std::cout << \"\\n\";\n}\n\nint main() {\n    // 1) Erzeugen und Initialisieren\n    std::vector<int> a;                 // leer\n    std::vector<int> b(5);              // 5 Elemente, alle 0\n    std::vector<int> c(5, 7);           // 5 Elemente, alle 7\n    std::vector<int> d = {1, 2, 3, 4};  // Initializer List\n\n    printVec(a, \"a\");\n    printVec(b, \"b\");\n    printVec(c, \"c\");\n    printVec(d, \"d\");\n\n\n    // 2) size, capacity, reserve, shrink_to_fit\n    // size: Anzahl der Elemente\n    // capacity: reservierter Speicher (kann größer als size sein)\n   \n\n    std::vector<int> v;\n    v.reserve(10); // Speicher für mindestens 10 Elemente reservieren (verhindert häufige Reallokationen)\n\n    std::cout << \"v.size()=\" << v.size() << \", v.capacity()=\" << v.capacity() << \"\\n\";\n\n\n    // 3) Elemente hinzufügen: push_back und emplace_back\n    // push_back: fügt ein Element hinzu (Kopie oder Move)\n    // emplace_back: konstruiert das Element direkt im Vector (bei komplexen Typen oft sinnvoll)\n    v.push_back(10);\n    v.push_back(20);\n    v.emplace_back(30);\n\n    printVec(v, \"v nach push_back/emplace_back\");\n\n\n    // 4) Zugriff auf Elemente: operator[], at, front, back\n    // operator[]: schnell, aber kein Bounds Check\n    // at: wirft bei ungültigem Index eine Exception\n    \n    std::cout << \"v[0]=\" << v[0] << \"\\n\";\n    std::cout << \"v.front()=\" << v.front() << \", v.back()=\" << v.back() << \"\\n\";\n\n    // Sicherer Zugriff mit at (hier ok)\n    std::cout << \"v.at(1)=\" << v.at(1) << \"\\n\";\n\n\n    // 5) Iterieren: begin/end, range-based for\n    \n    for (auto it = v.begin(); it != v.end(); ++it) {\n        std::cout << *it << \" \";\n    }\n    std::cout << \"\\n\";\n\n\n    // 6) insert und erase\n    // insert: fügt an einer Position ein\n    // erase: entfernt an einer Position oder in einem Bereich\n    \n\n    // Einfügen am Anfang\n    v.insert(v.begin(), 5);\n    printVec(v, \"v nach insert vorne\");\n\n    // Einfügen in der Mitte (nach dem ersten Element)\n    v.insert(v.begin() + 1, 99);\n    printVec(v, \"v nach insert mitte\");\n\n    // Entfernen eines Elements (das eben eingefügte 99)\n    v.erase(v.begin() + 1);\n    printVec(v, \"v nach erase einzel\");\n\n\n    // 7) resize, clear, empty\n    // resize vergrößert oder verkleinert size\n    // clear entfernt alle Elemente (capacity bleibt typischerweise)\n    \n\n    v.resize(6, 1); // falls größer, neue Elemente werden mit 1 gefüllt\n    printVec(v, \"v nach resize(6,1)\");\n\n    v.resize(2); // verkleinern: überschüssige Elemente werden entfernt\n    printVec(v, \"v nach resize(2)\");\n\n    std::cout << \"v.empty()=\" << std::boolalpha << v.empty() << \"\\n\";\n\n    v.clear();\n    std::cout << \"nach clear: v.size()=\" << v.size() << \", v.empty()=\" << v.empty() << \"\\n\";\n\n\n    // 8) assign und swap\n    // assign ersetzt kompletten Inhalt\n    // swap tauscht Inhalte effizient\n    \n\n    std::vector<int> x = {1, 2, 3};\n    std::vector<int> y = {9, 8};\n\n    x.assign(4, 7); // x wird zu {7,7,7,7}\n    printVec(x, \"x nach assign(4,7)\");\n\n    x.swap(y);\n    printVec(x, \"x nach swap\");\n    printVec(y, \"y nach swap\");\n\n\n    // 9) data: roher Pointer auf zusammenhängenden Speicher\n    // nützlich für C APIs oder low level Zugriff\n    \n    const int* p = x.data();\n    if (!x.empty()) {\n        std::cout << \"x.data()[0]=\" << p[0] << \"\\n\";\n    }\n\n\n    // 10) Algorithmen mit vector: sort, find, count, remove-erase\n    \n\n    std::vector<int> z = {4, 1, 3, 2, 2, 5};\n    printVec(z, \"z start\");\n\n    std::sort(z.begin(), z.end());\n    printVec(z, \"z nach sort\");\n\n    auto it = std::find(z.begin(), z.end(), 3);\n    if (it != z.end()) {\n        std::cout << \"3 gefunden\\n\";\n    }\n\n    int cnt2 = std::count(z.begin(), z.end(), 2);\n    std::cout << \"Anzahl der 2: \" << cnt2 << \"\\n\";\n\n    // remove-erase: logisch entfernen und dann wirklich löschen\n    z.erase(std::remove(z.begin(), z.end(), 2), z.end());\n    printVec(z, \"z nach remove-erase (2 entfernt)\");\n\n\n    // 11) Bonus: sum mit accumulate\n    int sum = std::accumulate(z.begin(), z.end(), 0);\n    std::cout << \"Summe von z: \" << sum << \"\\n\";\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Iteratoren nach Reallokation",
+              "text": "push_back oder emplace_back können eine Reallokation auslösen und alle Iteratoren ungültig machen."
+            },
+            {
+              "type": "important",
+              "text": "std::vector ist der wichtigste und am häufigsten verwendete STL-Container."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "std::vector speichert Elemente zusammenhängend",
+                "Dynamische Größe mit automatischer Speicherverwaltung",
+                "Schneller Indexzugriff",
+                "Ideal für STL-Algorithmen",
+                "Standardwahl für sequenzielle Daten"
+              ]
+            }
+          ]
+        },
           { "title": "array", "content": { "text": [], "code": [] } },
           { "title": "list", "content": { "text": [], "code": [] } },
           { "title": "deque", "content": { "text": [], "code": [] } }
