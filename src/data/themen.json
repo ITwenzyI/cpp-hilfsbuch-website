@@ -9801,6 +9801,197 @@
           ]
         }
         ]
+      },
+      {
+        "name": "Utility Types",
+        "icon": "🧰",
+        "topics": [
+        {
+          "title": "std::optional",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "std::optional",
+              "text": "std::optional ist ein Wrapper-Typ, der entweder einen gültigen Wert oder keinen Wert enthält."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von std::optional",
+              "text": [
+                "std::optional modelliert das bewusste Vorhandensein oder Fehlen eines Werts.",
+                "Es ersetzt unsichere Konstrukte wie nullptr, magische Rückgabewerte oder separate Fehlerflags."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Einsatzgebiete",
+              "text": [
+                "Funktionen, die möglicherweise keinen sinnvollen Rückgabewert haben.",
+                "Datenbankabfragen mit optionalem Ergebnis.",
+                "Konfigurationen oder optionale Parameter."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Benötigter Header",
+              "items": [
+                "<optional>"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Erzeugen eines std::optional",
+              "text": [
+                "Ein optional kann leer oder mit einem Wert initialisiert werden.",
+                "Der leere Zustand wird explizit dargestellt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Leeres und initialisiertes optional",
+              "language": "cpp",
+              "code": "#include <optional>\n\nint main() {\n    std::optional<int> a;            // leer\n    std::optional<int> b = 42;        // enthält Wert\n    std::optional<int> c = std::nullopt; // explizit leer\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Prüfen auf Vorhandensein",
+              "text": [
+                "has_value zeigt an, ob ein Wert vorhanden ist.",
+                "optional kann direkt im if verwendet werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "has_value und bool-Kontext",
+              "language": "cpp",
+              "code": "#include <optional>\n#include <iostream>\n\nint main() {\n    std::optional<int> value = 10;\n\n    if (value.has_value()) {\n        std::cout << *value << std::endl;\n    }\n\n    if (value) {\n        std::cout << value.value() << std::endl;\n    }\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Zugriff auf den Wert",
+              "text": [
+                "operator* und operator-> greifen direkt auf den enthaltenen Wert zu.",
+                "value wirft eine Exception, wenn kein Wert vorhanden ist."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "operator* vs value",
+              "language": "cpp",
+              "code": "#include <optional>\n#include <iostream>\n\nint main() {\n    std::optional<int> x = 5;\n\n    int a = *x;          // undefiniertes Verhalten, wenn leer\n    int b = x.value();   // wirft std::bad_optional_access, wenn leer\n\n    std::cout << a << \" \" << b << std::endl;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Default-Werte mit value_or",
+              "text": [
+                "value_or liefert einen Ersatzwert, falls kein Wert vorhanden ist.",
+                "Ideal für sichere Fallbacks."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "value_or verwenden",
+              "language": "cpp",
+              "code": "#include <optional>\n#include <iostream>\n\nint main() {\n    std::optional<int> leer;\n    std::optional<int> gesetzt = 7;\n\n    std::cout << leer.value_or(0) << std::endl;    // 0\n    std::cout << gesetzt.value_or(0) << std::endl; // 7\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "std::optional als Rückgabewert",
+              "text": [
+                "Funktionen können optional zurückgeben, um Nicht-Finden auszudrücken.",
+                "Der Aufrufer muss den Fall explizit behandeln."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "optional als Funktionsrückgabe",
+              "language": "cpp",
+              "code": "#include <optional>\n#include <string>\n\nstd::optional<std::string> findeNutzer(bool gefunden) {\n    if (!gefunden) {\n        return std::nullopt;\n    }\n    return \"Kilian\";\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "optional mit eigenen Typen",
+              "text": [
+                "std::optional kann beliebige Typen enthalten.",
+                "Auch komplexe Strukturen oder Klassen sind möglich."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "optional mit struct",
+              "language": "cpp",
+              "code": "#include <optional>\n#include <string>\n\nstruct User {\n    int id;\n    std::string name;\n};\n\nstd::optional<User> getUser(bool ok) {\n    if (!ok) {\n        return std::nullopt;\n    }\n    return User{1, \"Anna\"};\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "std::optional vs nullptr",
+              "columns": ["std::optional", "nullptr"],
+              "rows": [
+                {
+                  "aspect": "Typsicherheit",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "Ausdruckskraft",
+                  "values": ["Explizit kein Wert", "Implizit kein Objekt"]
+                },
+                {
+                  "aspect": "Für Werttypen",
+                  "values": ["Ja", "Nein"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "value ohne Prüfung",
+              "text": "value ohne vorherige Prüfung kann eine Exception auslösen und sollte nur bei garantierter Existenz verwendet werden."
+            },
+            {
+              "type": "important",
+              "text": "std::optional zwingt den Nutzer, den Fall \"kein Wert\" explizit zu behandeln."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "std::optional repräsentiert optional vorhandene Werte",
+                "Kein Ersatz für Fehlerbehandlung, sondern für fehlende Ergebnisse",
+                "Sicherer als nullptr oder magische Werte",
+                "Sehr häufig bei Datenbank- und Suchfunktionen",
+                "Fördert explizite und saubere Schnittstellen"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "std::variant",
+          "difficulty": "intermediate",
+          "blocks": [
+            
+          ]
+        },
+        {
+          "title": "std::any",
+          "difficulty": "intermediate",
+          "blocks": [
+            
+          ]
+        },
+        {
+          "title": "std::pair",
+          "difficulty": "intermediate",
+          "blocks": [
+            
+          ]
+        },
+        {
+          "title": "std::tuple",
+          "difficulty": "intermediate",
+          "blocks": [
+            
+          ]
+        }
+        ]
       }
     ]
   },
