@@ -10532,9 +10532,143 @@
         },
         {
           "title": "std::pair",
-          "difficulty": "intermediate",
+          "difficulty": "basic",
           "blocks": [
-            
+            {
+              "type": "definition",
+              "term": "std::pair",
+              "text": "std::pair ist ein einfacher Container, der genau zwei zusammengehörige Werte möglicherweise unterschiedlicher Typen speichert."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von std::pair",
+              "text": [
+                "std::pair wird verwendet, um zwei Werte logisch zu koppeln.",
+                "Die Werte werden als first und second angesprochen."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Benötigter Header",
+              "items": [
+                "<utility>"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Erzeugen eines std::pair",
+              "text": [
+                "Ein pair kann direkt oder mit Hilfsfunktionen erstellt werden.",
+                "Die Typen werden explizit oder automatisch bestimmt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Direkte Initialisierung",
+              "language": "cpp",
+              "code": "#include <utility>\n#include <string>\n\nint main() {\n    std::pair<int, std::string> p(1, \"Anna\");\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Initialisierung mit geschweiften Klammern",
+              "language": "cpp",
+              "code": "#include <utility>\n#include <string>\n\nint main() {\n    std::pair<int, std::string> p{2, \"Max\"};\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "std::make_pair",
+              "text": [
+                "std::make_pair erzeugt ein pair mit automatischer Typableitung.",
+                "Explizite Typangaben sind nicht nötig."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "make_pair verwenden",
+              "language": "cpp",
+              "code": "#include <utility>\n#include <string>\n\nint main() {\n    auto p = std::make_pair(3, \"Lisa\");\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Zugriff auf Elemente",
+              "text": [
+                "Die Elemente werden über first und second angesprochen.",
+                "Es gibt keine sprechenden Namen, nur Positionszugriff."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Zugriff auf first und second",
+              "language": "cpp",
+              "code": "#include <utility>\n#include <iostream>\n\nint main() {\n    std::pair<int, int> p{10, 20};\n\n    std::cout << p.first << std::endl;\n    std::cout << p.second << std::endl;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Vergleich von std::pair",
+              "text": [
+                "std::pair unterstützt Vergleichsoperatoren.",
+                "Der Vergleich erfolgt lexikografisch: zuerst first, dann second."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Vergleichsoperatoren",
+              "language": "cpp",
+              "code": "#include <utility>\n#include <iostream>\n\nint main() {\n    std::pair<int, int> a{1, 5};\n    std::pair<int, int> b{2, 0};\n\n    if (a < b) {\n        std::cout << \"a ist kleiner als b\" << std::endl;\n    }\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Einsatzgebiete",
+              "text": [
+                "Rückgabe von zwei Werten aus einer Funktion.",
+                "Schlüssel-Wert-Paare, zum Beispiel in map.",
+                "Zwischenergebnisse ohne eigene Struktur."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "pair als Rückgabewert",
+              "language": "cpp",
+              "code": "#include <utility>\n\nstd::pair<int, bool> parse(int x) {\n    if (x > 0) {\n        return {x, true};\n    }\n    return {0, false};\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "std::pair vs struct",
+              "columns": ["std::pair", "struct"],
+              "rows": [
+                {
+                  "aspect": "Lesbarkeit",
+                  "values": ["Geringer (first/second)", "Höher (sprechende Namen)"]
+                },
+                {
+                  "aspect": "Aufwand",
+                  "values": ["Sehr gering", "Etwas höher"]
+                },
+                {
+                  "aspect": "Flexibilität",
+                  "values": ["Begrenzt auf zwei Werte", "Beliebig erweiterbar"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Unklare Bedeutung von first und second",
+              "text": "Ohne Kontext ist oft unklar, wofür first und second stehen, was die Lesbarkeit verschlechtert."
+            },
+            {
+              "type": "important",
+              "text": "std::pair ist ideal für einfache Rückgaben, aber kein Ersatz für gut benannte Strukturen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "std::pair speichert genau zwei Werte",
+                "Zugriff über first und second",
+                "make_pair ermöglicht Typableitung",
+                "Vergleich erfolgt lexikografisch",
+                "Für einfache, kurzlebige Daten geeignet"
+              ]
+            }
           ]
         },
         {
