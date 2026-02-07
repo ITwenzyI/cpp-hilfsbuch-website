@@ -10675,7 +10675,146 @@
           "title": "std::tuple",
           "difficulty": "intermediate",
           "blocks": [
-            
+            {
+              "type": "definition",
+              "term": "std::tuple",
+              "text": "std::tuple ist ein Container, der eine feste Anzahl von Werten unterschiedlicher Typen in einer geordneten Struktur speichert."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von std::tuple",
+              "text": [
+                "std::tuple erweitert das Konzept von std::pair auf beliebig viele Elemente.",
+                "Die Elemente werden positionsbasiert gespeichert und typisiert."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Benötigter Header",
+              "items": [
+                "<tuple>"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Erzeugen eines std::tuple",
+              "text": [
+                "Ein tuple wird mit festen Typen definiert.",
+                "Die Anzahl und Reihenfolge der Typen ist Teil des Typs."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Direkte Initialisierung",
+              "language": "cpp",
+              "code": "#include <tuple>\n#include <string>\n\nint main() {\n    std::tuple<int, double, std::string> t(1, 3.14, \"Hallo\");\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Initialisierung mit make_tuple",
+              "language": "cpp",
+              "code": "#include <tuple>\n#include <string>\n\nint main() {\n    auto t = std::make_tuple(2, 2.71, \"Welt\");\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Zugriff auf Elemente mit std::get",
+              "text": [
+                "Der Zugriff erfolgt über den Index zur Compile-Zeit.",
+                "Der Index muss ein Konstantenausdruck sein."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Zugriff per Index",
+              "language": "cpp",
+              "code": "#include <tuple>\n#include <iostream>\n\nint main() {\n    auto t = std::make_tuple(10, 20.5, 'A');\n\n    std::cout << std::get<0>(t) << std::endl;\n    std::cout << std::get<1>(t) << std::endl;\n    std::cout << std::get<2>(t) << std::endl;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Zugriff per Typ",
+              "text": [
+                "std::get kann auch mit einem Typ verwendet werden.",
+                "Der Typ darf im tuple nur einmal vorkommen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Zugriff per Typ",
+              "language": "cpp",
+              "code": "#include <tuple>\n#include <string>\n#include <iostream>\n\nint main() {\n    std::tuple<int, std::string, double> t{1, \"Text\", 4.2};\n\n    std::cout << std::get<std::string>(t) << std::endl;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "std::tie und Destrukturierung",
+              "text": [
+                "std::tie erlaubt das Entpacken eines tuple in einzelne Variablen.",
+                "Nicht benötigte Werte können mit std::ignore übersprungen werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "std::tie verwenden",
+              "language": "cpp",
+              "code": "#include <tuple>\n#include <string>\n\nint main() {\n    std::tuple<int, std::string, bool> t{5, \"OK\", true};\n\n    int id;\n    std::string text;\n    bool flag;\n\n    std::tie(id, text, flag) = t;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "std::ignore nutzen",
+              "language": "cpp",
+              "code": "#include <tuple>\n\nint main() {\n    std::tuple<int, double, int> t{1, 3.5, 9};\n\n    int a;\n    int c;\n    std::tie(a, std::ignore, c) = t;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "tuple als Rückgabewert",
+              "text": [
+                "Funktionen können mehrere Werte als tuple zurückgeben.",
+                "Dies vermeidet Hilfsstrukturen für einfache Fälle."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "tuple als Funktionsrückgabe",
+              "language": "cpp",
+              "code": "#include <tuple>\n#include <string>\n\nstd::tuple<int, std::string> parse(bool ok) {\n    if (ok) {\n        return {1, \"Erfolg\"};\n    }\n    return {0, \"Fehler\"};\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "std::tuple vs std::pair",
+              "columns": ["std::tuple", "std::pair"],
+              "rows": [
+                {
+                  "aspect": "Anzahl Elemente",
+                  "values": ["Beliebig", "Genau zwei"]
+                },
+                {
+                  "aspect": "Lesbarkeit",
+                  "values": ["Gering bei vielen Elementen", "Besser bei zwei Werten"]
+                },
+                {
+                  "aspect": "Einsatzgebiet",
+                  "values": ["Mehrere Rückgabewerte", "Einfache Paare"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Schlechte Lesbarkeit",
+              "text": "tuple mit vielen Elementen und Positionszugriff kann schnell unübersichtlich werden."
+            },
+            {
+              "type": "important",
+              "text": "std::tuple ist sinnvoll für technische Rückgaben, aber kein Ersatz für gut benannte Strukturen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "std::tuple speichert mehrere typisierte Werte",
+                "Zugriff erfolgt zur Compile-Zeit",
+                "std::tie ermöglicht sauberes Entpacken",
+                "Geeignet für mehrere Rückgabewerte",
+                "Bei vielen Elementen leidet die Lesbarkeit"
+              ]
+            }
           ]
         }
         ]
