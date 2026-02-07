@@ -10386,7 +10386,148 @@
           "title": "std::any",
           "difficulty": "intermediate",
           "blocks": [
-            
+            {
+              "type": "definition",
+              "term": "std::any",
+              "text": "std::any ist ein Typ, der einen beliebigen Wert beliebigen Typs zur Laufzeit speichern kann."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von std::any",
+              "text": [
+                "std::any speichert einen Wert ohne dessen Typ zur Compile-Zeit festzulegen.",
+                "Der konkrete Typ ist erst zur Laufzeit bekannt und muss explizit abgefragt werden."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Abgrenzung zu std::variant",
+              "text": [
+                "std::any kennt seine möglichen Typen nicht im Voraus.",
+                "Im Gegensatz zu std::variant gibt es keine feste Typmenge."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Benötigter Header",
+              "items": [
+                "<any>"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Erzeugen und Zuweisen",
+              "text": [
+                "Ein std::any kann leer oder mit einem beliebigen Typ belegt sein.",
+                "Der vorherige Inhalt wird beim Zuweisen überschrieben."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "std::any Grundbeispiel",
+              "language": "cpp",
+              "code": "#include <any>\n#include <string>\n\nint main() {\n    std::any a;\n\n    a = 10;\n    a = 3.14;\n    a = std::string(\"Hallo\");\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Prüfen auf Inhalt",
+              "text": [
+                "has_value zeigt an, ob ein Wert gespeichert ist.",
+                "Ein leeres any enthält keinen Typ."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "has_value verwenden",
+              "language": "cpp",
+              "code": "#include <any>\n#include <iostream>\n\nint main() {\n    std::any a;\n\n    if (!a.has_value()) {\n        std::cout << \"Kein Wert gespeichert\" << std::endl;\n    }\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Zugriff mit any_cast",
+              "text": [
+                "any_cast liest den gespeicherten Wert mit einem konkreten Typ aus.",
+                "Der Typ muss exakt übereinstimmen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "any_cast erfolgreich",
+              "language": "cpp",
+              "code": "#include <any>\n#include <iostream>\n\nint main() {\n    std::any a = 42;\n\n    int value = std::any_cast<int>(a);\n    std::cout << value << std::endl;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Fehler bei falschem Typ",
+              "text": [
+                "Ein falscher Typ bei any_cast löst eine Exception aus.",
+                "Alternativ kann eine sichere Zeiger-Variante genutzt werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "any_cast mit Exception",
+              "language": "cpp",
+              "code": "#include <any>\n#include <iostream>\n\nint main() {\n    std::any a = 3.14;\n\n    try {\n        int x = std::any_cast<int>(a); // wirft std::bad_any_cast\n        std::cout << x << std::endl;\n    }\n    catch (const std::bad_any_cast&) {\n        std::cout << \"Falscher Typ\" << std::endl;\n    }\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Sicherer Zugriff mit Zeiger",
+              "language": "cpp",
+              "code": "#include <any>\n#include <iostream>\n\nint main() {\n    std::any a = 5;\n\n    if (int* p = std::any_cast<int>(&a)) {\n        std::cout << *p << std::endl;\n    }\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Typinformationen zur Laufzeit",
+              "text": [
+                "type liefert type_info des gespeicherten Typs.",
+                "Dies ist vor allem für Debugging hilfreich."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Typ abfragen",
+              "language": "cpp",
+              "code": "#include <any>\n#include <typeinfo>\n#include <iostream>\n\nint main() {\n    std::any a = 10;\n    std::cout << a.type().name() << std::endl;\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "std::any vs std::variant",
+              "columns": ["std::any", "std::variant"],
+              "rows": [
+                {
+                  "aspect": "Typmenge",
+                  "values": ["Unbegrenzt", "Fest definiert"]
+                },
+                {
+                  "aspect": "Typsicherheit",
+                  "values": ["Zur Laufzeit", "Zur Compile-Zeit"]
+                },
+                {
+                  "aspect": "Empfohlener Einsatz",
+                  "values": ["Sehr flexibel", "Strukturiert"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Missbrauch als Universaltyp",
+              "text": "std::any kann zu unübersichtlichem Code führen, wenn Typinformationen nicht klar dokumentiert sind."
+            },
+            {
+              "type": "important",
+              "text": "std::any sollte nur eingesetzt werden, wenn die möglichen Typen nicht sinnvoll vorab festgelegt werden können."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "std::any speichert beliebige Typen",
+                "Typprüfung erfolgt zur Laufzeit",
+                "any_cast ist Pflicht für sicheren Zugriff",
+                "Flexibel, aber weniger strukturiert als std::variant",
+                "Mit Vorsicht und gezielt einsetzen"
+              ]
+            }
           ]
         },
         {
