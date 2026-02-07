@@ -8403,72 +8403,145 @@
         },
         {
           "title": "Explizites Casting",
-          "difficulty": "basic",
+          "difficulty": "intermediate",
           "blocks": [
             {
               "type": "definition",
-              "term": "struct und class",
-              "text": "struct und class sind nahezu identische Sprachkonstrukte in C++ mit unterschiedlichem Standard-Zugriffsverhalten."
+              "term": "Explizites Casting",
+              "text": "Explizites Casting bezeichnet die bewusste und ausdrücklich vom Programmierer angegebene Typumwandlung."
             },
             {
               "type": "explanation",
-              "title": "Gemeinsamkeiten",
+              "title": "Grundidee",
               "text": [
-                "Beide können Attribute, Methoden, Konstruktoren und Destruktoren enthalten.",
-                "Beide unterstützen Vererbung, Polymorphie und Zugriffsspezifizierer."
+                "Beim expliziten Casting wird eine Typumwandlung klar im Code sichtbar gemacht.",
+                "C++ stellt dafür spezielle Cast-Operatoren bereit, die unterschiedliche Zwecke erfüllen."
               ]
             },
             {
               "type": "explanation",
-              "title": "Zentraler Unterschied",
+              "title": "Warum explizit casten",
               "text": [
-                "Bei struct sind Member standardmäßig public.",
-                "Bei class sind Member standardmäßig private."
+                "Explizites Casting erhöht die Lesbarkeit und Kontrolle.",
+                "Gefährliche oder verlustbehaftete Umwandlungen werden bewusst gekennzeichnet."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Cast-Arten in C++",
+              "items": [
+                "static_cast",
+                "dynamic_cast",
+                "const_cast",
+                "reinterpret_cast"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "static_cast",
+              "text": [
+                "static_cast ist der am häufigsten verwendete Cast.",
+                "Er wird für wohldefinierte, überprüfbare Typumwandlungen genutzt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "static_cast bei numerischen Typen",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint main() {\n    double x = 3.9;\n    int y = static_cast<int>(x); // explizites Abschneiden\n\n    std::cout << y << std::endl; // 3\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "static_cast bei Klassen",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Base {};\nclass Derived : public Base {};\n\nint main() {\n    Derived d;\n    Base* b = static_cast<Base*>(&d); // Upcast, sicher\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "dynamic_cast",
+              "text": [
+                "dynamic_cast wird für polymorphe Typen mit virtuellen Funktionen verwendet.",
+                "Er prüft zur Laufzeit, ob der Cast gültig ist."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "dynamic_cast bei Vererbung",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Base {\npublic:\n    virtual ~Base() = default;\n};\n\nclass Derived : public Base {};\n\nint main() {\n    Base* b = new Derived();\n\n    Derived* d = dynamic_cast<Derived*>(b);\n    if (d) {\n        std::cout << \"Cast erfolgreich\" << std::endl;\n    }\n\n    delete b;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "const_cast",
+              "text": [
+                "const_cast entfernt oder ergänzt const-Qualifizierer.",
+                "Er darf nur verwendet werden, wenn das ursprüngliche Objekt nicht const ist."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "const_cast Beispiel",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nvoid print(int* x) {\n    *x = 10;\n}\n\nint main() {\n    int value = 5;\n    const int* ptr = &value;\n\n    print(const_cast<int*>(ptr)); // const entfernen\n\n    std::cout << value << std::endl; // 10\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "reinterpret_cast",
+              "text": [
+                "reinterpret_cast führt eine bitweise Neuinterpretation durch.",
+                "Er ist extrem gefährlich und nur für sehr spezielle Low-Level-Fälle gedacht."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "reinterpret_cast Beispiel",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint main() {\n    int x = 42;\n    void* p = &x;\n\n    int* y = reinterpret_cast<int*>(p);\n    std::cout << *y << std::endl;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "C-Style Cast (nicht empfohlen)",
+              "text": [
+                "Der klassische (Typ)wert Cast existiert weiterhin.",
+                "Er ist unübersichtlich, da er mehrere Cast-Arten gleichzeitig erlaubt."
               ]
             },
             {
               "type": "comparison",
-              "title": "Direkter Vergleich",
-              "columns": ["struct", "class"],
+              "title": "static_cast vs dynamic_cast",
+              "columns": ["static_cast", "dynamic_cast"],
               "rows": [
                 {
-                  "aspect": "Standard-Zugriff",
-                  "values": ["public", "private"]
+                  "aspect": "Prüfung",
+                  "values": ["Compile-Zeit", "Laufzeit"]
                 },
                 {
-                  "aspect": "Typischer Einsatzzweck",
-                  "values": ["Datenstruktur", "Objekt mit Logik"]
+                  "aspect": "Performance",
+                  "values": ["Sehr hoch", "Langsamer"]
+                },
+                {
+                  "aspect": "Polymorphie nötig",
+                  "values": ["Nein", "Ja"]
                 }
               ]
             },
             {
-              "type": "code",
-              "title": "Standard-Zugriff bei struct",
-              "language": "cpp",
-              "code": "#include <iostream>\n\nstruct A {\n    int x; // public\n};\n\nint main() {\n    A a;\n    a.x = 5;\n}\n"
-            },
-            {
-              "type": "code",
-              "title": "Standard-Zugriff bei class",
-              "language": "cpp",
-              "code": "#include <iostream>\n\nclass B {\n    int x; // private\n};\n\nint main() {\n    B b;\n    // b.x = 5; // Fehler: private Zugriff\n}\n"
-            },
-            {
               "type": "pitfall",
-              "title": "Falsche Semantik",
-              "text": "Die Wahl von struct oder class sollte die beabsichtigte Bedeutung des Typs widerspiegeln."
+              "title": "Falscher Cast-Typ",
+              "text": "Ein falscher Cast kann zu undefiniertem Verhalten oder schwer auffindbaren Fehlern führen."
             },
             {
               "type": "important",
-              "text": "Die Wahl zwischen struct und class ist semantisch und konzeptionell, nicht technisch."
+              "text": "static_cast ist der Standard-Cast, dynamic_cast nur bei echter Laufzeitprüfung verwenden."
             },
             {
               "type": "summary",
               "points": [
-                "struct und class sind technisch gleichwertig",
-                "Unterschied liegt im Standard-Zugriff",
-                "struct für Daten, class für Logik",
-                "Semantik sollte klar erkennbar sein"
+                "Explizites Casting macht Typumwandlungen sichtbar",
+                "static_cast für normale, sichere Umwandlungen",
+                "dynamic_cast für polymorphe Laufzeitprüfungen",
+                "const_cast nur für Qualifizierer",
+                "reinterpret_cast nur in Ausnahmefällen"
               ]
             }
           ]
