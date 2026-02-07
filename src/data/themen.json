@@ -8272,7 +8272,210 @@
         }
         
         ]
+      },
+
+
+
+      {
+        "name": "Casting",
+        "icon": "🔄",
+        "topics": [
+        {
+          "title": "Implizite Konvertierung",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Implizite Konvertierung",
+              "text": "Implizite Konvertierung bezeichnet automatische Typumwandlungen, die der Compiler ohne explizite Anweisung durchführt."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Der Compiler wandelt Typen automatisch um, wenn dies nach den Sprachregeln erlaubt ist.",
+                "Ziel ist es, Ausdrücke und Zuweisungen möglichst bequem nutzbar zu machen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Implizite Konvertierungen bei Built-in-Typen",
+              "text": [
+                "Numerische Typen werden häufig automatisch angepasst.",
+                "Dabei kann es zu Präzisionsverlust oder Werteänderungen kommen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Numerische implizite Konvertierung",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint main() {\n    int a = 5;\n    double b = a;   // int -> double (implizit)\n\n    double x = 3.7;\n    int y = x;      // double -> int (implizit, Abschneiden)\n\n    std::cout << b << \" \" << y << std::endl;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Implizite Konvertierung bei Funktionsaufrufen",
+              "text": [
+                "Argumente werden implizit an den Parametertyp angepasst.",
+                "Dies kann zu unerwarteten Ergebnissen führen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Implizite Konvertierung bei Funktionen",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nvoid printDouble(double d) {\n    std::cout << d << std::endl;\n}\n\nint main() {\n    int value = 10;\n    printDouble(value); // int -> double\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Implizite Konvertierung bei Klassen",
+              "text": [
+                "Konstruktoren mit einem Parameter erlauben implizite Typumwandlungen.",
+                "Dies kann zu schwer nachvollziehbarem Code führen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Implizite Konvertierung über Konstruktor",
+              "language": "cpp",
+              "code": "#include <string>\n#include <iostream>\n\nclass UserId {\npublic:\n    UserId(int id) : id(id) {}\n\n    int get() const { return id; }\n\nprivate:\n    int id;\n};\n\nint main() {\n    UserId u = 42; // int -> UserId (implizit)\n    std::cout << u.get() << std::endl;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Implizite Konvertierungsoperatoren",
+              "text": [
+                "Klassen können implizite Konvertierungsoperatoren definieren.",
+                "Diese werden automatisch bei Bedarf aufgerufen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "operator Typ() implizit",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Meter {\npublic:\n    Meter(double m) : wert(m) {}\n\n    operator double() const { // implizite Konvertierung\n        return wert;\n    }\n\nprivate:\n    double wert;\n};\n\nint main() {\n    Meter m(2.5);\n    double d = m; // Meter -> double\n\n    std::cout << d << std::endl;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Risiken impliziter Konvertierungen",
+              "text": [
+                "Implizite Konvertierungen können Informationen verlieren.",
+                "Sie erschweren das Lesen und Debuggen von Code."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Implizit vs explizit",
+              "columns": ["Implizit", "Explizit"],
+              "rows": [
+                {
+                  "aspect": "Lesbarkeit",
+                  "values": ["Oft schlechter", "Besser"]
+                },
+                {
+                  "aspect": "Kontrolle",
+                  "values": ["Gering", "Hoch"]
+                },
+                {
+                  "aspect": "Fehleranfälligkeit",
+                  "values": ["Höher", "Geringer"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Unerwartete Typumwandlungen",
+              "text": "Unbeabsichtigte implizite Konvertierungen sind eine häufige Fehlerquelle in C++."
+            },
+            {
+              "type": "important",
+              "text": "Implizite Konvertierungen sollten bewusst zugelassen oder durch explicit verhindert werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Implizite Konvertierungen erfolgen automatisch",
+                "Häufig bei numerischen Typen und Funktionen",
+                "Konstruktoren mit einem Parameter erlauben implizite Umwandlungen",
+                "Konvertierungsoperatoren können implizit wirken",
+                "Bewusster Umgang ist entscheidend"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Explizites Casting",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "struct und class",
+              "text": "struct und class sind nahezu identische Sprachkonstrukte in C++ mit unterschiedlichem Standard-Zugriffsverhalten."
+            },
+            {
+              "type": "explanation",
+              "title": "Gemeinsamkeiten",
+              "text": [
+                "Beide können Attribute, Methoden, Konstruktoren und Destruktoren enthalten.",
+                "Beide unterstützen Vererbung, Polymorphie und Zugriffsspezifizierer."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Zentraler Unterschied",
+              "text": [
+                "Bei struct sind Member standardmäßig public.",
+                "Bei class sind Member standardmäßig private."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Direkter Vergleich",
+              "columns": ["struct", "class"],
+              "rows": [
+                {
+                  "aspect": "Standard-Zugriff",
+                  "values": ["public", "private"]
+                },
+                {
+                  "aspect": "Typischer Einsatzzweck",
+                  "values": ["Datenstruktur", "Objekt mit Logik"]
+                }
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Standard-Zugriff bei struct",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nstruct A {\n    int x; // public\n};\n\nint main() {\n    A a;\n    a.x = 5;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Standard-Zugriff bei class",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass B {\n    int x; // private\n};\n\nint main() {\n    B b;\n    // b.x = 5; // Fehler: private Zugriff\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Falsche Semantik",
+              "text": "Die Wahl von struct oder class sollte die beabsichtigte Bedeutung des Typs widerspiegeln."
+            },
+            {
+              "type": "important",
+              "text": "Die Wahl zwischen struct und class ist semantisch und konzeptionell, nicht technisch."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "struct und class sind technisch gleichwertig",
+                "Unterschied liegt im Standard-Zugriff",
+                "struct für Daten, class für Logik",
+                "Semantik sollte klar erkennbar sein"
+              ]
+            }
+          ]
+        }
+      ]
       }
+
     ]
   },
 
