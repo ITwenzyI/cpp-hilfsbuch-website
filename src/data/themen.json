@@ -14736,17 +14736,73 @@
         },
 
         {
-          "title": "---",
+          "title": "LIMIT",
           "difficulty": "basic",
           "blocks": [
-          ]
-        },
-
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Ergebnisanzahl begrenzen",
+              "text": [
+                "LIMIT begrenzt die Anzahl der zurückgegebenen Zeilen.",
+                "Die Abfrage liefert höchstens die angegebene Anzahl.",
+                "Besonders nützlich bei großen Tabellen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "LIMIT Beispiel",
+              "language": "sql",
+              "code": "SELECT * FROM users LIMIT 5;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "LIMIT mit ORDER BY",
+              "text": [
+                "LIMIT wird häufig mit ORDER BY kombiniert.",
+                "So werden die ersten oder letzten Einträge gezielt ausgewählt.",
+                "Die Sortierung wird vor dem LIMIT angewendet."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "ORDER BY und LIMIT",
+              "language": "sql",
+              "code": "SELECT * FROM users ORDER BY age DESC LIMIT 3;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "LIMIT und OFFSET",
+              "text": [
+                "OFFSET überspringt eine bestimmte Anzahl von Zeilen.",
+                "Wird häufig für Pagination verwendet.",
+                "LIMIT und OFFSET arbeiten zusammen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "LIMIT mit OFFSET",
+              "language": "sql",
+              "code": "SELECT * FROM users ORDER BY id LIMIT 5 OFFSET 10;\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "LIMIT ohne ORDER BY",
+              "text": "LIMIT ohne ORDER BY liefert beliebige Zeilen und ist meist nicht sinnvoll."
+            },
+            {
+              "type": "important",
+              "text": "LIMIT bestimmt nur die Anzahl, nicht welche Zeilen gewählt werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "LIMIT begrenzt die Anzahl der Ergebnisse",
+                "ORDER BY bestimmt welche Zeilen ausgewählt werden",
+                "OFFSET überspringt Zeilen",
+                "Typisch für Listen und Pagination",
+                "Ohne ORDER BY ist LIMIT nicht deterministisch"
+              ]
+            }
           ]
         }
 
