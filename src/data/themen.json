@@ -14671,9 +14671,67 @@
 
 
         {
-          "title": "---",
+          "title": "ORDER BY",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "explanation",
+              "title": "Sortieren mit ORDER BY",
+              "text": [
+                "ORDER BY sortiert das Ergebnis einer SELECT Abfrage.",
+                "Die Sortierung erfolgt nach einer oder mehreren Spalten.",
+                "Ohne ORDER BY ist die Reihenfolge nicht definiert."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "ASC und DESC",
+              "text": [
+                "ASC sortiert aufsteigend.",
+                "DESC sortiert absteigend.",
+                "ASC ist der Standard und kann weggelassen werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "ORDER BY Beispiele",
+              "language": "sql",
+              "code": "SELECT * FROM users ORDER BY age ASC;\nSELECT * FROM users ORDER BY age DESC;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Mehrere Spalten sortieren",
+              "text": [
+                "ORDER BY kann mehrere Spalten enthalten.",
+                "Die Sortierung erfolgt von links nach rechts.",
+                "Sekundäre Sortierungen greifen bei gleichen Werten."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Sortieren nach mehreren Spalten",
+              "language": "sql",
+              "code": "SELECT * FROM users ORDER BY age DESC, name ASC;\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "ORDER BY vergessen",
+              "text": "Ohne ORDER BY darf man sich niemals auf eine bestimmte Reihenfolge verlassen."
+            },
+            {
+              "type": "important",
+              "text": "Die gewünschte Reihenfolge muss immer explizit mit ORDER BY angegeben werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "ORDER BY sortiert SELECT Ergebnisse",
+                "ASC bedeutet aufsteigend",
+                "DESC bedeutet absteigend",
+                "Mehrere Spalten sind möglich",
+                "Ohne ORDER BY ist die Reihenfolge undefiniert"
+              ]
+            }
           ]
         },
 
