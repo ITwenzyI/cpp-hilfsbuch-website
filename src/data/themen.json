@@ -13525,32 +13525,106 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Result Typen für DB Operationen",
+          "difficulty": "intermediate",
           "blocks": [
-          ]
-        },
-
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
+            {
+              "type": "definition",
+              "term": "Result Typ",
+              "text": "Ein Result Typ kapselt das Ergebnis einer Datenbank Operation inklusive Status, optionalem Payload und optionalem Fehlertext."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum Result Typen",
+              "text": [
+                "Nicht jede DB Operation ist entweder Erfolg oder technischer Fehler.",
+                "Zustände wie NotFound sind fachlich korrekt.",
+                "Result Typen machen diese Zustände explizit und typsicher."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "enum Status",
+              "text": [
+                "Ein enum beschreibt den Ausgang der Operation.",
+                "Typische Zustände sind OK, NotFound und Error.",
+                "Der Status steuert den weiteren Kontrollfluss."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Status Enum",
+              "language": "cpp",
+              "code": "enum class DBStatus {\n    OK,\n    NotFound,\n    Error\n};\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Optionaler Payload",
+              "text": [
+                "Bei erfolgreichen Operationen kann ein Ergebnisobjekt vorhanden sein.",
+                "Bei NotFound oder Error existiert kein Payload.",
+                "std::optional modelliert diese Abwesenheit sauber."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Result Struct mit Payload",
+              "language": "cpp",
+              "code": "template <typename T>\nstruct DBResult {\n    DBStatus status;\n    std::optional<T> value;\n    std::string error;\n};\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Fehlertext mitgeben",
+              "text": [
+                "Bei technischen Fehlern sollte ein erklärender Text mitgegeben werden.",
+                "sqlite3_errmsg kann direkt in den Result Typ übernommen werden.",
+                "Die aufrufende Schicht entscheidet, wie der Fehler behandelt wird."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel Nutzung bei SELECT",
+              "language": "cpp",
+              "code": "DBResult<User> findUserById(Database& db, int id) {\n    const char* sql = \"SELECT id, name FROM users WHERE id = ?;\";\n\n    try {\n        Statement stmt = db.prepare(sql);\n        stmt.bindInt(1, id);\n\n        const int rc = stmt.stepRaw();\n\n        if (rc == SQLITE_ROW) {\n            return { DBStatus::OK, mapUser(stmt.get()), \"\" };\n        }\n\n        if (rc == SQLITE_DONE) {\n            return { DBStatus::NotFound, std::nullopt, \"\" };\n        }\n\n        return { DBStatus::Error, std::nullopt, \"Unerwarteter Rückgabecode\" };\n    }\n    catch (const std::exception& e) {\n        return { DBStatus::Error, std::nullopt, e.what() };\n    }\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Result Typ vs Exception",
+              "columns": ["Result Typ", "Exception"],
+              "rows": [
+                {
+                  "aspect": "NotFound",
+                  "values": ["Explizit modelliert", "Ungeeignet"]
+                },
+                {
+                  "aspect": "Kontrollfluss",
+                  "values": ["Explizit", "Implizit"]
+                },
+                {
+                  "aspect": "API Klarheit",
+                  "values": ["Hoch", "Schwer nachvollziehbar"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Status und Payload inkonsistent",
+              "text": "Ein gesetzter Payload bei Error oder NotFound führt zu unklarer Semantik."
+            },
+            {
+              "type": "important",
+              "text": "Result Typen eignen sich für Repository APIs, Exceptions für Infrastruktur Fehler."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Result Typen modellieren DB Ergebnisse explizit",
+                "enum Status beschreibt den Ausgang",
+                "Payload ist optional",
+                "Fehlertexte liefern Kontext",
+                "Saubere Alternative zu Exceptions in Repositories"
+              ]
+            }
           ]
         }
 
