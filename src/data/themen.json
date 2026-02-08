@@ -13914,9 +13914,106 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Typische Fehlerfälle testen",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Fehlerfälle",
+              "text": "Typische Fehlerfälle sind erwartbare Zustände oder technische Probleme, die bei Datenbank Operationen auftreten können und gezielt getestet werden sollten."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum Fehlerfälle testen",
+              "text": [
+                "Erfolgsfälle allein decken reale Nutzung nicht ab.",
+                "Fehlerfälle bestimmen die Stabilität der Anwendung.",
+                "Gezielte Tests verhindern stille Datenfehler."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Constraint Violation",
+              "text": [
+                "Constraints erzwingen Regeln wie NOT NULL, UNIQUE oder FOREIGN KEY.",
+                "Verletzungen führen zu SQLITE_CONSTRAINT.",
+                "Dieser Fehler ist fachlich erwartbar."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Constraint Violation testen",
+              "language": "cpp",
+              "code": "TEST(insert_user_unique_name) {\n    Database db(\":memory:\");\n    db.execute(\"CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT UNIQUE);\");\n\n    insertUser(db, \"Max\", 30);\n\n    // gleicher Name verletzt UNIQUE Constraint\n    EXPECT_THROW(insertUser(db, \"Max\", 25), std::runtime_error);\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Not Found",
+              "text": [
+                "Ein SELECT kann korrekt sein, aber kein Ergebnis liefern.",
+                "Dieser Zustand ist kein Fehler.",
+                "Er sollte explizit getestet werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Not Found testen",
+              "language": "cpp",
+              "code": "TEST(select_user_not_found) {\n    Database db(\":memory:\");\n    db.execute(\"CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT);\");\n\n    auto result = findUserById(db, 42);\n    EXPECT_FALSE(result.has_value());\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "BUSY Zustand",
+              "text": [
+                "SQLITE_BUSY tritt auf, wenn die Datenbank gesperrt ist.",
+                "Typisch bei parallelen Zugriffen oder offenen Transaktionen.",
+                "Der Zustand ist temporär."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "BUSY simulieren",
+              "language": "cpp",
+              "code": "TEST(busy_database) {\n    Database db1(\":memory:\");\n    Database db2(\":memory:\");\n\n    db1.execute(\"BEGIN;\");\n\n    // paralleler Zugriff kann SQLITE_BUSY auslösen\n    EXPECT_THROW(db2.execute(\"CREATE TABLE test (id INTEGER);\"), std::runtime_error);\n\n    db1.execute(\"ROLLBACK;\");\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Fehlerarten",
+              "columns": ["Fehlerfall", "Bedeutung"],
+              "rows": [
+                {
+                  "aspect": "Constraint Violation",
+                  "values": ["Fachlich erwartet", "Datenregel verletzt"]
+                },
+                {
+                  "aspect": "Not Found",
+                  "values": ["Kein Fehler", "Kein Datensatz"]
+                },
+                {
+                  "aspect": "BUSY",
+                  "values": ["Temporär", "Lock oder Parallelzugriff"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Fehlerfälle ignorieren",
+              "text": "Nicht getestete Fehlerfälle führen oft zu instabilem Verhalten in Produktion."
+            },
+            {
+              "type": "important",
+              "text": "Fehlerfälle sollten bewusst getestet und nicht nur implizit akzeptiert werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Constraint Violations sind erwartbare Fehler",
+                "Not Found ist kein technischer Fehler",
+                "BUSY ist ein temporärer Zustand",
+                "Alle drei Fälle sollten getestet werden",
+                "Stabile Software entsteht durch Fehlerfall Tests"
+              ]
+            }
           ]
         }
 
