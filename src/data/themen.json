@@ -15364,9 +15364,72 @@
 
 
         {
-          "title": "---",
+          "title": "Foreign Key",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Foreign Key",
+              "text": "Ein Foreign Key ist eine Spalte, die auf den Primary Key einer anderen Tabelle verweist und Beziehungen zwischen Tabellen herstellt."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum Foreign Keys",
+              "text": [
+                "Foreign Keys verbinden logisch zusammengehörige Daten.",
+                "Sie verhindern ungültige Referenzen.",
+                "Die Datenbank hilft, Konsistenz zu erzwingen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches Foreign Key Beispiel",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT\n);\n\nCREATE TABLE orders (\n    id INTEGER PRIMARY KEY,\n    user_id INTEGER,\n    product TEXT,\n    FOREIGN KEY (user_id) REFERENCES users(id)\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Was der Foreign Key bewirkt",
+              "text": [
+                "user_id muss auf einen existierenden users.id Wert zeigen.",
+                "Orders mit nicht existierendem User sind nicht erlaubt.",
+                "Die Beziehung wird von SQLite geprüft."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "FOREIGN KEYS aktivieren",
+              "text": [
+                "In SQLite sind Foreign Keys standardmäßig deaktiviert.",
+                "PRAGMA foreign_keys = ON aktiviert die Prüfung.",
+                "Ohne dieses PRAGMA werden Regeln nicht erzwungen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Foreign Keys aktivieren",
+              "language": "sql",
+              "code": "PRAGMA foreign_keys = ON;\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Foreign Keys vergessen zu aktivieren",
+              "text": "Ohne PRAGMA foreign_keys = ON werden ungültige Referenzen still akzeptiert."
+            },
+            {
+              "type": "important",
+              "text": "Foreign Keys sind zentral für Datenkonsistenz und sollten immer aktiviert sein."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Foreign Keys verbinden Tabellen",
+                "Sie verweisen auf Primary Keys",
+                "SQLite prüft Beziehungen nur mit PRAGMA foreign_keys",
+                "Ungültige Referenzen werden verhindert",
+                "Wichtig für saubere Datenmodelle"
+              ]
+            }
           ]
         },
 
