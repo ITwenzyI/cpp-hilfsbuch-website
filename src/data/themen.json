@@ -14518,9 +14518,73 @@
         "icon": "🔍",
         "topics": [
         {
-          "title": "---",
+          "title": "SELECT Grundform",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "explanation",
+              "title": "Grundstruktur",
+              "text": [
+                "SELECT liest Daten aus einer Tabelle.",
+                "Die Spalten werden explizit angegeben.",
+                "FROM definiert die Tabelle."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches SELECT",
+              "language": "sql",
+              "code": "SELECT id, name, age FROM users;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Spalten auswählen",
+              "text": [
+                "Es können einzelne oder mehrere Spalten ausgewählt werden.",
+                "Die Reihenfolge der Spalten bestimmt die Reihenfolge im Ergebnis.",
+                "Die Spaltennamen müssen in der Tabelle existieren."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Nur bestimmte Spalten",
+              "language": "sql",
+              "code": "SELECT name FROM users;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Alle Spalten auswählen",
+              "text": [
+                "Mit * werden alle Spalten ausgewählt.",
+                "Die Reihenfolge entspricht der Tabellendefinition.",
+                "* ist praktisch zum Testen, aber ungeeignet für Produktivcode."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "SELECT mit *",
+              "language": "sql",
+              "code": "SELECT * FROM users;\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "SELECT * im Code verwenden",
+              "text": "SELECT * bricht leicht, wenn sich die Tabellenstruktur ändert. Spalten sollten immer explizit angegeben werden."
+            },
+            {
+              "type": "important",
+              "text": "Die Spaltenreihenfolge im SELECT muss zum späteren Spaltenlesen passen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "SELECT liest Daten aus Tabellen",
+                "Spalten werden vor FROM angegeben",
+                "FROM definiert die Tabelle",
+                "SELECT * ist nur für schnelle Tests geeignet",
+                "Explizite Spalten sind robuster"
+              ]
+            }
           ]
         },
 
