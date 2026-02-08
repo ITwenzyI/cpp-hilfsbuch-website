@@ -11155,455 +11155,457 @@
     "subcategories": [
       {
         "name": "Grundlagen",
-        "icon": "🧱",
+        "icon": "📘",
         "topics": [
         {
-          "title": "SQLite Grundlagen",
+          "title": "---",
           "difficulty": "basic",
           "blocks": [
-            {
-              "type": "definition",
-              "term": "SQLite",
-              "text": "SQLite ist eine serverlose, dateibasierte relationale Datenbank, die ohne separate Datenbanksoftware auskommt."
-            },
-            {
-              "type": "explanation",
-              "title": "Grundidee von SQLite",
-              "text": [
-                "SQLite ist eine eingebettete Datenbank, die direkt in eine Anwendung integriert wird.",
-                "Es existiert kein Serverprozess, alle Zugriffe erfolgen direkt auf eine Datenbankdatei."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Datenbank als Datei",
-              "text": [
-                "Eine SQLite-Datenbank besteht aus genau einer Datei.",
-                "Diese Datei enthält Tabellen, Indizes, Trigger und alle gespeicherten Daten."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Eigenschaften von SQLite",
-              "text": [
-                "Keine Installation oder Konfiguration notwendig.",
-                "Sehr geringe Abhängigkeiten.",
-                "ACID-konforme Transaktionen trotz einfacher Architektur."
-              ]
-            },
-            {
-              "type": "list",
-              "title": "Typische Einsatzgebiete",
-              "items": [
-                "Desktop-Anwendungen",
-                "Mobile Apps",
-                "Embedded Systeme",
-                "Lokale Tools und Prototypen"
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "SQLite im Vergleich zu Server-Datenbanken",
-              "text": [
-                "SQLite eignet sich nicht für viele gleichzeitige Schreibzugriffe.",
-                "Für lokale und einzelne Anwendungen ist SQLite oft die einfachste Lösung."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "SQLite in C++ Projekten",
-              "text": [
-                "In C++ wird SQLite nicht über die Standardbibliothek bereitgestellt.",
-                "Der Zugriff erfolgt über externe Header und Bibliotheksdateien."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Einbindung als Bibliothek",
-              "text": [
-                "SQLite kann als bereits kompilierte Systembibliothek eingebunden werden.",
-                "Alternativ kann der SQLite-Quellcode direkt in das Projekt integriert werden."
-              ]
-            },
-            {
-              "type": "pitfall",
-              "title": "Falsche Erwartung an Parallelität",
-              "text": "SQLite ist keine Mehrbenutzer-Datenbank und skaliert nicht für viele gleichzeitige Schreibzugriffe."
-            },
-            {
-              "type": "important",
-              "text": "SQLite ist ideal für lokale, einfache und robuste Datenhaltung ohne Server."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "SQLite ist serverlos und dateibasiert",
-                "Eine Datenbank entspricht einer Datei",
-                "Kein Teil der C++ Standardbibliothek",
-                "Einbindung als Systembibliothek oder Quellcode möglich",
-                "Geeignet für lokale Anwendungen"
-              ]
-            }
           ]
         },
 
 
         {
-          "title": "DB erstellen und als Zeiger übergeben",
-          "difficulty": "intermediate",
+          "title": "---",
+          "difficulty": "basic",
           "blocks": [
-            {
-              "type": "definition",
-              "term": "sqlite3*",
-              "text": "sqlite3* ist ein Zeiger auf eine geöffnete SQLite-Datenbank und repräsentiert die aktive Verbindung."
-            },
-            {
-              "type": "explanation",
-              "title": "Grundidee",
-              "text": [
-                "Eine SQLite-Datenbank wird einmal geöffnet und als sqlite3* gespeichert.",
-                "Dieser Zeiger kann sicher an Funktionen übergeben werden, die mit der Datenbank arbeiten."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Lebensdauer der Datenbank",
-              "text": [
-                "Die Datenbank wird vor der Nutzung geöffnet.",
-                "Sie bleibt gültig, bis sqlite3_close aufgerufen wird."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Datenbank erstellen und öffnen",
-              "language": "cpp",
-              "code": "#include <sqlite3.h>\n\nsqlite3* openDatabase() {\n    sqlite3* db = nullptr;\n\n    int rc = sqlite3_open(\"example.db\", &db);\n\n    if (rc != SQLITE_OK) {\n        // Fehler beim Öffnen\n        sqlite3_close(db);\n        return nullptr;\n    }\n\n    return db; // Zeiger auf geöffnete Datenbank\n}\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Übergabe an Funktionen",
-              "text": [
-                "Der sqlite3* Zeiger wird als Funktionsparameter übergeben.",
-                "Alle Funktionen arbeiten auf derselben Datenbankverbindung."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Funktion mit Datenbankzeiger",
-              "language": "cpp",
-              "code": "#include <sqlite3.h>\n\nvoid createTable(sqlite3* db) {\n    const char* sql =\n        \"CREATE TABLE IF NOT EXISTS users (\"\n        \"id INTEGER PRIMARY KEY,\"\n        \"name TEXT\"\n        \");\";\n\n    sqlite3_exec(db, sql, nullptr, nullptr, nullptr);\n}\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Zusammenspiel im main",
-              "text": [
-                "Die Datenbank wird einmal geöffnet.",
-                "Der Zeiger wird an mehrere Funktionen weitergereicht."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Komplettes Beispiel",
-              "language": "cpp",
-              "code": "#include <sqlite3.h>\n#include <iostream>\n\nsqlite3* openDatabase() {\n    sqlite3* db = nullptr;\n    if (sqlite3_open(\"example.db\", &db) != SQLITE_OK) {\n        sqlite3_close(db);\n        return nullptr;\n    }\n    return db;\n}\n\nvoid createTable(sqlite3* db) {\n    const char* sql =\n        \"CREATE TABLE IF NOT EXISTS users (\"\n        \"id INTEGER PRIMARY KEY,\"\n        \"name TEXT\"\n        \");\";\n\n    sqlite3_exec(db, sql, nullptr, nullptr, nullptr);\n}\n\nint main() {\n    sqlite3* db = openDatabase();\n\n    if (!db) {\n        std::cout << \"Datenbank konnte nicht geöffnet werden\" << std::endl;\n        return 1;\n    }\n\n    createTable(db); // Übergabe des Zeigers\n\n    sqlite3_close(db); // Datenbank sauber schließen\n    return 0;\n}\n"
-            },
-            {
-              "type": "pitfall",
-              "title": "Ungültiger Datenbankzeiger",
-              "text": "Wird sqlite3_close aufgerufen, darf der sqlite3* Zeiger nicht mehr verwendet werden."
-            },
-            {
-              "type": "important",
-              "text": "Der sqlite3* Zeiger repräsentiert die gesamte Datenbankverbindung und sollte zentral verwaltet werden."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "sqlite3_open erzeugt eine Datenbankverbindung",
-                "Die Verbindung wird als sqlite3* gespeichert",
-                "Der Zeiger kann an Funktionen übergeben werden",
-                "Alle Funktionen arbeiten auf derselben Datenbank",
-                "sqlite3_close beendet die Verbindung"
-              ]
-            }
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
           ]
         },
 
         {
-          "title": "SQLite Datenbankklasse",
-          "difficulty": "intermediate",
+          "title": "---",
+          "difficulty": "basic",
           "blocks": [
-            {
-              "type": "definition",
-              "term": "RAII Datenbankklasse",
-              "text": "Eine Datenbankklasse kapselt eine SQLite-Verbindung und verwaltet Öffnen und Schließen über Konstruktor und Destruktor."
-            },
-            {
-              "type": "explanation",
-              "title": "Grundidee",
-              "text": [
-                "Die Datenbank wird beim Erzeugen des Objekts geöffnet.",
-                "Beim Zerstören des Objekts wird die Verbindung automatisch geschlossen."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Pfadbasierte Datenbankerstellung",
-              "text": [
-                "Der Pfad zur Datenbankdatei wird dem Konstruktor übergeben.",
-                "Existiert die Datei nicht, wird sie automatisch erstellt."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Database Klasse (Header und Implementierung)",
-              "language": "cpp",
-              "code": "#include <sqlite3.h>\n#include <string>\n#include <stdexcept>\n\nclass Database {\npublic:\n    explicit Database(const std::string& dbPfad)\n        : db(nullptr)\n    {\n        // Öffnet bestehende Datenbank oder erstellt neue Datei\n        if (sqlite3_open(dbPfad.c_str(), &db) != SQLITE_OK) {\n            std::string fehler = sqlite3_errmsg(db);\n            sqlite3_close(db);\n            db = nullptr;\n            throw std::runtime_error(\"Datenbank konnte nicht geöffnet werden: \" + fehler);\n        }\n    }\n\n    ~Database() {\n        // Schließt die Datenbank automatisch\n        if (db) {\n            sqlite3_close(db);\n            db = nullptr;\n        }\n    }\n\n    // Zugriff auf rohe SQLite Verbindung\n    sqlite3* get() const {\n        return db;\n    }\n\n    // Kopieren verbieten\n    Database(const Database&) = delete;\n    Database& operator=(const Database&) = delete;\n\n    // Verschieben erlauben\n    Database(Database&& other) noexcept : db(other.db) {\n        other.db = nullptr;\n    }\n\n    Database& operator=(Database&& other) noexcept {\n        if (this != &other) {\n            if (db) {\n                sqlite3_close(db);\n            }\n            db = other.db;\n            other.db = nullptr;\n        }\n        return *this;\n    }\n\nprivate:\n    sqlite3* db;\n};\n"
-            },
-            {
-              "type": "code",
-              "title": "Verwendung der Database Klasse",
-              "language": "cpp",
-              "code": "#include <iostream>\n\nint main() {\n    try {\n        Database db(\"data/meine_datenbank.db\");\n\n        // Zugriff auf sqlite3* für weitere Operationen\n        sqlite3* handle = db.get();\n        (void)handle; // Platzhalter für weitere Nutzung\n    }\n    catch (const std::exception& e) {\n        std::cout << e.what() << std::endl;\n        return 1;\n    }\n\n    // Datenbank wird hier automatisch geschlossen\n    return 0;\n}\n"
-            },
-            {
-              "type": "pitfall",
-              "title": "Mehrfaches Schließen",
-              "text": "sqlite3_close darf nur einmal aufgerufen werden und muss durch saubere Besitzverhältnisse abgesichert sein."
-            },
-            {
-              "type": "important",
-              "text": "Eine RAII-Datenbankklasse verhindert Lecks und stellt korrektes Öffnen und Schließen sicher."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "Datenbank wird über Pfad im Konstruktor geöffnet",
-                "Nicht vorhandene Datei wird automatisch erstellt",
-                "Destruktor schließt die Verbindung",
-                "Kopieren ist verboten, Verschieben erlaubt",
-                "RAII ist Best Practice für SQLite in C++"
-              ]
-            }
           ]
         },
 
+
         {
-          "title": "DB Ablauf: prepare / bind / step / finalize",
-          "difficulty": "intermediate",
+          "title": "---",
+          "difficulty": "basic",
           "blocks": [
-            {
-              "type": "definition",
-              "term": "Prepared Statement Ablauf",
-              "text": "Der prepare / bind / step / finalize Ablauf beschreibt die korrekte und sichere Nutzung von SQL-Statements mit der SQLite C-API."
-            },
-            {
-              "type": "explanation",
-              "title": "Grundidee des Ablaufs",
-              "text": [
-                "SQL-Anweisungen werden einmal vorbereitet und anschließend ausgeführt.",
-                "Daten und SQL-Code sind strikt getrennt, was Sicherheit und Performance erhöht."
-              ]
-            },
-            {
-              "type": "list",
-              "title": "Die vier Schritte",
-              "items": [
-                "prepare: SQL vorbereiten und kompilieren",
-                "bind: Parameter an das Statement binden",
-                "step: Statement ausführen",
-                "finalize: Ressourcen freigeben"
-              ]
-            },
-            {
-              "type": "code",
-              "title": "1. prepare - SQL vorbereiten",
-              "language": "cpp",
-              "code": "#include <sqlite3.h>\n\nsqlite3_stmt* stmt = nullptr;\n\nconst char* sql = \"INSERT INTO users (name, alter) VALUES (?, ?);\";\n\n// SQL wird vorbereitet und intern kompiliert\nint rc = sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr);\n\nif (rc != SQLITE_OK) {\n    // Vorbereitung fehlgeschlagen\n}\n"
-            },
-            {
-              "type": "explanation",
-              "title": "prepare erklärt",
-              "text": [
-                "sqlite3_prepare_v2 analysiert und kompiliert den SQL-String.",
-                "Das Ergebnis ist ein sqlite3_stmt Objekt."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "2. bind - Parameter binden",
-              "language": "cpp",
-              "code": "// Platzhalter werden von links nach rechts nummeriert: ?1, ?2, ...\nsqlite3_bind_text(stmt, 1, \"Anna\", -1, SQLITE_TRANSIENT);\nsqlite3_bind_int(stmt, 2, 25);\n"
-            },
-            {
-              "type": "explanation",
-              "title": "bind erklärt",
-              "text": [
-                "bind ersetzt die Platzhalter ? im SQL-Statement.",
-                "Datentypen werden explizit gebunden, z. B. int, text oder double."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "3. step - Statement ausführen",
-              "language": "cpp",
-              "code": "int result = sqlite3_step(stmt);\n\nif (result == SQLITE_DONE) {\n    // INSERT, UPDATE oder DELETE erfolgreich\n}\n"
-            },
-            {
-              "type": "explanation",
-              "title": "step erklärt",
-              "text": [
-                "sqlite3_step führt das vorbereitete Statement aus.",
-                "Bei INSERT liefert es SQLITE_DONE."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "step bei SELECT",
-              "language": "cpp",
-              "code": "while (sqlite3_step(stmt) == SQLITE_ROW) {\n    int id = sqlite3_column_int(stmt, 0);\n    const unsigned char* name = sqlite3_column_text(stmt, 1);\n}\n"
-            },
-            {
-              "type": "explanation",
-              "title": "SELECT mit step",
-              "text": [
-                "Jeder Aufruf von step liefert eine Zeile.",
-                "SQLITE_ROW signalisiert, dass Daten verfügbar sind."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "4. finalize - Statement freigeben",
-              "language": "cpp",
-              "code": "// Statement und alle internen Ressourcen freigeben\nsqlite3_finalize(stmt);\nstmt = nullptr;\n"
-            },
-            {
-              "type": "explanation",
-              "title": "finalize erklärt",
-              "text": [
-                "finalize MUSS immer aufgerufen werden.",
-                "Nicht freigegebene Statements führen zu Speicherlecks."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Kompletter Ablauf in einem Beispiel",
-              "language": "cpp",
-              "code": "#include <sqlite3.h>\n\nvoid insertUser(sqlite3* db) {\n    sqlite3_stmt* stmt = nullptr;\n\n    const char* sql = \"INSERT INTO users (name, alter) VALUES (?, ?);\";\n\n    sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr);\n\n    sqlite3_bind_text(stmt, 1, \"Max\", -1, SQLITE_TRANSIENT);\n    sqlite3_bind_int(stmt, 2, 30);\n\n    sqlite3_step(stmt);\n\n    sqlite3_finalize(stmt);\n}\n"
-            },
-            {
-              "type": "pitfall",
-              "title": "Statement vergessen zu finalisieren",
-              "text": "Ein fehlendes sqlite3_finalize führt zu Speicherlecks und blockierten Ressourcen."
-            },
-            {
-              "type": "important",
-              "text": "prepare, bind, step und finalize gehören immer zusammen und dürfen niemals getrennt betrachtet werden."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "prepare kompiliert SQL",
-                "bind setzt Parameter sicher",
-                "step führt das Statement aus",
-                "finalize gibt Ressourcen frei",
-                "Standardablauf für jede SQLite-Operation"
-              ]
-            }
-          ]
-        },
-        {
-          "title": "CRUD Operationen",
-          "difficulty": "intermediate",
-          "blocks": [
-            {
-              "type": "definition",
-              "term": "CRUD",
-              "text": "CRUD steht für Create, Read, Update und Delete und beschreibt die vier Grundoperationen auf Daten in einer Datenbank."
-            },
-            {
-              "type": "explanation",
-              "title": "Voraussetzung: Tabelle und Spalten",
-              "text": [
-                "Die Beispiele gehen von einer Tabelle users aus.",
-                "Schema: users(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, age INTEGER)."
-              ]
-            },
-            {
-              "type": "list",
-              "title": "Benötigte Header",
-              "items": [
-                "<sqlite3.h>",
-                "<string>",
-                "<optional>",
-                "<vector>",
-                "<iostream>"
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Create: Tabelle anlegen (prepare / step / finalize)",
-              "language": "cpp",
-              "code": "#include <sqlite3.h>\n#include <iostream>\n\nbool createUsersTable(sqlite3* db) {\n    const char* sql = R\"(\n        CREATE TABLE IF NOT EXISTS users (\n            id INTEGER PRIMARY KEY AUTOINCREMENT,\n            name TEXT NOT NULL,\n            age INTEGER\n        );\n    )\";\n\n    sqlite3_stmt* stmt = nullptr;\n\n    // 1. prepare\n    // Parst SQL, prüft Syntax und erstellt ein ausführbares Statement-Objekt.\n    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {\n        std::cerr << \"Prepare-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        return false;\n    }\n\n    // 2. step\n    // Für DDL wie CREATE TABLE erwartet man SQLITE_DONE.\n    int rc = sqlite3_step(stmt);\n    if (rc != SQLITE_DONE) {\n        std::cerr << \"Step-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        sqlite3_finalize(stmt);\n        return false;\n    }\n\n    // 3. finalize\n    sqlite3_finalize(stmt);\n\n    return true;\n}\n"
-            },
-            {
-              "type": "code",
-              "title": "Create: Datensatz einfügen (INSERT) mit prepare / bind / step / finalize",
-              "language": "cpp",
-              "code": "#include <sqlite3.h>\n#include <string>\n#include <iostream>\n\nbool insertUser(sqlite3* db, const std::string& name, int age) {\n    sqlite3_stmt* stmt = nullptr;\n\n    const char* sql = \"INSERT INTO users (name, age) VALUES (?, ?);\";\n\n    // 1. prepare\n    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {\n        std::cerr << \"Prepare-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        return false;\n    }\n\n    // 2. bind\n    sqlite3_bind_text(stmt, 1, name.c_str(), -1, SQLITE_TRANSIENT);\n    sqlite3_bind_int(stmt, 2, age);\n\n    // 3. step\n    int rc = sqlite3_step(stmt);\n    if (rc != SQLITE_DONE) {\n        std::cerr << \"Step-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        sqlite3_finalize(stmt);\n        return false;\n    }\n\n    // 4. finalize\n    sqlite3_finalize(stmt);\n    return true;\n}\n"
-            },
-            {
-              "type": "code",
-              "title": "Read: Einzelnen Datensatz lesen (SELECT) und Spalten auslesen",
-              "language": "cpp",
-              "code": "#include <sqlite3.h>\n#include <string>\n#include <optional>\n#include <iostream>\n\nstruct User {\n    int id;\n    std::string name;\n    int age;\n};\n\nstd::optional<User> findUserById(sqlite3* db, int id) {\n    sqlite3_stmt* stmt = nullptr;\n\n    const char* sql = \"SELECT id, name, age FROM users WHERE id = ?;\";\n\n    // 1. prepare\n    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {\n        std::cerr << \"Prepare-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        return std::nullopt;\n    }\n\n    // 2. bind\n    sqlite3_bind_int(stmt, 1, id);\n\n    // 3. step\n    int rc = sqlite3_step(stmt);\n    if (rc != SQLITE_ROW) {\n        // SQLITE_DONE bedeutet: keine Zeile gefunden\n        if (rc != SQLITE_DONE) {\n            std::cerr << \"Step-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        }\n        sqlite3_finalize(stmt);\n        return std::nullopt;\n    }\n\n    // 4. columns lesen\n    User u;\n    u.id = sqlite3_column_int(stmt, 0);\n\n    const unsigned char* outName = sqlite3_column_text(stmt, 1);\n    u.name = outName ? reinterpret_cast<const char*>(outName) : \"\";\n\n    u.age = sqlite3_column_int(stmt, 2);\n\n    // 5. finalize\n    sqlite3_finalize(stmt);\n    return u;\n}\n"
-            },
-            {
-              "type": "code",
-              "title": "Read: Alle Datensätze lesen (SELECT) in std::vector",
-              "language": "cpp",
-              "code": "#include <sqlite3.h>\n#include <string>\n#include <vector>\n#include <iostream>\n\nstruct User {\n    int id;\n    std::string name;\n    int age;\n};\n\nstd::vector<User> getAllUsers(sqlite3* db) {\n    std::vector<User> users;\n    sqlite3_stmt* stmt = nullptr;\n\n    const char* sql = \"SELECT id, name, age FROM users ORDER BY id;\";\n\n    // 1. prepare\n    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {\n        std::cerr << \"Prepare-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        return users;\n    }\n\n    // 2. step Schleife\n    while (true) {\n        int rc = sqlite3_step(stmt);\n\n        if (rc == SQLITE_ROW) {\n            User u;\n            u.id = sqlite3_column_int(stmt, 0);\n\n            const unsigned char* name = sqlite3_column_text(stmt, 1);\n            u.name = name ? reinterpret_cast<const char*>(name) : \"\";\n\n            u.age = sqlite3_column_int(stmt, 2);\n            users.push_back(u);\n            continue;\n        }\n\n        if (rc == SQLITE_DONE) {\n            break; // fertig\n        }\n\n        std::cerr << \"Step-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        break;\n    }\n\n    // 3. finalize\n    sqlite3_finalize(stmt);\n    return users;\n}\n"
-            },
-            {
-              "type": "code",
-              "title": "Update: Datensatz ändern (UPDATE) und Ergebnis prüfen",
-              "language": "cpp",
-              "code": "#include <sqlite3.h>\n#include <string>\n#include <iostream>\n\nbool updateUserName(sqlite3* db, int id, const std::string& neuerName) {\n    sqlite3_stmt* stmt = nullptr;\n\n    const char* sql = \"UPDATE users SET name = ? WHERE id = ?;\";\n\n    // 1. prepare\n    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {\n        std::cerr << \"Prepare-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        return false;\n    }\n\n    // 2. bind\n    sqlite3_bind_text(stmt, 1, neuerName.c_str(), -1, SQLITE_TRANSIENT);\n    sqlite3_bind_int(stmt, 2, id);\n\n    // 3. step\n    int rc = sqlite3_step(stmt);\n    if (rc != SQLITE_DONE) {\n        std::cerr << \"Step-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        sqlite3_finalize(stmt);\n        return false;\n    }\n\n    // 4. finalize\n    sqlite3_finalize(stmt);\n\n    // sqlite3_changes: Anzahl geänderter Zeilen durch das letzte Statement\n    return sqlite3_changes(db) > 0;\n}\n"
-            },
-            {
-              "type": "code",
-              "title": "Delete: Datensatz löschen (DELETE) und Ergebnis prüfen",
-              "language": "cpp",
-              "code": "#include <sqlite3.h>\n#include <iostream>\n\nbool deleteUserById(sqlite3* db, int id) {\n    sqlite3_stmt* stmt = nullptr;\n\n    const char* sql = \"DELETE FROM users WHERE id = ?;\";\n\n    // 1. prepare\n    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {\n        std::cerr << \"Prepare-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        return false;\n    }\n\n    // 2. bind\n    sqlite3_bind_int(stmt, 1, id);\n\n    // 3. step\n    int rc = sqlite3_step(stmt);\n    if (rc != SQLITE_DONE) {\n        std::cerr << \"Step-Fehler: \" << sqlite3_errmsg(db) << \"\\n\";\n        sqlite3_finalize(stmt);\n        return false;\n    }\n\n    // 4. finalize\n    sqlite3_finalize(stmt);\n\n    return sqlite3_changes(db) > 0;\n}\n"
-            },
-            {
-              "type": "pitfall",
-              "title": "DDL und Rückgabecode",
-              "text": "Bei CREATE TABLE liefert sqlite3_step bei Erfolg SQLITE_DONE, nicht SQLITE_ROW."
-            },
-            {
-              "type": "pitfall",
-              "title": "finalize vergessen",
-              "text": "Wenn sqlite3_finalize fehlt, bleiben Ressourcen belegt und es entstehen Leaks oder Locks."
-            },
-            {
-              "type": "important",
-              "text": "Best Practice: Auch für CREATE TABLE und andere DDL immer prepare, step und finalize verwenden und Fehler über sqlite3_errmsg ausgeben."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "Create: CREATE TABLE mit prepare/step/finalize und INSERT mit prepare/bind/step/finalize",
-                "Read: SELECT mit SQLITE_ROW und sqlite3_column_*",
-                "Update: UPDATE und sqlite3_changes prüfen",
-                "Delete: DELETE und sqlite3_changes prüfen",
-                "Jedes Statement braucht finalize, auch bei Fehlern"
-              ]
-            }
           ]
         }
+
+
+
+        ]
+      },
+
+
+
+
+
+      {
+        "name": "Database Klasse",
+        "icon": "🏗️",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+
+
+
+
+
+      {
+        "name": "Statements",
+        "icon": "🧾",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+
+
+
+
+
+      {
+        "name": "Ergebnisse lesen",
+        "icon": "📤",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+
+      {
+        "name": "CRUD",
+        "icon": "🔄",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+
+      {
+        "name": "Architektur Patterns",
+        "icon": "🧩",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+
+      {
+        "name": "Transaktionen",
+        "icon": "🔒",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+
+      {
+        "name": "Tests",
+        "icon": "🧪",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+
+
+      {
+        "name": "Fehlerhandling",
+        "icon": "⚠️",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
         ]
       }
+
+
+
+      
     ]
   },
 
@@ -11615,8 +11617,205 @@
     "icon": "</>",
     "subcategories": [
       {
-        "name": "CRUD",
-        "icon": "🧱",
+        "name": "Grundlagen",
+        "icon": "📘",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+      {
+        "name": "Daten abfragen",
+        "icon": "🔍",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+
+      {
+        "name": "Daten ändern",
+        "icon": "✏️",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+
+
+      {
+        "name": "Mehrere Tabellen",
+        "icon": "🔗",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+
+
+      {
+        "name": "Design",
+        "icon": "📐",
         "topics": [
         {
           "title": "---",
@@ -11660,6 +11859,10 @@
 
         ]
       }
+
+
+
+
     ]
   }
 
