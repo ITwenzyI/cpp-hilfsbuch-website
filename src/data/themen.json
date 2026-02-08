@@ -13079,9 +13079,86 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "SELECT eine Zeile lesen",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Single Row SELECT",
+              "text": "Ein Single Row SELECT liest höchstens eine Ergebniszeile aus der Datenbank und gibt sie optional zurück."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum optional Rückgabe",
+              "text": [
+                "Ein SELECT kann gültig sein, aber kein Ergebnis liefern.",
+                "Nicht gefunden ist kein technischer Fehler.",
+                "std::optional modelliert diesen Zustand sauber."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "not found vs error",
+              "text": [
+                "not found bedeutet: SQL korrekt, aber keine passende Zeile.",
+                "error bedeutet: technischer Fehler bei prepare oder step.",
+                "Diese Zustände müssen klar getrennt behandelt werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel: SELECT eine Zeile mit optional",
+              "language": "cpp",
+              "code": "#include <optional>\n\nstd::optional<User> findUserById(Database& db, int id) {\n    const char* sql = \"SELECT id, name, age FROM users WHERE id = ?;\";\n\n    Statement stmt = db.prepare(sql);\n    stmt.bindInt(1, id);\n\n    const int rc = stmt.stepRaw();\n\n    if (rc == SQLITE_ROW) {\n        return mapUser(stmt.get());\n    }\n\n    if (rc == SQLITE_DONE) {\n        return std::nullopt; // not found\n    }\n\n    throw std::runtime_error(\"SELECT fehlgeschlagen.\");\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Ablauf im Detail",
+              "text": [
+                "prepare und bind werden wie gewohnt ausgeführt.",
+                "Der erste step entscheidet über das Ergebnis.",
+                "SQLITE_ROW bedeutet Treffer.",
+                "SQLITE_DONE bedeutet keine Zeile vorhanden."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Rückgabearten",
+              "columns": ["optional", "Exception"],
+              "rows": [
+                {
+                  "aspect": "Nicht gefunden",
+                  "values": ["std::nullopt", "Ungeeignet"]
+                },
+                {
+                  "aspect": "Technischer Fehler",
+                  "values": ["Ungeeignet", "Exception"]
+                },
+                {
+                  "aspect": "Lesbarkeit",
+                  "values": ["Klar", "Unklar bei Kontrollfluss"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Nicht gefunden als Fehler behandeln",
+              "text": "Ein fehlender Datensatz ist kein Ausnahmefall und sollte nicht über Exceptions signalisiert werden."
+            },
+            {
+              "type": "important",
+              "text": "optional steht für fachliche Abwesenheit, Exceptions für technische Fehler."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Single Row SELECT liefert höchstens eine Zeile",
+                "std::optional modelliert not found sauber",
+                "SQLITE_ROW bedeutet Treffer",
+                "SQLITE_DONE bedeutet keine Zeile",
+                "Technische Fehler werden per Exception behandelt"
+              ]
+            }
           ]
         },
 
