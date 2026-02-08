@@ -14015,7 +14015,128 @@
               ]
             }
           ]
+        },
+
+
+
+
+        {
+          "title": "Tests in C++ anwenden (SQLite und :memory:)",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Unit Tests",
+              "text": "Unit Tests sind automatisierte Tests, die einzelne Funktionen oder Klassen isoliert prüfen, zum Beispiel Repository Methoden mit einer In Memory SQLite Datenbank."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Tests laufen in einem separaten Programm, nicht im normalen main.",
+                "Der Test Runner führt alle Testfälle aus und gibt ein Ergebnis zurück.",
+                "Eine In Memory Datenbank sorgt für schnelle und isolierte Tests."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Projektstruktur für Tests",
+              "text": [
+                "Produktivcode bleibt in src.",
+                "Tests liegen in einem eigenen tests Ordner.",
+                "Ein eigenes Test Executable baut und linkt denselben Code wie die App."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel Ordnerstruktur",
+              "language": "text",
+              "code": "project/\n  src/\n    main.cpp\n    database/\n    repository/\n  tests/\n    test_main.cpp\n    test_users.cpp\n  external/\n    sqlite/\n  CMakeLists.txt\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Testframework: doctest als leichter Einstieg",
+              "text": [
+                "doctest ist leichtgewichtig und schnell aufzusetzen.",
+                "Ein Test Runner wird über eine einzige Datei erzeugt.",
+                "Tests sind normale C++ Dateien, die mit dem Test Runner gelinkt werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "test_main.cpp (Test Runner)",
+              "language": "cpp",
+              "code": "#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN\n#include <doctest/doctest.h>\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Beispiel Test: Not Found mit :memory:",
+              "text": [
+                "Jeder Test erstellt seine eigene In Memory Datenbank.",
+                "Schema wird im Test gesetzt.",
+                "Not Found wird über optional geprüft."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "test_users.cpp (Not Found Test)",
+              "language": "cpp",
+              "code": "#include <doctest/doctest.h>\n\nTEST_CASE(\"select_user_not_found\") {\n    Database db(\":memory:\");\n    db.execute(\"CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, age INTEGER);\");\n\n    auto result = findUserById(db, 42);\n    CHECK_FALSE(result.has_value());\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "CMake: Test Executable bauen",
+              "text": [
+                "Ein eigenes Executable tests wird angelegt.",
+                "Die Test Dateien werden hinzugefügt.",
+                "SQLite Target wird gelinkt.",
+                "Der gleiche Standard wie im Projekt wird verwendet."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "CMakeLists.txt (Tests Target)",
+              "language": "cmake",
+              "code": "add_executable(tests\n    tests/test_main.cpp\n    tests/test_users.cpp\n)\n\ntarget_link_libraries(tests PRIVATE\n    sqlite3\n)\n\ntarget_compile_features(tests PRIVATE cxx_std_20)\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Tests ausführen",
+              "text": [
+                "Nach dem Build wird das tests Executable gestartet.",
+                "Ein Exit Code von 0 bedeutet alle Tests erfolgreich.",
+                "Bei Fehlern wird ein nicht null Exit Code zurückgegeben."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Tests starten",
+              "language": "text",
+              "code": "cmake --build .\n./tests\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Tests sind nicht isoliert",
+              "text": "Wenn mehrere Tests dieselbe Datei Datenbank nutzen oder kein eigenes Schema aufbauen, beeinflussen sich Tests gegenseitig."
+            },
+            {
+              "type": "important",
+              "text": "Jeder Test sollte eine eigene :memory: Datenbank und ein eigenes Schema erstellen, damit Tests reproduzierbar und unabhängig sind."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Tests laufen in einem separaten Executable",
+                "doctest ist ein einfacher Einstieg",
+                "test_main.cpp erzeugt den Test Runner",
+                "Jeder Test nutzt :memory: und baut sein Schema",
+                "CMake erstellt ein eigenes tests Target",
+                "Tests werden wie ein normales Programm gestartet"
+              ]
+            }
+          ]
         }
+
 
 
 
