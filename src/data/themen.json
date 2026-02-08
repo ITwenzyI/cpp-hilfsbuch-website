@@ -15287,9 +15287,78 @@
         "icon": "📐",
         "topics": [
         {
-          "title": "---",
+          "title": "Primary Key",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Primary Key",
+              "text": "Ein Primary Key ist eine Spalte oder Kombination von Spalten, die jede Zeile einer Tabelle eindeutig identifiziert."
+            },
+            {
+              "type": "explanation",
+              "title": "Wofür ein Primary Key da ist",
+              "text": [
+                "Jede Zeile muss eindeutig identifizierbar sein.",
+                "Der Primary Key verhindert doppelte Datensätze.",
+                "Andere Tabellen können zuverlässig auf diese Zeile verweisen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfacher Primary Key",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT,\n    age INTEGER\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "INTEGER PRIMARY KEY in SQLite",
+              "text": [
+                "INTEGER PRIMARY KEY ist in SQLite besonders.",
+                "Die Spalte ist intern mit der RowID verknüpft.",
+                "Der Wert wird automatisch vergeben, wenn nichts eingesetzt wird."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Automatische ID Vergabe",
+              "language": "sql",
+              "code": "INSERT INTO users (name, age) VALUES ('Max', 30);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Composite Primary Key",
+              "text": [
+                "Ein Primary Key kann aus mehreren Spalten bestehen.",
+                "Die Kombination der Werte muss eindeutig sein.",
+                "Typisch bei Zuordnungstabellen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Zusammengesetzter Primary Key",
+              "language": "sql",
+              "code": "CREATE TABLE enrollments (\n    student_id INTEGER,\n    course_id INTEGER,\n    PRIMARY KEY (student_id, course_id)\n);\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Kein Primary Key",
+              "text": "Tabellen ohne Primary Key lassen doppelte oder nicht eindeutig adressierbare Zeilen zu."
+            },
+            {
+              "type": "important",
+              "text": "Jede Tabelle sollte einen Primary Key besitzen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Primary Key identifiziert Zeilen eindeutig",
+                "INTEGER PRIMARY KEY ist Standard in SQLite",
+                "IDs werden automatisch vergeben",
+                "Composite Keys sind möglich",
+                "Tabellen ohne Primary Key sind fehleranfällig"
+              ]
+            }
           ]
         },
 
