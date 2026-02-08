@@ -14485,6 +14485,73 @@
               ]
             },
             {
+              "type": "explanation",
+              "title": "UNIQUE",
+              "text": [
+                "UNIQUE erzwingt, dass ein Wert in einer Spalte eindeutig ist.",
+                "Doppelte Werte sind nicht erlaubt.",
+                "NULL Werte sind bei UNIQUE erlaubt, da NULL kein Wert ist."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "UNIQUE Spalte",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    email TEXT UNIQUE,\n    name TEXT\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "UNIQUE Verhalten",
+              "text": [
+                "Beim INSERT oder UPDATE prüft SQLite die Eindeutigkeit.",
+                "Ein Verstoß führt zu SQLITE_CONSTRAINT.",
+                "Die Operation wird abgebrochen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Mehrere Spalten eindeutig machen",
+              "text": [
+                "UNIQUE kann sich über mehrere Spalten erstrecken.",
+                "Die Kombination der Werte muss eindeutig sein.",
+                "Einzelne Werte dürfen sich wiederholen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Zusammengesetztes UNIQUE",
+              "language": "sql",
+              "code": "CREATE TABLE appointments (\n    user_id INTEGER,\n    date TEXT,\n    UNIQUE (user_id, date)\n);\n"
+            },
+            {
+              "type": "comparison",
+              "title": "UNIQUE vs PRIMARY KEY",
+              "columns": ["UNIQUE", "PRIMARY KEY"],
+              "rows": [
+                {
+                  "aspect": "Eindeutigkeit",
+                  "values": ["Ja", "Ja"]
+                },
+                {
+                  "aspect": "NULL erlaubt",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "Anzahl pro Tabelle",
+                  "values": ["Mehrere möglich", "Genau einer"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "UNIQUE als Ersatz für Primary Key",
+              "text": "UNIQUE garantiert Eindeutigkeit, ersetzt aber keinen Primary Key für eindeutige Identifikation."
+            },
+            {
+              "type": "important",
+              "text": "UNIQUE wird für fachlich eindeutige Werte wie E Mail Adressen verwendet."
+            },
+            {
               "type": "pitfall",
               "title": "AUTOINCREMENT blind verwenden",
               "text": "AUTOINCREMENT ist meist unnötig und kann Performance kosten. INTEGER PRIMARY KEY reicht in den meisten Fällen aus."
