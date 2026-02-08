@@ -15435,16 +15435,96 @@
 
 
         {
-          "title": "---",
+          "title": "NULL verstehen",
           "difficulty": "basic",
           "blocks": [
-          ]
-        },
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
+            {
+              "type": "definition",
+              "term": "NULL",
+              "text": "NULL bedeutet, dass kein Wert vorhanden ist. Es ist weder 0, noch ein leerer String, noch false."
+            },
+            {
+              "type": "explanation",
+              "title": "Was NULL ist und was nicht",
+              "text": [
+                "NULL steht für Abwesenheit eines Werts.",
+                "0 ist ein gültiger numerischer Wert.",
+                "Ein leerer String ' ' ist ein gültiger Textwert."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "NULL vs andere Werte",
+              "columns": ["NULL", "0", "Leerer String"],
+              "rows": [
+                {
+                  "aspect": "Bedeutung",
+                  "values": ["Kein Wert", "Numerischer Wert", "Textwert vorhanden"]
+                },
+                {
+                  "aspect": "Vergleichbar mit =",
+                  "values": ["Nein", "Ja", "Ja"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "NULL in Tabellen",
+              "text": [
+                "Spalten können NULL erlauben oder verbieten.",
+                "NULL ist der Standard, wenn nichts anderes angegeben ist.",
+                "NOT NULL erzwingt einen gesetzten Wert."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "NULL erlauben und verbieten",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT NOT NULL,\n    nickname TEXT NULL\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "NULL prüfen",
+              "text": [
+                "NULL kann nicht mit = verglichen werden.",
+                "IS NULL und IS NOT NULL werden verwendet.",
+                "Vergleiche mit = liefern bei NULL kein true."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "NULL abfragen",
+              "language": "sql",
+              "code": "SELECT * FROM users WHERE nickname IS NULL;\nSELECT * FROM users WHERE nickname IS NOT NULL;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "NULL in SQLite und C++",
+              "text": [
+                "Beim Lesen kann sqlite3_column_text nullptr liefern.",
+                "column_type kann SQLITE_NULL zurückgeben.",
+                "NULL sollte in C++ über std::optional modelliert werden."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "NULL wie einen normalen Wert behandeln",
+              "text": "Vergleiche mit = NULL funktionieren nicht und führen zu falschen Ergebnissen."
+            },
+            {
+              "type": "important",
+              "text": "NULL ist ein eigener Zustand und muss explizit behandelt werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "NULL bedeutet kein Wert",
+                "NULL ist nicht 0 und nicht leer",
+                "NULL wird mit IS NULL geprüft",
+                "NOT NULL erzwingt Werte",
+                "In C++ sollte NULL über optional abgebildet werden"
+              ]
+            }
           ]
         },
 
