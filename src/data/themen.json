@@ -14339,24 +14339,53 @@
 
 
         {
-          "title": "---",
+          "title": "Einfache CREATE TABLE",
           "difficulty": "basic",
           "blocks": [
-          ]
-        },
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Minimalbeispiel",
+              "text": [
+                "Eine Tabelle wird mit CREATE TABLE angelegt.",
+                "Spaltenname und Typ reichen für den Anfang.",
+                "IF NOT EXISTS verhindert Fehler bei erneutem Ausführen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches CREATE TABLE",
+              "language": "sql",
+              "code": "CREATE TABLE IF NOT EXISTS users (\n    id INTEGER PRIMARY KEY,\n    name TEXT,\n    age INTEGER\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "In C++ ausführen",
+              "text": [
+                "Das SQL wird einmal ausgeführt, meist beim Programmstart.",
+                "Keine Parameter, kein Ergebnis.",
+                "Erfolg bedeutet SQLITE_DONE."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "CREATE TABLE mit Database::execute",
+              "language": "cpp",
+              "code": "Database db(\"data.db\");\n\ndb.execute(\n    \"CREATE TABLE IF NOT EXISTS users (\"\n    \"id INTEGER PRIMARY KEY,\"\n    \"name TEXT,\"\n    \"age INTEGER\"\n    \");\"\n);\n"
+            },
+            {
+              "type": "important",
+              "text": "CREATE TABLE wird typischerweise beim Initialisieren der Datenbank ausgeführt."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "CREATE TABLE legt eine Tabelle an",
+                "IF NOT EXISTS vermeidet Fehler",
+                "Keine Parameter notwendig",
+                "Kein Ergebnis, nur Ausführung",
+                "Ideal für den Einstieg"
+              ]
+            }
           ]
         }
 
