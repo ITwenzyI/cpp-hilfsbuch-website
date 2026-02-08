@@ -14899,9 +14899,67 @@
 
 
         {
-          "title": "---",
+          "title": "UPDATE",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "explanation",
+              "title": "Bestehende Daten ändern",
+              "text": [
+                "UPDATE verändert bestehende Datensätze in einer Tabelle.",
+                "Es werden keine neuen Zeilen erzeugt.",
+                "Nur die angegebenen Spalten werden geändert."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches UPDATE",
+              "language": "sql",
+              "code": "UPDATE users SET age = 31 WHERE id = 1;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Mehrere Spalten ändern",
+              "text": [
+                "Mehrere Spalten können in einem UPDATE gesetzt werden.",
+                "Die Zuweisungen werden durch Kommas getrennt.",
+                "Alle Änderungen passieren atomar."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "UPDATE mit mehreren Spalten",
+              "language": "sql",
+              "code": "UPDATE users SET name = 'Max M.', age = 32 WHERE id = 1;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "UPDATE mit WHERE",
+              "text": [
+                "WHERE begrenzt, welche Zeilen geändert werden.",
+                "Ohne WHERE werden alle Zeilen der Tabelle geändert.",
+                "WHERE ist fast immer notwendig."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "UPDATE ohne WHERE",
+              "text": "UPDATE ohne WHERE ändert alle Datensätze und ist eine der häufigsten Fehlerquellen."
+            },
+            {
+              "type": "important",
+              "text": "UPDATE verändert Daten dauerhaft. WHERE sollte immer bewusst gesetzt werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "UPDATE ändert bestehende Datensätze",
+                "SET definiert die neuen Werte",
+                "WHERE begrenzt die betroffenen Zeilen",
+                "Mehrere Spalten können gleichzeitig geändert werden",
+                "UPDATE ohne WHERE ist gefährlich"
+              ]
+            }
           ]
         },
 
