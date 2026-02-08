@@ -12709,9 +12709,147 @@
 
 
         {
-          "title": "---",
+          "title": "Spalten lesen",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Spalten lesen",
+              "text": "Spalten lesen bedeutet, nach einem erfolgreichen sqlite3_step die Werte der aktuellen Ergebniszeile aus einem Statement auszulesen."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundprinzip",
+              "text": [
+                "Spalten können nur gelesen werden, wenn sqlite3_step SQLITE_ROW geliefert hat.",
+                "Der Zugriff erfolgt über Spalten Indizes.",
+                "Der erste Spaltenindex beginnt bei 0."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "columnInt",
+              "text": [
+                "columnInt liest einen INTEGER Wert aus der aktuellen Zeile.",
+                "Nicht passende Typen werden von SQLite implizit konvertiert.",
+                "Geeignet für IDs und Ganzzahlen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Integer Spalte lesen",
+              "language": "cpp",
+              "code": "int id = sqlite3_column_int(stmt.get(), 0);"
+            },
+            {
+              "type": "explanation",
+              "title": "columnDouble",
+              "text": [
+                "columnDouble liest einen REAL Wert aus der aktuellen Ergebniszeile.",
+                "Der Rückgabewert ist ein double.",
+                "Geeignet für Messwerte, Dezimalzahlen oder Zeitdauern."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Double Spalte lesen",
+              "language": "cpp",
+              "code": "double weight = sqlite3_column_double(stmt.get(), 3);"
+            },
+            {
+              "type": "explanation",
+              "title": "columnText",
+              "text": [
+                "columnText liest eine TEXT Spalte als const unsigned char*. ",
+                "Der Rückgabewert gehört SQLite und darf nicht freigegeben werden.",
+                "Der Inhalt ist nur bis zum nächsten step oder reset gültig."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Text Spalte lesen",
+              "language": "cpp",
+              "code": "const char* name = reinterpret_cast<const char*>(\n    sqlite3_column_text(stmt.get(), 1)\n);"
+            },
+            {
+              "type": "explanation",
+              "title": "Text Spalte sicher speichern",
+              "text": [
+                "sqlite3_column_text liefert einen Zeiger auf SQLite internen Speicher.",
+                "Dieser Speicher ist nur bis zum nächsten step oder reset gültig.",
+                "Der Text sollte daher sofort in einen std::string kopiert werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Text ohne Zeiger speichern",
+              "language": "cpp",
+              "code": "const unsigned char* text = sqlite3_column_text(stmt.get(), 1);\n\nstd::string name;\nif (text != nullptr) {\n    name = reinterpret_cast<const char*>(text);\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "NULL Handling",
+              "text": [
+                "Spalten können NULL sein.",
+                "Beim Lesen von NULL liefert sqlite3_column_text einen Null Zeiger.",
+                "NULL muss explizit geprüft werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "NULL sicher behandeln",
+              "language": "cpp",
+              "code": "const unsigned char* text = sqlite3_column_text(stmt.get(), 2);\n\nif (text == nullptr) {\n    // Wert ist NULL\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "columnType",
+              "text": [
+                "sqlite3_column_type liefert den tatsächlichen Typ der Spalte.",
+                "Der Typ kann zur Laufzeit variieren.",
+                "Besonders wichtig bei optionalen oder dynamischen Spalten."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Spaltentyp prüfen",
+              "language": "cpp",
+              "code": "int type = sqlite3_column_type(stmt.get(), 2);\n\nif (type == SQLITE_NULL) {\n    // NULL Wert\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Spaltenindizes",
+              "columns": ["Parameter binden", "Spalten lesen"],
+              "rows": [
+                {
+                  "aspect": "Index Start",
+                  "values": ["Beginnt bei 1", "Beginnt bei 0"]
+                },
+                {
+                  "aspect": "Kontext",
+                  "values": ["Vor step", "Nach SQLITE_ROW"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Lifetime von columnText",
+              "text": "Der von sqlite3_column_text gelieferte Zeiger wird ungültig nach step oder reset."
+            },
+            {
+              "type": "important",
+              "text": "Vor dem Lesen von Spalten muss immer geprüft werden, dass sqlite3_step SQLITE_ROW geliefert hat."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Spalten lesen ist nur bei SQLITE_ROW erlaubt",
+                "Spaltenindizes beginnen bei 0",
+                "columnInt für INTEGER Werte",
+                "columnText liefert SQLite verwalteten Speicher",
+                "NULL und Typen müssen explizit geprüft werden"
+              ]
+            }
           ]
         },
 
