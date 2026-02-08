@@ -13426,9 +13426,100 @@
         "icon": "🧩",
         "topics": [
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Repository Pattern mit SQLite",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Repository Pattern",
+              "text": "Das Repository Pattern kapselt Datenbankzugriffe hinter einer klaren Schnittstelle und trennt Fachlogik vollständig von SQLite spezifischem Code."
+            },
+            {
+              "type": "explanation",
+              "title": "Trennung von DB und Fachlogik",
+              "text": [
+                "SQLite Code gehört nicht in die Fachlogik.",
+                "SQL, Statements und Fehlercodes würden sonst überall auftauchen.",
+                "Die Anwendung arbeitet stattdessen mit fachlichen Methoden."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Klare Schnittstellen",
+              "text": [
+                "Repositories bieten klar benannte Methoden wie findById oder save.",
+                "Die Rückgabetypen spiegeln fachliche Zustände.",
+                "Details wie SQL oder sqlite3_step bleiben intern."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel Repository Interface",
+              "language": "cpp",
+              "code": "struct UserRepository {\n    virtual ~UserRepository() = default;\n\n    virtual std::optional<User> findById(int id) = 0;\n    virtual std::vector<User> findAll() = 0;\n    virtual int insert(const User& user) = 0;\n    virtual bool update(const User& user) = 0;\n    virtual bool remove(int id) = 0;\n};\n"
+            },
+            {
+              "type": "explanation",
+              "title": "SQLite Implementierung",
+              "text": [
+                "Die konkrete Implementierung kennt SQLite Details.",
+                "Database und Statement Klassen werden intern genutzt.",
+                "Nach außen bleibt nur das fachliche Interface sichtbar."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "SQLite User Repository (Ausschnitt)",
+              "language": "cpp",
+              "code": "class SqliteUserRepository : public UserRepository {\npublic:\n    explicit SqliteUserRepository(Database& db) : db_(db) {}\n\n    std::optional<User> findById(int id) override;\n    std::vector<User> findAll() override;\n    int insert(const User& user) override;\n    bool update(const User& user) override;\n    bool remove(int id) override;\n\nprivate:\n    Database& db_;\n};\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Warum das wichtig ist",
+              "text": [
+                "Fachlogik bleibt testbar ohne echte Datenbank.",
+                "SQLite kann später ausgetauscht werden.",
+                "Änderungen am Schema betreffen nur das Repository."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Mit vs ohne Repository Pattern",
+              "columns": ["Ohne Repository", "Mit Repository"],
+              "rows": [
+                {
+                  "aspect": "SQL im Code",
+                  "values": ["Überall verteilt", "Gekapselt"]
+                },
+                {
+                  "aspect": "Testbarkeit",
+                  "values": ["Schlecht", "Gut"]
+                },
+                {
+                  "aspect": "Änderbarkeit",
+                  "values": ["Fehleranfällig", "Gezielt"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Repository mit Business Logik",
+              "text": "Repositories sollten keine fachlichen Entscheidungen treffen, sondern nur Datenzugriff kapseln."
+            },
+            {
+              "type": "important",
+              "text": "Das Repository Pattern ist der zentrale Baustein für saubere Trennung zwischen Datenbank und Anwendung."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Repository kapselt SQLite Zugriffe",
+                "Fachlogik kennt kein SQL",
+                "Klare, fachliche Schnittstellen",
+                "Bessere Testbarkeit",
+                "Grundlage für wartbare Architektur"
+              ]
+            }
           ]
         },
 
