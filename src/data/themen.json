@@ -12520,11 +12520,94 @@
 
 
         {
-          "title": "---",
+          "title": "Text Lifetime und SQLITE_TRANSIENT",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Text Lifetime",
+              "text": "Text Lifetime beschreibt, wie lange ein übergebener Text im Speicher gültig bleibt, nachdem er an SQLite gebunden wurde."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum C Strings gefährlich sind",
+              "text": [
+                "SQLite speichert Text nicht automatisch sofort.",
+                "Beim Binden von Texten kann SQLite nur einen Zeiger merken.",
+                "Wenn der Speicher danach ungültig wird, entstehen undefinierte Fehler."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "STATIC vs TRANSIENT",
+              "text": [
+                "STATIC bedeutet, dass SQLite den Text nicht kopiert.",
+                "TRANSIENT bedeutet, dass SQLite den Text intern kopiert.",
+                "Die Entscheidung beeinflusst direkt die Lebensdauer des Speichers."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "SQLITE_STATIC vs SQLITE_TRANSIENT",
+              "columns": ["SQLITE_STATIC", "SQLITE_TRANSIENT"],
+              "rows": [
+                {
+                  "aspect": "Speicherverwaltung",
+                  "values": ["Kein Kopieren", "Text wird kopiert"]
+                },
+                {
+                  "aspect": "Lifetime Verantwortung",
+                  "values": ["Aufrufer", "SQLite"]
+                },
+                {
+                  "aspect": "Sicherheit",
+                  "values": ["Fehleranfällig", "Sicher"]
+                }
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Typischer Fehler beim Binden von Text",
+              "language": "cpp",
+              "code": "std::string name = getName();\nstmt.bindText(1, name.c_str());\n// name wird später zerstört, Statement nutzt ungültigen Speicher\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Korrekte Nutzung mit SQLITE_TRANSIENT",
+              "text": [
+                "SQLITE_TRANSIENT zwingt SQLite, den Text zu kopieren.",
+                "Die ursprüngliche Speicherquelle darf danach zerstört werden.",
+                "Dies ist der sichere Standardfall."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Sicheres Binden von Text",
+              "language": "cpp",
+              "code": "stmt.bindText(1, name.c_str(), SQLITE_TRANSIENT);\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Unbewusste Nutzung von SQLITE_STATIC",
+              "text": "SQLITE_STATIC darf nur verwendet werden, wenn garantiert ist, dass der Speicher bis nach sqlite3_step gültig bleibt."
+            },
+            {
+              "type": "important",
+              "text": "Wenn Unsicherheit über die Lebensdauer besteht, immer SQLITE_TRANSIENT verwenden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Text Lifetime ist kritisch bei Prepared Statements",
+                "C Strings können frühzeitig ungültig werden",
+                "SQLITE_STATIC kopiert nicht",
+                "SQLITE_TRANSIENT kopiert sicher",
+                "Falsche Nutzung führt zu schwer auffindbaren Fehlern"
+              ]
+            }
           ]
         }
+
 
 
 
