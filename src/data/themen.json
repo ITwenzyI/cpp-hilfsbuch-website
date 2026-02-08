@@ -11936,9 +11936,118 @@
 
 
         {
-          "title": "---",
+          "title": "PRAGMA Einstellungen beim Start",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "PRAGMA",
+              "text": "PRAGMA Anweisungen konfigurieren das Verhalten der SQLite Engine zur Laufzeit und gelten immer für die aktuell geöffnete Datenbank Verbindung."
+            },
+            {
+              "type": "explanation",
+              "title": "PRAGMA beim Start setzen",
+              "text": [
+                "PRAGMA Einstellungen sollten direkt nach dem Öffnen der Datenbank gesetzt werden.",
+                "Sie gelten nur für die aktuelle Verbindung und nicht global.",
+                "Eine zentrale Initialisierung sorgt für konsistentes Verhalten."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "foreign_keys = ON",
+              "text": [
+                "SQLite erzwingt Fremdschlüssel standardmäßig nicht.",
+                "PRAGMA foreign_keys = ON aktiviert die Überprüfung von Foreign Keys.",
+                "Referentielle Integrität wird dadurch tatsächlich sichergestellt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Foreign Keys aktivieren",
+              "language": "cpp",
+              "code": "db.execute(\"PRAGMA foreign_keys = ON;\");\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Warum foreign_keys = ON wichtig ist",
+              "text": [
+                "SQLite unterstützt Fremdschlüssel zwar syntaktisch, erzwingt sie aber standardmäßig nicht.",
+                "Ohne foreign_keys = ON werden Beziehungen zwischen Tabellen nicht überprüft.",
+                "Die Datenbank erlaubt dadurch inkonsistente und logisch falsche Daten."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Was foreign_keys = ON konkret bewirkt",
+              "text": [
+                "INSERT schlägt fehl, wenn eine referenzierte ID nicht existiert.",
+                "DELETE und UPDATE beachten Regeln wie ON DELETE CASCADE oder ON UPDATE CASCADE.",
+                "Referentielle Integrität wird von der Datenbank selbst garantiert."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Praktischer Nutzen im Projekt",
+              "text": [
+                "Weniger Prüfungen in der Business Logik notwendig.",
+                "Inkonsistente Zustände werden früh erkannt.",
+                "Beziehungen zwischen Tabellen sind zuverlässig und wartbar."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Trügerische Sicherheit",
+              "text": "Foreign Keys im Schema zu definieren, aber foreign_keys nicht zu aktivieren, führt dazu, dass die Regeln niemals greifen."
+            },
+            {
+              "type": "important",
+              "text": "foreign_keys = ON sollte immer Teil der zentralen Datenbank Initialisierung sein."
+            },
+            {
+              "type": "explanation",
+              "title": "busy_timeout",
+              "text": [
+                "busy_timeout legt fest, wie lange SQLite bei gesperrter Datenbank wartet.",
+                "Ohne Timeout schlagen Schreibzugriffe sofort fehl.",
+                "Ein kurzer Timeout verbessert die Stabilität bei parallelen Zugriffen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Busy Timeout setzen",
+              "language": "cpp",
+              "code": "db.execute(\"PRAGMA busy_timeout = 5000;\");\n"
+            },
+            {
+              "type": "explanation",
+              "title": "journal_mode = WAL",
+              "text": [
+                "WAL steht für Write Ahead Logging.",
+                "Leser und Schreiber blockieren sich weniger stark.",
+                "Besonders sinnvoll bei mehreren parallelen Zugriffen.",
+                "Nicht jede Umgebung profitiert automatisch davon."
+              ]
+            },
+            {
+              "type": "important",
+              "text": "journal_mode = WAL sollte verstanden werden, bevor es produktiv eingesetzt wird. Es ist eine bewusste Architektur Entscheidung."
+            },
+            {
+              "type": "pitfall",
+              "title": "PRAGMA als globale Einstellung verstehen",
+              "text": "PRAGMA Einstellungen gelten immer nur für die aktuelle Verbindung und müssen bei jedem Start erneut gesetzt werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "PRAGMA konfiguriert das Verhalten von SQLite zur Laufzeit",
+                "foreign_keys = ON erzwingt referentielle Integrität",
+                "busy_timeout verhindert sofortige Lock Fehler",
+                "journal_mode = WAL verbessert Parallelität",
+                "PRAGMA Einstellungen gehören in die Initialisierung"
+              ]
+            }
           ]
         },
 
