@@ -13163,6 +13163,91 @@
         },
 
         {
+          "title": "SELECT mehrere Zeilen lesen",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Multi Row SELECT",
+              "text": "Ein Multi Row SELECT liest beliebig viele Ergebniszeilen aus der Datenbank und gibt sie gesammelt als std::vector zurück."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum vector Rückgabe",
+              "text": [
+                "Ein SELECT kann mehrere Zeilen liefern.",
+                "Die Anzahl der Ergebnisse ist vorher nicht bekannt.",
+                "std::vector modelliert diese Situation natürlich."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "step Schleife",
+              "text": [
+                "sqlite3_step wird wiederholt aufgerufen.",
+                "Jeder SQLITE_ROW Durchlauf liefert genau eine Zeile.",
+                "Die Schleife endet bei SQLITE_DONE."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel: SELECT mehrere Zeilen",
+              "language": "cpp",
+              "code": "#include <vector>\n\nstd::vector<User> findAllUsers(Database& db) {\n    const char* sql = \"SELECT id, name, age FROM users ORDER BY id;\";\n\n    Statement stmt = db.prepare(sql);\n    std::vector<User> result;\n\n    while (true) {\n        const int rc = stmt.stepRaw();\n\n        if (rc == SQLITE_ROW) {\n            result.push_back(mapUser(stmt.get()));\n            continue;\n        }\n\n        if (rc == SQLITE_DONE) {\n            break;\n        }\n\n        throw std::runtime_error(\"SELECT fehlgeschlagen.\");\n    }\n\n    return result;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Ablauf im Detail",
+              "text": [
+                "prepare erstellt das Statement.",
+                "stepRaw wird in einer Schleife aufgerufen.",
+                "Jede Zeile wird gemappt und in den Vector eingefügt.",
+                "Bei SQLITE_DONE ist das Ergebnis vollständig."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Single Row vs Multi Row SELECT",
+              "columns": ["Single Row", "Multi Row"],
+              "rows": [
+                {
+                  "aspect": "Rückgabe",
+                  "values": ["optional<T>", "std::vector<T>"]
+                },
+                {
+                  "aspect": "Schleife",
+                  "values": ["Nein", "Ja"]
+                },
+                {
+                  "aspect": "not found",
+                  "values": ["std::nullopt", "Leerer Vector"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "SQLITE_DONE vergessen",
+              "text": "Wenn SQLITE_DONE nicht korrekt behandelt wird, entsteht eine Endlosschleife."
+            },
+            {
+              "type": "important",
+              "text": "Ein leerer Vector ist ein gültiges Ergebnis und kein Fehler."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Multi Row SELECT liefert mehrere Zeilen",
+                "Rückgabe erfolgt als std::vector",
+                "sqlite3_step wird in einer Schleife verwendet",
+                "SQLITE_ROW fügt ein Element hinzu",
+                "SQLITE_DONE beendet die Schleife"
+              ]
+            }
+          ]
+        },
+
+
+        {
           "title": "---",
           "difficulty": "basic",
           "blocks": [
