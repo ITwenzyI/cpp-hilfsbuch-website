@@ -15197,9 +15197,80 @@
 
 
         {
-          "title": "---",
+          "title": "LEFT JOIN",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "explanation",
+              "title": "Unterschied zu INNER JOIN",
+              "text": [
+                "LEFT JOIN liefert alle Zeilen der linken Tabelle.",
+                "Passende Zeilen der rechten Tabelle werden ergänzt.",
+                "Fehlende Treffer werden mit NULL aufgefüllt."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Grundprinzip",
+              "text": [
+                "Die linke Tabelle ist die erste Tabelle nach FROM.",
+                "Diese Tabelle bestimmt die Anzahl der Ergebniszeilen.",
+                "Die rechte Tabelle ist optional."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "LEFT JOIN Beispiel",
+              "language": "sql",
+              "code": "SELECT users.name, orders.product\nFROM users\nLEFT JOIN orders ON users.id = orders.user_id;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Ergebnisverhalten",
+              "text": [
+                "Alle Users erscheinen im Ergebnis.",
+                "Users ohne Orders haben NULL in den Order Spalten.",
+                "Im Gegensatz zu INNER JOIN gehen keine linken Zeilen verloren."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "INNER JOIN vs LEFT JOIN",
+              "columns": ["INNER JOIN", "LEFT JOIN"],
+              "rows": [
+                {
+                  "aspect": "Linke Tabelle vollständig",
+                  "values": ["Nein", "Ja"]
+                },
+                {
+                  "aspect": "Rechte Tabelle erforderlich",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "NULL Werte möglich",
+                  "values": ["Nein", "Ja"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "WHERE auf rechter Tabelle",
+              "text": "Eine WHERE Bedingung auf Spalten der rechten Tabelle kann den LEFT JOIN ungewollt in einen INNER JOIN verwandeln."
+            },
+            {
+              "type": "important",
+              "text": "LEFT JOIN wird genutzt, wenn auch Datensätze ohne Beziehung sichtbar bleiben sollen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "LEFT JOIN liefert alle Zeilen der linken Tabelle",
+                "Rechte Tabelle ist optional",
+                "Nicht gefundene Werte werden NULL",
+                "Unterschied zu INNER JOIN ist das Ergebnisverhalten",
+                "LEFT JOIN ist wichtig für vollständige Listen"
+              ]
+            }
           ]
         }
 
