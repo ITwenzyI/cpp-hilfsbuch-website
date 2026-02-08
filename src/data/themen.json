@@ -11513,9 +11513,113 @@
 
 
         {
-          "title": "---",
+          "title": "SQLite einbinden",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Einbinden von SQLite",
+              "text": "SQLite kann in C++ Projekten direkt als Quellcode eingebunden werden, indem die SQLite Dateien in einen externen Ordner gelegt und als eigenes Library Target in CMake gebaut werden."
+            },
+            {
+              "type": "explanation",
+              "title": "Externer Ordner im Projekt",
+              "text": [
+                "SQLite wird in einem separaten Ordner abgelegt, zum Beispiel external/sqlite oder vendor/sqlite.",
+                "Eigener Code bleibt dadurch klar vom Fremdcode getrennt.",
+                "Ein Update oder Austausch von SQLite ist möglich, ohne den src Ordner zu vermischen."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische SQLite Dateien im Ordner",
+              "items": [
+                "sqlite3.c als Implementierung",
+                "sqlite3.h als öffentlicher Header",
+                "sqlite3ext.h für Erweiterungen, optional"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Warum .c und .h direkt eingebunden werden",
+              "text": [
+                "SQLite wird häufig als Single File Library verwendet.",
+                "Die Datei sqlite3.c wird ganz normal mit dem Projekt kompiliert.",
+                "Externe Abhängigkeiten oder Installationen entfallen vollständig."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "CMake: SQLite als eigenes Library Target",
+              "text": [
+                "Für SQLite wird ein eigenes Library Target erstellt.",
+                "Dieses Target kapselt Quellcode, Include Pfade und Compiler Optionen.",
+                "Andere Targets greifen ausschließlich über target_link_libraries darauf zu."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "CMakeLists.txt im SQLite Ordner",
+              "language": "cmake",
+              "code": "cmake_minimum_required(VERSION 3.20)\n\nadd_library(sqlite3 STATIC sqlite3.c)\n\ntarget_include_directories(sqlite3 PUBLIC ${CMAKE_CURRENT_LIST_DIR})\n\ntarget_compile_definitions(sqlite3 PUBLIC SQLITE_THREADSAFE=1)\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Haupt CMakeLists.txt: Einbinden der Library",
+              "text": [
+                "Der SQLite Ordner wird mit add_subdirectory eingebunden.",
+                "Dadurch steht das sqlite3 Target im gesamten Projekt zur Verfügung.",
+                "Das Executable linkt anschließend nur noch gegen sqlite3."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "SQLite im Hauptprojekt einbinden",
+              "language": "cmake",
+              "code": "cmake_minimum_required(VERSION 3.20)\nproject(MeinProjekt LANGUAGES CXX C)\n\nadd_subdirectory(external/sqlite)\n\nadd_executable(MeinProgramm\n    src/main.cpp\n)\n\ntarget_compile_features(MeinProgramm PRIVATE cxx_std_20)\n\ntarget_link_libraries(MeinProgramm PRIVATE sqlite3)\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Quellcode Einbindung vs System SQLite",
+              "columns": ["SQLite im Projekt", "SQLite vom System"],
+              "rows": [
+                {
+                  "aspect": "Setup",
+                  "values": ["Direkt im Repository", "Abhängig vom Betriebssystem"]
+                },
+                {
+                  "aspect": "Version",
+                  "values": ["Volle Kontrolle", "Vom System vorgegeben"]
+                },
+                {
+                  "aspect": "Portabilität",
+                  "values": ["Sehr hoch", "Nicht immer verfügbar"]
+                },
+                {
+                  "aspect": "Build Reproduzierbarkeit",
+                  "values": ["Immer identisch", "Kann variieren"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Doppelte Kompilierung von sqlite3.c",
+              "text": "Wenn sqlite3.c sowohl im sqlite3 Target als auch direkt im Executable eingebunden wird, entstehen Duplicate Symbol Errors beim Linken."
+            },
+            {
+              "type": "important",
+              "text": "SQLite sollte immer als eigene Dependency mit eigenem CMake Target behandelt werden und niemals direkt im Executable landen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "SQLite kann direkt als Quellcode ins Projekt integriert werden",
+                "Externer Ordner sorgt für saubere Trennung von Fremdcode",
+                "Eigenes sqlite3 Library Target in CMake erstellen",
+                "Einbindung über add_subdirectory",
+                "Verwendung ausschließlich über target_link_libraries"
+              ]
+            }
           ]
         },
 
