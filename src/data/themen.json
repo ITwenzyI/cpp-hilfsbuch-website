@@ -14965,24 +14965,67 @@
 
 
         {
-          "title": "---",
+          "title": "DELETE",
           "difficulty": "basic",
           "blocks": [
-          ]
-        },
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Daten löschen",
+              "text": [
+                "DELETE entfernt Datensätze aus einer Tabelle.",
+                "Die gelöschten Zeilen sind dauerhaft entfernt.",
+                "Es werden keine Spalten oder Tabellen verändert."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches DELETE",
+              "language": "sql",
+              "code": "DELETE FROM users WHERE id = 1;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Warum WHERE wichtig ist",
+              "text": [
+                "WHERE bestimmt, welche Zeilen gelöscht werden.",
+                "Ohne WHERE werden alle Zeilen der Tabelle gelöscht.",
+                "WHERE schützt vor unbeabsichtigtem Datenverlust."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "DELETE ohne WHERE",
+              "text": "DELETE ohne WHERE löscht den gesamten Tabelleninhalt und ist ein häufiger und gefährlicher Fehler."
+            },
+            {
+              "type": "explanation",
+              "title": "Mehrere Zeilen löschen",
+              "text": [
+                "DELETE kann mehrere Zeilen auf einmal entfernen.",
+                "Alle Zeilen, die die WHERE Bedingung erfüllen, werden gelöscht.",
+                "Die Operation ist idempotent."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Mehrere Zeilen löschen",
+              "language": "sql",
+              "code": "DELETE FROM users WHERE age < 18;\n"
+            },
+            {
+              "type": "important",
+              "text": "DELETE sollte immer mit WHERE verwendet werden, außer der komplette Tabelleninhalt soll bewusst gelöscht werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "DELETE entfernt Datensätze aus Tabellen",
+                "WHERE begrenzt die betroffenen Zeilen",
+                "DELETE ohne WHERE löscht alle Daten",
+                "Mehrere Zeilen können gleichzeitig gelöscht werden",
+                "DELETE ist dauerhaft"
+              ]
+            }
           ]
         }
 
