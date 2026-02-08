@@ -13332,9 +13332,85 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "DELETE mit Ergebnisprüfung",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "DELETE mit Ergebnisprüfung",
+              "text": "Ein DELETE mit Ergebnisprüfung unterscheidet zwischen einer erfolgreichen Löschung, keinem Treffer und einem technischen Fehler."
+            },
+            {
+              "type": "explanation",
+              "title": "sqlite3_changes bei DELETE",
+              "text": [
+                "sqlite3_changes liefert die Anzahl der gelöschten Zeilen.",
+                "Ein DELETE kann korrekt ausgeführt werden, aber keine Zeile betreffen.",
+                "Dieser Zustand ist fachlich relevant."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Idempotentes Verhalten",
+              "text": [
+                "DELETE ist idempotent.",
+                "Mehrfaches Löschen derselben ID verändert den Zustand nicht weiter.",
+                "Ein zweiter DELETE ohne Treffer ist kein Fehler."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "DELETE mit changes Prüfung",
+              "language": "cpp",
+              "code": "bool deleteUserById(Database& db, int id) {\n    const char* sql = \"DELETE FROM users WHERE id = ?;\";\n\n    Statement stmt = db.prepare(sql);\n    stmt.bindInt(1, id);\n\n    const int rc = stmt.stepRaw();\n    if (rc != SQLITE_DONE) {\n        throw std::runtime_error(\"DELETE fehlgeschlagen.\");\n    }\n\n    const int changed = sqlite3_changes(db.get());\n\n    // true: Zeile wurde gelöscht, false: nichts zu löschen\n    return changed > 0;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Rückgabekonzept",
+              "text": [
+                "true signalisiert, dass eine Zeile gelöscht wurde.",
+                "false signalisiert, dass keine passende Zeile existierte.",
+                "Technische Fehler werden weiterhin über Exceptions gemeldet."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "DELETE Ergebnisfälle",
+              "columns": ["Fall", "Bedeutung"],
+              "rows": [
+                {
+                  "aspect": "SQLITE_DONE + changes > 0",
+                  "values": ["Gelöscht", "OK"]
+                },
+                {
+                  "aspect": "SQLITE_DONE + changes = 0",
+                  "values": ["Kein Treffer", "Idempotent"]
+                },
+                {
+                  "aspect": "rc != SQLITE_DONE",
+                  "values": ["Technischer Fehler", "Exception"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "DELETE als Fehler behandeln",
+              "text": "Ein DELETE ohne Treffer ist kein Fehler, sondern normales idempotentes Verhalten."
+            },
+            {
+              "type": "important",
+              "text": "DELETE Operationen sollten idempotent sein und fachlich zwischen gelöscht und nicht vorhanden unterscheiden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "DELETE endet bei Erfolg mit SQLITE_DONE",
+                "sqlite3_changes zeigt die Anzahl gelöschter Zeilen",
+                "Kein Treffer ist kein Fehler",
+                "DELETE ist idempotent",
+                "Rückgabewert modelliert den fachlichen Effekt"
+              ]
+            }
           ]
         }
 
