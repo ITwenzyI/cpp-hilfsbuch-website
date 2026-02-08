@@ -11838,9 +11838,99 @@
 
 
         {
-          "title": "---",
+          "title": "Fehlerbehandlung in der Database Klasse",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Fehlerbehandlung",
+              "text": "Fehlerbehandlung in der Database Klasse beschreibt den Umgang mit SQLite Fehlercodes und Fehlermeldungen sowie die Entscheidung, ob Fehler per Exception oder über Rückgabewerte signalisiert werden."
+            },
+            {
+              "type": "explanation",
+              "title": "sqlite3_errmsg",
+              "text": [
+                "sqlite3_errmsg liefert eine menschenlesbare Beschreibung des letzten Fehlers.",
+                "Die Fehlermeldung ist immer an ein sqlite3 Handle gebunden.",
+                "Sie sollte direkt nach dem fehlerhaften SQLite Aufruf ausgewertet werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Fehlermeldung aus SQLite lesen",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n#include <iostream>\n\nvoid openDb(sqlite3* db) {\n    std::cerr << sqlite3_errmsg(db) << std::endl;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Exception vs Status Rückgabe",
+              "text": [
+                "Exceptions eignen sich für technische Fehler, die den normalen Ablauf verhindern.",
+                "Status Rückgaben sind sinnvoll bei erwartbaren Ergebnissen wie Nicht gefunden.",
+                "Eine Mischung aus beiden Ansätzen führt schnell zu unübersichtlichem Code."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Exception oder Rückgabewert",
+              "columns": ["Exception", "Status Rückgabe"],
+              "rows": [
+                {
+                  "aspect": "Fehlerart",
+                  "values": ["Technisch, kritisch", "Fachlich, erwartbar"]
+                },
+                {
+                  "aspect": "Kontrollfluss",
+                  "values": ["Unterbricht sofort", "Wird explizit geprüft"]
+                },
+                {
+                  "aspect": "Code Lesbarkeit",
+                  "values": ["Sauber bei Infrastruktur Code", "Sauber bei Business Logik"]
+                },
+                {
+                  "aspect": "Typische Nutzung",
+                  "values": ["Datenbank öffnen, Prepare Fehler", "Datensatz nicht gefunden"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wann throw sinnvoll ist",
+              "text": [
+                "Beim Öffnen der Datenbank, da ohne Verbindung nichts funktioniert.",
+                "Bei Prepare Fehlern, da SQL Syntax oder Struktur fehlerhaft ist.",
+                "Bei internen SQLite Fehlern, die nicht sinnvoll behandelt werden können."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Stellen für Exceptions",
+              "items": [
+                "sqlite3_open schlägt fehl",
+                "sqlite3_prepare_v2 liefert Fehler",
+                "sqlite3_exec bricht ab",
+                "Ungültiger interner Zustand der Database Klasse"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu viele Exceptions",
+              "text": "Exceptions für normale Kontrollflüsse wie leere Ergebnisse machen den Code schwer lesbar und unflexibel."
+            },
+            {
+              "type": "important",
+              "text": "In der Database Klasse sollten Exceptions für Infrastruktur Fehler genutzt werden. Fachliche Zustände gehören in höhere Schichten."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "sqlite3_errmsg liefert die konkrete SQLite Fehlermeldung",
+                "Exceptions sind für technische, nicht erwartbare Fehler",
+                "Status Rückgaben eignen sich für fachliche Ergebnisse",
+                "Konsistenz im Fehlerkonzept ist entscheidend",
+                "Database Klassen sollten Fehler früh und klar melden"
+              ]
+            }
           ]
         },
 
