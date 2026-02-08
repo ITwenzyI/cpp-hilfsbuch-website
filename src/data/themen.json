@@ -14249,9 +14249,91 @@
 
 
         {
-          "title": "---",
+          "title": "Tabellen und Zeilen",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Tabelle",
+              "text": "Eine Tabelle ist eine strukturierte Sammlung von Daten, organisiert in Spalten und Zeilen."
+            },
+            {
+              "type": "explanation",
+              "title": "Tabelle als Raster",
+              "text": [
+                "Eine Tabelle kann als zweidimensionales Raster verstanden werden.",
+                "Spalten definieren die Struktur der Daten.",
+                "Zeilen enthalten die konkreten Datensätze."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Spalten",
+              "text": [
+                "Spalten legen fest, welche Art von Daten gespeichert wird.",
+                "Jede Spalte hat einen Namen und einen Datentyp.",
+                "Alle Zeilen einer Tabelle folgen derselben Spaltenstruktur."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel: Tabelle mit Spalten",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT,\n    age INTEGER\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Zeilen und Datensätze",
+              "text": [
+                "Eine Zeile repräsentiert genau einen Datensatz.",
+                "Alle Spalten der Tabelle haben in jeder Zeile einen Wert oder NULL.",
+                "Mehrere Zeilen bilden die eigentlichen Inhalte der Tabelle."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel: Datensätze einfügen",
+              "language": "sql",
+              "code": "INSERT INTO users (id, name, age) VALUES (1, 'Max', 30);\nINSERT INTO users (id, name, age) VALUES (2, 'Anna', 25);\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Spalte vs Zeile",
+              "columns": ["Spalte", "Zeile"],
+              "rows": [
+                {
+                  "aspect": "Bedeutung",
+                  "values": ["Struktur", "Datensatz"]
+                },
+                {
+                  "aspect": "Anzahl",
+                  "values": ["Fest definiert", "Beliebig viele"]
+                },
+                {
+                  "aspect": "Inhalt",
+                  "values": ["Datentyp", "Konkrete Werte"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Spaltenstruktur ändern",
+              "text": "Eine nachträgliche Änderung der Spaltenstruktur kann bestehende Datensätze ungültig machen oder Migrationsaufwand erzeugen."
+            },
+            {
+              "type": "important",
+              "text": "Die Tabellenstruktur sollte vor der Dateneingabe sorgfältig geplant werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Tabellen sind Raster aus Spalten und Zeilen",
+                "Spalten definieren die Struktur",
+                "Zeilen sind einzelne Datensätze",
+                "Alle Zeilen folgen derselben Struktur",
+                "Gute Tabellenstruktur ist entscheidend für saubere Daten"
+              ]
+            }
           ]
         },
 
