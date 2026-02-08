@@ -13248,9 +13248,85 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "UPDATE mit Ergebnisprüfung",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "UPDATE mit Ergebnisprüfung",
+              "text": "Ein UPDATE mit Ergebnisprüfung unterscheidet zwischen erfolgreicher Ausführung ohne Treffer und einem technischen Fehler."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum sqlite3_changes",
+              "text": [
+                "sqlite3_changes liefert die Anzahl der tatsächlich geänderten Zeilen.",
+                "Ein UPDATE kann korrekt ausgeführt werden, aber keine Zeile betreffen.",
+                "Dieser Unterschied ist fachlich relevant."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Kein Treffer vs Fehler",
+              "text": [
+                "Kein Treffer bedeutet: SQL korrekt, aber WHERE Bedingung passt auf keine Zeile.",
+                "Fehler bedeutet: technischer Fehler bei prepare oder step.",
+                "Beide Zustände müssen klar getrennt behandelt werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "UPDATE mit changes Prüfung",
+              "language": "cpp",
+              "code": "#include <optional>\n\nbool updateUserAge(Database& db, int id, int newAge) {\n    const char* sql = \"UPDATE users SET age = ? WHERE id = ?;\";\n\n    Statement stmt = db.prepare(sql);\n    stmt.bindInt(1, newAge);\n    stmt.bindInt(2, id);\n\n    const int rc = stmt.stepRaw();\n    if (rc != SQLITE_DONE) {\n        throw std::runtime_error(\"UPDATE fehlgeschlagen.\");\n    }\n\n    const int changed = sqlite3_changes(db.get());\n\n    // false bedeutet: kein Treffer\n    return changed > 0;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Rückgabekonzept",
+              "text": [
+                "true signalisiert, dass mindestens eine Zeile geändert wurde.",
+                "false signalisiert einen gültigen, aber wirkungslosen UPDATE.",
+                "Technische Fehler werden weiterhin per Exception signalisiert."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "UPDATE Ergebnisse",
+              "columns": ["Fall", "Bedeutung"],
+              "rows": [
+                {
+                  "aspect": "SQLITE_DONE + changes > 0",
+                  "values": ["Erfolgreich geändert", "OK"]
+                },
+                {
+                  "aspect": "SQLITE_DONE + changes = 0",
+                  "values": ["Kein Treffer", "Kein Fehler"]
+                },
+                {
+                  "aspect": "rc != SQLITE_DONE",
+                  "values": ["Technischer Fehler", "Exception"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Kein Treffer als Fehler werten",
+              "text": "Ein UPDATE ohne betroffene Zeilen ist kein technischer Fehler und sollte nicht per Exception behandelt werden."
+            },
+            {
+              "type": "important",
+              "text": "UPDATE Erfolg und fachlicher Effekt sind zwei verschiedene Dinge und müssen getrennt geprüft werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "UPDATE endet bei Erfolg mit SQLITE_DONE",
+                "sqlite3_changes zeigt die Anzahl geänderter Zeilen",
+                "Kein Treffer ist kein Fehler",
+                "Technische Fehler werden per Exception signalisiert",
+                "Rückgabewert modelliert den fachlichen Effekt"
+              ]
+            }
           ]
         },
 
