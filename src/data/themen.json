@@ -9713,9 +9713,107 @@
         "icon": "🧩",
         "topics": [
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Strategy Pattern",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Strategy Pattern",
+              "text": "Das Strategy Pattern kapselt austauschbare Algorithmen in eigene Klassen und macht sie über ein gemeinsames Interface zur Laufzeit wechselbar."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Statt lange if else oder switch Anweisungen zu verwenden, wird das variierende Verhalten ausgelagert.",
+                "Der Kontext kennt nur ein gemeinsames Strategie Interface, nicht die konkrete Implementierung.",
+                "Das Verhalten kann zur Laufzeit geändert werden, ohne den Kontext zu verändern."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Struktur",
+              "text": [
+                "Strategy Interface: Definiert die gemeinsame Schnittstelle für alle Algorithmen.",
+                "ConcreteStrategy: Implementiert das Interface mit einem konkreten Verhalten.",
+                "Context: Enthält eine Referenz auf eine Strategy und delegiert die Ausführung."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Strategie Interface",
+              "language": "cpp",
+              "code": "#include <string>\n\nstruct DiscountStrategy {\n    virtual ~DiscountStrategy() = default;\n    virtual double apply(double price) const = 0;\n};"
+            },
+            {
+              "type": "code",
+              "title": "Konkrete Strategien",
+              "language": "cpp",
+              "code": "#include <string>\n\nstruct NoDiscount : DiscountStrategy {\n    double apply(double price) const override {\n        return price;\n    }\n};\n\nstruct PercentageDiscount : DiscountStrategy {\n    double apply(double price) const override {\n        return price * 0.9;\n    }\n};"
+            },
+            {
+              "type": "code",
+              "title": "Context mit austauschbarer Strategie",
+              "language": "cpp",
+              "code": "#include <memory>\n\nclass Checkout {\n    std::unique_ptr<DiscountStrategy> strategy;\n\npublic:\n    explicit Checkout(std::unique_ptr<DiscountStrategy> s)\n        : strategy(std::move(s)) {}\n\n    void setStrategy(std::unique_ptr<DiscountStrategy> s) {\n        strategy = std::move(s);\n    }\n\n    double calculate(double price) const {\n        return strategy->apply(price);\n    }\n};"
+            },
+            {
+              "type": "explanation",
+              "title": "Laufzeit Wechsel der Strategie",
+              "text": [
+                "Der Kontext kann jederzeit eine neue Strategie erhalten.",
+                "Der aufrufende Code entscheidet, welche Strategie aktuell verwendet wird.",
+                "Der Kontext bleibt dabei unverändert und stabil."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Einsatzfälle",
+              "items": [
+                "Austauschbare Algorithmen",
+                "Geschäftsregeln und Policies",
+                "Berechnungslogik wie Preise, Rabatte oder Bewertungen",
+                "Unterschiedliche Sortier oder Suchstrategien"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Strategy Pattern vs if else Ketten",
+              "columns": ["Strategy Pattern", "if else"],
+              "rows": [
+                {
+                  "aspect": "Erweiterbarkeit",
+                  "values": ["Neue Strategie ohne Änderung des Kontexts", "Code muss angepasst werden"]
+                },
+                {
+                  "aspect": "Übersichtlichkeit",
+                  "values": ["Klare Trennung der Verantwortlichkeiten", "Schnell unübersichtlich"]
+                },
+                {
+                  "aspect": "Testbarkeit",
+                  "values": ["Strategien isoliert testbar", "Tests oft komplex"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Häufige Fehler",
+              "text": "Zu viele sehr kleine Strategie Klassen oder eine falsche Granularität führen zu unnötiger Komplexität. Das Pattern sollte nur eingesetzt werden, wenn sich Verhalten tatsächlich ändert."
+            },
+            {
+              "type": "important",
+              "text": "Das Strategy Pattern ersetzt keine einfache Bedingung. Es lohnt sich erst, wenn Verhalten häufig wechselt oder erweitert wird."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Kapselt austauschbares Verhalten",
+                "Vermeidet lange if else Ketten",
+                "Kontext arbeitet nur mit einem Interface",
+                "Strategie kann zur Laufzeit gewechselt werden",
+                "Mit Maß einsetzen, um Überdesign zu vermeiden"
+              ]
+            }
           ]
         },
 
