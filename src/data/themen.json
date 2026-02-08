@@ -14818,9 +14818,82 @@
         "icon": "✏️",
         "topics": [
         {
-          "title": "---",
+          "title": "INSERT",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "explanation",
+              "title": "Neue Zeile einfügen",
+              "text": [
+                "INSERT fügt einen neuen Datensatz in eine Tabelle ein.",
+                "Es wird genau eine neue Zeile erzeugt.",
+                "Die angegebenen Spalten erhalten die übergebenen Werte."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches INSERT",
+              "language": "sql",
+              "code": "INSERT INTO users (name, age) VALUES ('Max', 30);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Spalten explizit angeben",
+              "text": [
+                "Die Spaltenliste sollte immer explizit angegeben werden.",
+                "Die Reihenfolge der Werte muss zur Spaltenliste passen.",
+                "Nicht genannte Spalten erhalten NULL oder Default Werte."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "INSERT mit allen Spalten",
+              "language": "sql",
+              "code": "INSERT INTO users (id, name, age) VALUES (1, 'Anna', 25);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Mehrere Zeilen einfügen",
+              "text": [
+                "INSERT kann mehrere Datensätze auf einmal einfügen.",
+                "Alle Zeilen werden in einer Anweisung verarbeitet.",
+                "Das ist meist schneller als einzelne INSERTs."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Mehrere Datensätze",
+              "language": "sql",
+              "code": "INSERT INTO users (name, age) VALUES\n  ('Max', 30),\n  ('Anna', 25),\n  ('Tom', 40);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "AUTO INCREMENT IDs",
+              "text": [
+                "Bei INTEGER PRIMARY KEY wird die ID automatisch vergeben.",
+                "Die ID muss nicht im INSERT angegeben werden.",
+                "SQLite vergibt einen neuen eindeutigen Wert."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "INSERT ohne Spaltenliste",
+              "text": "INSERT ohne explizite Spaltenliste ist fehleranfällig, wenn sich die Tabellenstruktur ändert."
+            },
+            {
+              "type": "important",
+              "text": "INSERT fügt Daten hinzu, verändert aber keine bestehenden Zeilen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "INSERT fügt eine neue Zeile ein",
+                "Spalten sollten immer explizit angegeben werden",
+                "Mehrere Zeilen können in einem INSERT eingefügt werden",
+                "IDs werden oft automatisch vergeben",
+                "Saubere INSERTs sind robust gegenüber Schema Änderungen"
+              ]
+            }
           ]
         },
 
