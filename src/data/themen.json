@@ -12855,24 +12855,78 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Row to Struct Mapping",
+          "difficulty": "intermediate",
           "blocks": [
-          ]
-        },
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
+            {
+              "type": "definition",
+              "term": "Row to Struct Mapping",
+              "text": "Row to Struct Mapping ist das Umwandeln einer Ergebniszeile aus einem SELECT Statement in ein C++ Struct oder Objekt mit klarer Feldzuordnung."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum nicht direkt im Loop arbeiten",
+              "text": [
+                "Direktes Auslesen im while Loop führt schnell zu Copy Paste Code.",
+                "Spaltenindizes und Typkonvertierungen werden überall verteilt.",
+                "Änderungen an der SELECT Spaltenliste brechen den Code an mehreren Stellen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Saubere Mapping Funktion",
+              "text": [
+                "Eine Mapping Funktion kapselt das Auslesen der Spalten in einem einzigen Ort.",
+                "Die Funktion nimmt ein Statement im aktuellen SQLITE_ROW Zustand.",
+                "Das Ergebnis ist ein vollständig gefülltes Struct."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel: Struct und Mapping Funktion",
+              "language": "cpp",
+              "code": "struct User {\n    int id;\n    std::string name;\n    int age;\n};\n\nstatic User mapUser(sqlite3_stmt* stmt) {\n    User u;\n    u.id = sqlite3_column_int(stmt, 0);\n\n    const unsigned char* text = sqlite3_column_text(stmt, 1);\n    if (text != nullptr) {\n        u.name = reinterpret_cast<const char*>(text);\n    }\n\n    u.age = sqlite3_column_int(stmt, 2);\n    return u;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Konstante Spalten Indizes",
+              "text": [
+                "Spaltenindizes sollten als Konstanten festgelegt werden.",
+                "Damit ist die Zuordnung zwischen SELECT und Mapping explizit.",
+                "Ein Index Wechsel ist dann eine Änderung an einer Stelle."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Spalten Indizes als Konstanten",
+              "language": "cpp",
+              "code": "namespace user_cols {\n    constexpr int id = 0;\n    constexpr int name = 1;\n    constexpr int age = 2;\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Mapping mit konstanten Indizes",
+              "language": "cpp",
+              "code": "static User mapUser(sqlite3_stmt* stmt) {\n    User u;\n    u.id = sqlite3_column_int(stmt, user_cols::id);\n\n    const unsigned char* text = sqlite3_column_text(stmt, user_cols::name);\n    if (text != nullptr) {\n        u.name = reinterpret_cast<const char*>(text);\n    }\n\n    u.age = sqlite3_column_int(stmt, user_cols::age);\n    return u;\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "SELECT Liste und Mapping passen nicht zusammen",
+              "text": "Wenn die Reihenfolge der SELECT Spalten geändert wird, aber die Indizes im Mapping gleich bleiben, entstehen stille Datenfehler."
+            },
+            {
+              "type": "important",
+              "text": "Mapping Funktionen sind ein zentraler Baustein für saubere Repositories und verhindern duplizierte Ausleselogik."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Mapping wandelt eine Ergebniszeile in ein Struct um",
+                "Direktes Auslesen im Loop führt zu dupliziertem Code",
+                "Mapping gehört in eine eigene Funktion",
+                "Spaltenindizes als Konstanten halten die Zuordnung stabil",
+                "SELECT Reihenfolge und Mapping müssen immer zusammenpassen"
+              ]
+            }
           ]
         }
 
