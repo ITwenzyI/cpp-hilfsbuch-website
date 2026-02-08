@@ -15435,7 +15435,7 @@
 
 
         {
-          "title": "NULL verstehen",
+          "title": "NULL",
           "difficulty": "basic",
           "blocks": [
             {
@@ -15530,9 +15530,94 @@
 
 
         {
-          "title": "---",
+          "title": "Index",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Index",
+              "text": "Ein Index ist eine zusätzliche Datenstruktur, die den schnellen Zugriff auf Zeilen einer Tabelle ermöglicht."
+            },
+            {
+              "type": "explanation",
+              "title": "Das Grundproblem ohne Index",
+              "text": [
+                "Ohne Index muss die Datenbank jede Zeile der Tabelle prüfen.",
+                "Dieser vollständige Durchlauf wird Full Table Scan genannt.",
+                "Bei großen Tabellen wird das schnell langsam."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Was ein Index macht",
+              "text": [
+                "Ein Index speichert sortierte Verweise auf Zeilen.",
+                "Die Datenbank findet passende Zeilen deutlich schneller.",
+                "Der Zugriff ähnelt einem Inhaltsverzeichnis statt dem Lesen eines ganzen Buches."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wann Indizes helfen",
+              "text": [
+                "Bei WHERE Bedingungen auf bestimmten Spalten.",
+                "Bei JOIN Operationen über Foreign Keys.",
+                "Bei ORDER BY auf großen Tabellen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel: Abfrage ohne und mit Index",
+              "language": "sql",
+              "code": "-- ohne Index (langsam bei vielen Zeilen)\nSELECT * FROM users WHERE email = 'max@example.com';\n\n-- Index anlegen\nCREATE INDEX idx_users_email ON users(email);\n\n-- gleiche Abfrage, jetzt mit Index\nSELECT * FROM users WHERE email = 'max@example.com';\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Kosten von Indizes",
+              "text": [
+                "Indizes benötigen zusätzlichen Speicherplatz.",
+                "INSERT, UPDATE und DELETE werden etwas langsamer.",
+                "Zu viele Indizes schaden der Performance."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Mit vs ohne Index",
+              "columns": ["Ohne Index", "Mit Index"],
+              "rows": [
+                {
+                  "aspect": "SELECT mit WHERE",
+                  "values": ["Langsam", "Schnell"]
+                },
+                {
+                  "aspect": "INSERT UPDATE DELETE",
+                  "values": ["Schneller", "Langsamer"]
+                },
+                {
+                  "aspect": "Speicherbedarf",
+                  "values": ["Gering", "Höher"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Index auf jede Spalte",
+              "text": "Indizes auf jeder Spalte wirken logisch, verschlechtern aber Schreibperformance und Wartbarkeit."
+            },
+            {
+              "type": "important",
+              "text": "Indizes sollten gezielt für häufige Abfragen eingesetzt werden, nicht pauschal."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Indizes beschleunigen Datenzugriffe",
+                "Ohne Index erfolgt ein Full Table Scan",
+                "Besonders wichtig für WHERE, JOIN und ORDER BY",
+                "Indizes kosten Speicher und Schreibperformance",
+                "Gezielter Einsatz ist entscheidend"
+              ]
+            }
           ]
         }
 
