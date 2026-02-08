@@ -11150,11 +11150,11 @@
 
 
   {
-    "category": "Datenbanken",
+    "category": "SQLite",
     "icon": "🗄️",
     "subcategories": [
       {
-        "name": "SQLite",
+        "name": "Grundlagen",
         "icon": "🧱",
         "topics": [
         {
@@ -11602,6 +11602,62 @@
             }
           ]
         }
+        ]
+      }
+    ]
+  },
+
+
+
+
+  {
+    "category": "SQL",
+    "icon": "</>",
+    "subcategories": [
+      {
+        "name": "CRUD",
+        "icon": "🧱",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
         ]
       }
     ]
