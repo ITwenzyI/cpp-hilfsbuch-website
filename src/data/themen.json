@@ -12049,22 +12049,9 @@
               ]
             }
           ]
-        },
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
         }
+
+ 
 
 
 
@@ -12082,9 +12069,89 @@
         "icon": "🧾",
         "topics": [
         {
-          "title": "---",
+          "title": "Warum Prepared Statements",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Prepared Statement",
+              "text": "Ein Prepared Statement ist ein vorbereitetes SQL Statement, bei dem SQL Struktur und Daten strikt voneinander getrennt sind."
+            },
+            {
+              "type": "explanation",
+              "title": "Schutz vor SQL Injection",
+              "text": [
+                "SQL Code und Benutzerdaten werden getrennt behandelt.",
+                "Eingabewerte werden nicht in den SQL String eingebaut.",
+                "Schädlicher SQL Code kann nicht eingeschleust werden."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Performance Vorteile",
+              "text": [
+                "Das SQL Statement wird nur einmal geparst und kompiliert.",
+                "Mehrfache Ausführungen mit unterschiedlichen Werten sind effizient.",
+                "Besonders bei Schleifen oder Batch Operationen relevant."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Saubere Trennung von SQL und Daten",
+              "text": [
+                "SQL beschreibt nur die Struktur der Abfrage.",
+                "Daten werden über Bind Parameter gesetzt.",
+                "Der Code bleibt übersichtlich und wartbar."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Prepared Statement mit Platzhaltern",
+              "language": "cpp",
+              "code": "auto stmt = db.prepare(\"INSERT INTO users (name, age) VALUES (?, ?);\");\n\nstmt.bindText(1, name);\nstmt.bindInt(2, age);\nstmt.step();\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Prepared Statement vs String SQL",
+              "columns": ["Prepared Statement", "SQL String"],
+              "rows": [
+                {
+                  "aspect": "SQL Injection",
+                  "values": ["Geschützt", "Anfällig"]
+                },
+                {
+                  "aspect": "Performance",
+                  "values": ["Besser bei Wiederholung", "Jedes Mal neu parsen"]
+                },
+                {
+                  "aspect": "Lesbarkeit",
+                  "values": ["Klar getrennt", "Oft unübersichtlich"]
+                },
+                {
+                  "aspect": "Wartbarkeit",
+                  "values": ["Hoch", "Fehleranfällig"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Prepared Statements nur teilweise nutzen",
+              "text": "Prepared Statements bringen keinen Vorteil, wenn Werte trotzdem per String Konkatenation eingebaut werden."
+            },
+            {
+              "type": "important",
+              "text": "Prepared Statements sind der Standard für alle SQL Zugriffe mit externen Daten."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Prepared Statements trennen SQL und Daten",
+                "Schutz vor SQL Injection",
+                "Bessere Performance bei Wiederverwendung",
+                "Klarer und wartbarer Code",
+                "Grundlage für saubere Datenbank Architektur"
+              ]
+            }
           ]
         },
 
