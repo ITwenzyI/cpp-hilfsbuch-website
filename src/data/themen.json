@@ -14590,9 +14590,82 @@
 
 
         {
-          "title": "---",
+          "title": "WHERE filtern",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "explanation",
+              "title": "WHERE Grundidee",
+              "text": [
+                "WHERE filtert Zeilen nach Bedingungen.",
+                "Nur Zeilen, die die Bedingung erfüllen, werden ausgewählt.",
+                "Ohne WHERE werden alle Zeilen gelesen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Vergleichsoperatoren",
+              "text": [
+                "= prüft auf Gleichheit.",
+                "< und > vergleichen numerische Werte.",
+                "<= und >= sind ebenfalls möglich."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Vergleiche mit WHERE",
+              "language": "sql",
+              "code": "SELECT * FROM users WHERE age = 30;\nSELECT * FROM users WHERE age > 18;\nSELECT * FROM users WHERE age < 65;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "AND und OR",
+              "text": [
+                "AND verknüpft mehrere Bedingungen, die alle erfüllt sein müssen.",
+                "OR verknüpft Bedingungen, von denen mindestens eine erfüllt sein muss.",
+                "Klammern steuern die Auswertungsreihenfolge."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Mehrere Bedingungen",
+              "language": "sql",
+              "code": "SELECT * FROM users WHERE age > 18 AND age < 65;\nSELECT * FROM users WHERE age < 18 OR age > 65;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "LIKE",
+              "text": [
+                "LIKE ermöglicht einfache Textmuster.",
+                "% steht für beliebig viele Zeichen.",
+                "_ steht für genau ein Zeichen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "LIKE Beispiele",
+              "language": "sql",
+              "code": "SELECT * FROM users WHERE name LIKE 'Max%';\nSELECT * FROM users WHERE name LIKE '%mann';\nSELECT * FROM users WHERE name LIKE 'M_x';\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "LIKE und Groß Kleinschreibung",
+              "text": "LIKE ist in SQLite standardmäßig nicht case sensitiv, abhängig von Collation."
+            },
+            {
+              "type": "important",
+              "text": "Filter sollten so spezifisch wie nötig sein, um unnötige Daten zu vermeiden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "WHERE filtert Zeilen",
+                "Vergleichsoperatoren = < > sind Standard",
+                "AND und OR verknüpfen Bedingungen",
+                "LIKE filtert nach Textmustern",
+                "Klammern sorgen für klare Logik"
+              ]
+            }
           ]
         },
 
