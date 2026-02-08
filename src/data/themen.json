@@ -12157,9 +12157,95 @@
 
 
         {
-          "title": "---",
+          "title": "Statement Lebenszyklus",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Statement Lebenszyklus",
+              "text": "Der Statement Lebenszyklus beschreibt die feste Abfolge von Schritten, die ein vorbereitetes SQLite Statement von der Erstellung bis zur Freigabe durchläuft."
+            },
+            {
+              "type": "explanation",
+              "title": "1. prepare",
+              "text": [
+                "prepare erstellt ein sqlite3_stmt Objekt aus einem SQL String.",
+                "Das SQL Statement wird geparst und validiert.",
+                "Fehler in der SQL Syntax werden hier erkannt."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "2. bind",
+              "text": [
+                "bind setzt Werte für Platzhalter im Statement.",
+                "SQL Struktur und Daten bleiben strikt getrennt.",
+                "Indizes der Platzhalter beginnen bei 1."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "3. step",
+              "text": [
+                "step führt das Statement aus.",
+                "Bei SELECT liefert step Zeilen nacheinander.",
+                "Bei INSERT, UPDATE oder DELETE wird die Ausführung abgeschlossen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "4. reset",
+              "text": [
+                "reset setzt das Statement in den Anfangszustand zurück.",
+                "Gebundene Parameter bleiben erhalten.",
+                "Das Statement kann erneut ausgeführt werden."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "5. finalize",
+              "text": [
+                "finalize gibt alle Ressourcen des Statements frei.",
+                "Das Statement darf danach nicht mehr verwendet werden.",
+                "finalize muss genau einmal aufgerufen werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Typischer Statement Ablauf",
+              "language": "cpp",
+              "code": "auto stmt = db.prepare(\"INSERT INTO users (name, age) VALUES (?, ?);\");\n\nstmt.bindText(1, \"Max\");\nstmt.bindInt(2, 30);\n\nstmt.step();\nstmt.reset();\n\n// erneute Nutzung möglich\nstmt.bindText(1, \"Anna\");\nstmt.bindInt(2, 25);\nstmt.step();\n"
+            },
+            {
+              "type": "list",
+              "title": "Kurzüberblick Lebenszyklus",
+              "items": [
+                "prepare: Statement erzeugen",
+                "bind: Werte setzen",
+                "step: Ausführen",
+                "reset: Wiederverwenden",
+                "finalize: Ressourcen freigeben"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "finalize vergessen",
+              "text": "Nicht finalisierte Statements halten Ressourcen und können Datenbank Locks verursachen."
+            },
+            {
+              "type": "important",
+              "text": "Statement Objekte sollten RAII verwenden, damit finalize automatisch im Destruktor erfolgt."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Statements haben einen klaren Lebenszyklus",
+                "prepare und finalize bilden den Rahmen",
+                "bind und step gehören zur Ausführung",
+                "reset erlaubt Wiederverwendung",
+                "RAII verhindert Ressourcenlecks"
+              ]
+            }
           ]
         },
 
