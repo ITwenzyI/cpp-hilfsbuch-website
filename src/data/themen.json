@@ -11625,26 +11625,91 @@
 
 
         {
-          "title": "---",
+          "title": "sqlite3 Handle und Lebensdauer",
           "difficulty": "basic",
           "blocks": [
-          ]
-        },
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
+            {
+              "type": "definition",
+              "term": "sqlite3 Handle",
+              "text": "Ein sqlite3 Handle ist ein Zeiger auf eine geöffnete SQLite Datenbank und repräsentiert die gesamte Verbindung zu einer Datenbank Datei."
+            },
+            {
+              "type": "explanation",
+              "title": "Öffnen und Schließen der Datenbank",
+              "text": [
+                "Eine SQLite Datenbank wird mit sqlite3_open oder sqlite3_open_v2 geöffnet.",
+                "Das Öffnen liefert ein sqlite3* Handle zurück.",
+                "Die Datenbank muss mit sqlite3_close oder sqlite3_close_v2 wieder geschlossen werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Datenbank öffnen und schließen",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n#include <iostream>\n\nint main() {\n    sqlite3* db = nullptr;\n\n    if (sqlite3_open(\"test.db\", &db) != SQLITE_OK) {\n        std::cerr << \"Fehler beim Öffnen der Datenbank\" << std::endl;\n        return 1;\n    }\n\n    sqlite3_close(db);\n    return 0;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Lebensdauer des sqlite3 Handles",
+              "text": [
+                "Das sqlite3 Handle ist gültig, solange die Datenbank geöffnet ist.",
+                "Alle Statements und Transaktionen hängen an diesem Handle.",
+                "Ein vorzeitiges Schließen macht alle zugehörigen Ressourcen ungültig."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Warum RAII notwendig ist",
+              "text": [
+                "Vergessene sqlite3_close Aufrufe führen zu Ressourcen Leaks.",
+                "Fehlerpfade und Exceptions machen manuelles Schließen fehleranfällig.",
+                "RAII koppelt die Lebensdauer des Handles an ein Objekt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Grundidee von RAII für sqlite3",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n\nclass Database {\npublic:\n    explicit Database(const char* path) {\n        if (sqlite3_open(path, &db_) != SQLITE_OK) {\n            throw std::runtime_error(\"Datenbank konnte nicht geöffnet werden\");\n        }\n    }\n\n    ~Database() {\n        sqlite3_close(db_);\n    }\n\n    sqlite3* get() const { return db_; }\n\nprivate:\n    sqlite3* db_ = nullptr;\n};\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Fehler beim Öffnen korrekt behandeln",
+              "text": [
+                "Der Rückgabewert von sqlite3_open muss immer geprüft werden.",
+                "Bei Fehlern liefert sqlite3_errmsg eine Beschreibung.",
+                "Ein teilweise geöffnetes Handle muss trotzdem geschlossen werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Fehlermeldung beim Öffnen ausgeben",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n#include <iostream>\n\nint main() {\n    sqlite3* db = nullptr;\n\n    int rc = sqlite3_open(\"test.db\", &db);\n    if (rc != SQLITE_OK) {\n        std::string fehler = sqlite3_errmsg(db);\n        throw std::runtime_error(\"Datenbank konnte nicht geöffnet werden: \" + fehler);\n        sqlite3_close(db);\n        return 1;\n    }\n\n    sqlite3_close(db);\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Ungeschlossene Handles",
+              "text": "Ein nicht geschlossenes sqlite3 Handle kann Dateisperren hinterlassen und spätere Zugriffe blockieren."
+            },
+            {
+              "type": "important",
+              "text": "Die Verwaltung des sqlite3 Handles gehört immer in eine eigene Klasse und niemals direkt in main oder Business Logik."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "sqlite3* repräsentiert die Verbindung zur Datenbank",
+                "Öffnen mit sqlite3_open, schließen mit sqlite3_close",
+                "Handle ist zentral für alle Datenbank Operationen",
+                "RAII verhindert Leaks und Fehlerpfade",
+                "Fehler beim Öffnen müssen immer geprüft werden"
+              ]
+            }
           ]
         }
+
+        
 
 
 
