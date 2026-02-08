@@ -12942,9 +12942,76 @@
         "icon": "🔄",
         "topics": [
         {
-          "title": "---",
+          "title": "CREATE TABLE mit prepare step finalize",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "DDL in SQLite",
+              "text": "CREATE TABLE ist ein DDL Statement und verändert das Schema der Datenbank. Es liefert keine Ergebniszeilen und endet bei erfolgreicher Ausführung mit SQLITE_DONE."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum prepare und step für DDL",
+              "text": [
+                "prepare parst und validiert das SQL Statement vor der Ausführung.",
+                "step führt das Statement aus.",
+                "finalize gibt das Statement Handle wieder frei."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Rückgabecode bei DDL",
+              "text": [
+                "DDL Statements liefern keine SQLITE_ROW Zeilen.",
+                "Bei Erfolg kommt SQLITE_DONE.",
+                "Alles andere ist ein Fehlercode."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "CREATE TABLE über Database::prepare und Statement::stepRaw",
+              "language": "cpp",
+              "code": "void createUsersTable(Database& db) {\n    const char* sql = R\"(\n        CREATE TABLE IF NOT EXISTS users (\n            id INTEGER PRIMARY KEY AUTOINCREMENT,\n            name TEXT NOT NULL,\n            age INTEGER\n        );\n    )\";\n\n    // prepare wirft bereits eine Exception mit sqlite3_errmsg(db_)\n    Statement stmt = db.prepare(sql);\n\n    // DDL liefert bei Erfolg SQLITE_DONE\n    const int rc = stmt.stepRaw();\n    if (rc != SQLITE_DONE) {\n        // Hinweis: dafür braucht Database einen Getter auf das sqlite3 Handle, z.B. sqlite3* Database::get() const\n        throw std::runtime_error(std::string(\"CREATE TABLE fehlgeschlagen: \") + sqlite3_errmsg(db.get()));\n    }\n\n    // finalize passiert automatisch im Statement Destruktor (RAII)\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Was hier wichtig ist",
+              "text": [
+                "prepare liefert ein Statement Objekt, das das sqlite3_stmt besitzt.",
+                "stepRaw liefert bei DDL im Erfolgsfall SQLITE_DONE.",
+                "finalize wird nicht manuell aufgerufen, weil der Statement Destruktor das übernimmt.",
+                "Fehler beim prepare kommen als Exception direkt aus Database::prepare, Fehler beim step werden über den Rückgabecode erkannt."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Fehlerbehandlung",
+              "text": [
+                "Nach jedem SQLite Aufruf wird der Rückgabecode geprüft.",
+                "Bei Fehlern wird sqlite3_errmsg genutzt, um die Ursache zu liefern.",
+                "finalize muss auch im Fehlerfall aufgerufen werden."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "finalize im Fehlerpfad vergessen",
+              "text": "Wenn finalize im Fehlerfall fehlt, bleiben Ressourcen offen und es können Locks oder Leaks entstehen."
+            },
+            {
+              "type": "important",
+              "text": "Für DDL ist SQLITE_DONE der Erfolgsfall. sqlite3_finalize muss immer ausgeführt werden, auch bei Fehlern."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "CREATE TABLE ist DDL und liefert keine Zeilen",
+                "Erfolg bei step ist SQLITE_DONE",
+                "prepare prüft SQL, step führt aus, finalize räumt auf",
+                "Rückgabecodes immer prüfen",
+                "finalize auch im Fehlerfall nicht vergessen"
+              ]
+            }
           ]
         },
 
