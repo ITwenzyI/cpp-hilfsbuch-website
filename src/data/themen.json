@@ -12251,9 +12251,139 @@
 
 
         {
-          "title": "---",
+          "title": "Statement Klasse (RAII)",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Statement Klasse",
+              "text": "Die Statement Klasse kapselt ein sqlite3_stmt Handle und übernimmt dessen Lebensdauerverwaltung nach dem RAII Prinzip."
+            },
+            {
+              "type": "explanation",
+              "title": "Besitz des sqlite3_stmt Handles",
+              "text": [
+                "Die Statement Klasse ist der eindeutige Besitzer des sqlite3_stmt Handles.",
+                "Das rohe Handle wird außerhalb der Klasse nicht verwaltet.",
+                "Mehrere Besitzer eines Statements sind nicht erlaubt."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "RAII und finalize im Destruktor",
+              "text": [
+                "Das Statement wird im Konstruktor übernommen.",
+                "Der Destruktor ruft sqlite3_finalize auf.",
+                "Ressourcen werden automatisch freigegeben, auch bei Exceptions."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Statement.hpp",
+              "language": "cpp",
+              "code": "#pragma once\n\n#include <sqlite3.h>\n\nclass Statement {\npublic:\n    explicit Statement(sqlite3_stmt* stmt = nullptr);\n    ~Statement();\n\n    Statement(const Statement&) = delete;\n    Statement& operator=(const Statement&) = delete;\n\n    Statement(Statement&& other) noexcept;\n    Statement& operator=(Statement&& other) noexcept;\n\n    [[nodiscard]] sqlite3_stmt* get() const;\n    [[nodiscard]] int stepRaw();\n\n    void reset();\n\nprivate:\n    sqlite3_stmt* stmt_;\n};\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Move Semantik",
+              "text": [
+                "Copy ist verboten, da ein Statement nur einen Besitzer haben darf.",
+                "Move überträgt das Handle sicher auf ein neues Objekt.",
+                "Das alte Objekt verliert den Besitz und wird leer."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Statement.cpp",
+              "language": "cpp",
+              "code": "#include \"statement.hpp\"\n#include <stdexcept>\n\nStatement::Statement(sqlite3_stmt* stmt)\n    : stmt_(stmt) {\n}\n\nStatement::~Statement() {\n    if (stmt_) {\n        sqlite3_finalize(stmt_);\n        stmt_ = nullptr;\n    }\n}\n\nStatement::Statement(Statement&& other) noexcept\n    : stmt_(other.stmt_) {\n    other.stmt_ = nullptr;\n}\n\nStatement& Statement::operator=(Statement&& other) noexcept {\n    if (this != &other) {\n        if (stmt_) {\n            sqlite3_finalize(stmt_);\n        }\n        stmt_ = other.stmt_;\n        other.stmt_ = nullptr;\n    }\n    return *this;\n}\n"
+
+            },
+            {
+              "type": "explanation",
+              "title": "get Methode",
+              "text": [
+                "get gibt das rohe sqlite3_stmt Handle zurück.",
+                "Die Ownership bleibt weiterhin bei der Statement Klasse.",
+                "Die Methode ist const, da sie den internen Zustand nicht verändert.",
+                "[[nodiscard]] erzwingt, dass der Rückgabewert bewusst genutzt wird."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "get Implementierung",
+              "language": "cpp",
+              "code": "[[nodiscard]] sqlite3_stmt* Statement::get() const {\n    return stmt_;\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "stepRaw Methode",
+              "text": [
+                "stepRaw führt sqlite3_step direkt auf dem Statement aus.",
+                "Vor der Ausführung wird geprüft, ob ein gültiges Statement existiert.",
+                "Bei einem ungültigen Zustand wird eine logic_error Exception geworfen.",
+                "Der Rückgabewert von sqlite3_step wird unverändert weitergegeben."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "stepRaw Implementierung",
+              "language": "cpp",
+              "code": "int Statement::stepRaw() {\n    if (stmt_ == nullptr) {\n        throw std::logic_error(\"Step fehlgeschlagen.\");\n    }\n    return sqlite3_step(stmt_);\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "reset Methode",
+              "text": [
+                "reset setzt ein vorbereitetes Statement in den Anfangszustand zurück.",
+                "Das Statement kann danach erneut ausgeführt werden.",
+                "Bereits gebundene Parameter bleiben erhalten."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "reset Implementierung",
+              "language": "cpp",
+              "code": "void Statement::reset() {\n    if (stmt_ == nullptr) {\n        throw std::logic_error(\"Reset fehlgeschlagen.\");\n    }\n\n    sqlite3_reset(stmt_);\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Nutzung von reset",
+              "text": [
+                "reset wird nach sqlite3_step verwendet.",
+                "Das gleiche Statement kann mehrfach mit unterschiedlichen Daten ausgeführt werden.",
+                "Besonders sinnvoll bei Inserts oder Updates in Schleifen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel Wiederverwendung eines Statements",
+              "language": "cpp",
+              "code": "auto stmt = db.prepare(\"INSERT INTO users (name, age) VALUES (?, ?);\");\n\nstmt.bindText(1, \"Max\");\nstmt.bindInt(2, 30);\nstmt.stepRaw();\n\nstmt.reset();\n\nstmt.bindText(1, \"Anna\");\nstmt.bindInt(2, 25);\nstmt.stepRaw();\n"
+            },
+            {
+              "type": "important",
+              "text": "reset ersetzt nicht finalize. Das Statement bleibt gültig und wird erst im Destruktor freigegeben."
+            },
+            {
+              "type": "pitfall",
+              "title": "Statement ohne RAII",
+              "text": "Manuelles sqlite3_finalize wird leicht vergessen und führt zu Speicherlecks oder Datenbank Locks."
+            },
+            {
+              "type": "important",
+              "text": "Ein Statement Objekt sollte niemals kopiert, sondern ausschließlich bewegt werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Statement kapselt sqlite3_stmt nach RAII",
+                "finalize erfolgt im Destruktor",
+                "Copy verboten, Move erlaubt",
+                "reset ermöglicht Wiederverwendung",
+                "stepRaw bildet die Basis für höhere APIs"
+              ]
+            }
           ]
         },
 
