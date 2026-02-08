@@ -1,0 +1,119 @@
+[
+
+
+
+
+
+
+
+    {
+    "category": "CATEGORY",
+    "icon": "🗄️",
+    "subcategories": [
+      {
+        "name": "SUBCATEGORIE1",
+        "icon": "🧱",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+      {
+        "name": "SUBCATEGORIE2",
+        "icon": "🧱",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      }
+
+      
+    ]
+  }
+
+
+
+
+
+
+
+
+]
