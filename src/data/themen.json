@@ -15130,26 +15130,68 @@
           ]
         },
 
-
         {
-          "title": "---",
+          "title": "INNER JOIN",
           "difficulty": "basic",
           "blocks": [
-          ]
-        },
-
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Tabellen verbinden",
+              "text": [
+                "INNER JOIN verbindet Zeilen aus zwei Tabellen.",
+                "Nur passende Zeilen aus beiden Tabellen erscheinen im Ergebnis.",
+                "Die Verbindung erfolgt über eine gemeinsame Spalte."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Einfaches JOIN Prinzip",
+              "text": [
+                "Eine Tabelle enthält eine Referenz auf die andere.",
+                "Die Referenz wird mit dem Primärschlüssel verbunden.",
+                "Das Ergebnis kombiniert Spalten beider Tabellen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel Tabellen",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT\n);\n\nCREATE TABLE orders (\n    id INTEGER PRIMARY KEY,\n    user_id INTEGER,\n    product TEXT\n);\n"
+            },
+            {
+              "type": "code",
+              "title": "Einfaches INNER JOIN",
+              "language": "sql",
+              "code": "SELECT users.name, orders.product\nFROM users\nINNER JOIN orders ON users.id = orders.user_id;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Was das Ergebnis bedeutet",
+              "text": [
+                "Nur Orders mit einem existierenden User erscheinen.",
+                "Users ohne Orders erscheinen nicht.",
+                "Orders ohne passenden User erscheinen ebenfalls nicht."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "JOIN Bedingung vergessen",
+              "text": "Ohne ON Bedingung entsteht ein kartesisches Produkt mit extrem vielen Zeilen."
+            },
+            {
+              "type": "important",
+              "text": "INNER JOIN liefert nur Datensätze, die in beiden Tabellen existieren."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "INNER JOIN verbindet zwei Tabellen",
+                "Nur passende Zeilen erscheinen",
+                "Verbindung erfolgt über Schlüssel",
+                "Einfaches und häufig genutztes JOIN",
+                "JOIN Bedingung ist zwingend notwendig"
+              ]
+            }
           ]
         },
 
