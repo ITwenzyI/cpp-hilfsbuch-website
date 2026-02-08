@@ -13017,9 +13017,63 @@
 
 
         {
-          "title": "---",
+          "title": "INSERT mit Prepared Statements",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "INSERT mit Prepared Statement",
+              "text": "INSERT mit Prepared Statements bedeutet, Daten über Platzhalter zu binden und das Statement per step auszuführen, statt Werte in einen SQL String einzubauen."
+            },
+            {
+              "type": "explanation",
+              "title": "Ablauf",
+              "text": [
+                "prepare erstellt das Statement mit Platzhaltern.",
+                "bind setzt die Parameterwerte.",
+                "step führt den INSERT aus und liefert bei Erfolg SQLITE_DONE."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "INSERT mit bind und stepRaw",
+              "language": "cpp",
+              "code": "void insertUser(Database& db, const std::string& name, int age) {\n    const char* sql = \"INSERT INTO users (name, age) VALUES (?, ?);\";\n\n    Statement stmt = db.prepare(sql);\n\n    \n    stmt.bindText(1, name);\n    stmt.bindInt(2, age);\n\n    const int rc = stmt.stepRaw();\n    if (rc != SQLITE_DONE) {\n        throw std::runtime_error(\"INSERT fehlgeschlagen.\");\n    }\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "last_insert_rowid",
+              "text": [
+                "Nach einem erfolgreichen INSERT kann die zuletzt vergebene ID abgefragt werden.",
+                "Das funktioniert nur zuverlässig auf derselben Datenbank Verbindung.",
+                "In SQLite liefert sqlite3_last_insert_rowid die RowID des letzten Inserts."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Letzte Insert ID lesen",
+              "language": "cpp",
+              "code": "int insertUserAndGetId(Database& db, const std::string& name, int age) {\n    const char* sql = \"INSERT INTO users (name, age) VALUES (?, ?);\";\n\n    Statement stmt = db.prepare(sql);\n    stmt.bindText(1, name);\n    stmt.bindInt(2, age);\n\n    const int rc = stmt.stepRaw();\n    if (rc != SQLITE_DONE) {\n        throw std::runtime_error(\"INSERT fehlgeschlagen.\");\n    }\n\n    // benötigt Database::get() -> sqlite3*\n    return static_cast<int>(sqlite3_last_insert_rowid(db.get()));\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "last_insert_rowid auf falscher Verbindung",
+              "text": "last_insert_rowid ist nur für die Verbindung gültig, die den INSERT ausgeführt hat. Bei mehreren Verbindungen entstehen falsche IDs."
+            },
+            {
+              "type": "important",
+              "text": "INSERT immer über Prepared Statements und bind durchführen. Nach Erfolg ist SQLITE_DONE der erwartete Rückgabecode."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "prepare, bind, stepRaw ist der Standardablauf für INSERT",
+                "Erfolg bei INSERT ist SQLITE_DONE",
+                "last_insert_rowid liefert die letzte vergebene ID der aktuellen Verbindung",
+                "ID sofort nach dem INSERT lesen",
+                "Keine String Konkatenation für Werte"
+              ]
+            }
           ]
         },
 
