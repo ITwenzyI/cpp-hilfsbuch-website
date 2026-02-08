@@ -14160,9 +14160,90 @@
         "icon": "📘",
         "topics": [
         {
-          "title": "---",
+          "title": "Was ist SQL",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "SQL",
+              "text": "SQL ist eine deklarative Sprache zur Definition, Abfrage und Änderung von Daten in relationalen Datenbanken."
+            },
+            {
+              "type": "explanation",
+              "title": "SQL als Sprache",
+              "text": [
+                "SQL beschreibt, was mit den Daten passieren soll.",
+                "Der konkrete Ausführungsplan wird von der Datenbank bestimmt.",
+                "SQL ist unabhängig von der Programmiersprache."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Was man mit SQL macht",
+              "text": [
+                "Tabellen und Strukturen definieren.",
+                "Daten speichern, ändern und löschen.",
+                "Daten gezielt abfragen."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische SQL Aufgaben",
+              "items": [
+                "Tabellen anlegen",
+                "Datensätze einfügen",
+                "Datensätze abfragen",
+                "Datensätze aktualisieren",
+                "Datensätze löschen"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Abfrage vs Änderung",
+              "text": [
+                "Abfragen lesen Daten aus der Datenbank.",
+                "Änderungen verändern den Zustand der Datenbank.",
+                "Beide Kategorien haben unterschiedliche Rückgabewerte."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Abfrage vs Änderung",
+              "columns": ["Abfrage", "Änderung"],
+              "rows": [
+                {
+                  "aspect": "Ziel",
+                  "values": ["Daten lesen", "Daten verändern"]
+                },
+                {
+                  "aspect": "Typische Befehle",
+                  "values": ["SELECT", "INSERT, UPDATE, DELETE"]
+                },
+                {
+                  "aspect": "Ergebnis",
+                  "values": ["Ergebniszeilen", "SQLITE_DONE"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "SQL als Programmiersprache verstehen",
+              "text": "SQL beschreibt Datenoperationen, ist aber keine allgemeine Programmiersprache mit Schleifen oder Variablen."
+            },
+            {
+              "type": "important",
+              "text": "SQL definiert den Datenzugriff, nicht die Geschäftslogik der Anwendung."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "SQL ist eine deklarative Datenbanksprache",
+                "SQL ist unabhängig von C++ oder SQLite",
+                "Mit SQL werden Daten gelesen und verändert",
+                "SELECT ist Abfrage, INSERT UPDATE DELETE sind Änderungen",
+                "Abfragen und Änderungen haben unterschiedliche Ergebnisse"
+              ]
+            }
           ]
         },
 
