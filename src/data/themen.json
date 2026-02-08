@@ -9701,6 +9701,263 @@
     ]
   },
 
+
+
+
+  {
+    "category": "Design",
+    "icon": "🎯",
+    "subcategories": [
+      {
+        "name": "Patterns",
+        "icon": "🧩",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+      {
+        "name": "GRASPS",
+        "icon": "🧭",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+
+      {
+        "name": "SOLID und Prinzipien",
+        "icon": "📏",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+
+      {
+        "name": "Architektur und Schichten",
+        "icon": "🏗️",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+
+
+      {
+        "name": "Code Style und Namenskonventionen",
+        "icon": "✒️",
+        "topics": [
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
+      }
+
+      
+    ]
+  },
+
+
+
+
   {
     "category": "Extras",
     "icon": "⭐",
