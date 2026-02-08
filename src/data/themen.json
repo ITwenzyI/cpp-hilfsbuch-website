@@ -14387,7 +14387,125 @@
               ]
             }
           ]
+        },
+
+
+
+
+        {
+          "title": "CREATE TABLE Parameter",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Spaltenparameter in der Praxis",
+              "text": [
+                "CREATE TABLE definiert Spalten mit Typen und einfachen Eigenschaften.",
+                "Die Parameter stehen direkt hinter dem Spaltennamen.",
+                "SQLite ist flexibel, aber saubere Definitionen sind wichtig."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches Beispiel mit Parametern",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    name TEXT NOT NULL,\n    age INTEGER,\n    weight REAL,\n    note TEXT NULL\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "INTEGER PRIMARY KEY",
+              "text": [
+                "INTEGER PRIMARY KEY macht die Spalte zur eindeutigen ID.",
+                "Der Wert identifiziert jede Zeile eindeutig.",
+                "In SQLite ist diese Spalte intern mit der RowID verknüpft."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "AUTOINCREMENT",
+              "text": [
+                "AUTOINCREMENT sorgt dafür, dass IDs strikt monoton steigen.",
+                "Ohne AUTOINCREMENT vergibt SQLite ebenfalls automatisch IDs.",
+                "AUTOINCREMENT wird nur benötigt, wenn alte IDs niemals wiederverwendet werden dürfen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "TEXT",
+              "text": [
+                "TEXT speichert Zeichenketten.",
+                "Die Länge ist nicht fest begrenzt.",
+                "Geeignet für Namen, Beschreibungen und freie Texte."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "INTEGER",
+              "text": [
+                "INTEGER speichert Ganzzahlen.",
+                "Typisch für Zähler, Alterswerte oder Flags.",
+                "Kann auch für Booleans genutzt werden (0 oder 1)."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "REAL (DOUBLE)",
+              "text": [
+                "REAL speichert Gleitkommazahlen.",
+                "SQLite verwendet intern 64 Bit Floating Point.",
+                "DOUBLE ist kein eigener SQLite Typ, wird aber auf REAL abgebildet."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "NULL und NOT NULL",
+              "text": [
+                "NULL bedeutet, dass kein Wert vorhanden ist.",
+                "NOT NULL erzwingt, dass immer ein Wert gesetzt sein muss.",
+                "NOT NULL schützt vor unvollständigen Datensätzen."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Typische Spaltentypen",
+              "columns": ["Typ", "Verwendung"],
+              "rows": [
+                {
+                  "aspect": "INTEGER",
+                  "values": ["IDs, Zähler", "Ganzzahlen"]
+                },
+                {
+                  "aspect": "TEXT",
+                  "values": ["Namen, Strings", "Beschreibungen"]
+                },
+                {
+                  "aspect": "REAL",
+                  "values": ["Messwerte", "Dezimalzahlen"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "AUTOINCREMENT blind verwenden",
+              "text": "AUTOINCREMENT ist meist unnötig und kann Performance kosten. INTEGER PRIMARY KEY reicht in den meisten Fällen aus."
+            },
+            {
+              "type": "important",
+              "text": "SQLite Typen sind flexibel, aber klare Spaltenparameter verhindern spätere Datenprobleme."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Spaltenparameter stehen direkt im CREATE TABLE",
+                "INTEGER PRIMARY KEY definiert die ID",
+                "AUTOINCREMENT nur bei echtem Bedarf",
+                "TEXT für Strings, INTEGER für Ganzzahlen, REAL für Gleitkomma",
+                "NOT NULL erzwingt vollständige Datensätze"
+              ]
+            }
+          ]
         }
+
 
 
 
