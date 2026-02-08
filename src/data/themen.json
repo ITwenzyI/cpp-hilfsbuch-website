@@ -11725,9 +11725,114 @@
         "icon": "🏗️",
         "topics": [
         {
-          "title": "---",
+          "title": "Database Klasse Grundstruktur",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Database Klasse",
+              "text": "Die Database Klasse kapselt das sqlite3 Handle und ist verantwortlich für das Öffnen, Schließen und die zentrale Verwaltung der Datenbank Verbindung."
+            },
+            {
+              "type": "explanation",
+              "title": "Aufgabe der Database Klasse",
+              "text": [
+                "Zentrale Stelle für den Zugriff auf die SQLite Datenbank.",
+                "Kapselung des sqlite3 Handles und der Lebensdauer.",
+                "Trennung von Datenbank Infrastruktur und Anwendungslogik."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Konstruktor und Destruktor",
+              "text": [
+                "Der Konstruktor öffnet die Datenbank Datei.",
+                "Der Destruktor schließt die Datenbank automatisch.",
+                "Die Lebensdauer der Datenbank ist klar an das Objekt gebunden."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Copy verboten, Move erlaubt",
+              "text": [
+                "Ein sqlite3 Handle darf nicht kopiert werden.",
+                "Mehrere Objekte dürfen nicht dasselbe Handle besitzen.",
+                "Move Semantik erlaubt das sichere Übertragen der Ownership."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Database.hpp",
+              "language": "cpp",
+              "code": "#pragma once\n\n#include <sqlite3.h>\n#include <string>\n\n#include \"statement.hpp\"\n\nclass Database {\npublic:\n    // Öffnet bestehende Datenbank oder erstellt neue Datei\n    explicit Database(const std::string& dbPfad);\n\n    // Schließt die Datenbank automatisch\n    ~Database();\n\n    // Zugriff auf rohe SQLite Verbindung\n    [[nodiscard]] sqlite3* get() const;\n\n    // Kopieren verbieten\n    Database(const Database&) = delete;\n    Database& operator=(const Database&) = delete;\n\n    // Verschieben erlauben\n    Database(Database&& other) noexcept;\n    Database& operator=(Database&& other) noexcept;\n\n    Statement prepare(const char* sql);\n\n    void execute(const char* sql);\n\nprivate:\n    sqlite3* db_;\n};\n"
+
+            },
+            {
+              "type": "code",
+              "title": "Database.cpp",
+              "language": "cpp",
+              "code": "#include \"database.hpp\"\n#include <stdexcept>\n\nDatabase::Database(const std::string& dbPfad) : db_(nullptr) {\n    if (sqlite3_open(dbPfad.c_str(), &db_) != SQLITE_OK) {\n        std::string fehler = sqlite3_errmsg(db_);\n        sqlite3_close(db_);\n        db_ = nullptr;\n        throw std::runtime_error(\"Datenbank konnte nicht geöffnet werden: \" + fehler);\n    }\n}\n\nDatabase::~Database() {\n    if (db_) {\n        sqlite3_close(db_);\n        db_ = nullptr;\n    }\n}\n\n[[nodiscard]] sqlite3* Database::get() const {\n    return db_;\n}\n\nDatabase::Database(Database&& other) noexcept : db_(other.db_) {\n    other.db_ = nullptr;\n}\n\nDatabase& Database::operator=(Database&& other) noexcept {\n    if (this != &other) {\n        if (db_) {\n            sqlite3_close(db_);\n        }\n        db_ = other.db_;\n        other.db_ = nullptr;\n    }\n    return *this;\n}\n"
+
+
+            },
+            {
+              "type": "explanation",
+              "title": "prepare Funktion",
+              "text": [
+                "prepare erstellt ein vorbereitetes SQLite Statement aus einem SQL String.",
+                "Vor dem Vorbereiten wird geprüft, ob die Datenbank geöffnet ist.",
+                "Bei Fehlern wird eine aussagekräftige Exception mit sqlite3_errmsg geworfen.",
+                "Das rohe sqlite3_stmt Handle wird in ein eigenes Statement Objekt verpackt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "prepare Implementierung Database.cpp",
+              "language": "cpp",
+              "code": "Statement Database::prepare(const char* sql) {\n    sqlite3_stmt* stmt = nullptr;\n\n    if (!db_) {\n        throw std::logic_error(\"Datenbank nicht geöffnet.\");\n    }\n\n    const int rc = sqlite3_prepare_v2(db_, sql, -1, &stmt, nullptr);\n    if (rc != SQLITE_OK) {\n        const std::string fehler = sqlite3_errmsg(db_);\n        throw std::runtime_error(\"Prepare fehlgeschlagen: \" + fehler);\n    }\n\n    return Statement(stmt);\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "execute Funktion",
+              "text": [
+                "execute führt ein SQL Statement direkt über sqlite3_exec aus.",
+                "Die Funktion ist für einfache Befehle ohne Parameter gedacht.",
+                "Fehlermeldungen werden entweder aus errMsg oder direkt aus der Datenbank gelesen.",
+                "Der Aufrufer erhält bei Fehlern immer eine Exception mit genauer Ursache."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "execute Implementierung Database.cpp",
+              "language": "cpp",
+              "code": "void Database::execute(const char* sql) {\n    if (db_ == nullptr) {\n        throw std::logic_error(\"Datenbank nicht geöffnet.\");\n    }\n\n    char* errMsg = nullptr;\n    int rc = sqlite3_exec(db_, sql, nullptr, nullptr, &errMsg);\n\n    if (rc != SQLITE_OK) {\n        std::string fehler;\n\n        if (errMsg != nullptr) {\n            fehler = errMsg;\n            sqlite3_free(errMsg);\n        } else {\n            fehler = sqlite3_errmsg(db_);\n        }\n\n        throw std::runtime_error(\"Execute fehlgeschlagen: \" + fehler);\n    }\n}\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "prepare und execute falsch einsetzen",
+              "text": "execute sollte nicht für Statements mit Parametern oder Ergebnissen verwendet werden. prepare ist die Grundlage für alle sicheren CRUD Operationen."
+            },
+            {
+              "type": "important",
+              "text": "prepare kapselt sqlite3_prepare_v2 sauber und liefert ein eigenes Statement Objekt zurück. execute ist nur für einfache, einmalige SQL Befehle gedacht."
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu viel Logik in der Database Klasse",
+              "text": "Die Database Klasse sollte keine Business Logik enthalten, sondern nur Infrastruktur Code für SQLite bereitstellen."
+            },
+            {
+              "type": "important",
+              "text": "Die Database Klasse ist der Eigentümer des sqlite3 Handles und darf niemals kopiert werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Database kapselt das sqlite3 Handle",
+                "Konstruktor öffnet, Destruktor schließt die Datenbank",
+                "Copy ist verboten, Move erlaubt"
+              ]
+            }
           ]
         },
 
