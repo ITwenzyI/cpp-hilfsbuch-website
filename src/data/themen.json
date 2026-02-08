@@ -11415,9 +11415,99 @@
         "icon": "📘",
         "topics": [
         {
-          "title": "---",
+          "title": "Was ist SQLite?",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "SQLite",
+              "text": "SQLite ist eine leichtgewichtige, eingebettete relationale Datenbank, die direkt in die Anwendung integriert ist und ihre Daten in einer einzelnen Datei speichert."
+            },
+            {
+              "type": "explanation",
+              "title": "Embedded Datenbank",
+              "text": [
+                "SQLite läuft nicht als separater Datenbank Server.",
+                "Die Datenbank Engine ist Teil der Anwendung und wird als Bibliothek eingebunden.",
+                "Die Anwendung greift direkt auf die Datenbank Datei zu."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Dateibasierte Speicherung",
+              "text": [
+                "Alle Daten befinden sich in einer einzigen Datei auf dem Dateisystem.",
+                "Diese Datei kann einfach kopiert, gesichert oder versioniert werden.",
+                "Es sind keine zusätzlichen Konfigurationsdateien oder Dienste notwendig."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wann SQLite sinnvoll ist",
+              "items": [
+                "Desktop Anwendungen",
+                "Mobile Apps",
+                "Kleine bis mittlere Projekte",
+                "Lokale Tools und Utilities",
+                "Prototypen und Lernprojekte",
+                "Embedded Systeme"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Einsatzszenarien",
+              "text": [
+                "SQLite eignet sich besonders, wenn eine einfache Persistenz benötigt wird.",
+                "Es ist ideal, wenn nur wenige gleichzeitige Zugriffe stattfinden.",
+                "Die Datenbank soll ohne Installation sofort funktionieren."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "SQLite vs Server Datenbanken",
+              "columns": ["SQLite", "Server Datenbank"],
+              "rows": [
+                {
+                  "aspect": "Architektur",
+                  "values": ["Embedded in der Anwendung", "Separater Server Prozess"]
+                },
+                {
+                  "aspect": "Installation",
+                  "values": ["Keine", "Erforderlich"]
+                },
+                {
+                  "aspect": "Datenhaltung",
+                  "values": ["Eine Datei", "Mehrere Dateien / Speicherstrukturen"]
+                },
+                {
+                  "aspect": "Mehrbenutzer Betrieb",
+                  "values": ["Eingeschränkt", "Voll unterstützt"]
+                },
+                {
+                  "aspect": "Administration",
+                  "values": ["Nicht notwendig", "Notwendig"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Grenzen von SQLite",
+              "text": "SQLite ist nicht für hohe parallele Schreibzugriffe oder große Server Anwendungen mit vielen Clients gedacht."
+            },
+            {
+              "type": "important",
+              "text": "SQLite ist keine abgespeckte Spielzeug Datenbank, sondern eine vollwertige SQL Datenbank mit klar definiertem Einsatzzweck."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "SQLite ist eine embedded, dateibasierte Datenbank",
+                "Kein Server, keine Installation",
+                "Ideal für lokale und kleine Anwendungen",
+                "Eingeschränkt bei vielen gleichzeitigen Zugriffen",
+                "Klare Abgrenzung zu klassischen Server Datenbanken"
+              ]
+            }
           ]
         },
 
