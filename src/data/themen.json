@@ -15017,6 +15017,67 @@
               "text": "DELETE sollte immer mit WHERE verwendet werden, außer der komplette Tabelleninhalt soll bewusst gelöscht werden."
             },
             {
+              "type": "explanation",
+              "title": "ON DELETE CASCADE",
+              "text": [
+                "ON DELETE CASCADE ist eine Foreign Key Option.",
+                "Beim Löschen einer Zeile werden abhängige Zeilen automatisch mitgelöscht.",
+                "Die Löschlogik liegt in der Datenbank, nicht im Code."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel mit ON DELETE CASCADE",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT\n);\n\nCREATE TABLE orders (\n    id INTEGER PRIMARY KEY,\n    user_id INTEGER,\n    product TEXT,\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Was beim DELETE passiert",
+              "text": [
+                "DELETE FROM users löscht den User.",
+                "Alle orders mit passender user_id werden automatisch gelöscht.",
+                "Es bleiben keine verwaisten Datensätze zurück."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Voraussetzung",
+              "text": [
+                "Foreign Keys müssen aktiviert sein.",
+                "PRAGMA foreign_keys = ON ist zwingend notwendig.",
+                "Ohne dieses PRAGMA hat ON DELETE CASCADE keine Wirkung."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "DELETE mit und ohne CASCADE",
+              "columns": ["Ohne CASCADE", "Mit CASCADE"],
+              "rows": [
+                {
+                  "aspect": "Abhängige Zeilen",
+                  "values": ["Bleiben bestehen", "Werden automatisch gelöscht"]
+                },
+                {
+                  "aspect": "Code Aufwand",
+                  "values": ["Manuelles Löschen", "Kein Zusatzcode"]
+                },
+                {
+                  "aspect": "Konsistenz",
+                  "values": ["Fehleranfällig", "Automatisch gesichert"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Unerwartete Löschkaskaden",
+              "text": "ON DELETE CASCADE kann große Datenmengen löschen, wenn Beziehungen nicht sauber modelliert sind."
+            },
+            {
+              "type": "important",
+              "text": "ON DELETE CASCADE ist mächtig und sollte bewusst und sparsam eingesetzt werden."
+            },
+            {
               "type": "summary",
               "points": [
                 "DELETE entfernt Datensätze aus Tabellen",
