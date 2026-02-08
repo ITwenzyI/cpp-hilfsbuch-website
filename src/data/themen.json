@@ -13732,33 +13732,83 @@
         },
 
 
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Transaction Guard Klasse",
+          "difficulty": "intermediate",
           "blocks": [
-          ]
-        },
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
+            {
+              "type": "definition",
+              "term": "Transaction Guard",
+              "text": "Eine Transaction Guard Klasse kapselt eine SQLite Transaktion nach dem RAII Prinzip und sorgt dafür, dass Änderungen entweder committed oder automatisch zurückgerollt werden."
+            },
+            {
+              "type": "explanation",
+              "title": "RAII Prinzip",
+              "text": [
+                "Die Transaktion startet im Konstruktor.",
+                "commit wird explizit bei Erfolg aufgerufen.",
+                "Im Destruktor erfolgt automatisch ein rollback, falls kein commit stattfand."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Warum eine Guard Klasse",
+              "text": [
+                "Vergessene COMMIT oder ROLLBACK Aufrufe führen zu Locks.",
+                "Exceptions können den normalen Kontrollfluss abbrechen.",
+                "RAII garantiert sauberes Aufräumen in jedem Fall."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "TransactionGuard Grundstruktur",
+              "language": "cpp",
+              "code": "class TransactionGuard {\npublic:\n    explicit TransactionGuard(Database& db)\n        : db_(db), committed_(false) {\n        db_.execute(\"BEGIN;\");\n    }\n\n    void commit() {\n        db_.execute(\"COMMIT;\");\n        committed_ = true;\n    }\n\n    ~TransactionGuard() {\n        if (!committed_) {\n            try {\n                db_.execute(\"ROLLBACK;\");\n            } catch (...) {\n                // Destruktor darf keine Exception werfen\n            }\n        }\n    }\n\nprivate:\n    Database& db_;\n    bool committed_;\n};\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Nutzung",
+              "text": [
+                "Die Guard wird am Anfang eines Blocks erstellt.",
+                "Mehrere Datenbank Operationen folgen.",
+                "commit wird nur bei vollständigem Erfolg aufgerufen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel Nutzung",
+              "language": "cpp",
+              "code": "void createUsers(Database& db) {\n    TransactionGuard tx(db);\n\n    insertUser(db, \"Max\", 30);\n    insertUser(db, \"Anna\", 25);\n\n    tx.commit();\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Fehlerfall",
+              "text": [
+                "Wirft eine Operation eine Exception, wird commit nicht erreicht.",
+                "Der Destruktor der Guard wird aufgerufen.",
+                "ROLLBACK stellt den alten Zustand wieder her."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "commit vergessen",
+              "text": "Wird commit nicht aufgerufen, werden alle Änderungen bewusst verworfen."
+            },
+            {
+              "type": "important",
+              "text": "Transaction Guards dürfen im Destruktor niemals Exceptions weiterwerfen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Transaction Guard nutzt RAII",
+                "BEGIN im Konstruktor",
+                "COMMIT bei Erfolg",
+                "ROLLBACK automatisch im Fehlerfall",
+                "Sichere und konsistente Transaktionen"
+              ]
+            }
           ]
         }
 
