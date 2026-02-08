@@ -13640,9 +13640,94 @@
         "icon": "🔒",
         "topics": [
         {
-          "title": "---",
+          "title": "Transaktionen Grundlagen",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Transaktion",
+              "text": "Eine Transaktion fasst mehrere Datenbank Operationen zu einer unteilbaren Einheit zusammen, die entweder vollständig ausgeführt oder vollständig verworfen wird."
+            },
+            {
+              "type": "explanation",
+              "title": "BEGIN",
+              "text": [
+                "BEGIN startet eine neue Transaktion.",
+                "Alle folgenden Änderungen gehören zur selben Einheit.",
+                "Ohne BEGIN arbeitet SQLite im Auto Commit Modus."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "COMMIT",
+              "text": [
+                "COMMIT bestätigt alle Änderungen der Transaktion.",
+                "Die Daten werden dauerhaft gespeichert.",
+                "Die Transaktion wird abgeschlossen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "ROLLBACK",
+              "text": [
+                "ROLLBACK verwirft alle Änderungen der laufenden Transaktion.",
+                "Die Datenbank kehrt in den Zustand vor BEGIN zurück.",
+                "Die Transaktion wird abgebrochen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfache Transaktion",
+              "language": "cpp",
+              "code": "db.execute(\"BEGIN;\");\n\ndb.execute(\"INSERT INTO users (name) VALUES ('Max');\");\ndb.execute(\"INSERT INTO users (name) VALUES ('Anna');\");\n\ndb.execute(\"COMMIT;\");\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Warum Transaktionen wichtig sind",
+              "text": [
+                "Mehrere zusammengehörige Änderungen müssen konsistent bleiben.",
+                "Ein Fehler darf keinen halbfertigen Zustand hinterlassen.",
+                "Transaktionen garantieren atomare Änderungen."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Mit vs ohne Transaktion",
+              "columns": ["Ohne Transaktion", "Mit Transaktion"],
+              "rows": [
+                {
+                  "aspect": "Fehler mitten im Ablauf",
+                  "values": ["Inkonsistenter Zustand", "Rollback auf alten Zustand"]
+                },
+                {
+                  "aspect": "Performance",
+                  "values": ["Langsam bei vielen Writes", "Deutlich schneller"]
+                },
+                {
+                  "aspect": "Konsistenz",
+                  "values": ["Nicht garantiert", "Garantiert"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "BEGIN ohne COMMIT oder ROLLBACK",
+              "text": "Offene Transaktionen können Locks verursachen und spätere Operationen blockieren."
+            },
+            {
+              "type": "important",
+              "text": "Jede Transaktion muss mit COMMIT oder ROLLBACK abgeschlossen werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Transaktionen bündeln mehrere Operationen",
+                "BEGIN startet die Transaktion",
+                "COMMIT bestätigt alle Änderungen",
+                "ROLLBACK verwirft alle Änderungen",
+                "Unverzichtbar für Konsistenz und Performance"
+              ]
+            }
           ]
         },
 
