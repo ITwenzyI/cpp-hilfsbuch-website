@@ -12625,9 +12625,85 @@
         "icon": "📤",
         "topics": [
         {
-          "title": "---",
+          "title": "sqlite3_step Rückgabewerte",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "sqlite3_step",
+              "text": "sqlite3_step führt ein vorbereitetes Statement aus und liefert einen Statuscode zurück, der den aktuellen Zustand der Ausführung beschreibt."
+            },
+            {
+              "type": "explanation",
+              "title": "SQLITE_ROW",
+              "text": [
+                "SQLITE_ROW bedeutet, dass eine Ergebniszeile verfügbar ist.",
+                "Der Rückgabewert tritt bei SELECT Statements auf.",
+                "Die Spaltenwerte können jetzt ausgelesen werden."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "SQLITE_DONE",
+              "text": [
+                "SQLITE_DONE signalisiert das Ende der Ausführung.",
+                "Bei SELECT bedeutet es, dass keine weiteren Zeilen vorhanden sind.",
+                "Bei INSERT, UPDATE oder DELETE ist die Operation abgeschlossen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Typische Nutzung von sqlite3_step",
+              "language": "cpp",
+              "code": "while (stmt.stepRaw() == SQLITE_ROW) {\n    // Spalten auslesen\n}\n\n// SQLITE_DONE erreicht\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Fehlercodes",
+              "text": [
+                "sqlite3_step kann auch Fehlercodes zurückgeben.",
+                "Diese signalisieren Abbruch oder ungültige Zustände.",
+                "Fehler müssen immer explizit behandelt werden."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Häufige Fehlercodes",
+              "items": [
+                "SQLITE_ERROR: Allgemeiner SQL Fehler",
+                "SQLITE_BUSY: Datenbank ist gesperrt",
+                "SQLITE_MISUSE: Falsche API Nutzung",
+                "SQLITE_CONSTRAINT: Constraint verletzt"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Fehlerbehandlung bei step",
+              "text": [
+                "Alles außer SQLITE_ROW und SQLITE_DONE ist ein Fehler.",
+                "Fehler sollten in Exceptions oder Statusobjekte übersetzt werden.",
+                "Die genaue Ursache kann über sqlite3_errmsg ermittelt werden."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "SQLITE_DONE falsch interpretieren",
+              "text": "SQLITE_DONE ist kein Fehler, sondern ein normales Ende der Ausführung."
+            },
+            {
+              "type": "important",
+              "text": "Die Rückgabewerte von sqlite3_step bestimmen den gesamten Kontrollfluss beim Lesen von Ergebnissen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "sqlite3_step steuert die Ausführung von Statements",
+                "SQLITE_ROW liefert eine Ergebniszeile",
+                "SQLITE_DONE beendet die Ausführung",
+                "Alle anderen Rückgabewerte sind Fehler",
+                "Fehlercodes müssen sauber behandelt werden"
+              ]
+            }
           ]
         },
 
