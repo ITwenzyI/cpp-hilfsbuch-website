@@ -13824,82 +13824,91 @@
         "icon": "🧪",
         "topics": [
         {
-          "title": "---",
+          "title": "SQLite In Memory Datenbank",
           "difficulty": "basic",
           "blocks": [
-          ]
-        },
-
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        }
-
-
-
-        ]
-      },
-
-
-
-
-      {
-        "name": "Fehlerhandling",
-        "icon": "⚠️",
-        "topics": [
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
+            {
+              "type": "definition",
+              "term": ":memory:",
+              "text": "Eine In Memory Datenbank ist eine SQLite Datenbank, die vollständig im Arbeitsspeicher liegt und keine Datei auf dem Dateisystem erzeugt."
+            },
+            {
+              "type": "explanation",
+              "title": "Wie :memory: funktioniert",
+              "text": [
+                "Statt eines Dateipfads wird \":memory:\" beim Öffnen der Datenbank verwendet.",
+                "Die Datenbank existiert nur für die Lebensdauer der Verbindung.",
+                "Nach dem Schließen der Verbindung gehen alle Daten verloren."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "In Memory Datenbank öffnen",
+              "language": "cpp",
+              "code": "Database db(\":memory:\");\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Schnelles Testen",
+              "text": [
+                "Keine Datei I/O notwendig.",
+                "Sehr schnelle CREATE, INSERT und SELECT Operationen.",
+                "Ideal für Unit Tests und lokale Experimente."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Schema pro Test",
+              "text": [
+                "Jeder Test kann seine eigene Datenbank erzeugen.",
+                "Das Schema wird zu Beginn des Tests erstellt.",
+                "Tests beeinflussen sich nicht gegenseitig."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Schema im Test aufbauen",
+              "language": "cpp",
+              "code": "void setupTestDb(Database& db) {\n    db.execute(\"CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT);\");\n}\n"
+            },
+            {
+              "type": "comparison",
+              "title": "In Memory vs Datei Datenbank",
+              "columns": ["In Memory", "Datei"],
+              "rows": [
+                {
+                  "aspect": "Geschwindigkeit",
+                  "values": ["Sehr hoch", "Langsamer"]
+                },
+                {
+                  "aspect": "Persistenz",
+                  "values": ["Keine", "Dauerhaft"]
+                },
+                {
+                  "aspect": "Test Isolation",
+                  "values": ["Perfekt", "Aufwendig"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Mehrere Verbindungen",
+              "text": "Jede Verbindung zu :memory: erzeugt eine eigene Datenbank. Daten werden nicht geteilt."
+            },
+            {
+              "type": "important",
+              "text": "In Memory Datenbanken sind ideal für Tests, aber ungeeignet für persistente Anwendungdaten."
+            },
+            {
+              "type": "summary",
+              "points": [
+                ":memory: erzeugt eine temporäre SQLite Datenbank",
+                "Existiert nur für die Lebensdauer der Verbindung",
+                "Extrem schnell für Tests",
+                "Schema kann pro Test neu erstellt werden",
+                "Keine Persistenz"
+              ]
+            }
           ]
         },
 
@@ -13915,7 +13924,6 @@
 
         ]
       }
-
 
 
       
