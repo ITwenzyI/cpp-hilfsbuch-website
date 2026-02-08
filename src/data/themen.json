@@ -12388,9 +12388,133 @@
         },
 
         {
-          "title": "---",
+          "title": "Parameter binden",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Parameter binden",
+              "text": "Parameter binden bedeutet, Platzhalter in einem vorbereiteten SQL Statement mit konkreten Werten zu belegen, ohne den SQL String selbst zu verändern."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundprinzip",
+              "text": [
+                "Prepared Statements verwenden Platzhalter statt konkreter Werte.",
+                "Werte werden separat an das Statement gebunden.",
+                "SQL Struktur und Daten bleiben strikt getrennt."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Index beginnt bei 1",
+              "text": [
+                "SQLite nummeriert Platzhalter beginnend bei 1.",
+                "Der erste Platzhalter ? hat den Index 1.",
+                "Index 0 ist ungültig und führt zu Fehlern."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "SQL mit Platzhaltern",
+              "language": "sql",
+              "code": "INSERT INTO users (name, weight, age, email) VALUES (?, ?, ?, ?);"
+            },
+            {
+              "type": "explanation",
+              "title": "bindInt",
+              "text": [
+                "bindInt bindet einen Ganzzahlwert an einen Platzhalter.",
+                "Typprüfung erfolgt intern durch SQLite.",
+                "Geeignet für INTEGER Spalten."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Integer binden",
+              "language": "cpp",
+              "code": "stmt.bindInt(1, 42);"
+            },
+            {
+              "type": "explanation",
+              "title": "bindDouble",
+              "text": [
+                "bindDouble bindet einen Gleitkommawert an einen Platzhalter.",
+                "SQLite speichert Gleitkommazahlen intern als REAL.",
+                "Geeignet für Messwerte, Gewichte, Preise oder Zeitdauern."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Double binden",
+              "language": "cpp",
+              "code": "stmt.bindDouble(2, 72.5);"
+            },
+            {
+              "type": "explanation",
+              "title": "bindText",
+              "text": [
+                "bindText bindet einen Textwert an einen Platzhalter.",
+                "SQLite kopiert oder referenziert den Text abhängig von der Implementierung.",
+                "Geeignet für TEXT Spalten."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Text binden",
+              "language": "cpp",
+              "code": "stmt.bindText(3, \"Max Mustermann\");"
+            },
+            {
+              "type": "explanation",
+              "title": "bindNull",
+              "text": [
+                "bindNull setzt einen Platzhalter explizit auf NULL.",
+                "Unterscheidung zwischen leerem String und NULL bleibt erhalten.",
+                "Wichtig für optionale Felder."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "NULL binden",
+              "language": "cpp",
+              "code": "stmt.bindNull(4);"
+            },
+            {
+              "type": "comparison",
+              "title": "NULL vs leerer Wert",
+              "columns": ["NULL", "Leerer Wert"],
+              "rows": [
+                {
+                  "aspect": "Bedeutung",
+                  "values": ["Kein Wert vorhanden", "Wert vorhanden, aber leer"]
+                },
+                {
+                  "aspect": "SQL Vergleich",
+                  "values": ["IS NULL", "= '' oder = 0"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Falsche Indexe",
+              "text": "Ein falscher Parameter Index führt zu schwer auffindbaren Fehlern oder falsch zugeordneten Werten."
+            },
+            {
+              "type": "important",
+              "text": "Parameter müssen immer über bind Funktionen gesetzt werden, niemals per String Konkatenation."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Parameter binden trennt SQL und Daten",
+                "Platzhalter Indizes beginnen bei 1",
+                "bindInt für Ganzzahlen",
+                "bindDouble für Gleitkommazahlen",
+                "bindText für Texte",
+                "bindNull für optionale Werte"
+              ]
+            }
           ]
         },
 
