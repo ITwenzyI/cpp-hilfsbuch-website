@@ -9819,9 +9819,117 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Factory Pattern",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Factory Pattern",
+              "text": "Das Factory Pattern trennt Objekterzeugung von der Nutzung, indem ein Erzeuger Objekt Instanzen über einen Basistyp oder ein Interface zurückgibt."
+            },
+            {
+              "type": "explanation",
+              "title": "Problem und Ziel",
+              "text": [
+                "Wenn Code überall direkt mit new oder konkreten Klassen arbeitet, entsteht starke Kopplung.",
+                "Eine Factory kapselt die Erzeugungslogik an einer Stelle.",
+                "Der aufrufende Code kennt nur den Basistyp oder ein Interface und bleibt stabil bei Erweiterungen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Kernidee",
+              "text": [
+                "Rückgabe erfolgt typischerweise als Basistyp, Interface oder Smart Pointer darauf.",
+                "Die Factory entscheidet anhand von Parametern oder Konfiguration, welche konkrete Klasse instanziiert wird.",
+                "Damit werden Abhängigkeiten auf konkrete Typen aus dem restlichen Code entfernt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Basistyp und Implementierungen",
+              "language": "cpp",
+              "code": "#include <memory>\n#include <string>\n\nstruct Logger {\n    virtual ~Logger() = default;\n    virtual void log(const std::string& msg) = 0;\n};\n\nstruct ConsoleLogger : Logger {\n    void log(const std::string& msg) override;\n};\n\nstruct FileLogger : Logger {\n    void log(const std::string& msg) override;\n};"
+            },
+            {
+              "type": "code",
+              "title": "Einfache Factory Funktion",
+              "language": "cpp",
+              "code": "#include <memory>\n#include <stdexcept>\n#include <string>\n\nenum class LoggerType { Console, File };\n\nstd::unique_ptr<Logger> makeLogger(LoggerType type) {\n    switch (type) {\n        case LoggerType::Console:\n            return std::make_unique<ConsoleLogger>();\n        case LoggerType::File:\n            return std::make_unique<FileLogger>();\n        default:\n            throw std::runtime_error(\"Unbekannter LoggerType\");\n    }\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Einfache Factory vs Factory Method",
+              "text": [
+                "Einfache Factory ist oft nur eine Funktion oder Klasse mit einer create Methode, die basierend auf Parametern konkrete Typen erzeugt.",
+                "Factory Method ist ein GoF Pattern: Eine Basisklasse definiert eine virtuelle create Methode, Subklassen entscheiden welche Produkte erzeugt werden.",
+                "Factory Method passt besonders, wenn die Erzeugung Teil einer erweiterbaren Klassenhierarchie ist."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Factory Method als Muster",
+              "language": "cpp",
+              "code": "#include <memory>\n\nstruct Creator {\n    virtual ~Creator() = default;\n    virtual std::unique_ptr<Logger> createLogger() const = 0;\n};\n\nstruct ConsoleCreator : Creator {\n    std::unique_ptr<Logger> createLogger() const override {\n        return std::make_unique<ConsoleLogger>();\n    }\n};\n\nstruct FileCreator : Creator {\n    std::unique_ptr<Logger> createLogger() const override {\n        return std::make_unique<FileLogger>();\n    }\n};"
+            },
+            {
+              "type": "list",
+              "title": "Wann eine Factory sinnvoll ist",
+              "items": [
+                "Wenn der konkrete Typ je nach Konfiguration oder Laufzeit Entscheidung variiert",
+                "Wenn du den aufrufenden Code von konkreten Klassen entkoppeln willst",
+                "Wenn die Erzeugung komplex ist, zum Beispiel mit Validierung oder Abhängigkeiten",
+                "Wenn du neue Varianten hinzufügen willst, ohne überall Aufrufer anzupassen"
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wann eine Factory oft overkill ist",
+              "items": [
+                "Wenn es nur einen konkreten Typ gibt und das vermutlich so bleibt",
+                "Wenn die Erzeugung trivial ist und keine Varianten zu erwarten sind",
+                "Wenn du nur eine Abkürzung für make_unique bauen würdest",
+                "Wenn die Factory keine echte Entkopplung bringt, sondern nur Umweg erzeugt"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Einfache Factory vs Factory Method",
+              "columns": ["Einfache Factory", "Factory Method"],
+              "rows": [
+                {
+                  "aspect": "Form",
+                  "values": ["Funktion oder Klasse mit create", "Vererbung mit virtueller create Methode"]
+                },
+                {
+                  "aspect": "Erweiterung",
+                  "values": ["Meist switch oder Lookup", "Neue Creator Subklasse"]
+                },
+                {
+                  "aspect": "Komplexität",
+                  "values": ["Gering", "Höher"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Factory wird zur God Function",
+              "text": "Eine Factory, die immer weiter wächst und alle Entscheidungen und Sonderfälle enthält, wird schnell unwartbar. Dann ist sie nur eine große switch Sammelstelle ohne klare Struktur."
+            },
+            {
+              "type": "important",
+              "text": "Wenn die Factory viele Bedingungen enthält, ist das ein Signal für bessere Struktur, zum Beispiel Registrierung über Map, getrennte Creator Klassen oder klare Produktfamilien."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Trennt Objekterzeugung von Nutzung",
+                "Rückgabe über Basistyp oder Interface",
+                "Einfache Factory ist oft genug, Factory Method ist das GoF Pattern mit Vererbung",
+                "Sinnvoll bei Varianten und komplexer Erzeugung",
+                "Achte darauf, dass die Factory nicht zur God Function wird"
+              ]
+            }
           ]
         },
 
