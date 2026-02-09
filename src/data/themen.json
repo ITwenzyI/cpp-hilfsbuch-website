@@ -10556,9 +10556,101 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Pure Fabrication",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Pure Fabrication",
+              "text": "Pure Fabrication ist ein GRASP Prinzip, bei dem künstliche Klassen eingeführt werden, um Verantwortung sinnvoll zu verteilen und Kopplung zu reduzieren, obwohl sie kein direktes Fachkonzept repräsentieren."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum künstliche Klassen sinnvoll sind",
+              "text": [
+                "Nicht jede Verantwortung passt sauber in ein Fachobjekt.",
+                "Technische Aufgaben würden Fachklassen überladen.",
+                "Pure Fabrication schafft saubere Trennung zwischen Domäne und Technik."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Trennung von Fachlogik und Technik",
+              "text": [
+                "Fachklassen enthalten Geschäftsregeln und Zustände.",
+                "Technische Details werden in separate Klassen ausgelagert.",
+                "Dadurch bleiben Fachmodelle verständlich und testbar."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Ohne Pure Fabrication",
+              "language": "cpp",
+              "code": "class Patient {\npublic:\n    void saveToDatabase();\n    void loadFromDatabase();\n};"
+            },
+            {
+              "type": "code",
+              "title": "Mit Pure Fabrication",
+              "language": "cpp",
+              "code": "class Patient {\npublic:\n    bool isValid() const;\n};\n\nclass PatientRepository {\npublic:\n    void save(const Patient& patient);\n    Patient loadById(int id);\n};"
+            },
+            {
+              "type": "list",
+              "title": "Typische Beispiele",
+              "items": [
+                "Repository Klassen für Persistenz",
+                "Service Klassen für Anwendungslogik",
+                "Adapter und Mapper",
+                "Gateways zu externen Systemen"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Abgrenzung zu Information Expert",
+              "text": [
+                "Information Expert platziert Logik bei den Daten.",
+                "Pure Fabrication lagert technische oder koordinierende Aufgaben aus.",
+                "Beide Prinzipien ergänzen sich, statt sich zu widersprechen."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Pure Fabrication vs Fachklasse",
+              "columns": ["Pure Fabrication", "Fachklasse"],
+              "rows": [
+                {
+                  "aspect": "Bezug zur Domäne",
+                  "values": ["Kein direktes Fachkonzept", "Klares Fachkonzept"]
+                },
+                {
+                  "aspect": "Verantwortung",
+                  "values": ["Technisch oder koordinierend", "Geschäftslogik"]
+                },
+                {
+                  "aspect": "Testbarkeit",
+                  "values": ["Oft gut isolierbar", "Abhängig von Technik"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu viele Abstraktionen",
+              "text": "Wenn für jede Kleinigkeit eine neue Service oder Repository Klasse entsteht, wird das System unnötig komplex. Pure Fabrication darf Struktur schaffen, nicht aufblasen."
+            },
+            {
+              "type": "important",
+              "text": "Pure Fabrication ist ein Mittel zur Strukturierung, kein Selbstzweck. Jede künstliche Klasse braucht eine klare Verantwortung."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Künstliche Klassen zur besseren Strukturierung",
+                "Trennung von Fachlogik und Technik",
+                "Typische Beispiele sind Repository und Service",
+                "Ergänzt Information Expert sinnvoll",
+                "Zu viele leere Abstraktionen vermeiden"
+              ]
+            }
           ]
         }
 
