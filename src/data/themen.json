@@ -10456,9 +10456,101 @@
         },
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "High Cohesion",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "High Cohesion",
+              "text": "High Cohesion beschreibt das Ziel, dass eine Klasse eine klar abgegrenzte Aufgabe hat und ihre Methoden inhaltlich eng zusammengehören."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Eine Klasse sollte eine Sache gut machen, nicht viele Dinge halb.",
+                "Methoden einer kohäsiven Klasse arbeiten auf denselben oder eng verwandten Daten.",
+                "Hohe Kohäsion verbessert Verständlichkeit und Wartbarkeit."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Zusammenhang von Methoden und Daten",
+              "text": [
+                "Wenn Methoden überwiegend dieselben Member nutzen, ist das ein gutes Zeichen.",
+                "Methoden, die nichts miteinander zu tun haben, gehören meist nicht in dieselbe Klasse.",
+                "Getrennte Verantwortlichkeiten führen zu klareren Klassen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Lange Klassen als Warnsignal",
+              "text": [
+                "Sehr lange Klassen erfüllen oft mehrere unterschiedliche Aufgaben.",
+                "Viele private Helfermethoden deuten auf versteckte Verantwortlichkeiten hin.",
+                "Solche Klassen lassen sich meist sinnvoll zerlegen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Niedrige Kohäsion",
+              "language": "cpp",
+              "code": "class Utils {\npublic:\n    void log(const std::string& msg);\n    int calculateChecksum(const std::string& data);\n    void saveToFile(const std::string& path);\n};"
+            },
+            {
+              "type": "code",
+              "title": "Hohe Kohäsion",
+              "language": "cpp",
+              "code": "class FileWriter {\n    std::string path;\n\npublic:\n    void write(const std::string& data);\n    void append(const std::string& data);\n};"
+            },
+            {
+              "type": "list",
+              "title": "Typische Warnzeichen",
+              "items": [
+                "Klassen mit sehr vielen, thematisch unterschiedlichen Methoden",
+                "Methoden nutzen kaum gemeinsame Member",
+                "Namen wie Utils, Helper oder Common",
+                "Häufige Änderungen aus unterschiedlichen Gründen"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "High vs Low Cohesion",
+              "columns": ["High Cohesion", "Low Cohesion"],
+              "rows": [
+                {
+                  "aspect": "Verantwortung",
+                  "values": ["Klar abgegrenzt", "Diffus"]
+                },
+                {
+                  "aspect": "Wartbarkeit",
+                  "values": ["Hoch", "Niedrig"]
+                },
+                {
+                  "aspect": "Erweiterbarkeit",
+                  "values": ["Gezielt", "Unkontrolliert"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Sammelklassen",
+              "text": "Klassen, die für alles zuständig sind, verlieren schnell ihre innere Struktur. Sie werden schwer verständlich und bremsen jede Weiterentwicklung."
+            },
+            {
+              "type": "important",
+              "text": "Hohe Kohäsion und Low Coupling verstärken sich gegenseitig. Eine gute Klasse erfüllt meist beide Prinzipien gleichzeitig."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Eine Klasse macht eine Sache gut",
+                "Methoden arbeiten auf gemeinsamen Daten",
+                "Lange Klassen sind oft niedrig kohäsiv",
+                "Sammelklassen sind ein Warnsignal",
+                "High Cohesion ist zentral für sauberes Design"
+              ]
+            }
           ]
         },
 
