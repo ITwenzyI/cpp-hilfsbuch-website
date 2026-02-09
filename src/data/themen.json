@@ -10163,9 +10163,96 @@
         "icon": "🧭",
         "topics": [
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Responsibilities sinnvoll zuordnen",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Responsibility Assignment",
+              "text": "Responsibilities sinnvoll zuordnen bedeutet, jeder Klasse genau die Verantwortlichkeiten zu geben, die fachlich und semantisch zu ihr passen, ohne sie zu überladen oder beliebig zu schneiden."
+            },
+            {
+              "type": "explanation",
+              "title": "Bezug zu GRASP",
+              "text": [
+                "GRASP beschreibt grundlegende Regeln zur Zuweisung von Verantwortlichkeiten in objektorientierten Systemen.",
+                "Ziel ist hohe Kohäsion und geringe Kopplung.",
+                "Jede Klasse soll einen klaren Zweck erfüllen, der aus der Domäne ableitbar ist."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Semantische Passung von Methoden",
+              "text": [
+                "Methoden gehören in die Klasse, zu der sie inhaltlich passen.",
+                "Die Klasse sollte über die nötigen Daten verfügen, um ihre Aufgaben selbst zu erfüllen.",
+                "Fremdzugriffe und Datendurchreicherei sind oft ein Zeichen falscher Zuordnung."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Nach Verantwortung statt nach Technik schneiden",
+              "text": [
+                "Klassen sollten fachliche Konzepte repräsentieren, nicht technische Sammelstellen.",
+                "Technikbezogene Schnitte führen oft zu Klassen, die alles wissen, aber nichts wirklich verantworten.",
+                "Verantwortungsbasierter Zuschnitt erleichtert Wartung und Erweiterung."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Schlechte Verantwortungszuordnung",
+              "language": "cpp",
+              "code": "class UserManager {\npublic:\n    void validateUser();\n    void saveUser();\n    void sendEmail();\n};"
+            },
+            {
+              "type": "code",
+              "title": "Bessere Verantwortungsaufteilung",
+              "language": "cpp",
+              "code": "class User {\npublic:\n    bool isValid() const;\n};\n\nclass UserRepository {\npublic:\n    void save(const User& user);\n};\n\nclass EmailService {\npublic:\n    void sendWelcomeMail(const User& user);\n};"
+            },
+            {
+              "type": "list",
+              "title": "Typische Warnzeichen",
+              "items": [
+                "Klassen mit Namen wie Utils, Helper oder Manager",
+                "Sehr viele Methoden mit völlig unterschiedlichen Aufgaben",
+                "Methoden greifen überwiegend auf fremde Objekte zu",
+                "Häufige Änderungen an einer zentralen Klasse"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Gute vs schlechte Verantwortungszuordnung",
+              "columns": ["Gute Zuordnung", "Schlechte Zuordnung"],
+              "rows": [
+                {
+                  "aspect": "Kohäsion",
+                  "values": ["Hoch", "Niedrig"]
+                },
+                {
+                  "aspect": "Erweiterbarkeit",
+                  "values": ["Lokal", "Global"]
+                },
+                {
+                  "aspect": "Verständlichkeit",
+                  "values": ["Klare Zuständigkeiten", "Unklare Sammelklassen"]
+                }
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Wenn du einer Klasse nicht in einem Satz erklären kannst, wofür sie verantwortlich ist, ist sie wahrscheinlich falsch geschnitten."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Responsibilities bewusst und fachlich zuordnen",
+                "GRASP hilft bei der Entscheidungsfindung",
+                "Methoden müssen semantisch zur Klasse passen",
+                "Nach Verantwortung schneiden, nicht nach Technik",
+                "Utils und Manager sind meist Warnsignale"
+              ]
+            }
           ]
         },
 
