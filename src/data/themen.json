@@ -10039,18 +10039,116 @@
           ]
         },
 
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
-          ]
-        },
-
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "RAII als Design Pattern",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "RAII",
+              "text": "RAII bindet den Besitz einer Ressource strikt an die Lebensdauer eines Objekts. Wird das Objekt erzeugt, wird die Ressource erworben. Wird es zerstört, wird die Ressource freigegeben."
+            },
+            {
+              "type": "explanation",
+              "title": "Kernprinzip",
+              "text": [
+                "Der Konstruktor ist für den Erwerb der Ressource zuständig.",
+                "Der Destruktor gibt die Ressource garantiert frei.",
+                "Freigabe erfolgt deterministisch beim Verlassen des Gültigkeitsbereichs."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Warum RAII funktioniert",
+              "text": [
+                "Objektlebensdauer ist klar definiert und wird vom Compiler verwaltet.",
+                "Destruktoren werden auch bei Exceptions zuverlässig aufgerufen.",
+                "Ressourcenlecks werden strukturell verhindert, nicht nur konventionell."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "RAII mit Speicher",
+              "language": "cpp",
+              "code": "#include <memory>\n\nvoid example() {\n    auto ptr = std::make_unique<int>(42);\n    // Speicher wird automatisch freigegeben\n}"
+            },
+            {
+              "type": "code",
+              "title": "RAII mit Datei",
+              "language": "cpp",
+              "code": "#include <fstream>\n\nvoid writeFile() {\n    std::ofstream file(\"data.txt\");\n    file << \"Hallo\";\n    // Datei wird im Destruktor geschlossen\n}"
+            },
+            {
+              "type": "code",
+              "title": "RAII mit Lock",
+              "language": "cpp",
+              "code": "#include <mutex>\n\nstd::mutex m;\n\nvoid criticalSection() {\n    std::lock_guard<std::mutex> lock(m);\n    // Mutex ist hier gesperrt\n    // Automatische Freigabe am Blockende\n}"
+            },
+            {
+              "type": "code",
+              "title": "RAII mit Datenbank Statement",
+              "language": "cpp",
+              "code": "#include <sqlite3.h>\n\nclass Statement {\n    sqlite3_stmt* stmt = nullptr;\n\npublic:\n    Statement(sqlite3* db, const char* sql) {\n        sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr);\n    }\n\n    ~Statement() {\n        if (stmt) {\n            sqlite3_finalize(stmt);\n        }\n    }\n};"
+            },
+            {
+              "type": "explanation",
+              "title": "RAII statt try catch Cleanup",
+              "text": [
+                "Manuelles Cleanup mit try catch ist fehleranfällig und schwer wartbar.",
+                "RAII verschiebt Cleanup Logik in Destruktoren.",
+                "Der Code bleibt linear und übersichtlich, ohne doppelte Freigaben."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "RAII vs manuelles Cleanup",
+              "columns": ["RAII", "Manuelles Cleanup"],
+              "rows": [
+                {
+                  "aspect": "Exception Sicherheit",
+                  "values": ["Garantiert", "Oft fehlerhaft"]
+                },
+                {
+                  "aspect": "Lesbarkeit",
+                  "values": ["Klarer Kontrollfluss", "Viele Sonderfälle"]
+                },
+                {
+                  "aspect": "Wartbarkeit",
+                  "values": ["Hoch", "Niedrig"]
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Einsatzbereiche",
+              "items": [
+                "Dynamischer Speicher",
+                "Datei und Stream Verwaltung",
+                "Mutexe und Locks",
+                "Datenbank Verbindungen und Statements",
+                "Netzwerk Sockets"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Unklare Ownership",
+              "text": "Rohe Pointer ohne klaren Besitz führen dazu, dass RAII ausgehebelt wird. Ownership muss eindeutig sein, zum Beispiel über unique_ptr oder klar dokumentierte Wrapper."
+            },
+            {
+              "type": "important",
+              "text": "RAII ist kein Feature, sondern ein zentrales Entwurfsprinzip von C++. Ohne RAII ist moderner C++ Code kaum robust."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Ressourcen sind an Objektlebensdauer gebunden",
+                "Konstruktor erwirbt, Destruktor gibt frei",
+                "Funktioniert für Speicher, Dateien, Locks und Datenbanken",
+                "Besser als manuelles try catch Cleanup",
+                "Klare Ownership ist zwingend notwendig"
+              ]
+            }
           ]
         }
 
