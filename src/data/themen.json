@@ -10666,9 +10666,91 @@
         "icon": "📏",
         "topics": [
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Single Responsibility Principle",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Single Responsibility Principle",
+              "text": "Das Single Responsibility Principle besagt, dass eine Klasse genau einen Grund zur Änderung haben sollte, also für genau eine fachliche Verantwortung zuständig ist."
+            },
+            {
+              "type": "explanation",
+              "title": "Was SRP wirklich meint",
+              "text": [
+                "SRP bezieht sich auf Gründe für Änderungen, nicht auf die Anzahl der Methoden.",
+                "Eine Klasse darf viele Methoden haben, solange sie alle demselben Zweck dienen.",
+                "Unterschiedliche Änderungsgründe deuten auf mehrere Verantwortlichkeiten hin."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Fachliche Verantwortung im Fokus",
+              "text": [
+                "Verantwortlichkeiten sollten aus der Domäne ableitbar sein.",
+                "Technische und fachliche Gründe zur Änderung sollten getrennt werden.",
+                "SRP unterstützt stabile und verständliche Klassen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "SRP verletzt",
+              "language": "cpp",
+              "code": "class Report {\npublic:\n    void generate();\n    void print();\n    void saveToFile();\n};"
+            },
+            {
+              "type": "code",
+              "title": "SRP eingehalten",
+              "language": "cpp",
+              "code": "class Report {\npublic:\n    void generate();\n};\n\nclass ReportPrinter {\npublic:\n    void print(const Report& report);\n};\n\nclass ReportRepository {\npublic:\n    void save(const Report& report);\n};"
+            },
+            {
+              "type": "explanation",
+              "title": "Änderungsgründe erkennen",
+              "text": [
+                "Frage: Wer fordert diese Änderung und warum",
+                "Wenn verschiedene Stakeholder unterschiedliche Änderungen auslösen, ist SRP verletzt.",
+                "SRP hilft, Auswirkungen von Änderungen klein zu halten."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "SRP korrekt vs falsch verstanden",
+              "columns": ["SRP korrekt", "SRP falsch verstanden"],
+              "rows": [
+                {
+                  "aspect": "Kriterium",
+                  "values": ["Änderungsgrund", "Methodenanzahl"]
+                },
+                {
+                  "aspect": "Ziel",
+                  "values": ["Stabile Verantwortung", "Kleine Klassen um jeden Preis"]
+                },
+                {
+                  "aspect": "Ergebnis",
+                  "values": ["Wartbarer Code", "Zersplittertes Design"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Eine Methode pro Klasse",
+              "text": "SRP bedeutet nicht, dass jede Klasse nur eine Methode haben darf. Diese Fehlinterpretation führt zu unnötig vielen Klassen ohne echten Mehrwert."
+            },
+            {
+              "type": "important",
+              "text": "Wenn du eine Klasse aus mehreren fachlichen Gründen ändern müsstest, verletzt sie sehr wahrscheinlich das SRP."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Eine Klasse hat genau einen Grund zur Änderung",
+                "SRP bezieht sich auf Verantwortung, nicht auf Methodenanzahl",
+                "Fachliche Gründe sind entscheidend",
+                "Technik und Fachlogik sauber trennen",
+                "SRP nicht mit Mini Klassen verwechseln"
+              ]
+            }
           ]
         },
 
