@@ -10258,9 +10258,101 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Information Expert",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Information Expert",
+              "text": "Information Expert ist ein GRASP Prinzip, bei dem die Verantwortung für eine Aufgabe der Klasse zugewiesen wird, die über die meisten relevanten Informationen dafür verfügt."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Daten und das dazugehörige Verhalten sollen zusammenliegen.",
+                "Eine Klasse, die die benötigten Informationen besitzt, kann Aufgaben selbstständig erfüllen.",
+                "Dadurch werden Abhängigkeiten reduziert und der Code bleibt kohärent."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Warum das Prinzip wichtig ist",
+              "text": [
+                "Externe Logik benötigt oft viele Getter, um an notwendige Daten zu kommen.",
+                "Getter Orgie ist ein Hinweis auf falsch verteilte Verantwortlichkeiten.",
+                "Information Expert verhindert anemische Domänenmodelle."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Schlechte Anwendung",
+              "language": "cpp",
+              "code": "class Order {\npublic:\n    double getNetPrice() const;\n    double getTaxRate() const;\n};\n\nclass PriceCalculator {\npublic:\n    double calculateTotal(const Order& order) const {\n        return order.getNetPrice() * (1 + order.getTaxRate());\n    }\n};"
+            },
+            {
+              "type": "code",
+              "title": "Information Expert angewendet",
+              "language": "cpp",
+              "code": "class Order {\n    double netPrice;\n    double taxRate;\n\npublic:\n    double totalPrice() const {\n        return netPrice * (1 + taxRate);\n    }\n};"
+            },
+            {
+              "type": "explanation",
+              "title": "Auswirkungen auf das Design",
+              "text": [
+                "Klassen werden selbstverantwortlich statt datenhaltend.",
+                "Logik bleibt nahe an den Daten, die sie benötigt.",
+                "Änderungen betreffen weniger Klassen gleichzeitig."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Anwendungsfälle",
+              "items": [
+                "Berechnungen auf eigenen Attributen",
+                "Validierungen interner Zustände",
+                "Ableitung von Zuständen oder Statuswerten",
+                "Domänenlogik in Fachobjekten"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Information Expert vs externer Rechner",
+              "columns": ["Information Expert", "Externe Logik"],
+              "rows": [
+                {
+                  "aspect": "Datenzugriff",
+                  "values": ["Direkt intern", "Über viele Getter"]
+                },
+                {
+                  "aspect": "Kopplung",
+                  "values": ["Gering", "Hoch"]
+                },
+                {
+                  "aspect": "Änderungsaufwand",
+                  "values": ["Lokal", "Über mehrere Klassen"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Logik im falschen Objekt",
+              "text": "Wenn Berechnungen oder Regeln in Klassen landen, die die zugrunde liegenden Daten nicht besitzen, entsteht unnötige Kopplung und schlechtere Wartbarkeit."
+            },
+            {
+              "type": "important",
+              "text": "Information Expert bedeutet nicht, dass jede Klasse alles selbst macht. Wenn Daten verteilt sind, kann ein Koordinator sinnvoll sein."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Verantwortung zur Klasse mit den meisten relevanten Informationen",
+                "Daten und Verhalten gehören zusammen",
+                "Vermeidet Getter Orgie",
+                "Stärkt Domänenlogik in Fachklassen",
+                "Logik im falschen Objekt ist ein klares Warnsignal"
+              ]
+            }
           ]
         },
 
