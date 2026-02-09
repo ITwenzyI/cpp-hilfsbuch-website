@@ -10358,9 +10358,100 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Low Coupling",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Low Coupling",
+              "text": "Low Coupling beschreibt das Ziel, Klassen so zu entwerfen, dass sie möglichst wenig über andere Klassen wissen und nur minimale, stabile Abhängigkeiten besitzen."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Je weniger Abhängigkeiten eine Klasse hat, desto einfacher ist sie zu ändern.",
+                "Geringe Kopplung reduziert Kettenreaktionen bei Anpassungen.",
+                "Klassen sollen nur das wissen, was sie wirklich brauchen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Abhängigkeiten richtig gestalten",
+              "text": [
+                "Abhängigkeiten sollten über Interfaces oder abstrakte Basistypen erfolgen.",
+                "Konkrete Implementierungen werden idealerweise von außen injiziert.",
+                "So bleibt der Code offen für Erweiterung, aber stabil bei Änderungen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Header Abhängigkeiten reduzieren",
+              "text": [
+                "Jeder Include im Header erhöht die Kopplung und die Compile Zeit.",
+                "Vorwärtsdeklarationen reichen oft aus.",
+                "Includes gehören möglichst in die cpp Datei."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Stark gekoppelt",
+              "language": "cpp",
+              "code": "#include \"FileLogger.h\"\n\nclass Service {\n    FileLogger logger;\n};"
+            },
+            {
+              "type": "code",
+              "title": "Locker gekoppelt",
+              "language": "cpp",
+              "code": "class Logger;\n\nclass Service {\n    Logger* logger;\n};"
+            },
+            {
+              "type": "explanation",
+              "title": "Auswirkungen auf Wartbarkeit",
+              "text": [
+                "Änderungen an einer Klasse erzwingen weniger Rebuilds.",
+                "Klassen lassen sich isoliert testen.",
+                "Architekturen bleiben länger stabil."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Low Coupling vs High Coupling",
+              "columns": ["Low Coupling", "High Coupling"],
+              "rows": [
+                {
+                  "aspect": "Änderungsfolgen",
+                  "values": ["Lokal begrenzt", "Weitreichend"]
+                },
+                {
+                  "aspect": "Testbarkeit",
+                  "values": ["Einfach", "Schwierig"]
+                },
+                {
+                  "aspect": "Flexibilität",
+                  "values": ["Hoch", "Gering"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Harte Abhängigkeiten",
+              "text": "Direkte Abhängigkeiten von konkreten Typen zementieren die Architektur. Jede Änderung zwingt zur Anpassung vieler Stellen."
+            },
+            {
+              "type": "important",
+              "text": "Low Coupling bedeutet nicht keine Abhängigkeiten. Es geht um wenige, stabile und bewusst gewählte Abhängigkeiten."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Klassen wissen so wenig wie möglich voneinander",
+                "Abhängigkeiten über Interfaces statt konkrete Typen",
+                "Includes im Header minimieren",
+                "Bessere Testbarkeit und Wartbarkeit",
+                "Harte Abhängigkeiten sind ein zentrales Warnsignal"
+              ]
+            }
           ]
         },
 
