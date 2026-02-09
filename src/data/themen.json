@@ -9935,9 +9935,107 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Adapter Pattern",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Adapter Pattern",
+              "text": "Das Adapter Pattern passt eine bestehende, inkompatible Schnittstelle an eine erwartete API an, ohne den bestehenden Code zu verändern."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Vorhandene Klassen oder externe Libraries passen oft nicht zur eigenen Schnittstelle.",
+                "Statt fremden oder alten Code umzubauen, wird ein Adapter als Wrapper dazwischen gesetzt.",
+                "Der Adapter übersetzt Aufrufe von der gewünschten Schnittstelle zur vorhandenen Implementierung."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Struktur",
+              "text": [
+                "Target Interface: Die Schnittstelle, die der eigene Code erwartet.",
+                "Adaptee: Die bestehende Klasse mit inkompatibler API.",
+                "Adapter: Implementiert das Target Interface und delegiert intern an den Adaptee."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Target Interface",
+              "language": "cpp",
+              "code": "#include <string>\n\nstruct Printer {\n    virtual ~Printer() = default;\n    virtual void print(const std::string& text) = 0;\n};"
+            },
+            {
+              "type": "code",
+              "title": "Fremde oder Legacy Klasse",
+              "language": "cpp",
+              "code": "#include <string>\n\nclass LegacyPrinter {\npublic:\n    void outputText(const std::string& text) {\n        // alte Implementierung\n    }\n};"
+            },
+            {
+              "type": "code",
+              "title": "Adapter als Wrapper",
+              "language": "cpp",
+              "code": "#include <memory>\n\nclass PrinterAdapter : public Printer {\n    LegacyPrinter legacy;\n\npublic:\n    void print(const std::string& text) override {\n        legacy.outputText(text);\n    }\n};"
+            },
+            {
+              "type": "explanation",
+              "title": "Warum Adapter statt Umbau",
+              "text": [
+                "Externe Libraries dürfen oder können oft nicht verändert werden.",
+                "Legacy Code ist häufig riskant anzupassen.",
+                "Der Adapter kapselt die Abweichung und hält den Rest des Systems sauber."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Einsatzfälle",
+              "items": [
+                "Integration externer Libraries",
+                "Anbindung von Legacy Code",
+                "Migration alter APIs auf neue Schnittstellen",
+                "Vereinheitlichung unterschiedlicher Schnittstellen"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Adapter vs direkter Umbau",
+              "columns": ["Adapter Pattern", "Direkter Umbau"],
+              "rows": [
+                {
+                  "aspect": "Risiko",
+                  "values": ["Gering", "Hoch bei Legacy Code"]
+                },
+                {
+                  "aspect": "Änderungen",
+                  "values": ["Isoliert im Adapter", "Überall im Code"]
+                },
+                {
+                  "aspect": "Wartbarkeit",
+                  "values": ["Klare Trennung", "Oft schlechter"]
+                }
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Ein Adapter sollte möglichst dünn sein und nur übersetzen, nicht selbst Entscheidungen treffen."
+            },
+            {
+              "type": "pitfall",
+              "title": "Logik im Adapter verstecken",
+              "text": "Wenn Geschäftslogik im Adapter landet, wird er schwer verständlich und verletzt die Trennung der Verantwortlichkeiten. Der Adapter ist keine Ersatz Implementierung."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Passt fremde Schnittstellen an eigene APIs an",
+                "Wrapper statt Änderungen am bestehenden Code",
+                "Besonders nützlich bei Libraries und Legacy Code",
+                "Adapter als dünne Übersetzungsschicht halten",
+                "Keine Geschäftslogik im Adapter verstecken"
+              ]
+            }
           ]
         },
 
