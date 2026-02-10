@@ -9835,15 +9835,21 @@
             },
             {
               "type": "code",
-              "title": "Basistyp und Implementierungen",
+              "title": "Factory Pattern: Produkt-Interface und konkrete Logger",
               "language": "cpp",
-              "code": "#include <memory>\n#include <string>\n\nstruct Logger {\n    virtual ~Logger() = default;\n    virtual void log(const std::string& msg) = 0;\n};\n\nstruct ConsoleLogger : Logger {\n    void log(const std::string& msg) override;\n};\n\nstruct FileLogger : Logger {\n    void log(const std::string& msg) override;\n};"
+              "code": "#include <iostream>\n#include <fstream>\n#include <memory>\n#include <string>\n\n// Produkt-Interface\nstruct Logger {\n    virtual ~Logger() = default;\n    virtual void log(const std::string& msg) = 0;\n};\n\n// Konkretes Produkt 1: Konsole\nclass ConsoleLogger : public Logger {\npublic:\n    void log(const std::string& msg) override {\n        std::cout << \"[console] \" << msg << '\\n';\n    }\n};\n\n// Konkretes Produkt 2: Datei\nclass FileLogger : public Logger {\n    std::ofstream file; // Ressource: Datei-Handle\n\npublic:\n    explicit FileLogger(const std::string& path)\n        : file(path, std::ios::app) {\n        // In echter Software würdest du hier prüfen, ob file geöffnet ist.\n    }\n\n    void log(const std::string& msg) override {\n        file << \"[file] \" << msg << '\\n';\n        file.flush();\n    }\n};\n"
             },
             {
               "type": "code",
-              "title": "Einfache Factory Funktion",
+              "title": "Einfache Factory: Erzeugung zentral an einer Stelle",
               "language": "cpp",
-              "code": "#include <memory>\n#include <stdexcept>\n#include <string>\n\nenum class LoggerType { Console, File };\n\nstd::unique_ptr<Logger> makeLogger(LoggerType type) {\n    switch (type) {\n        case LoggerType::Console:\n            return std::make_unique<ConsoleLogger>();\n        case LoggerType::File:\n            return std::make_unique<FileLogger>();\n        default:\n            throw std::runtime_error(\"Unbekannter LoggerType\");\n    }\n}"
+              "code": "#include <memory>\n#include <stdexcept>\n#include <string>\n\nenum class LoggerType { Console, File };\n\n// Factory nimmt nicht nur \"welcher Typ\", sondern auch Konfiguration entgegen.\n// Genau hier liegt der Praxisnutzen: Erzeugungsdetails bleiben aus dem restlichen Code raus.\nstd::unique_ptr<Logger> makeLogger(LoggerType type, const std::string& filePath = \"\") {\n    switch (type) {\n        case LoggerType::Console:\n            return std::make_unique<ConsoleLogger>();\n\n        case LoggerType::File:\n            if (filePath.empty()) {\n                throw std::runtime_error(\"FileLogger braucht einen Dateipfad\");\n            }\n            return std::make_unique<FileLogger>(filePath);\n\n        default:\n            throw std::runtime_error(\"Unbekannter LoggerType\");\n    }\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "Factory nutzen: Rest des Codes kennt keine konkreten Logger",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <memory>\n#include <string>\n\n// Beispiel: Service hängt nur vom Interface Logger ab (DIP kompatibel)\nclass Service {\n    Logger& logger;\n\npublic:\n    explicit Service(Logger& l) : logger(l) {}\n\n    void doWork() {\n        logger.log(\"Service startet\");\n        logger.log(\"Service erledigt Arbeit\");\n    }\n};\n\nint main() {\n    // Entscheidung über konkrete Klasse passiert an EINER Stelle\n    // (z.B. Konfiguration, CLI-Argumente, Build-Mode, Env Vars)\n    auto logger = makeLogger(LoggerType::Console);\n\n    Service s(*logger);\n    s.doWork();\n\n    // Wechsel: ohne Service anzufassen\n    auto fileLogger = makeLogger(LoggerType::File, \"app.log\");\n    Service s2(*fileLogger);\n    s2.doWork();\n}\n"
             },
             {
               "type": "explanation",
