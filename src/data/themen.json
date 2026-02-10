@@ -10756,9 +10756,97 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Dependency Inversion Principle",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Dependency Inversion Principle",
+              "text": "Das Dependency Inversion Principle besagt, dass High Level Module nicht von Low Level Modulen abhängen sollen, sondern beide von Abstraktionen."
+            },
+            {
+              "type": "explanation",
+              "title": "Kernidee",
+              "text": [
+                "Geschäftslogik darf keine konkreten Implementierungsdetails kennen.",
+                "Details wie Datenbanken, Dateien oder Netzwerke hängen von Interfaces ab.",
+                "Abhängigkeiten zeigen nach innen zur Abstraktion, nicht nach außen zu Details."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "High Level vs Low Level",
+              "text": [
+                "High Level Code beschreibt, was das System tut.",
+                "Low Level Code beschreibt, wie es technisch umgesetzt wird.",
+                "DIP entkoppelt diese Ebenen sauber."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "DIP verletzt",
+              "language": "cpp",
+              "code": "class FileLogger {\npublic:\n    void log(const std::string& msg);\n};\n\nclass Service {\n    FileLogger logger;\n};"
+            },
+            {
+              "type": "code",
+              "title": "DIP angewendet mit Abstraktion",
+              "language": "cpp",
+              "code": "struct Logger {\n    virtual ~Logger() = default;\n    virtual void log(const std::string& msg) = 0;\n};\n\nclass Service {\n    Logger& logger;\n\npublic:\n    explicit Service(Logger& l) : logger(l) {}\n};"
+            },
+            {
+              "type": "explanation",
+              "title": "Konstruktor Injection",
+              "text": [
+                "Abhängigkeiten werden von außen über den Konstruktor übergeben.",
+                "Der Code enthält kein new und entscheidet nicht über konkrete Typen.",
+                "Tests können einfache Mocks oder Stubs verwenden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Konstruktor Injection in der Praxis",
+              "language": "cpp",
+              "code": "void run(Service& service);\n\nint main() {\n    ConsoleLogger logger;\n    Service service(logger);\n}"
+            },
+            {
+              "type": "comparison",
+              "title": "Dependency Inversion vs direkte Abhängigkeit",
+              "columns": ["DIP", "Direkte Abhängigkeit"],
+              "rows": [
+                {
+                  "aspect": "Kopplung",
+                  "values": ["Gering", "Hoch"]
+                },
+                {
+                  "aspect": "Testbarkeit",
+                  "values": ["Einfach", "Schwierig"]
+                },
+                {
+                  "aspect": "Austauschbarkeit",
+                  "values": ["Hoch", "Gering"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Interfaces ohne Nutzen",
+              "text": "Interfaces nur für die Form einzuführen bringt keinen Mehrwert. Wenn es keine echten Varianten gibt oder geben wird, ist DIP oft unnötig."
+            },
+            {
+              "type": "important",
+              "text": "DIP ist ein Werkzeug zur Entkopplung, kein Dogma. Es lohnt sich dort, wo sich Details ändern oder austauschen lassen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Abhängigkeiten auf Abstraktionen statt konkrete Typen",
+                "High Level Code kennt keine Details",
+                "Konstruktor Injection statt new im Code",
+                "Verbessert Testbarkeit und Erweiterbarkeit",
+                "Interfaces ohne echten Nutzen vermeiden"
+              ]
+            }
           ]
         },
 
