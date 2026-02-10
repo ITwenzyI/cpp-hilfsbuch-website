@@ -10075,21 +10075,21 @@
             },
             {
               "type": "code",
-              "title": "RAII mit Datei",
+              "title": "Ohne eigenes RAII: Datei-Logik und Ablauf vermischt",
               "language": "cpp",
-              "code": "#include <fstream>\n\nvoid writeFile() {\n    std::ofstream file(\"data.txt\");\n    file << \"Hallo\";\n    // Datei wird im Destruktor geschlossen\n}"
+              "code": "#include <fstream>\n#include <stdexcept>\n\nvoid badExample(bool fail) {\n    std::ofstream file(\"log.txt\");\n\n    if (!file.is_open()) {\n        throw std::runtime_error(\"Datei konnte nicht geöffnet werden\");\n    }\n\n    file << \"Start\" << '\\n';\n\n    if (fail) {\n        // Early return / throw\n        // Datei wird zwar von ofstream geschlossen,\n        // aber die Logik ist überall verstreut\n        return;\n    }\n\n    file << \"Ende\" << '\\n';\n}\n"
             },
             {
               "type": "code",
-              "title": "RAII mit Lock",
+              "title": "RAII: Eigener Logger kapselt std::ofstream sauber",
               "language": "cpp",
-              "code": "#include <mutex>\n\nstd::mutex m;\n\nvoid criticalSection() {\n    std::lock_guard<std::mutex> lock(m);\n    // Mutex ist hier gesperrt\n    // Automatische Freigabe am Blockende\n}"
+              "code": "#include <fstream>\n#include <stdexcept>\n#include <string>\n\nclass FileLogger {\n    std::ofstream file; // Ressource gehört dieser Klasse\n\npublic:\n    // Konstruktor: Ressource erwerben\n    explicit FileLogger(const std::string& path)\n        : file(path, std::ios::app) {\n        if (!file.is_open()) {\n            throw std::runtime_error(\"Datei konnte nicht geöffnet werden\");\n        }\n    }\n\n    // Destruktor: Ressource automatisch freigeben\n    // std::ofstream schließt die Datei selbstständig\n    ~FileLogger() = default;\n\n    // Kopieren verbieten (eine Datei, ein Besitzer)\n    FileLogger(const FileLogger&) = delete;\n    FileLogger& operator=(const FileLogger&) = delete;\n\n    // Move erlauben (Besitzübertragung)\n    FileLogger(FileLogger&&) = default;\n    FileLogger& operator=(FileLogger&&) = default;\n\n    void log(const std::string& msg) {\n        file << msg << '\\n';\n    }\n};\n"
             },
             {
               "type": "code",
-              "title": "RAII mit Datenbank Statement",
+              "title": "RAII Vorteil: Datei wird auch bei Exception korrekt geschlossen",
               "language": "cpp",
-              "code": "#include <sqlite3.h>\n\nclass Statement {\n    sqlite3_stmt* stmt = nullptr;\n\npublic:\n    Statement(sqlite3* db, const char* sql) {\n        sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr);\n    }\n\n    ~Statement() {\n        if (stmt) {\n            sqlite3_finalize(stmt);\n        }\n    }\n};"
+              "code": "#include <iostream>\n#include <stdexcept>\n\nint main() {\n    try {\n        FileLogger logger(\"log.txt\");\n        logger.log(\"Start\");\n\n        // Fehler mitten im Ablauf\n        throw std::runtime_error(\"Fehler während der Verarbeitung\");\n\n        logger.log(\"Ende\"); // wird nie erreicht\n    } catch (const std::exception& e) {\n        std::cout << \"Fehler: \" << e.what() << '\\n';\n    }\n\n    // Datei ist hier garantiert geschlossen,\n    // weil der Destruktor von FileLogger beim Scope-Ende läuft\n}\n"
             },
             {
               "type": "explanation",
