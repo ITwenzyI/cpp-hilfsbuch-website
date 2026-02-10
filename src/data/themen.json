@@ -9957,21 +9957,27 @@
             },
             {
               "type": "code",
-              "title": "Target Interface",
+              "title": "Adapter Pattern: Target Interface (was der Client erwartet)",
               "language": "cpp",
-              "code": "#include <string>\n\nstruct Printer {\n    virtual ~Printer() = default;\n    virtual void print(const std::string& text) = 0;\n};"
+              "code": "#include <string>\n\n// Target: so möchte dein neuer Code arbeiten\nstruct Printer {\n    virtual ~Printer() = default;\n\n    // Erwartet: eine einfache print Methode\n    virtual void print(const std::string& text) = 0;\n};\n"
             },
             {
               "type": "code",
-              "title": "Fremde oder Legacy Klasse",
+              "title": "Adapter Pattern: Legacy Klasse (Adaptee) mit inkompatibler API",
               "language": "cpp",
-              "code": "#include <string>\n\nclass LegacyPrinter {\npublic:\n    void outputText(const std::string& text) {\n        // alte Implementierung\n    }\n};"
+              "code": "#include <iostream>\n#include <string>\n\n// Legacy: existiert schon, darf oder willst du nicht ändern\nclass LegacyPrinter {\npublic:\n    // Inkompatibel:\n    // - anderer Name\n    // - erwartet ein Prefix separat\n    // - gibt bool zurück (Erfolg)\n    bool outputText(const std::string& prefix, const std::string& text) {\n        std::cout << prefix << text << '\\n';\n        return true;\n    }\n};\n"
             },
             {
               "type": "code",
-              "title": "Adapter als Wrapper",
+              "title": "Adapter Pattern: Objekt-Adapter (Komposition) übersetzt die Schnittstelle",
               "language": "cpp",
-              "code": "#include <memory>\n\nclass PrinterAdapter : public Printer {\n    LegacyPrinter legacy;\n\npublic:\n    void print(const std::string& text) override {\n        legacy.outputText(text);\n    }\n};"
+              "code": "#include <memory>\n#include <stdexcept>\n#include <string>\n\n// Adapter: implementiert Target (Printer)\n// und nutzt intern den LegacyPrinter (Adaptee)\nclass PrinterAdapter : public Printer {\n    LegacyPrinter legacy;          // der alte Drucker\n    std::string fixedPrefix;       // Adapter kann zusätzlich konfigurieren\n\npublic:\n    explicit PrinterAdapter(std::string prefix)\n        : fixedPrefix(std::move(prefix)) {}\n\n    void print(const std::string& text) override {\n        // Übersetzung:\n        // Target: print(text)\n        // Legacy: outputText(prefix, text) -> bool\n        bool ok = legacy.outputText(fixedPrefix, text);\n\n        // Optional: Legacy Rückgabewert in moderne Fehlerbehandlung übersetzen\n        if (!ok) {\n            throw std::runtime_error(\"LegacyPrinter konnte nicht drucken\");\n        }\n    }\n};\n"
+            },
+            {
+              "type": "code",
+              "title": "Adapter Pattern: Client benutzt nur das Target Interface",
+              "language": "cpp",
+              "code": "#include <iostream>\n#include <memory>\n\n// Client Funktion: erwartet nur Printer\nvoid runPrintJob(Printer& printer) {\n    printer.print(\"Hello Adapter\");\n}\n\nint main() {\n    // Wir nehmen Legacy Code, ohne ihn anzufassen,\n    // und machen ihn kompatibel zum Target Interface.\n    PrinterAdapter adapter(\"[legacy] \");\n\n    runPrintJob(adapter);\n\n    // Ausgabe:\n    // [legacy] Hello Adapter\n}\n"
             },
             {
               "type": "explanation",
