@@ -10784,15 +10784,9 @@
             },
             {
               "type": "code",
-              "title": "DIP verletzt",
+              "title": "DIP verletzt: Service hängt direkt von konkreten Details ab",
               "language": "cpp",
-              "code": "class FileLogger {\npublic:\n    void log(const std::string& msg);\n};\n\nclass Service {\n    FileLogger logger;\n};"
-            },
-            {
-              "type": "code",
-              "title": "DIP angewendet mit Abstraktion",
-              "language": "cpp",
-              "code": "struct Logger {\n    virtual ~Logger() = default;\n    virtual void log(const std::string& msg) = 0;\n};\n\nclass Service {\n    Logger& logger;\n\npublic:\n    explicit Service(Logger& l) : logger(l) {}\n};"
+              "code": "#include <iostream>\n#include <string>\n\n// Detail: konkrete Implementierung\nclass FileLogger {\npublic:\n    void log(const std::string& msg) {\n        // Stell dir vor: schreibt in eine Datei\n        std::cout << \"[file] \" << msg << '\\n';\n    }\n};\n\n// High-Level: Business-Logik\n// Problem: Service ist fest an FileLogger gekoppelt.\n// - Keine Alternative (Console, Netzwerk, Test)\n// - Schwer testbar (echte Datei / echtes IO)\nclass OrderService {\n    FileLogger logger; // direkte Abhängigkeit auf Detail\n\npublic:\n    void createOrder() {\n        // Business-Logik ...\n        logger.log(\"Order erstellt\");\n    }\n};\n"
             },
             {
               "type": "explanation",
@@ -10805,9 +10799,9 @@
             },
             {
               "type": "code",
-              "title": "Konstruktor Injection in der Praxis",
+              "title": "DIP korrekt: Service hängt von einer Abstraktion ab (Constructor Injection)",
               "language": "cpp",
-              "code": "void run(Service& service);\n\nint main() {\n    ConsoleLogger logger;\n    Service service(logger);\n}"
+              "code": "#include <iostream>\n#include <string>\n#include <vector>\n\n// 1) Abstraktion: High-Level Code kennt nur dieses Interface\nstruct ILogger {\n    virtual ~ILogger() = default;\n    virtual void log(const std::string& msg) = 0;\n};\n\n// 2) Details: konkrete Implementierungen hängen von der Abstraktion ab\nclass ConsoleLogger : public ILogger {\npublic:\n    void log(const std::string& msg) override {\n        std::cout << \"[console] \" << msg << '\\n';\n    }\n};\n\nclass FileLogger : public ILogger {\npublic:\n    void log(const std::string& msg) override {\n        // Stell dir vor: schreibt in eine Datei\n        std::cout << \"[file] \" << msg << '\\n';\n    }\n};\n\n// 3) High-Level Modul: Business-Logik\n// Hängt nur von ILogger ab, nicht von ConsoleLogger/FileLogger.\nclass OrderService {\n    ILogger& logger; // Abhängigkeit auf Abstraktion\n\npublic:\n    explicit OrderService(ILogger& l) : logger(l) {}\n\n    void createOrder() {\n        // Business-Logik ...\n        logger.log(\"Order erstellt\");\n    }\n};\n\n// 4) Test-Double: Fake Logger für Tests (kein IO)\nclass FakeLogger : public ILogger {\npublic:\n    std::vector<std::string> messages;\n\n    void log(const std::string& msg) override {\n        messages.push_back(msg);\n    }\n};\n\nint main() {\n    // \"Composition Root\": Hier wird entschieden, welche Details benutzt werden.\n    ConsoleLogger console;\n    OrderService service(console);\n    service.createOrder();\n\n    // Test-Szenario: Service bleibt unverändert, nur Logger wird ersetzt\n    FakeLogger fake;\n    OrderService testService(fake);\n    testService.createOrder();\n\n    // Im Test könntest du jetzt prüfen:\n    // fake.messages[0] == \"Order erstellt\"\n    std::cout << \"FakeLogger hat \" << fake.messages.size() << \" Nachricht(en)\" << '\\n';\n}\n"
             },
             {
               "type": "comparison",
