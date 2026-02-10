@@ -10493,15 +10493,15 @@
             },
             {
               "type": "code",
-              "title": "Niedrige Kohäsion",
+              "title": "Niedrige Kohäsion: Utils mischt unzusammenhängende Aufgaben",
               "language": "cpp",
-              "code": "class Utils {\npublic:\n    void log(const std::string& msg);\n    int calculateChecksum(const std::string& data);\n    void saveToFile(const std::string& path);\n};"
+              "code": "#include <string>\n\n// Problem:\n// - Methoden haben nichts miteinander zu tun\n// - keine gemeinsame Datenbasis\n// - Klasse wird zum Müllplatz für \"irgendwas\"\n// - Änderungen überall: Logging, Datei, Checksummen\nclass Utils {\npublic:\n    void log(const std::string& msg);\n    int calculateChecksum(const std::string& data);\n    void saveToFile(const std::string& path, const std::string& data);\n};\n"
             },
             {
               "type": "code",
-              "title": "Hohe Kohäsion",
+              "title": "Hohe Kohäsion: Klasse hat einen klaren Fokus und gemeinsame Daten",
               "language": "cpp",
-              "code": "class FileWriter {\n    std::string path;\n\npublic:\n    void write(const std::string& data);\n    void append(const std::string& data);\n};"
+              "code": "#include <fstream>\n#include <stdexcept>\n#include <string>\n\n// Diese Klasse hat genau einen Zweck: Text in eine bestimmte Datei schreiben.\n// Alle Methoden arbeiten auf demselben Zustand: path.\nclass FileWriter {\n    std::string path;\n\npublic:\n    explicit FileWriter(std::string p)\n        : path(std::move(p)) {}\n\n    // Schreibt den gesamten Inhalt neu\n    void write(const std::string& data) const {\n        std::ofstream out(path, std::ios::trunc);\n        if (!out.is_open()) {\n            throw std::runtime_error(\"Datei konnte nicht geöffnet werden\");\n        }\n        out << data;\n    }\n\n    // Hängt Text an bestehende Datei an\n    void append(const std::string& data) const {\n        std::ofstream out(path, std::ios::app);\n        if (!out.is_open()) {\n            throw std::runtime_error(\"Datei konnte nicht geöffnet werden\");\n        }\n        out << data;\n    }\n\n    // Hilfsfunktion, die zum Thema passt: liefert den Pfad\n    const std::string& getPath() const {\n        return path;\n    }\n};\n"
             },
             {
               "type": "list",
