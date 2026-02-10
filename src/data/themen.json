@@ -10952,9 +10952,102 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Separation of Concerns",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Separation of Concerns",
+              "text": "Separation of Concerns bedeutet, dass unterschiedliche Aufgabenbereiche klar voneinander getrennt werden, sodass jede Schicht einen klaren und abgegrenzten Fokus besitzt."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Jede Schicht ist für genau eine Art von Aufgabe zuständig.",
+                "Fachlogik darf nicht von Ein und Ausgabe abhängen.",
+                "Trennung reduziert Komplexität und Seiteneffekte."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Schichten",
+              "text": [
+                "Domain: Enthält Fachlogik und Regeln.",
+                "Application: Koordiniert Abläufe und Use Cases.",
+                "Infrastructure: Kümmert sich um Datenbanken, Dateien und externe Systeme.",
+                "Presentation: UI, CLI oder API Schicht."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Warum Änderungen lokal bleiben",
+              "text": [
+                "Änderungen an der Datenbank betreffen nur die Infrastruktur.",
+                "UI Änderungen wirken sich nicht auf die Fachlogik aus.",
+                "Klare Grenzen verhindern Kettenreaktionen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "SoC verletzt",
+              "language": "cpp",
+              "code": "class Order {\npublic:\n    void saveToDatabase();\n    void printToConsole();\n};"
+            },
+            {
+              "type": "code",
+              "title": "SoC eingehalten",
+              "language": "cpp",
+              "code": "class Order {\npublic:\n    double totalPrice() const;\n};\n\nclass OrderRepository {\npublic:\n    void save(const Order& order);\n};\n\nclass OrderView {\npublic:\n    void render(const Order& order);\n};"
+            },
+            {
+              "type": "list",
+              "title": "Typische Vorteile",
+              "items": [
+                "Bessere Wartbarkeit",
+                "Einfachere Tests",
+                "Klare Zuständigkeiten",
+                "Unabhängige Weiterentwicklung der Schichten"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Mit vs ohne Separation of Concerns",
+              "columns": ["Mit SoC", "Ohne SoC"],
+              "rows": [
+                {
+                  "aspect": "Änderungsaufwand",
+                  "values": ["Lokal begrenzt", "Systemweit"]
+                },
+                {
+                  "aspect": "Testbarkeit",
+                  "values": ["Hoch", "Niedrig"]
+                },
+                {
+                  "aspect": "Verständlichkeit",
+                  "values": ["Klar strukturiert", "Vermischt"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Vermischte Verantwortlichkeiten",
+              "text": "Wenn UI oder Datenbank Code in der Domain landet, wird die Fachlogik schwer testbar und von technischen Details abhängig."
+            },
+            {
+              "type": "important",
+              "text": "Separation of Concerns ist die Grundlage für saubere Architektur. Ohne klare Trennung skaliert Code schlecht."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Jede Schicht hat einen klaren Fokus",
+                "Fachlogik ist unabhängig von IO",
+                "Änderungen bleiben lokal",
+                "UI und DB Code gehören nicht in die Domain",
+                "Zentrales Prinzip sauberer Architektur"
+              ]
+            }
           ]
         }
 
