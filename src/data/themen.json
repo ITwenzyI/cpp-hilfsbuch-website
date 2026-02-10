@@ -10694,18 +10694,6 @@
             },
             {
               "type": "code",
-              "title": "SRP verletzt",
-              "language": "cpp",
-              "code": "class Report {\npublic:\n    void generate();\n    void print();\n    void saveToFile();\n};"
-            },
-            {
-              "type": "code",
-              "title": "SRP eingehalten",
-              "language": "cpp",
-              "code": "class Report {\npublic:\n    void generate();\n};\n\nclass ReportPrinter {\npublic:\n    void print(const Report& report);\n};\n\nclass ReportRepository {\npublic:\n    void save(const Report& report);\n};"
-            },
-            {
-              "type": "code",
               "title": "SRP verletzt: Eine Klasse, mehrere Änderungsgründe",
               "language": "cpp",
               "code": "#include <iostream>\n#include <string>\n\n// Diese Klasse hat MEHRERE Verantwortlichkeiten:\n// 1) Fachliche Logik (Report erstellen)\n// 2) Darstellung (Drucken)\n// 3) Persistenz (Speichern)\n//\n// Änderungen an Ausgabeformat, Speicherort oder Fachlogik\n// führen ALLE zu Änderungen an dieser einen Klasse.\nclass Report {\npublic:\n    void generate() {\n        std::cout << \"Report wird generiert\" << '\\n';\n    }\n\n    void print() {\n        std::cout << \"Report wird gedruckt\" << '\\n';\n    }\n\n    void saveToFile(const std::string& path) {\n        std::cout << \"Report wird gespeichert nach: \" << path << '\\n';\n    }\n};\n"
