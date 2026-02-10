@@ -10996,15 +10996,15 @@
             },
             {
               "type": "code",
-              "title": "SoC verletzt",
+              "title": "SoC verletzt: Domain, Datenbank und Ausgabe vermischt",
               "language": "cpp",
-              "code": "class Order {\npublic:\n    void saveToDatabase();\n    void printToConsole();\n};"
+              "code": "#include <iostream>\n#include <string>\n#include <vector>\n\n// Problem: Diese Klasse mischt mehrere Concerns (Belange):\n// - Domain: Order Daten + Gesamtpreis\n// - Persistenz: SQL/DB Zugriff\n// - Präsentation: Console-Ausgabe\n//\n// Folge:\n// - Änderungen an SQL/DB ändern Domain-Code\n// - Änderungen an Ausgabeformat ändern Domain-Code\n// - Testing wird schwer (IO überall)\nclass Order {\npublic:\n    void addItem(double price) {\n        prices.push_back(price);\n    }\n\n    double totalPrice() const {\n        double sum = 0.0;\n        for (double p : prices) {\n            sum += p;\n        }\n        return sum;\n    }\n\n    void saveToDatabase() {\n        // Vermischung: Domain kennt SQL\n        std::cout << \"INSERT INTO orders(total) VALUES(\" << totalPrice() << \");\" << '\\n';\n    }\n\n    void printToConsole() const {\n        // Vermischung: Domain macht UI\n        std::cout << \"Order total: \" << totalPrice() << \" EUR\" << '\\n';\n    }\n\nprivate:\n    std::vector<double> prices;\n};\n"
             },
             {
               "type": "code",
-              "title": "SoC eingehalten",
+              "title": "SoC eingehalten: Domain getrennt von Persistenz und Darstellung (Schichten)",
               "language": "cpp",
-              "code": "class Order {\npublic:\n    double totalPrice() const;\n};\n\nclass OrderRepository {\npublic:\n    void save(const Order& order);\n};\n\nclass OrderView {\npublic:\n    void render(const Order& order);\n};"
+              "code": "#include <iostream>\n#include <string>\n#include <vector>\n\n// 1) Domain Layer: Nur Fachlogik und Daten\n// Keine SQL Strings, kein std::cout, keine Datei-IO.\nclass Order {\npublic:\n    void addItem(double price) {\n        prices.push_back(price);\n    }\n\n    double totalPrice() const {\n        double sum = 0.0;\n        for (double p : prices) {\n            sum += p;\n        }\n        return sum;\n    }\n\nprivate:\n    std::vector<double> prices;\n};\n\n// 2) Persistenz Layer: kümmert sich um Speichern (hier als Demo nur Text)\nclass OrderRepository {\npublic:\n    void save(const Order& order) {\n        // Hier wäre echte DB Logik (SQLite prepare/bind/step)\n        // Domain bleibt davon unberührt.\n        std::cout << \"[DB] Speichere Order mit total=\" << order.totalPrice() << '\\n';\n    }\n};\n\n// 3) Präsentation Layer: kümmert sich um Ausgabe/Rendering\nclass OrderView {\npublic:\n    void render(const Order& order) const {\n        std::cout << \"Order total: \" << order.totalPrice() << \" EUR\" << '\\n';\n    }\n};\n\n// 4) Application Layer: Orchestrierung (wer ruft was wann auf)\n// Auch hier: keine Fachlogik, nur Ablauf.\nclass OrderService {\n    OrderRepository& repo;\n\npublic:\n    explicit OrderService(OrderRepository& r) : repo(r) {}\n\n    void checkout(const Order& order) {\n        repo.save(order);\n    }\n};\n\nint main() {\n    Order order;\n    order.addItem(9.99);\n    order.addItem(5.00);\n\n    OrderView view;\n    view.render(order);\n\n    OrderRepository repo;\n    OrderService service(repo);\n    service.checkout(order);\n\n    // Typische Ausgabe:\n    // Order total: 14.99 EUR\n    // [DB] Speichere Order mit total=14.99\n}\n"
             },
             {
               "type": "list",
