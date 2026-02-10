@@ -12610,6 +12610,1630 @@
 
 
 
+
+  {
+    "category": "SQL",
+    "icon": "</>",
+    "subcategories": [
+      {
+        "name": "Grundlagen",
+        "icon": "📘",
+        "topics": [
+        {
+          "title": "Was ist SQL",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "SQL",
+              "text": "SQL ist eine deklarative Sprache zur Definition, Abfrage und Änderung von Daten in relationalen Datenbanken."
+            },
+            {
+              "type": "explanation",
+              "title": "SQL als Sprache",
+              "text": [
+                "SQL beschreibt, was mit den Daten passieren soll.",
+                "Der konkrete Ausführungsplan wird von der Datenbank bestimmt.",
+                "SQL ist unabhängig von der Programmiersprache."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Was man mit SQL macht",
+              "text": [
+                "Tabellen und Strukturen definieren.",
+                "Daten speichern, ändern und löschen.",
+                "Daten gezielt abfragen."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische SQL Aufgaben",
+              "items": [
+                "Tabellen anlegen",
+                "Datensätze einfügen",
+                "Datensätze abfragen",
+                "Datensätze aktualisieren",
+                "Datensätze löschen"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Abfrage vs Änderung",
+              "text": [
+                "Abfragen lesen Daten aus der Datenbank.",
+                "Änderungen verändern den Zustand der Datenbank.",
+                "Beide Kategorien haben unterschiedliche Rückgabewerte."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Abfrage vs Änderung",
+              "columns": ["Abfrage", "Änderung"],
+              "rows": [
+                {
+                  "aspect": "Ziel",
+                  "values": ["Daten lesen", "Daten verändern"]
+                },
+                {
+                  "aspect": "Typische Befehle",
+                  "values": ["SELECT", "INSERT, UPDATE, DELETE"]
+                },
+                {
+                  "aspect": "Ergebnis",
+                  "values": ["Ergebniszeilen", "SQLITE_DONE"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "SQL als Programmiersprache verstehen",
+              "text": "SQL beschreibt Datenoperationen, ist aber keine allgemeine Programmiersprache mit Schleifen oder Variablen."
+            },
+            {
+              "type": "important",
+              "text": "SQL definiert den Datenzugriff, nicht die Geschäftslogik der Anwendung."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "SQL ist eine deklarative Datenbanksprache",
+                "SQL ist unabhängig von C++ oder SQLite",
+                "Mit SQL werden Daten gelesen und verändert",
+                "SELECT ist Abfrage, INSERT UPDATE DELETE sind Änderungen",
+                "Abfragen und Änderungen haben unterschiedliche Ergebnisse"
+              ]
+            }
+          ]
+        },
+
+
+        {
+          "title": "Tabellen und Zeilen",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Tabelle",
+              "text": "Eine Tabelle ist eine strukturierte Sammlung von Daten, organisiert in Spalten und Zeilen."
+            },
+            {
+              "type": "explanation",
+              "title": "Tabelle als Raster",
+              "text": [
+                "Eine Tabelle kann als zweidimensionales Raster verstanden werden.",
+                "Spalten definieren die Struktur der Daten.",
+                "Zeilen enthalten die konkreten Datensätze."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Spalten",
+              "text": [
+                "Spalten legen fest, welche Art von Daten gespeichert wird.",
+                "Jede Spalte hat einen Namen und einen Datentyp.",
+                "Alle Zeilen einer Tabelle folgen derselben Spaltenstruktur."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel: Tabelle mit Spalten",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT,\n    age INTEGER\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Zeilen und Datensätze",
+              "text": [
+                "Eine Zeile repräsentiert genau einen Datensatz.",
+                "Alle Spalten der Tabelle haben in jeder Zeile einen Wert oder NULL.",
+                "Mehrere Zeilen bilden die eigentlichen Inhalte der Tabelle."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel: Datensätze einfügen",
+              "language": "sql",
+              "code": "INSERT INTO users (id, name, age) VALUES (1, 'Max', 30);\nINSERT INTO users (id, name, age) VALUES (2, 'Anna', 25);\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Spalte vs Zeile",
+              "columns": ["Spalte", "Zeile"],
+              "rows": [
+                {
+                  "aspect": "Bedeutung",
+                  "values": ["Struktur", "Datensatz"]
+                },
+                {
+                  "aspect": "Anzahl",
+                  "values": ["Fest definiert", "Beliebig viele"]
+                },
+                {
+                  "aspect": "Inhalt",
+                  "values": ["Datentyp", "Konkrete Werte"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Spaltenstruktur ändern",
+              "text": "Eine nachträgliche Änderung der Spaltenstruktur kann bestehende Datensätze ungültig machen oder Migrationsaufwand erzeugen."
+            },
+            {
+              "type": "important",
+              "text": "Die Tabellenstruktur sollte vor der Dateneingabe sorgfältig geplant werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Tabellen sind Raster aus Spalten und Zeilen",
+                "Spalten definieren die Struktur",
+                "Zeilen sind einzelne Datensätze",
+                "Alle Zeilen folgen derselben Struktur",
+                "Gute Tabellenstruktur ist entscheidend für saubere Daten"
+              ]
+            }
+          ]
+        },
+
+
+        {
+          "title": "Einfache CREATE TABLE",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Minimalbeispiel",
+              "text": [
+                "Eine Tabelle wird mit CREATE TABLE angelegt.",
+                "Spaltenname und Typ reichen für den Anfang.",
+                "IF NOT EXISTS verhindert Fehler bei erneutem Ausführen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches CREATE TABLE",
+              "language": "sql",
+              "code": "CREATE TABLE IF NOT EXISTS users (\n    id INTEGER PRIMARY KEY,\n    name TEXT,\n    age INTEGER\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "In C++ ausführen",
+              "text": [
+                "Das SQL wird einmal ausgeführt, meist beim Programmstart.",
+                "Keine Parameter, kein Ergebnis.",
+                "Erfolg bedeutet SQLITE_DONE."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "CREATE TABLE mit Database::execute",
+              "language": "cpp",
+              "code": "Database db(\"data.db\");\n\ndb.execute(\n    \"CREATE TABLE IF NOT EXISTS users (\"\n    \"id INTEGER PRIMARY KEY,\"\n    \"name TEXT,\"\n    \"age INTEGER\"\n    \");\"\n);\n"
+            },
+            {
+              "type": "important",
+              "text": "CREATE TABLE wird typischerweise beim Initialisieren der Datenbank ausgeführt."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "CREATE TABLE legt eine Tabelle an",
+                "IF NOT EXISTS vermeidet Fehler",
+                "Keine Parameter notwendig",
+                "Kein Ergebnis, nur Ausführung",
+                "Ideal für den Einstieg"
+              ]
+            }
+          ]
+        },
+
+
+
+
+        {
+          "title": "CREATE TABLE Parameter",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Spaltenparameter in der Praxis",
+              "text": [
+                "CREATE TABLE definiert Spalten mit Typen und einfachen Eigenschaften.",
+                "Die Parameter stehen direkt hinter dem Spaltennamen.",
+                "SQLite ist flexibel, aber saubere Definitionen sind wichtig."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches Beispiel mit Parametern",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    name TEXT NOT NULL,\n    age INTEGER,\n    weight REAL,\n    note TEXT NULL\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "INTEGER PRIMARY KEY",
+              "text": [
+                "INTEGER PRIMARY KEY macht die Spalte zur eindeutigen ID.",
+                "Der Wert identifiziert jede Zeile eindeutig.",
+                "In SQLite ist diese Spalte intern mit der RowID verknüpft."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "AUTOINCREMENT",
+              "text": [
+                "AUTOINCREMENT sorgt dafür, dass IDs strikt monoton steigen.",
+                "Ohne AUTOINCREMENT vergibt SQLite ebenfalls automatisch IDs.",
+                "AUTOINCREMENT wird nur benötigt, wenn alte IDs niemals wiederverwendet werden dürfen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "TEXT",
+              "text": [
+                "TEXT speichert Zeichenketten.",
+                "Die Länge ist nicht fest begrenzt.",
+                "Geeignet für Namen, Beschreibungen und freie Texte."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "INTEGER",
+              "text": [
+                "INTEGER speichert Ganzzahlen.",
+                "Typisch für Zähler, Alterswerte oder Flags.",
+                "Kann auch für Booleans genutzt werden (0 oder 1)."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "REAL (DOUBLE)",
+              "text": [
+                "REAL speichert Gleitkommazahlen.",
+                "SQLite verwendet intern 64 Bit Floating Point.",
+                "DOUBLE ist kein eigener SQLite Typ, wird aber auf REAL abgebildet."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "NULL und NOT NULL",
+              "text": [
+                "NULL bedeutet, dass kein Wert vorhanden ist.",
+                "NOT NULL erzwingt, dass immer ein Wert gesetzt sein muss.",
+                "NOT NULL schützt vor unvollständigen Datensätzen."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Typische Spaltentypen",
+              "columns": ["Typ", "Verwendung"],
+              "rows": [
+                {
+                  "aspect": "INTEGER",
+                  "values": ["IDs, Zähler", "Ganzzahlen"]
+                },
+                {
+                  "aspect": "TEXT",
+                  "values": ["Namen, Strings", "Beschreibungen"]
+                },
+                {
+                  "aspect": "REAL",
+                  "values": ["Messwerte", "Dezimalzahlen"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "UNIQUE",
+              "text": [
+                "UNIQUE erzwingt, dass ein Wert in einer Spalte eindeutig ist.",
+                "Doppelte Werte sind nicht erlaubt.",
+                "NULL Werte sind bei UNIQUE erlaubt, da NULL kein Wert ist."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "UNIQUE Spalte",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    email TEXT UNIQUE,\n    name TEXT\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "UNIQUE Verhalten",
+              "text": [
+                "Beim INSERT oder UPDATE prüft SQLite die Eindeutigkeit.",
+                "Ein Verstoß führt zu SQLITE_CONSTRAINT.",
+                "Die Operation wird abgebrochen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Mehrere Spalten eindeutig machen",
+              "text": [
+                "UNIQUE kann sich über mehrere Spalten erstrecken.",
+                "Die Kombination der Werte muss eindeutig sein.",
+                "Einzelne Werte dürfen sich wiederholen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Zusammengesetztes UNIQUE",
+              "language": "sql",
+              "code": "CREATE TABLE appointments (\n    user_id INTEGER,\n    date TEXT,\n    UNIQUE (user_id, date)\n);\n"
+            },
+            {
+              "type": "comparison",
+              "title": "UNIQUE vs PRIMARY KEY",
+              "columns": ["UNIQUE", "PRIMARY KEY"],
+              "rows": [
+                {
+                  "aspect": "Eindeutigkeit",
+                  "values": ["Ja", "Ja"]
+                },
+                {
+                  "aspect": "NULL erlaubt",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "Anzahl pro Tabelle",
+                  "values": ["Mehrere möglich", "Genau einer"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "UNIQUE als Ersatz für Primary Key",
+              "text": "UNIQUE garantiert Eindeutigkeit, ersetzt aber keinen Primary Key für eindeutige Identifikation."
+            },
+            {
+              "type": "important",
+              "text": "UNIQUE wird für fachlich eindeutige Werte wie E Mail Adressen verwendet."
+            },
+            {
+              "type": "pitfall",
+              "title": "AUTOINCREMENT blind verwenden",
+              "text": "AUTOINCREMENT ist meist unnötig und kann Performance kosten. INTEGER PRIMARY KEY reicht in den meisten Fällen aus."
+            },
+            {
+              "type": "important",
+              "text": "SQLite Typen sind flexibel, aber klare Spaltenparameter verhindern spätere Datenprobleme."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Spaltenparameter stehen direkt im CREATE TABLE",
+                "INTEGER PRIMARY KEY definiert die ID",
+                "AUTOINCREMENT nur bei echtem Bedarf",
+                "TEXT für Strings, INTEGER für Ganzzahlen, REAL für Gleitkomma",
+                "NOT NULL erzwingt vollständige Datensätze"
+              ]
+            }
+          ]
+        }
+
+
+
+
+        ]
+      },
+
+
+      {
+        "name": "Daten abfragen",
+        "icon": "🔍",
+        "topics": [
+        {
+          "title": "SELECT Grundform",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Grundstruktur",
+              "text": [
+                "SELECT liest Daten aus einer Tabelle.",
+                "Die Spalten werden explizit angegeben.",
+                "FROM definiert die Tabelle."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches SELECT",
+              "language": "sql",
+              "code": "SELECT id, name, age FROM users;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Spalten auswählen",
+              "text": [
+                "Es können einzelne oder mehrere Spalten ausgewählt werden.",
+                "Die Reihenfolge der Spalten bestimmt die Reihenfolge im Ergebnis.",
+                "Die Spaltennamen müssen in der Tabelle existieren."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Nur bestimmte Spalten",
+              "language": "sql",
+              "code": "SELECT name FROM users;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Alle Spalten auswählen",
+              "text": [
+                "Mit * werden alle Spalten ausgewählt.",
+                "Die Reihenfolge entspricht der Tabellendefinition.",
+                "* ist praktisch zum Testen, aber ungeeignet für Produktivcode."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "SELECT mit *",
+              "language": "sql",
+              "code": "SELECT * FROM users;\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "SELECT * im Code verwenden",
+              "text": "SELECT * bricht leicht, wenn sich die Tabellenstruktur ändert. Spalten sollten immer explizit angegeben werden."
+            },
+            {
+              "type": "important",
+              "text": "Die Spaltenreihenfolge im SELECT muss zum späteren Spaltenlesen passen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "SELECT liest Daten aus Tabellen",
+                "Spalten werden vor FROM angegeben",
+                "FROM definiert die Tabelle",
+                "SELECT * ist nur für schnelle Tests geeignet",
+                "Explizite Spalten sind robuster"
+              ]
+            }
+          ]
+        },
+
+
+        {
+          "title": "WHERE filtern",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "WHERE Grundidee",
+              "text": [
+                "WHERE filtert Zeilen nach Bedingungen.",
+                "Nur Zeilen, die die Bedingung erfüllen, werden ausgewählt.",
+                "Ohne WHERE werden alle Zeilen gelesen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Vergleichsoperatoren",
+              "text": [
+                "= prüft auf Gleichheit.",
+                "< und > vergleichen numerische Werte.",
+                "<= und >= sind ebenfalls möglich."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Vergleiche mit WHERE",
+              "language": "sql",
+              "code": "SELECT * FROM users WHERE age = 30;\nSELECT * FROM users WHERE age > 18;\nSELECT * FROM users WHERE age < 65;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "AND und OR",
+              "text": [
+                "AND verknüpft mehrere Bedingungen, die alle erfüllt sein müssen.",
+                "OR verknüpft Bedingungen, von denen mindestens eine erfüllt sein muss.",
+                "Klammern steuern die Auswertungsreihenfolge."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Mehrere Bedingungen",
+              "language": "sql",
+              "code": "SELECT * FROM users WHERE age > 18 AND age < 65;\nSELECT * FROM users WHERE age < 18 OR age > 65;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "LIKE",
+              "text": [
+                "LIKE ermöglicht einfache Textmuster.",
+                "% steht für beliebig viele Zeichen.",
+                "_ steht für genau ein Zeichen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "LIKE Beispiele",
+              "language": "sql",
+              "code": "SELECT * FROM users WHERE name LIKE 'Max%';\nSELECT * FROM users WHERE name LIKE '%mann';\nSELECT * FROM users WHERE name LIKE 'M_x';\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "LIKE und Groß Kleinschreibung",
+              "text": "LIKE ist in SQLite standardmäßig nicht case sensitiv, abhängig von Collation."
+            },
+            {
+              "type": "important",
+              "text": "Filter sollten so spezifisch wie nötig sein, um unnötige Daten zu vermeiden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "WHERE filtert Zeilen",
+                "Vergleichsoperatoren = < > sind Standard",
+                "AND und OR verknüpfen Bedingungen",
+                "LIKE filtert nach Textmustern",
+                "Klammern sorgen für klare Logik"
+              ]
+            }
+          ]
+        },
+
+
+        {
+          "title": "ORDER BY",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Sortieren mit ORDER BY",
+              "text": [
+                "ORDER BY sortiert das Ergebnis einer SELECT Abfrage.",
+                "Die Sortierung erfolgt nach einer oder mehreren Spalten.",
+                "Ohne ORDER BY ist die Reihenfolge nicht definiert."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "ASC und DESC",
+              "text": [
+                "ASC sortiert aufsteigend.",
+                "DESC sortiert absteigend.",
+                "ASC ist der Standard und kann weggelassen werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "ORDER BY Beispiele",
+              "language": "sql",
+              "code": "SELECT * FROM users ORDER BY age ASC;\nSELECT * FROM users ORDER BY age DESC;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Mehrere Spalten sortieren",
+              "text": [
+                "ORDER BY kann mehrere Spalten enthalten.",
+                "Die Sortierung erfolgt von links nach rechts.",
+                "Sekundäre Sortierungen greifen bei gleichen Werten."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Sortieren nach mehreren Spalten",
+              "language": "sql",
+              "code": "SELECT * FROM users ORDER BY age DESC, name ASC;\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "ORDER BY vergessen",
+              "text": "Ohne ORDER BY darf man sich niemals auf eine bestimmte Reihenfolge verlassen."
+            },
+            {
+              "type": "important",
+              "text": "Die gewünschte Reihenfolge muss immer explizit mit ORDER BY angegeben werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "ORDER BY sortiert SELECT Ergebnisse",
+                "ASC bedeutet aufsteigend",
+                "DESC bedeutet absteigend",
+                "Mehrere Spalten sind möglich",
+                "Ohne ORDER BY ist die Reihenfolge undefiniert"
+              ]
+            }
+          ]
+        },
+
+        {
+          "title": "LIMIT",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Ergebnisanzahl begrenzen",
+              "text": [
+                "LIMIT begrenzt die Anzahl der zurückgegebenen Zeilen.",
+                "Die Abfrage liefert höchstens die angegebene Anzahl.",
+                "Besonders nützlich bei großen Tabellen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "LIMIT Beispiel",
+              "language": "sql",
+              "code": "SELECT * FROM users LIMIT 5;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "LIMIT mit ORDER BY",
+              "text": [
+                "LIMIT wird häufig mit ORDER BY kombiniert.",
+                "So werden die ersten oder letzten Einträge gezielt ausgewählt.",
+                "Die Sortierung wird vor dem LIMIT angewendet."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "ORDER BY und LIMIT",
+              "language": "sql",
+              "code": "SELECT * FROM users ORDER BY age DESC LIMIT 3;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "LIMIT und OFFSET",
+              "text": [
+                "OFFSET überspringt eine bestimmte Anzahl von Zeilen.",
+                "Wird häufig für Pagination verwendet.",
+                "LIMIT und OFFSET arbeiten zusammen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "LIMIT mit OFFSET",
+              "language": "sql",
+              "code": "SELECT * FROM users ORDER BY id LIMIT 5 OFFSET 10;\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "LIMIT ohne ORDER BY",
+              "text": "LIMIT ohne ORDER BY liefert beliebige Zeilen und ist meist nicht sinnvoll."
+            },
+            {
+              "type": "important",
+              "text": "LIMIT bestimmt nur die Anzahl, nicht welche Zeilen gewählt werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "LIMIT begrenzt die Anzahl der Ergebnisse",
+                "ORDER BY bestimmt welche Zeilen ausgewählt werden",
+                "OFFSET überspringt Zeilen",
+                "Typisch für Listen und Pagination",
+                "Ohne ORDER BY ist LIMIT nicht deterministisch"
+              ]
+            }
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+
+      {
+        "name": "Daten ändern",
+        "icon": "✏️",
+        "topics": [
+        {
+          "title": "INSERT",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Neue Zeile einfügen",
+              "text": [
+                "INSERT fügt einen neuen Datensatz in eine Tabelle ein.",
+                "Es wird genau eine neue Zeile erzeugt.",
+                "Die angegebenen Spalten erhalten die übergebenen Werte."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches INSERT",
+              "language": "sql",
+              "code": "INSERT INTO users (name, age) VALUES ('Max', 30);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Spalten explizit angeben",
+              "text": [
+                "Die Spaltenliste sollte immer explizit angegeben werden.",
+                "Die Reihenfolge der Werte muss zur Spaltenliste passen.",
+                "Nicht genannte Spalten erhalten NULL oder Default Werte."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "INSERT mit allen Spalten",
+              "language": "sql",
+              "code": "INSERT INTO users (id, name, age) VALUES (1, 'Anna', 25);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Mehrere Zeilen einfügen",
+              "text": [
+                "INSERT kann mehrere Datensätze auf einmal einfügen.",
+                "Alle Zeilen werden in einer Anweisung verarbeitet.",
+                "Das ist meist schneller als einzelne INSERTs."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Mehrere Datensätze",
+              "language": "sql",
+              "code": "INSERT INTO users (name, age) VALUES\n  ('Max', 30),\n  ('Anna', 25),\n  ('Tom', 40);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "AUTO INCREMENT IDs",
+              "text": [
+                "Bei INTEGER PRIMARY KEY wird die ID automatisch vergeben.",
+                "Die ID muss nicht im INSERT angegeben werden.",
+                "SQLite vergibt einen neuen eindeutigen Wert."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "INSERT ohne Spaltenliste",
+              "text": "INSERT ohne explizite Spaltenliste ist fehleranfällig, wenn sich die Tabellenstruktur ändert."
+            },
+            {
+              "type": "important",
+              "text": "INSERT fügt Daten hinzu, verändert aber keine bestehenden Zeilen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "INSERT fügt eine neue Zeile ein",
+                "Spalten sollten immer explizit angegeben werden",
+                "Mehrere Zeilen können in einem INSERT eingefügt werden",
+                "IDs werden oft automatisch vergeben",
+                "Saubere INSERTs sind robust gegenüber Schema Änderungen"
+              ]
+            }
+          ]
+        },
+
+
+        {
+          "title": "UPDATE",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Bestehende Daten ändern",
+              "text": [
+                "UPDATE verändert bestehende Datensätze in einer Tabelle.",
+                "Es werden keine neuen Zeilen erzeugt.",
+                "Nur die angegebenen Spalten werden geändert."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches UPDATE",
+              "language": "sql",
+              "code": "UPDATE users SET age = 31 WHERE id = 1;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Mehrere Spalten ändern",
+              "text": [
+                "Mehrere Spalten können in einem UPDATE gesetzt werden.",
+                "Die Zuweisungen werden durch Kommas getrennt.",
+                "Alle Änderungen passieren atomar."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "UPDATE mit mehreren Spalten",
+              "language": "sql",
+              "code": "UPDATE users SET name = 'Max M.', age = 32 WHERE id = 1;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "UPDATE mit WHERE",
+              "text": [
+                "WHERE begrenzt, welche Zeilen geändert werden.",
+                "Ohne WHERE werden alle Zeilen der Tabelle geändert.",
+                "WHERE ist fast immer notwendig."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "UPDATE ohne WHERE",
+              "text": "UPDATE ohne WHERE ändert alle Datensätze und ist eine der häufigsten Fehlerquellen."
+            },
+            {
+              "type": "important",
+              "text": "UPDATE verändert Daten dauerhaft. WHERE sollte immer bewusst gesetzt werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "UPDATE ändert bestehende Datensätze",
+                "SET definiert die neuen Werte",
+                "WHERE begrenzt die betroffenen Zeilen",
+                "Mehrere Spalten können gleichzeitig geändert werden",
+                "UPDATE ohne WHERE ist gefährlich"
+              ]
+            }
+          ]
+        },
+
+
+        {
+          "title": "DELETE",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Daten löschen",
+              "text": [
+                "DELETE entfernt Datensätze aus einer Tabelle.",
+                "Die gelöschten Zeilen sind dauerhaft entfernt.",
+                "Es werden keine Spalten oder Tabellen verändert."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches DELETE",
+              "language": "sql",
+              "code": "DELETE FROM users WHERE id = 1;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Warum WHERE wichtig ist",
+              "text": [
+                "WHERE bestimmt, welche Zeilen gelöscht werden.",
+                "Ohne WHERE werden alle Zeilen der Tabelle gelöscht.",
+                "WHERE schützt vor unbeabsichtigtem Datenverlust."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "DELETE ohne WHERE",
+              "text": "DELETE ohne WHERE löscht den gesamten Tabelleninhalt und ist ein häufiger und gefährlicher Fehler."
+            },
+            {
+              "type": "explanation",
+              "title": "Mehrere Zeilen löschen",
+              "text": [
+                "DELETE kann mehrere Zeilen auf einmal entfernen.",
+                "Alle Zeilen, die die WHERE Bedingung erfüllen, werden gelöscht.",
+                "Die Operation ist idempotent."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Mehrere Zeilen löschen",
+              "language": "sql",
+              "code": "DELETE FROM users WHERE age < 18;\n"
+            },
+            {
+              "type": "important",
+              "text": "DELETE sollte immer mit WHERE verwendet werden, außer der komplette Tabelleninhalt soll bewusst gelöscht werden."
+            },
+            {
+              "type": "explanation",
+              "title": "ON DELETE CASCADE",
+              "text": [
+                "ON DELETE CASCADE ist eine Foreign Key Option.",
+                "Beim Löschen einer Zeile werden abhängige Zeilen automatisch mitgelöscht.",
+                "Die Löschlogik liegt in der Datenbank, nicht im Code."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel mit ON DELETE CASCADE",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT\n);\n\nCREATE TABLE orders (\n    id INTEGER PRIMARY KEY,\n    user_id INTEGER,\n    product TEXT,\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Was beim DELETE passiert",
+              "text": [
+                "DELETE FROM users löscht den User.",
+                "Alle orders mit passender user_id werden automatisch gelöscht.",
+                "Es bleiben keine verwaisten Datensätze zurück."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Voraussetzung",
+              "text": [
+                "Foreign Keys müssen aktiviert sein.",
+                "PRAGMA foreign_keys = ON ist zwingend notwendig.",
+                "Ohne dieses PRAGMA hat ON DELETE CASCADE keine Wirkung."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "DELETE mit und ohne CASCADE",
+              "columns": ["Ohne CASCADE", "Mit CASCADE"],
+              "rows": [
+                {
+                  "aspect": "Abhängige Zeilen",
+                  "values": ["Bleiben bestehen", "Werden automatisch gelöscht"]
+                },
+                {
+                  "aspect": "Code Aufwand",
+                  "values": ["Manuelles Löschen", "Kein Zusatzcode"]
+                },
+                {
+                  "aspect": "Konsistenz",
+                  "values": ["Fehleranfällig", "Automatisch gesichert"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Unerwartete Löschkaskaden",
+              "text": "ON DELETE CASCADE kann große Datenmengen löschen, wenn Beziehungen nicht sauber modelliert sind."
+            },
+            {
+              "type": "important",
+              "text": "ON DELETE CASCADE ist mächtig und sollte bewusst und sparsam eingesetzt werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "DELETE entfernt Datensätze aus Tabellen",
+                "WHERE begrenzt die betroffenen Zeilen",
+                "DELETE ohne WHERE löscht alle Daten",
+                "Mehrere Zeilen können gleichzeitig gelöscht werden",
+                "DELETE ist dauerhaft"
+              ]
+            }
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+
+
+      {
+        "name": "Mehrere Tabellen",
+        "icon": "🔗",
+        "topics": [
+        {
+          "title": "Warum mehrere Tabellen",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Mehrere Tabellen",
+              "text": "Mehrere Tabellen teilen Daten logisch auf und verhindern, dass unterschiedliche Informationen vermischt oder doppelt gespeichert werden."
+            },
+            {
+              "type": "explanation",
+              "title": "Daten trennen",
+              "text": [
+                "Unterschiedliche Konzepte gehören in unterschiedliche Tabellen.",
+                "Eine Tabelle sollte genau eine Verantwortung haben.",
+                "Klare Trennung macht Daten verständlicher und wartbarer."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Schlechtes Beispiel: Alles in einer Tabelle",
+              "language": "sql",
+              "code": "CREATE TABLE orders (\n    order_id INTEGER PRIMARY KEY,\n    user_name TEXT,\n    user_email TEXT,\n    product_name TEXT,\n    product_price REAL\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Redundanz vermeiden",
+              "text": [
+                "Gleiche Informationen würden mehrfach gespeichert.",
+                "Änderungen müssen an vielen Stellen nachgezogen werden.",
+                "Inkonsistenzen entstehen leicht."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Besser: Daten aufteilen",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT,\n    email TEXT\n);\n\nCREATE TABLE products (\n    id INTEGER PRIMARY KEY,\n    name TEXT,\n    price REAL\n);\n\nCREATE TABLE orders (\n    id INTEGER PRIMARY KEY,\n    user_id INTEGER,\n    product_id INTEGER\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Vorteile mehrerer Tabellen",
+              "text": [
+                "Jede Information existiert nur einmal.",
+                "Änderungen sind eindeutig und konsistent.",
+                "Beziehungen zwischen Daten sind klar modelliert."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Eine Tabelle vs mehrere Tabellen",
+              "columns": ["Eine Tabelle", "Mehrere Tabellen"],
+              "rows": [
+                {
+                  "aspect": "Redundanz",
+                  "values": ["Hoch", "Gering"]
+                },
+                {
+                  "aspect": "Änderbarkeit",
+                  "values": ["Fehleranfällig", "Sauber"]
+                },
+                {
+                  "aspect": "Datenqualität",
+                  "values": ["Gefährdet", "Stabil"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Alles in eine Tabelle packen",
+              "text": "Große Tabellen mit gemischten Daten wirken am Anfang einfach, werden aber schnell unwartbar."
+            },
+            {
+              "type": "important",
+              "text": "Mehrere Tabellen sind kein Overengineering, sondern Grundlage sauberer Datenmodelle."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Daten logisch trennen",
+                "Redundanz vermeiden",
+                "Änderungen werden einfacher",
+                "Daten bleiben konsistent",
+                "Mehrere Tabellen sind Best Practice"
+              ]
+            }
+          ]
+        },
+
+        {
+          "title": "INNER JOIN",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Tabellen verbinden",
+              "text": [
+                "INNER JOIN verbindet Zeilen aus zwei Tabellen.",
+                "Nur passende Zeilen aus beiden Tabellen erscheinen im Ergebnis.",
+                "Die Verbindung erfolgt über eine gemeinsame Spalte."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Einfaches JOIN Prinzip",
+              "text": [
+                "Eine Tabelle enthält eine Referenz auf die andere.",
+                "Die Referenz wird mit dem Primärschlüssel verbunden.",
+                "Das Ergebnis kombiniert Spalten beider Tabellen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel Tabellen",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT\n);\n\nCREATE TABLE orders (\n    id INTEGER PRIMARY KEY,\n    user_id INTEGER,\n    product TEXT\n);\n"
+            },
+            {
+              "type": "code",
+              "title": "Einfaches INNER JOIN",
+              "language": "sql",
+              "code": "SELECT users.name, orders.product\nFROM users\nINNER JOIN orders ON users.id = orders.user_id;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Was das Ergebnis bedeutet",
+              "text": [
+                "Nur Orders mit einem existierenden User erscheinen.",
+                "Users ohne Orders erscheinen nicht.",
+                "Orders ohne passenden User erscheinen ebenfalls nicht."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "JOIN Bedingung vergessen",
+              "text": "Ohne ON Bedingung entsteht ein kartesisches Produkt mit extrem vielen Zeilen."
+            },
+            {
+              "type": "important",
+              "text": "INNER JOIN liefert nur Datensätze, die in beiden Tabellen existieren."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "INNER JOIN verbindet zwei Tabellen",
+                "Nur passende Zeilen erscheinen",
+                "Verbindung erfolgt über Schlüssel",
+                "Einfaches und häufig genutztes JOIN",
+                "JOIN Bedingung ist zwingend notwendig"
+              ]
+            }
+          ]
+        },
+
+
+        {
+          "title": "LEFT JOIN",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Unterschied zu INNER JOIN",
+              "text": [
+                "LEFT JOIN liefert alle Zeilen der linken Tabelle.",
+                "Passende Zeilen der rechten Tabelle werden ergänzt.",
+                "Fehlende Treffer werden mit NULL aufgefüllt."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Grundprinzip",
+              "text": [
+                "Die linke Tabelle ist die erste Tabelle nach FROM.",
+                "Diese Tabelle bestimmt die Anzahl der Ergebniszeilen.",
+                "Die rechte Tabelle ist optional."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "LEFT JOIN Beispiel",
+              "language": "sql",
+              "code": "SELECT users.name, orders.product\nFROM users\nLEFT JOIN orders ON users.id = orders.user_id;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Ergebnisverhalten",
+              "text": [
+                "Alle Users erscheinen im Ergebnis.",
+                "Users ohne Orders haben NULL in den Order Spalten.",
+                "Im Gegensatz zu INNER JOIN gehen keine linken Zeilen verloren."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "INNER JOIN vs LEFT JOIN",
+              "columns": ["INNER JOIN", "LEFT JOIN"],
+              "rows": [
+                {
+                  "aspect": "Linke Tabelle vollständig",
+                  "values": ["Nein", "Ja"]
+                },
+                {
+                  "aspect": "Rechte Tabelle erforderlich",
+                  "values": ["Ja", "Nein"]
+                },
+                {
+                  "aspect": "NULL Werte möglich",
+                  "values": ["Nein", "Ja"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "WHERE auf rechter Tabelle",
+              "text": "Eine WHERE Bedingung auf Spalten der rechten Tabelle kann den LEFT JOIN ungewollt in einen INNER JOIN verwandeln."
+            },
+            {
+              "type": "important",
+              "text": "LEFT JOIN wird genutzt, wenn auch Datensätze ohne Beziehung sichtbar bleiben sollen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "LEFT JOIN liefert alle Zeilen der linken Tabelle",
+                "Rechte Tabelle ist optional",
+                "Nicht gefundene Werte werden NULL",
+                "Unterschied zu INNER JOIN ist das Ergebnisverhalten",
+                "LEFT JOIN ist wichtig für vollständige Listen"
+              ]
+            }
+          ]
+        }
+
+
+
+        ]
+      },
+
+
+
+
+      {
+        "name": "Design",
+        "icon": "📐",
+        "topics": [
+        {
+          "title": "Primary Key",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Primary Key",
+              "text": "Ein Primary Key ist eine Spalte oder Kombination von Spalten, die jede Zeile einer Tabelle eindeutig identifiziert."
+            },
+            {
+              "type": "explanation",
+              "title": "Wofür ein Primary Key da ist",
+              "text": [
+                "Jede Zeile muss eindeutig identifizierbar sein.",
+                "Der Primary Key verhindert doppelte Datensätze.",
+                "Andere Tabellen können zuverlässig auf diese Zeile verweisen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfacher Primary Key",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT,\n    age INTEGER\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "INTEGER PRIMARY KEY in SQLite",
+              "text": [
+                "INTEGER PRIMARY KEY ist in SQLite besonders.",
+                "Die Spalte ist intern mit der RowID verknüpft.",
+                "Der Wert wird automatisch vergeben, wenn nichts eingesetzt wird."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Automatische ID Vergabe",
+              "language": "sql",
+              "code": "INSERT INTO users (name, age) VALUES ('Max', 30);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Composite Primary Key",
+              "text": [
+                "Ein Primary Key kann aus mehreren Spalten bestehen.",
+                "Die Kombination der Werte muss eindeutig sein.",
+                "Typisch bei Zuordnungstabellen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Zusammengesetzter Primary Key",
+              "language": "sql",
+              "code": "CREATE TABLE enrollments (\n    student_id INTEGER,\n    course_id INTEGER,\n    PRIMARY KEY (student_id, course_id)\n);\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Kein Primary Key",
+              "text": "Tabellen ohne Primary Key lassen doppelte oder nicht eindeutig adressierbare Zeilen zu."
+            },
+            {
+              "type": "important",
+              "text": "Jede Tabelle sollte einen Primary Key besitzen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Primary Key identifiziert Zeilen eindeutig",
+                "INTEGER PRIMARY KEY ist Standard in SQLite",
+                "IDs werden automatisch vergeben",
+                "Composite Keys sind möglich",
+                "Tabellen ohne Primary Key sind fehleranfällig"
+              ]
+            }
+          ]
+        },
+
+
+        {
+          "title": "Foreign Key",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Foreign Key",
+              "text": "Ein Foreign Key ist eine Spalte, die auf den Primary Key einer anderen Tabelle verweist und Beziehungen zwischen Tabellen herstellt."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum Foreign Keys",
+              "text": [
+                "Foreign Keys verbinden logisch zusammengehörige Daten.",
+                "Sie verhindern ungültige Referenzen.",
+                "Die Datenbank hilft, Konsistenz zu erzwingen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches Foreign Key Beispiel",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT\n);\n\nCREATE TABLE orders (\n    id INTEGER PRIMARY KEY,\n    user_id INTEGER,\n    product TEXT,\n    FOREIGN KEY (user_id) REFERENCES users(id)\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Was der Foreign Key bewirkt",
+              "text": [
+                "user_id muss auf einen existierenden users.id Wert zeigen.",
+                "Orders mit nicht existierendem User sind nicht erlaubt.",
+                "Die Beziehung wird von SQLite geprüft."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "FOREIGN KEYS aktivieren",
+              "text": [
+                "In SQLite sind Foreign Keys standardmäßig deaktiviert.",
+                "PRAGMA foreign_keys = ON aktiviert die Prüfung.",
+                "Ohne dieses PRAGMA werden Regeln nicht erzwungen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Foreign Keys aktivieren",
+              "language": "sql",
+              "code": "PRAGMA foreign_keys = ON;\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Foreign Keys vergessen zu aktivieren",
+              "text": "Ohne PRAGMA foreign_keys = ON werden ungültige Referenzen still akzeptiert."
+            },
+            {
+              "type": "important",
+              "text": "Foreign Keys sind zentral für Datenkonsistenz und sollten immer aktiviert sein."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Foreign Keys verbinden Tabellen",
+                "Sie verweisen auf Primary Keys",
+                "SQLite prüft Beziehungen nur mit PRAGMA foreign_keys",
+                "Ungültige Referenzen werden verhindert",
+                "Wichtig für saubere Datenmodelle"
+              ]
+            }
+          ]
+        },
+
+
+        {
+          "title": "NULL",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "NULL",
+              "text": "NULL bedeutet, dass kein Wert vorhanden ist. Es ist weder 0, noch ein leerer String, noch false."
+            },
+            {
+              "type": "explanation",
+              "title": "Was NULL ist und was nicht",
+              "text": [
+                "NULL steht für Abwesenheit eines Werts.",
+                "0 ist ein gültiger numerischer Wert.",
+                "Ein leerer String ' ' ist ein gültiger Textwert."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "NULL vs andere Werte",
+              "columns": ["NULL", "0", "Leerer String"],
+              "rows": [
+                {
+                  "aspect": "Bedeutung",
+                  "values": ["Kein Wert", "Numerischer Wert", "Textwert vorhanden"]
+                },
+                {
+                  "aspect": "Vergleichbar mit =",
+                  "values": ["Nein", "Ja", "Ja"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "NULL in Tabellen",
+              "text": [
+                "Spalten können NULL erlauben oder verbieten.",
+                "NULL ist der Standard, wenn nichts anderes angegeben ist.",
+                "NOT NULL erzwingt einen gesetzten Wert."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "NULL erlauben und verbieten",
+              "language": "sql",
+              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT NOT NULL,\n    nickname TEXT NULL\n);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "NULL prüfen",
+              "text": [
+                "NULL kann nicht mit = verglichen werden.",
+                "IS NULL und IS NOT NULL werden verwendet.",
+                "Vergleiche mit = liefern bei NULL kein true."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "NULL abfragen",
+              "language": "sql",
+              "code": "SELECT * FROM users WHERE nickname IS NULL;\nSELECT * FROM users WHERE nickname IS NOT NULL;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "NULL in SQLite und C++",
+              "text": [
+                "Beim Lesen kann sqlite3_column_text nullptr liefern.",
+                "column_type kann SQLITE_NULL zurückgeben.",
+                "NULL sollte in C++ über std::optional modelliert werden."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "NULL wie einen normalen Wert behandeln",
+              "text": "Vergleiche mit = NULL funktionieren nicht und führen zu falschen Ergebnissen."
+            },
+            {
+              "type": "important",
+              "text": "NULL ist ein eigener Zustand und muss explizit behandelt werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "NULL bedeutet kein Wert",
+                "NULL ist nicht 0 und nicht leer",
+                "NULL wird mit IS NULL geprüft",
+                "NOT NULL erzwingt Werte",
+                "In C++ sollte NULL über optional abgebildet werden"
+              ]
+            }
+          ]
+        },
+
+
+        {
+          "title": "Index",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Index",
+              "text": "Ein Index ist eine zusätzliche Datenstruktur, die den schnellen Zugriff auf Zeilen einer Tabelle ermöglicht."
+            },
+            {
+              "type": "explanation",
+              "title": "Das Grundproblem ohne Index",
+              "text": [
+                "Ohne Index muss die Datenbank jede Zeile der Tabelle prüfen.",
+                "Dieser vollständige Durchlauf wird Full Table Scan genannt.",
+                "Bei großen Tabellen wird das schnell langsam."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Was ein Index macht",
+              "text": [
+                "Ein Index speichert sortierte Verweise auf Zeilen.",
+                "Die Datenbank findet passende Zeilen deutlich schneller.",
+                "Der Zugriff ähnelt einem Inhaltsverzeichnis statt dem Lesen eines ganzen Buches."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wann Indizes helfen",
+              "text": [
+                "Bei WHERE Bedingungen auf bestimmten Spalten.",
+                "Bei JOIN Operationen über Foreign Keys.",
+                "Bei ORDER BY auf großen Tabellen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel: Abfrage ohne und mit Index",
+              "language": "sql",
+              "code": "-- ohne Index (langsam bei vielen Zeilen)\nSELECT * FROM users WHERE email = 'max@example.com';\n\n-- Index anlegen\nCREATE INDEX idx_users_email ON users(email);\n\n-- gleiche Abfrage, jetzt mit Index\nSELECT * FROM users WHERE email = 'max@example.com';\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Kosten von Indizes",
+              "text": [
+                "Indizes benötigen zusätzlichen Speicherplatz.",
+                "INSERT, UPDATE und DELETE werden etwas langsamer.",
+                "Zu viele Indizes schaden der Performance."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Mit vs ohne Index",
+              "columns": ["Ohne Index", "Mit Index"],
+              "rows": [
+                {
+                  "aspect": "SELECT mit WHERE",
+                  "values": ["Langsam", "Schnell"]
+                },
+                {
+                  "aspect": "INSERT UPDATE DELETE",
+                  "values": ["Schneller", "Langsamer"]
+                },
+                {
+                  "aspect": "Speicherbedarf",
+                  "values": ["Gering", "Höher"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Index auf jede Spalte",
+              "text": "Indizes auf jeder Spalte wirken logisch, verschlechtern aber Schreibperformance und Wartbarkeit."
+            },
+            {
+              "type": "important",
+              "text": "Indizes sollten gezielt für häufige Abfragen eingesetzt werden, nicht pauschal."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Indizes beschleunigen Datenzugriffe",
+                "Ohne Index erfolgt ein Full Table Scan",
+                "Besonders wichtig für WHERE, JOIN und ORDER BY",
+                "Indizes kosten Speicher und Schreibperformance",
+                "Gezielter Einsatz ist entscheidend"
+              ]
+            }
+          ]
+        }
+
+
+
+        ]
+      }
+
+
+
+
+    ]
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   {
     "category": "SQLite",
     "icon": "🗄️",
@@ -15355,725 +16979,54 @@
 
 
 
+
+
+
+
+
   {
-    "category": "SQL",
-    "icon": "</>",
+    "category": "PostgreSQL",
+    "icon": "🗄️",
     "subcategories": [
       {
-        "name": "Grundlagen",
-        "icon": "📘",
+        "name": "SUBCATEGORIE1",
+        "icon": "🧱",
         "topics": [
         {
-          "title": "Was ist SQL",
+          "title": "---",
           "difficulty": "basic",
           "blocks": [
-            {
-              "type": "definition",
-              "term": "SQL",
-              "text": "SQL ist eine deklarative Sprache zur Definition, Abfrage und Änderung von Daten in relationalen Datenbanken."
-            },
-            {
-              "type": "explanation",
-              "title": "SQL als Sprache",
-              "text": [
-                "SQL beschreibt, was mit den Daten passieren soll.",
-                "Der konkrete Ausführungsplan wird von der Datenbank bestimmt.",
-                "SQL ist unabhängig von der Programmiersprache."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Was man mit SQL macht",
-              "text": [
-                "Tabellen und Strukturen definieren.",
-                "Daten speichern, ändern und löschen.",
-                "Daten gezielt abfragen."
-              ]
-            },
-            {
-              "type": "list",
-              "title": "Typische SQL Aufgaben",
-              "items": [
-                "Tabellen anlegen",
-                "Datensätze einfügen",
-                "Datensätze abfragen",
-                "Datensätze aktualisieren",
-                "Datensätze löschen"
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Abfrage vs Änderung",
-              "text": [
-                "Abfragen lesen Daten aus der Datenbank.",
-                "Änderungen verändern den Zustand der Datenbank.",
-                "Beide Kategorien haben unterschiedliche Rückgabewerte."
-              ]
-            },
-            {
-              "type": "comparison",
-              "title": "Abfrage vs Änderung",
-              "columns": ["Abfrage", "Änderung"],
-              "rows": [
-                {
-                  "aspect": "Ziel",
-                  "values": ["Daten lesen", "Daten verändern"]
-                },
-                {
-                  "aspect": "Typische Befehle",
-                  "values": ["SELECT", "INSERT, UPDATE, DELETE"]
-                },
-                {
-                  "aspect": "Ergebnis",
-                  "values": ["Ergebniszeilen", "SQLITE_DONE"]
-                }
-              ]
-            },
-            {
-              "type": "pitfall",
-              "title": "SQL als Programmiersprache verstehen",
-              "text": "SQL beschreibt Datenoperationen, ist aber keine allgemeine Programmiersprache mit Schleifen oder Variablen."
-            },
-            {
-              "type": "important",
-              "text": "SQL definiert den Datenzugriff, nicht die Geschäftslogik der Anwendung."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "SQL ist eine deklarative Datenbanksprache",
-                "SQL ist unabhängig von C++ oder SQLite",
-                "Mit SQL werden Daten gelesen und verändert",
-                "SELECT ist Abfrage, INSERT UPDATE DELETE sind Änderungen",
-                "Abfragen und Änderungen haben unterschiedliche Ergebnisse"
-              ]
-            }
           ]
         },
 
 
         {
-          "title": "Tabellen und Zeilen",
+          "title": "---",
           "difficulty": "basic",
           "blocks": [
-            {
-              "type": "definition",
-              "term": "Tabelle",
-              "text": "Eine Tabelle ist eine strukturierte Sammlung von Daten, organisiert in Spalten und Zeilen."
-            },
-            {
-              "type": "explanation",
-              "title": "Tabelle als Raster",
-              "text": [
-                "Eine Tabelle kann als zweidimensionales Raster verstanden werden.",
-                "Spalten definieren die Struktur der Daten.",
-                "Zeilen enthalten die konkreten Datensätze."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Spalten",
-              "text": [
-                "Spalten legen fest, welche Art von Daten gespeichert wird.",
-                "Jede Spalte hat einen Namen und einen Datentyp.",
-                "Alle Zeilen einer Tabelle folgen derselben Spaltenstruktur."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Beispiel: Tabelle mit Spalten",
-              "language": "sql",
-              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT,\n    age INTEGER\n);\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Zeilen und Datensätze",
-              "text": [
-                "Eine Zeile repräsentiert genau einen Datensatz.",
-                "Alle Spalten der Tabelle haben in jeder Zeile einen Wert oder NULL.",
-                "Mehrere Zeilen bilden die eigentlichen Inhalte der Tabelle."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Beispiel: Datensätze einfügen",
-              "language": "sql",
-              "code": "INSERT INTO users (id, name, age) VALUES (1, 'Max', 30);\nINSERT INTO users (id, name, age) VALUES (2, 'Anna', 25);\n"
-            },
-            {
-              "type": "comparison",
-              "title": "Spalte vs Zeile",
-              "columns": ["Spalte", "Zeile"],
-              "rows": [
-                {
-                  "aspect": "Bedeutung",
-                  "values": ["Struktur", "Datensatz"]
-                },
-                {
-                  "aspect": "Anzahl",
-                  "values": ["Fest definiert", "Beliebig viele"]
-                },
-                {
-                  "aspect": "Inhalt",
-                  "values": ["Datentyp", "Konkrete Werte"]
-                }
-              ]
-            },
-            {
-              "type": "pitfall",
-              "title": "Spaltenstruktur ändern",
-              "text": "Eine nachträgliche Änderung der Spaltenstruktur kann bestehende Datensätze ungültig machen oder Migrationsaufwand erzeugen."
-            },
-            {
-              "type": "important",
-              "text": "Die Tabellenstruktur sollte vor der Dateneingabe sorgfältig geplant werden."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "Tabellen sind Raster aus Spalten und Zeilen",
-                "Spalten definieren die Struktur",
-                "Zeilen sind einzelne Datensätze",
-                "Alle Zeilen folgen derselben Struktur",
-                "Gute Tabellenstruktur ist entscheidend für saubere Daten"
-              ]
-            }
           ]
         },
 
 
         {
-          "title": "Einfache CREATE TABLE",
+          "title": "---",
           "difficulty": "basic",
           "blocks": [
-            {
-              "type": "explanation",
-              "title": "Minimalbeispiel",
-              "text": [
-                "Eine Tabelle wird mit CREATE TABLE angelegt.",
-                "Spaltenname und Typ reichen für den Anfang.",
-                "IF NOT EXISTS verhindert Fehler bei erneutem Ausführen."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Einfaches CREATE TABLE",
-              "language": "sql",
-              "code": "CREATE TABLE IF NOT EXISTS users (\n    id INTEGER PRIMARY KEY,\n    name TEXT,\n    age INTEGER\n);\n"
-            },
-            {
-              "type": "explanation",
-              "title": "In C++ ausführen",
-              "text": [
-                "Das SQL wird einmal ausgeführt, meist beim Programmstart.",
-                "Keine Parameter, kein Ergebnis.",
-                "Erfolg bedeutet SQLITE_DONE."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "CREATE TABLE mit Database::execute",
-              "language": "cpp",
-              "code": "Database db(\"data.db\");\n\ndb.execute(\n    \"CREATE TABLE IF NOT EXISTS users (\"\n    \"id INTEGER PRIMARY KEY,\"\n    \"name TEXT,\"\n    \"age INTEGER\"\n    \");\"\n);\n"
-            },
-            {
-              "type": "important",
-              "text": "CREATE TABLE wird typischerweise beim Initialisieren der Datenbank ausgeführt."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "CREATE TABLE legt eine Tabelle an",
-                "IF NOT EXISTS vermeidet Fehler",
-                "Keine Parameter notwendig",
-                "Kein Ergebnis, nur Ausführung",
-                "Ideal für den Einstieg"
-              ]
-            }
           ]
         },
 
-
-
-
         {
-          "title": "CREATE TABLE Parameter",
+          "title": "---",
           "difficulty": "basic",
           "blocks": [
-            {
-              "type": "explanation",
-              "title": "Spaltenparameter in der Praxis",
-              "text": [
-                "CREATE TABLE definiert Spalten mit Typen und einfachen Eigenschaften.",
-                "Die Parameter stehen direkt hinter dem Spaltennamen.",
-                "SQLite ist flexibel, aber saubere Definitionen sind wichtig."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Einfaches Beispiel mit Parametern",
-              "language": "sql",
-              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    name TEXT NOT NULL,\n    age INTEGER,\n    weight REAL,\n    note TEXT NULL\n);\n"
-            },
-            {
-              "type": "explanation",
-              "title": "INTEGER PRIMARY KEY",
-              "text": [
-                "INTEGER PRIMARY KEY macht die Spalte zur eindeutigen ID.",
-                "Der Wert identifiziert jede Zeile eindeutig.",
-                "In SQLite ist diese Spalte intern mit der RowID verknüpft."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "AUTOINCREMENT",
-              "text": [
-                "AUTOINCREMENT sorgt dafür, dass IDs strikt monoton steigen.",
-                "Ohne AUTOINCREMENT vergibt SQLite ebenfalls automatisch IDs.",
-                "AUTOINCREMENT wird nur benötigt, wenn alte IDs niemals wiederverwendet werden dürfen."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "TEXT",
-              "text": [
-                "TEXT speichert Zeichenketten.",
-                "Die Länge ist nicht fest begrenzt.",
-                "Geeignet für Namen, Beschreibungen und freie Texte."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "INTEGER",
-              "text": [
-                "INTEGER speichert Ganzzahlen.",
-                "Typisch für Zähler, Alterswerte oder Flags.",
-                "Kann auch für Booleans genutzt werden (0 oder 1)."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "REAL (DOUBLE)",
-              "text": [
-                "REAL speichert Gleitkommazahlen.",
-                "SQLite verwendet intern 64 Bit Floating Point.",
-                "DOUBLE ist kein eigener SQLite Typ, wird aber auf REAL abgebildet."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "NULL und NOT NULL",
-              "text": [
-                "NULL bedeutet, dass kein Wert vorhanden ist.",
-                "NOT NULL erzwingt, dass immer ein Wert gesetzt sein muss.",
-                "NOT NULL schützt vor unvollständigen Datensätzen."
-              ]
-            },
-            {
-              "type": "comparison",
-              "title": "Typische Spaltentypen",
-              "columns": ["Typ", "Verwendung"],
-              "rows": [
-                {
-                  "aspect": "INTEGER",
-                  "values": ["IDs, Zähler", "Ganzzahlen"]
-                },
-                {
-                  "aspect": "TEXT",
-                  "values": ["Namen, Strings", "Beschreibungen"]
-                },
-                {
-                  "aspect": "REAL",
-                  "values": ["Messwerte", "Dezimalzahlen"]
-                }
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "UNIQUE",
-              "text": [
-                "UNIQUE erzwingt, dass ein Wert in einer Spalte eindeutig ist.",
-                "Doppelte Werte sind nicht erlaubt.",
-                "NULL Werte sind bei UNIQUE erlaubt, da NULL kein Wert ist."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "UNIQUE Spalte",
-              "language": "sql",
-              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    email TEXT UNIQUE,\n    name TEXT\n);\n"
-            },
-            {
-              "type": "explanation",
-              "title": "UNIQUE Verhalten",
-              "text": [
-                "Beim INSERT oder UPDATE prüft SQLite die Eindeutigkeit.",
-                "Ein Verstoß führt zu SQLITE_CONSTRAINT.",
-                "Die Operation wird abgebrochen."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Mehrere Spalten eindeutig machen",
-              "text": [
-                "UNIQUE kann sich über mehrere Spalten erstrecken.",
-                "Die Kombination der Werte muss eindeutig sein.",
-                "Einzelne Werte dürfen sich wiederholen."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Zusammengesetztes UNIQUE",
-              "language": "sql",
-              "code": "CREATE TABLE appointments (\n    user_id INTEGER,\n    date TEXT,\n    UNIQUE (user_id, date)\n);\n"
-            },
-            {
-              "type": "comparison",
-              "title": "UNIQUE vs PRIMARY KEY",
-              "columns": ["UNIQUE", "PRIMARY KEY"],
-              "rows": [
-                {
-                  "aspect": "Eindeutigkeit",
-                  "values": ["Ja", "Ja"]
-                },
-                {
-                  "aspect": "NULL erlaubt",
-                  "values": ["Ja", "Nein"]
-                },
-                {
-                  "aspect": "Anzahl pro Tabelle",
-                  "values": ["Mehrere möglich", "Genau einer"]
-                }
-              ]
-            },
-            {
-              "type": "pitfall",
-              "title": "UNIQUE als Ersatz für Primary Key",
-              "text": "UNIQUE garantiert Eindeutigkeit, ersetzt aber keinen Primary Key für eindeutige Identifikation."
-            },
-            {
-              "type": "important",
-              "text": "UNIQUE wird für fachlich eindeutige Werte wie E Mail Adressen verwendet."
-            },
-            {
-              "type": "pitfall",
-              "title": "AUTOINCREMENT blind verwenden",
-              "text": "AUTOINCREMENT ist meist unnötig und kann Performance kosten. INTEGER PRIMARY KEY reicht in den meisten Fällen aus."
-            },
-            {
-              "type": "important",
-              "text": "SQLite Typen sind flexibel, aber klare Spaltenparameter verhindern spätere Datenprobleme."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "Spaltenparameter stehen direkt im CREATE TABLE",
-                "INTEGER PRIMARY KEY definiert die ID",
-                "AUTOINCREMENT nur bei echtem Bedarf",
-                "TEXT für Strings, INTEGER für Ganzzahlen, REAL für Gleitkomma",
-                "NOT NULL erzwingt vollständige Datensätze"
-              ]
-            }
-          ]
-        }
-
-
-
-
-        ]
-      },
-
-
-      {
-        "name": "Daten abfragen",
-        "icon": "🔍",
-        "topics": [
-        {
-          "title": "SELECT Grundform",
-          "difficulty": "basic",
-          "blocks": [
-            {
-              "type": "explanation",
-              "title": "Grundstruktur",
-              "text": [
-                "SELECT liest Daten aus einer Tabelle.",
-                "Die Spalten werden explizit angegeben.",
-                "FROM definiert die Tabelle."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Einfaches SELECT",
-              "language": "sql",
-              "code": "SELECT id, name, age FROM users;\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Spalten auswählen",
-              "text": [
-                "Es können einzelne oder mehrere Spalten ausgewählt werden.",
-                "Die Reihenfolge der Spalten bestimmt die Reihenfolge im Ergebnis.",
-                "Die Spaltennamen müssen in der Tabelle existieren."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Nur bestimmte Spalten",
-              "language": "sql",
-              "code": "SELECT name FROM users;\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Alle Spalten auswählen",
-              "text": [
-                "Mit * werden alle Spalten ausgewählt.",
-                "Die Reihenfolge entspricht der Tabellendefinition.",
-                "* ist praktisch zum Testen, aber ungeeignet für Produktivcode."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "SELECT mit *",
-              "language": "sql",
-              "code": "SELECT * FROM users;\n"
-            },
-            {
-              "type": "pitfall",
-              "title": "SELECT * im Code verwenden",
-              "text": "SELECT * bricht leicht, wenn sich die Tabellenstruktur ändert. Spalten sollten immer explizit angegeben werden."
-            },
-            {
-              "type": "important",
-              "text": "Die Spaltenreihenfolge im SELECT muss zum späteren Spaltenlesen passen."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "SELECT liest Daten aus Tabellen",
-                "Spalten werden vor FROM angegeben",
-                "FROM definiert die Tabelle",
-                "SELECT * ist nur für schnelle Tests geeignet",
-                "Explizite Spalten sind robuster"
-              ]
-            }
           ]
         },
 
 
         {
-          "title": "WHERE filtern",
+          "title": "---",
           "difficulty": "basic",
           "blocks": [
-            {
-              "type": "explanation",
-              "title": "WHERE Grundidee",
-              "text": [
-                "WHERE filtert Zeilen nach Bedingungen.",
-                "Nur Zeilen, die die Bedingung erfüllen, werden ausgewählt.",
-                "Ohne WHERE werden alle Zeilen gelesen."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Vergleichsoperatoren",
-              "text": [
-                "= prüft auf Gleichheit.",
-                "< und > vergleichen numerische Werte.",
-                "<= und >= sind ebenfalls möglich."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Vergleiche mit WHERE",
-              "language": "sql",
-              "code": "SELECT * FROM users WHERE age = 30;\nSELECT * FROM users WHERE age > 18;\nSELECT * FROM users WHERE age < 65;\n"
-            },
-            {
-              "type": "explanation",
-              "title": "AND und OR",
-              "text": [
-                "AND verknüpft mehrere Bedingungen, die alle erfüllt sein müssen.",
-                "OR verknüpft Bedingungen, von denen mindestens eine erfüllt sein muss.",
-                "Klammern steuern die Auswertungsreihenfolge."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Mehrere Bedingungen",
-              "language": "sql",
-              "code": "SELECT * FROM users WHERE age > 18 AND age < 65;\nSELECT * FROM users WHERE age < 18 OR age > 65;\n"
-            },
-            {
-              "type": "explanation",
-              "title": "LIKE",
-              "text": [
-                "LIKE ermöglicht einfache Textmuster.",
-                "% steht für beliebig viele Zeichen.",
-                "_ steht für genau ein Zeichen."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "LIKE Beispiele",
-              "language": "sql",
-              "code": "SELECT * FROM users WHERE name LIKE 'Max%';\nSELECT * FROM users WHERE name LIKE '%mann';\nSELECT * FROM users WHERE name LIKE 'M_x';\n"
-            },
-            {
-              "type": "pitfall",
-              "title": "LIKE und Groß Kleinschreibung",
-              "text": "LIKE ist in SQLite standardmäßig nicht case sensitiv, abhängig von Collation."
-            },
-            {
-              "type": "important",
-              "text": "Filter sollten so spezifisch wie nötig sein, um unnötige Daten zu vermeiden."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "WHERE filtert Zeilen",
-                "Vergleichsoperatoren = < > sind Standard",
-                "AND und OR verknüpfen Bedingungen",
-                "LIKE filtert nach Textmustern",
-                "Klammern sorgen für klare Logik"
-              ]
-            }
-          ]
-        },
-
-
-        {
-          "title": "ORDER BY",
-          "difficulty": "basic",
-          "blocks": [
-            {
-              "type": "explanation",
-              "title": "Sortieren mit ORDER BY",
-              "text": [
-                "ORDER BY sortiert das Ergebnis einer SELECT Abfrage.",
-                "Die Sortierung erfolgt nach einer oder mehreren Spalten.",
-                "Ohne ORDER BY ist die Reihenfolge nicht definiert."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "ASC und DESC",
-              "text": [
-                "ASC sortiert aufsteigend.",
-                "DESC sortiert absteigend.",
-                "ASC ist der Standard und kann weggelassen werden."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "ORDER BY Beispiele",
-              "language": "sql",
-              "code": "SELECT * FROM users ORDER BY age ASC;\nSELECT * FROM users ORDER BY age DESC;\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Mehrere Spalten sortieren",
-              "text": [
-                "ORDER BY kann mehrere Spalten enthalten.",
-                "Die Sortierung erfolgt von links nach rechts.",
-                "Sekundäre Sortierungen greifen bei gleichen Werten."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Sortieren nach mehreren Spalten",
-              "language": "sql",
-              "code": "SELECT * FROM users ORDER BY age DESC, name ASC;\n"
-            },
-            {
-              "type": "pitfall",
-              "title": "ORDER BY vergessen",
-              "text": "Ohne ORDER BY darf man sich niemals auf eine bestimmte Reihenfolge verlassen."
-            },
-            {
-              "type": "important",
-              "text": "Die gewünschte Reihenfolge muss immer explizit mit ORDER BY angegeben werden."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "ORDER BY sortiert SELECT Ergebnisse",
-                "ASC bedeutet aufsteigend",
-                "DESC bedeutet absteigend",
-                "Mehrere Spalten sind möglich",
-                "Ohne ORDER BY ist die Reihenfolge undefiniert"
-              ]
-            }
-          ]
-        },
-
-        {
-          "title": "LIMIT",
-          "difficulty": "basic",
-          "blocks": [
-            {
-              "type": "explanation",
-              "title": "Ergebnisanzahl begrenzen",
-              "text": [
-                "LIMIT begrenzt die Anzahl der zurückgegebenen Zeilen.",
-                "Die Abfrage liefert höchstens die angegebene Anzahl.",
-                "Besonders nützlich bei großen Tabellen."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "LIMIT Beispiel",
-              "language": "sql",
-              "code": "SELECT * FROM users LIMIT 5;\n"
-            },
-            {
-              "type": "explanation",
-              "title": "LIMIT mit ORDER BY",
-              "text": [
-                "LIMIT wird häufig mit ORDER BY kombiniert.",
-                "So werden die ersten oder letzten Einträge gezielt ausgewählt.",
-                "Die Sortierung wird vor dem LIMIT angewendet."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "ORDER BY und LIMIT",
-              "language": "sql",
-              "code": "SELECT * FROM users ORDER BY age DESC LIMIT 3;\n"
-            },
-            {
-              "type": "explanation",
-              "title": "LIMIT und OFFSET",
-              "text": [
-                "OFFSET überspringt eine bestimmte Anzahl von Zeilen.",
-                "Wird häufig für Pagination verwendet.",
-                "LIMIT und OFFSET arbeiten zusammen."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "LIMIT mit OFFSET",
-              "language": "sql",
-              "code": "SELECT * FROM users ORDER BY id LIMIT 5 OFFSET 10;\n"
-            },
-            {
-              "type": "pitfall",
-              "title": "LIMIT ohne ORDER BY",
-              "text": "LIMIT ohne ORDER BY liefert beliebige Zeilen und ist meist nicht sinnvoll."
-            },
-            {
-              "type": "important",
-              "text": "LIMIT bestimmt nur die Anzahl, nicht welche Zeilen gewählt werden."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "LIMIT begrenzt die Anzahl der Ergebnisse",
-                "ORDER BY bestimmt welche Zeilen ausgewählt werden",
-                "OFFSET überspringt Zeilen",
-                "Typisch für Listen und Pagination",
-                "Ohne ORDER BY ist LIMIT nicht deterministisch"
-              ]
-            }
           ]
         }
 
@@ -16083,873 +17036,45 @@
       },
 
 
-
       {
-        "name": "Daten ändern",
-        "icon": "✏️",
+        "name": "SUBCATEGORIE2",
+        "icon": "🧱",
         "topics": [
         {
-          "title": "INSERT",
+          "title": "---",
           "difficulty": "basic",
           "blocks": [
-            {
-              "type": "explanation",
-              "title": "Neue Zeile einfügen",
-              "text": [
-                "INSERT fügt einen neuen Datensatz in eine Tabelle ein.",
-                "Es wird genau eine neue Zeile erzeugt.",
-                "Die angegebenen Spalten erhalten die übergebenen Werte."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Einfaches INSERT",
-              "language": "sql",
-              "code": "INSERT INTO users (name, age) VALUES ('Max', 30);\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Spalten explizit angeben",
-              "text": [
-                "Die Spaltenliste sollte immer explizit angegeben werden.",
-                "Die Reihenfolge der Werte muss zur Spaltenliste passen.",
-                "Nicht genannte Spalten erhalten NULL oder Default Werte."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "INSERT mit allen Spalten",
-              "language": "sql",
-              "code": "INSERT INTO users (id, name, age) VALUES (1, 'Anna', 25);\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Mehrere Zeilen einfügen",
-              "text": [
-                "INSERT kann mehrere Datensätze auf einmal einfügen.",
-                "Alle Zeilen werden in einer Anweisung verarbeitet.",
-                "Das ist meist schneller als einzelne INSERTs."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Mehrere Datensätze",
-              "language": "sql",
-              "code": "INSERT INTO users (name, age) VALUES\n  ('Max', 30),\n  ('Anna', 25),\n  ('Tom', 40);\n"
-            },
-            {
-              "type": "explanation",
-              "title": "AUTO INCREMENT IDs",
-              "text": [
-                "Bei INTEGER PRIMARY KEY wird die ID automatisch vergeben.",
-                "Die ID muss nicht im INSERT angegeben werden.",
-                "SQLite vergibt einen neuen eindeutigen Wert."
-              ]
-            },
-            {
-              "type": "pitfall",
-              "title": "INSERT ohne Spaltenliste",
-              "text": "INSERT ohne explizite Spaltenliste ist fehleranfällig, wenn sich die Tabellenstruktur ändert."
-            },
-            {
-              "type": "important",
-              "text": "INSERT fügt Daten hinzu, verändert aber keine bestehenden Zeilen."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "INSERT fügt eine neue Zeile ein",
-                "Spalten sollten immer explizit angegeben werden",
-                "Mehrere Zeilen können in einem INSERT eingefügt werden",
-                "IDs werden oft automatisch vergeben",
-                "Saubere INSERTs sind robust gegenüber Schema Änderungen"
-              ]
-            }
           ]
         },
 
 
         {
-          "title": "UPDATE",
+          "title": "---",
           "difficulty": "basic",
           "blocks": [
-            {
-              "type": "explanation",
-              "title": "Bestehende Daten ändern",
-              "text": [
-                "UPDATE verändert bestehende Datensätze in einer Tabelle.",
-                "Es werden keine neuen Zeilen erzeugt.",
-                "Nur die angegebenen Spalten werden geändert."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Einfaches UPDATE",
-              "language": "sql",
-              "code": "UPDATE users SET age = 31 WHERE id = 1;\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Mehrere Spalten ändern",
-              "text": [
-                "Mehrere Spalten können in einem UPDATE gesetzt werden.",
-                "Die Zuweisungen werden durch Kommas getrennt.",
-                "Alle Änderungen passieren atomar."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "UPDATE mit mehreren Spalten",
-              "language": "sql",
-              "code": "UPDATE users SET name = 'Max M.', age = 32 WHERE id = 1;\n"
-            },
-            {
-              "type": "explanation",
-              "title": "UPDATE mit WHERE",
-              "text": [
-                "WHERE begrenzt, welche Zeilen geändert werden.",
-                "Ohne WHERE werden alle Zeilen der Tabelle geändert.",
-                "WHERE ist fast immer notwendig."
-              ]
-            },
-            {
-              "type": "pitfall",
-              "title": "UPDATE ohne WHERE",
-              "text": "UPDATE ohne WHERE ändert alle Datensätze und ist eine der häufigsten Fehlerquellen."
-            },
-            {
-              "type": "important",
-              "text": "UPDATE verändert Daten dauerhaft. WHERE sollte immer bewusst gesetzt werden."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "UPDATE ändert bestehende Datensätze",
-                "SET definiert die neuen Werte",
-                "WHERE begrenzt die betroffenen Zeilen",
-                "Mehrere Spalten können gleichzeitig geändert werden",
-                "UPDATE ohne WHERE ist gefährlich"
-              ]
-            }
           ]
         },
 
 
         {
-          "title": "DELETE",
+          "title": "---",
           "difficulty": "basic",
           "blocks": [
-            {
-              "type": "explanation",
-              "title": "Daten löschen",
-              "text": [
-                "DELETE entfernt Datensätze aus einer Tabelle.",
-                "Die gelöschten Zeilen sind dauerhaft entfernt.",
-                "Es werden keine Spalten oder Tabellen verändert."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Einfaches DELETE",
-              "language": "sql",
-              "code": "DELETE FROM users WHERE id = 1;\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Warum WHERE wichtig ist",
-              "text": [
-                "WHERE bestimmt, welche Zeilen gelöscht werden.",
-                "Ohne WHERE werden alle Zeilen der Tabelle gelöscht.",
-                "WHERE schützt vor unbeabsichtigtem Datenverlust."
-              ]
-            },
-            {
-              "type": "pitfall",
-              "title": "DELETE ohne WHERE",
-              "text": "DELETE ohne WHERE löscht den gesamten Tabelleninhalt und ist ein häufiger und gefährlicher Fehler."
-            },
-            {
-              "type": "explanation",
-              "title": "Mehrere Zeilen löschen",
-              "text": [
-                "DELETE kann mehrere Zeilen auf einmal entfernen.",
-                "Alle Zeilen, die die WHERE Bedingung erfüllen, werden gelöscht.",
-                "Die Operation ist idempotent."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Mehrere Zeilen löschen",
-              "language": "sql",
-              "code": "DELETE FROM users WHERE age < 18;\n"
-            },
-            {
-              "type": "important",
-              "text": "DELETE sollte immer mit WHERE verwendet werden, außer der komplette Tabelleninhalt soll bewusst gelöscht werden."
-            },
-            {
-              "type": "explanation",
-              "title": "ON DELETE CASCADE",
-              "text": [
-                "ON DELETE CASCADE ist eine Foreign Key Option.",
-                "Beim Löschen einer Zeile werden abhängige Zeilen automatisch mitgelöscht.",
-                "Die Löschlogik liegt in der Datenbank, nicht im Code."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Beispiel mit ON DELETE CASCADE",
-              "language": "sql",
-              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT\n);\n\nCREATE TABLE orders (\n    id INTEGER PRIMARY KEY,\n    user_id INTEGER,\n    product TEXT,\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE\n);\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Was beim DELETE passiert",
-              "text": [
-                "DELETE FROM users löscht den User.",
-                "Alle orders mit passender user_id werden automatisch gelöscht.",
-                "Es bleiben keine verwaisten Datensätze zurück."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Voraussetzung",
-              "text": [
-                "Foreign Keys müssen aktiviert sein.",
-                "PRAGMA foreign_keys = ON ist zwingend notwendig.",
-                "Ohne dieses PRAGMA hat ON DELETE CASCADE keine Wirkung."
-              ]
-            },
-            {
-              "type": "comparison",
-              "title": "DELETE mit und ohne CASCADE",
-              "columns": ["Ohne CASCADE", "Mit CASCADE"],
-              "rows": [
-                {
-                  "aspect": "Abhängige Zeilen",
-                  "values": ["Bleiben bestehen", "Werden automatisch gelöscht"]
-                },
-                {
-                  "aspect": "Code Aufwand",
-                  "values": ["Manuelles Löschen", "Kein Zusatzcode"]
-                },
-                {
-                  "aspect": "Konsistenz",
-                  "values": ["Fehleranfällig", "Automatisch gesichert"]
-                }
-              ]
-            },
-            {
-              "type": "pitfall",
-              "title": "Unerwartete Löschkaskaden",
-              "text": "ON DELETE CASCADE kann große Datenmengen löschen, wenn Beziehungen nicht sauber modelliert sind."
-            },
-            {
-              "type": "important",
-              "text": "ON DELETE CASCADE ist mächtig und sollte bewusst und sparsam eingesetzt werden."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "DELETE entfernt Datensätze aus Tabellen",
-                "WHERE begrenzt die betroffenen Zeilen",
-                "DELETE ohne WHERE löscht alle Daten",
-                "Mehrere Zeilen können gleichzeitig gelöscht werden",
-                "DELETE ist dauerhaft"
-              ]
-            }
-          ]
-        }
-
-
-
-        ]
-      },
-
-
-
-
-      {
-        "name": "Mehrere Tabellen",
-        "icon": "🔗",
-        "topics": [
-        {
-          "title": "Warum mehrere Tabellen",
-          "difficulty": "basic",
-          "blocks": [
-            {
-              "type": "definition",
-              "term": "Mehrere Tabellen",
-              "text": "Mehrere Tabellen teilen Daten logisch auf und verhindern, dass unterschiedliche Informationen vermischt oder doppelt gespeichert werden."
-            },
-            {
-              "type": "explanation",
-              "title": "Daten trennen",
-              "text": [
-                "Unterschiedliche Konzepte gehören in unterschiedliche Tabellen.",
-                "Eine Tabelle sollte genau eine Verantwortung haben.",
-                "Klare Trennung macht Daten verständlicher und wartbarer."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Schlechtes Beispiel: Alles in einer Tabelle",
-              "language": "sql",
-              "code": "CREATE TABLE orders (\n    order_id INTEGER PRIMARY KEY,\n    user_name TEXT,\n    user_email TEXT,\n    product_name TEXT,\n    product_price REAL\n);\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Redundanz vermeiden",
-              "text": [
-                "Gleiche Informationen würden mehrfach gespeichert.",
-                "Änderungen müssen an vielen Stellen nachgezogen werden.",
-                "Inkonsistenzen entstehen leicht."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Besser: Daten aufteilen",
-              "language": "sql",
-              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT,\n    email TEXT\n);\n\nCREATE TABLE products (\n    id INTEGER PRIMARY KEY,\n    name TEXT,\n    price REAL\n);\n\nCREATE TABLE orders (\n    id INTEGER PRIMARY KEY,\n    user_id INTEGER,\n    product_id INTEGER\n);\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Vorteile mehrerer Tabellen",
-              "text": [
-                "Jede Information existiert nur einmal.",
-                "Änderungen sind eindeutig und konsistent.",
-                "Beziehungen zwischen Daten sind klar modelliert."
-              ]
-            },
-            {
-              "type": "comparison",
-              "title": "Eine Tabelle vs mehrere Tabellen",
-              "columns": ["Eine Tabelle", "Mehrere Tabellen"],
-              "rows": [
-                {
-                  "aspect": "Redundanz",
-                  "values": ["Hoch", "Gering"]
-                },
-                {
-                  "aspect": "Änderbarkeit",
-                  "values": ["Fehleranfällig", "Sauber"]
-                },
-                {
-                  "aspect": "Datenqualität",
-                  "values": ["Gefährdet", "Stabil"]
-                }
-              ]
-            },
-            {
-              "type": "pitfall",
-              "title": "Alles in eine Tabelle packen",
-              "text": "Große Tabellen mit gemischten Daten wirken am Anfang einfach, werden aber schnell unwartbar."
-            },
-            {
-              "type": "important",
-              "text": "Mehrere Tabellen sind kein Overengineering, sondern Grundlage sauberer Datenmodelle."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "Daten logisch trennen",
-                "Redundanz vermeiden",
-                "Änderungen werden einfacher",
-                "Daten bleiben konsistent",
-                "Mehrere Tabellen sind Best Practice"
-              ]
-            }
           ]
         },
 
         {
-          "title": "INNER JOIN",
+          "title": "---",
           "difficulty": "basic",
           "blocks": [
-            {
-              "type": "explanation",
-              "title": "Tabellen verbinden",
-              "text": [
-                "INNER JOIN verbindet Zeilen aus zwei Tabellen.",
-                "Nur passende Zeilen aus beiden Tabellen erscheinen im Ergebnis.",
-                "Die Verbindung erfolgt über eine gemeinsame Spalte."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Einfaches JOIN Prinzip",
-              "text": [
-                "Eine Tabelle enthält eine Referenz auf die andere.",
-                "Die Referenz wird mit dem Primärschlüssel verbunden.",
-                "Das Ergebnis kombiniert Spalten beider Tabellen."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Beispiel Tabellen",
-              "language": "sql",
-              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT\n);\n\nCREATE TABLE orders (\n    id INTEGER PRIMARY KEY,\n    user_id INTEGER,\n    product TEXT\n);\n"
-            },
-            {
-              "type": "code",
-              "title": "Einfaches INNER JOIN",
-              "language": "sql",
-              "code": "SELECT users.name, orders.product\nFROM users\nINNER JOIN orders ON users.id = orders.user_id;\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Was das Ergebnis bedeutet",
-              "text": [
-                "Nur Orders mit einem existierenden User erscheinen.",
-                "Users ohne Orders erscheinen nicht.",
-                "Orders ohne passenden User erscheinen ebenfalls nicht."
-              ]
-            },
-            {
-              "type": "pitfall",
-              "title": "JOIN Bedingung vergessen",
-              "text": "Ohne ON Bedingung entsteht ein kartesisches Produkt mit extrem vielen Zeilen."
-            },
-            {
-              "type": "important",
-              "text": "INNER JOIN liefert nur Datensätze, die in beiden Tabellen existieren."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "INNER JOIN verbindet zwei Tabellen",
-                "Nur passende Zeilen erscheinen",
-                "Verbindung erfolgt über Schlüssel",
-                "Einfaches und häufig genutztes JOIN",
-                "JOIN Bedingung ist zwingend notwendig"
-              ]
-            }
           ]
         },
 
 
         {
-          "title": "LEFT JOIN",
+          "title": "---",
           "difficulty": "basic",
           "blocks": [
-            {
-              "type": "explanation",
-              "title": "Unterschied zu INNER JOIN",
-              "text": [
-                "LEFT JOIN liefert alle Zeilen der linken Tabelle.",
-                "Passende Zeilen der rechten Tabelle werden ergänzt.",
-                "Fehlende Treffer werden mit NULL aufgefüllt."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Grundprinzip",
-              "text": [
-                "Die linke Tabelle ist die erste Tabelle nach FROM.",
-                "Diese Tabelle bestimmt die Anzahl der Ergebniszeilen.",
-                "Die rechte Tabelle ist optional."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "LEFT JOIN Beispiel",
-              "language": "sql",
-              "code": "SELECT users.name, orders.product\nFROM users\nLEFT JOIN orders ON users.id = orders.user_id;\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Ergebnisverhalten",
-              "text": [
-                "Alle Users erscheinen im Ergebnis.",
-                "Users ohne Orders haben NULL in den Order Spalten.",
-                "Im Gegensatz zu INNER JOIN gehen keine linken Zeilen verloren."
-              ]
-            },
-            {
-              "type": "comparison",
-              "title": "INNER JOIN vs LEFT JOIN",
-              "columns": ["INNER JOIN", "LEFT JOIN"],
-              "rows": [
-                {
-                  "aspect": "Linke Tabelle vollständig",
-                  "values": ["Nein", "Ja"]
-                },
-                {
-                  "aspect": "Rechte Tabelle erforderlich",
-                  "values": ["Ja", "Nein"]
-                },
-                {
-                  "aspect": "NULL Werte möglich",
-                  "values": ["Nein", "Ja"]
-                }
-              ]
-            },
-            {
-              "type": "pitfall",
-              "title": "WHERE auf rechter Tabelle",
-              "text": "Eine WHERE Bedingung auf Spalten der rechten Tabelle kann den LEFT JOIN ungewollt in einen INNER JOIN verwandeln."
-            },
-            {
-              "type": "important",
-              "text": "LEFT JOIN wird genutzt, wenn auch Datensätze ohne Beziehung sichtbar bleiben sollen."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "LEFT JOIN liefert alle Zeilen der linken Tabelle",
-                "Rechte Tabelle ist optional",
-                "Nicht gefundene Werte werden NULL",
-                "Unterschied zu INNER JOIN ist das Ergebnisverhalten",
-                "LEFT JOIN ist wichtig für vollständige Listen"
-              ]
-            }
-          ]
-        }
-
-
-
-        ]
-      },
-
-
-
-
-      {
-        "name": "Design",
-        "icon": "📐",
-        "topics": [
-        {
-          "title": "Primary Key",
-          "difficulty": "basic",
-          "blocks": [
-            {
-              "type": "definition",
-              "term": "Primary Key",
-              "text": "Ein Primary Key ist eine Spalte oder Kombination von Spalten, die jede Zeile einer Tabelle eindeutig identifiziert."
-            },
-            {
-              "type": "explanation",
-              "title": "Wofür ein Primary Key da ist",
-              "text": [
-                "Jede Zeile muss eindeutig identifizierbar sein.",
-                "Der Primary Key verhindert doppelte Datensätze.",
-                "Andere Tabellen können zuverlässig auf diese Zeile verweisen."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Einfacher Primary Key",
-              "language": "sql",
-              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT,\n    age INTEGER\n);\n"
-            },
-            {
-              "type": "explanation",
-              "title": "INTEGER PRIMARY KEY in SQLite",
-              "text": [
-                "INTEGER PRIMARY KEY ist in SQLite besonders.",
-                "Die Spalte ist intern mit der RowID verknüpft.",
-                "Der Wert wird automatisch vergeben, wenn nichts eingesetzt wird."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Automatische ID Vergabe",
-              "language": "sql",
-              "code": "INSERT INTO users (name, age) VALUES ('Max', 30);\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Composite Primary Key",
-              "text": [
-                "Ein Primary Key kann aus mehreren Spalten bestehen.",
-                "Die Kombination der Werte muss eindeutig sein.",
-                "Typisch bei Zuordnungstabellen."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Zusammengesetzter Primary Key",
-              "language": "sql",
-              "code": "CREATE TABLE enrollments (\n    student_id INTEGER,\n    course_id INTEGER,\n    PRIMARY KEY (student_id, course_id)\n);\n"
-            },
-            {
-              "type": "pitfall",
-              "title": "Kein Primary Key",
-              "text": "Tabellen ohne Primary Key lassen doppelte oder nicht eindeutig adressierbare Zeilen zu."
-            },
-            {
-              "type": "important",
-              "text": "Jede Tabelle sollte einen Primary Key besitzen."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "Primary Key identifiziert Zeilen eindeutig",
-                "INTEGER PRIMARY KEY ist Standard in SQLite",
-                "IDs werden automatisch vergeben",
-                "Composite Keys sind möglich",
-                "Tabellen ohne Primary Key sind fehleranfällig"
-              ]
-            }
-          ]
-        },
-
-
-        {
-          "title": "Foreign Key",
-          "difficulty": "basic",
-          "blocks": [
-            {
-              "type": "definition",
-              "term": "Foreign Key",
-              "text": "Ein Foreign Key ist eine Spalte, die auf den Primary Key einer anderen Tabelle verweist und Beziehungen zwischen Tabellen herstellt."
-            },
-            {
-              "type": "explanation",
-              "title": "Warum Foreign Keys",
-              "text": [
-                "Foreign Keys verbinden logisch zusammengehörige Daten.",
-                "Sie verhindern ungültige Referenzen.",
-                "Die Datenbank hilft, Konsistenz zu erzwingen."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Einfaches Foreign Key Beispiel",
-              "language": "sql",
-              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT\n);\n\nCREATE TABLE orders (\n    id INTEGER PRIMARY KEY,\n    user_id INTEGER,\n    product TEXT,\n    FOREIGN KEY (user_id) REFERENCES users(id)\n);\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Was der Foreign Key bewirkt",
-              "text": [
-                "user_id muss auf einen existierenden users.id Wert zeigen.",
-                "Orders mit nicht existierendem User sind nicht erlaubt.",
-                "Die Beziehung wird von SQLite geprüft."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "FOREIGN KEYS aktivieren",
-              "text": [
-                "In SQLite sind Foreign Keys standardmäßig deaktiviert.",
-                "PRAGMA foreign_keys = ON aktiviert die Prüfung.",
-                "Ohne dieses PRAGMA werden Regeln nicht erzwungen."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Foreign Keys aktivieren",
-              "language": "sql",
-              "code": "PRAGMA foreign_keys = ON;\n"
-            },
-            {
-              "type": "pitfall",
-              "title": "Foreign Keys vergessen zu aktivieren",
-              "text": "Ohne PRAGMA foreign_keys = ON werden ungültige Referenzen still akzeptiert."
-            },
-            {
-              "type": "important",
-              "text": "Foreign Keys sind zentral für Datenkonsistenz und sollten immer aktiviert sein."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "Foreign Keys verbinden Tabellen",
-                "Sie verweisen auf Primary Keys",
-                "SQLite prüft Beziehungen nur mit PRAGMA foreign_keys",
-                "Ungültige Referenzen werden verhindert",
-                "Wichtig für saubere Datenmodelle"
-              ]
-            }
-          ]
-        },
-
-
-        {
-          "title": "NULL",
-          "difficulty": "basic",
-          "blocks": [
-            {
-              "type": "definition",
-              "term": "NULL",
-              "text": "NULL bedeutet, dass kein Wert vorhanden ist. Es ist weder 0, noch ein leerer String, noch false."
-            },
-            {
-              "type": "explanation",
-              "title": "Was NULL ist und was nicht",
-              "text": [
-                "NULL steht für Abwesenheit eines Werts.",
-                "0 ist ein gültiger numerischer Wert.",
-                "Ein leerer String ' ' ist ein gültiger Textwert."
-              ]
-            },
-            {
-              "type": "comparison",
-              "title": "NULL vs andere Werte",
-              "columns": ["NULL", "0", "Leerer String"],
-              "rows": [
-                {
-                  "aspect": "Bedeutung",
-                  "values": ["Kein Wert", "Numerischer Wert", "Textwert vorhanden"]
-                },
-                {
-                  "aspect": "Vergleichbar mit =",
-                  "values": ["Nein", "Ja", "Ja"]
-                }
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "NULL in Tabellen",
-              "text": [
-                "Spalten können NULL erlauben oder verbieten.",
-                "NULL ist der Standard, wenn nichts anderes angegeben ist.",
-                "NOT NULL erzwingt einen gesetzten Wert."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "NULL erlauben und verbieten",
-              "language": "sql",
-              "code": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    name TEXT NOT NULL,\n    nickname TEXT NULL\n);\n"
-            },
-            {
-              "type": "explanation",
-              "title": "NULL prüfen",
-              "text": [
-                "NULL kann nicht mit = verglichen werden.",
-                "IS NULL und IS NOT NULL werden verwendet.",
-                "Vergleiche mit = liefern bei NULL kein true."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "NULL abfragen",
-              "language": "sql",
-              "code": "SELECT * FROM users WHERE nickname IS NULL;\nSELECT * FROM users WHERE nickname IS NOT NULL;\n"
-            },
-            {
-              "type": "explanation",
-              "title": "NULL in SQLite und C++",
-              "text": [
-                "Beim Lesen kann sqlite3_column_text nullptr liefern.",
-                "column_type kann SQLITE_NULL zurückgeben.",
-                "NULL sollte in C++ über std::optional modelliert werden."
-              ]
-            },
-            {
-              "type": "pitfall",
-              "title": "NULL wie einen normalen Wert behandeln",
-              "text": "Vergleiche mit = NULL funktionieren nicht und führen zu falschen Ergebnissen."
-            },
-            {
-              "type": "important",
-              "text": "NULL ist ein eigener Zustand und muss explizit behandelt werden."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "NULL bedeutet kein Wert",
-                "NULL ist nicht 0 und nicht leer",
-                "NULL wird mit IS NULL geprüft",
-                "NOT NULL erzwingt Werte",
-                "In C++ sollte NULL über optional abgebildet werden"
-              ]
-            }
-          ]
-        },
-
-
-        {
-          "title": "Index",
-          "difficulty": "basic",
-          "blocks": [
-            {
-              "type": "definition",
-              "term": "Index",
-              "text": "Ein Index ist eine zusätzliche Datenstruktur, die den schnellen Zugriff auf Zeilen einer Tabelle ermöglicht."
-            },
-            {
-              "type": "explanation",
-              "title": "Das Grundproblem ohne Index",
-              "text": [
-                "Ohne Index muss die Datenbank jede Zeile der Tabelle prüfen.",
-                "Dieser vollständige Durchlauf wird Full Table Scan genannt.",
-                "Bei großen Tabellen wird das schnell langsam."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Was ein Index macht",
-              "text": [
-                "Ein Index speichert sortierte Verweise auf Zeilen.",
-                "Die Datenbank findet passende Zeilen deutlich schneller.",
-                "Der Zugriff ähnelt einem Inhaltsverzeichnis statt dem Lesen eines ganzen Buches."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Wann Indizes helfen",
-              "text": [
-                "Bei WHERE Bedingungen auf bestimmten Spalten.",
-                "Bei JOIN Operationen über Foreign Keys.",
-                "Bei ORDER BY auf großen Tabellen."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Beispiel: Abfrage ohne und mit Index",
-              "language": "sql",
-              "code": "-- ohne Index (langsam bei vielen Zeilen)\nSELECT * FROM users WHERE email = 'max@example.com';\n\n-- Index anlegen\nCREATE INDEX idx_users_email ON users(email);\n\n-- gleiche Abfrage, jetzt mit Index\nSELECT * FROM users WHERE email = 'max@example.com';\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Kosten von Indizes",
-              "text": [
-                "Indizes benötigen zusätzlichen Speicherplatz.",
-                "INSERT, UPDATE und DELETE werden etwas langsamer.",
-                "Zu viele Indizes schaden der Performance."
-              ]
-            },
-            {
-              "type": "comparison",
-              "title": "Mit vs ohne Index",
-              "columns": ["Ohne Index", "Mit Index"],
-              "rows": [
-                {
-                  "aspect": "SELECT mit WHERE",
-                  "values": ["Langsam", "Schnell"]
-                },
-                {
-                  "aspect": "INSERT UPDATE DELETE",
-                  "values": ["Schneller", "Langsamer"]
-                },
-                {
-                  "aspect": "Speicherbedarf",
-                  "values": ["Gering", "Höher"]
-                }
-              ]
-            },
-            {
-              "type": "pitfall",
-              "title": "Index auf jede Spalte",
-              "text": "Indizes auf jeder Spalte wirken logisch, verschlechtern aber Schreibperformance und Wartbarkeit."
-            },
-            {
-              "type": "important",
-              "text": "Indizes sollten gezielt für häufige Abfragen eingesetzt werden, nicht pauschal."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "Indizes beschleunigen Datenzugriffe",
-                "Ohne Index erfolgt ein Full Table Scan",
-                "Besonders wichtig für WHERE, JOIN und ORDER BY",
-                "Indizes kosten Speicher und Schreibperformance",
-                "Gezielter Einsatz ist entscheidend"
-              ]
-            }
           ]
         }
 
@@ -16958,10 +17083,13 @@
         ]
       }
 
-
-
-
+      
     ]
   }
+
+
+
+
+  
 
 ]
