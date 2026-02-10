@@ -10200,15 +10200,15 @@
             },
             {
               "type": "code",
-              "title": "Schlechte Verantwortungszuordnung",
+              "title": "Schlechte Verantwortungszuordnung: God Class mischt Domain, DB und E-Mail",
               "language": "cpp",
-              "code": "class UserManager {\npublic:\n    void validateUser();\n    void saveUser();\n    void sendEmail();\n};"
+              "code": "#include <string>\n\n// Problem: Eine Klasse tut alles.\n// - Regeln (validate)\n// - Daten speichern (save)\n// - Kommunikation (sendEmail)\n//\n// Folgen:\n// - Änderungen an DB oder Mail ändern UserManager\n// - schwer testbar (IO überall)\n// - schlecht erweiterbar\nclass UserManager {\npublic:\n    void validateUser();\n    void saveUser();\n    void sendEmail();\n};\n"
             },
             {
               "type": "code",
-              "title": "Bessere Verantwortungsaufteilung",
+              "title": "Bessere Verantwortungsaufteilung: Domain, Repository, Service + Orchestrierung",
               "language": "cpp",
-              "code": "class User {\npublic:\n    bool isValid() const;\n};\n\nclass UserRepository {\npublic:\n    void save(const User& user);\n};\n\nclass EmailService {\npublic:\n    void sendWelcomeMail(const User& user);\n};"
+              "code": "#include <iostream>\n#include <stdexcept>\n#include <string>\n\n// 1) Domain: Daten + Regeln\nclass User {\n    std::string name;\n    std::string email;\n\npublic:\n    User(std::string n, std::string e)\n        : name(std::move(n)), email(std::move(e)) {}\n\n    bool isValid() const {\n        // Domain-Regeln: sehr vereinfacht\n        return !name.empty() && email.find('@') != std::string::npos;\n    }\n\n    const std::string& getName() const { return name; }\n    const std::string& getEmail() const { return email; }\n};\n\n// 2) Persistenz: kümmert sich nur um Speichern (DB Details hier nicht gezeigt)\nclass UserRepository {\npublic:\n    void save(const User& user) {\n        // hier wäre z.B. SQLite insert\n        std::cout << \"[DB] speichere user: \" << user.getEmail() << '\\n';\n    }\n};\n\n// 3) Kommunikation: kümmert sich nur um E-Mail\nclass EmailService {\npublic:\n    void sendWelcomeMail(const User& user) {\n        std::cout << \"[MAIL] Willkommen \" << user.getName()\n                  << \" an \" << user.getEmail() << '\\n';\n    }\n};\n\n// 4) Application Service (Use Case): koordiniert nur\n// Wichtig: Diese Klasse enthält keine DB Logik und keine Mail Logik.\nclass UserRegistrationService {\n    UserRepository& repo;\n    EmailService& mail;\n\npublic:\n    UserRegistrationService(UserRepository& r, EmailService& m)\n        : repo(r), mail(m) {}\n\n    void registerUser(const User& user) {\n        // Orchestrierung: Reihenfolge + Ablauf\n        if (!user.isValid()) {\n            throw std::runtime_error(\"User ist ungültig\");\n        }\n\n        repo.save(user);\n        mail.sendWelcomeMail(user);\n    }\n};\n\nint main() {\n    UserRepository repo;\n    EmailService mail;\n    UserRegistrationService registration(repo, mail);\n\n    User user(\"Kilian\", \"kilian@example.com\");\n    registration.registerUser(user);\n\n    // Ausgabe (Beispiel):\n    // [DB] speichere user: kilian@example.com\n    // [MAIL] Willkommen Kilian an kilian@example.com\n}\n"
             },
             {
               "type": "list",
