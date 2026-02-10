@@ -10286,15 +10286,15 @@
             },
             {
               "type": "code",
-              "title": "Schlechte Anwendung",
+              "title": "Schlechte Anwendung: Rechner zieht Infos von außen zusammen",
               "language": "cpp",
-              "code": "class Order {\npublic:\n    double getNetPrice() const;\n    double getTaxRate() const;\n};\n\nclass PriceCalculator {\npublic:\n    double calculateTotal(const Order& order) const {\n        return order.getNetPrice() * (1 + order.getTaxRate());\n    }\n};"
+              "code": "#include <vector>\n\nclass LineItem {\n    double unitPrice;\n    int quantity;\n\npublic:\n    double getUnitPrice() const { return unitPrice; }\n    int getQuantity() const { return quantity; }\n};\n\nclass Order {\n    std::vector<LineItem> items;\n\npublic:\n    const std::vector<LineItem>& getItems() const { return items; }\n};\n\n// Problem:\n// PriceCalculator muss wissen, wie man aus LineItems die Summe baut.\n// Wenn sich die Preislogik ändert (Rabatt, Rundung, Steuer),\n// muss diese externe Klasse angepasst werden.\nclass PriceCalculator {\npublic:\n    double total(const Order& order) const {\n        double sum = 0.0;\n        for (const auto& item : order.getItems()) {\n            sum += item.getUnitPrice() * item.getQuantity();\n        }\n        return sum;\n    }\n};\n"
             },
             {
               "type": "code",
-              "title": "Information Expert angewendet",
+              "title": "Information Expert: LineItem berechnet Subtotal, Order berechnet Total",
               "language": "cpp",
-              "code": "class Order {\n    double netPrice;\n    double taxRate;\n\npublic:\n    double totalPrice() const {\n        return netPrice * (1 + taxRate);\n    }\n};"
+              "code": "#include <vector>\n\nclass LineItem {\n    double unitPrice;\n    int quantity;\n\npublic:\n    LineItem(double price, int qty)\n        : unitPrice(price), quantity(qty) {}\n\n    // Information Expert:\n    // LineItem hat alle Infos, um seinen eigenen Teilbetrag zu berechnen.\n    double subtotal() const {\n        return unitPrice * quantity;\n    }\n};\n\nclass Order {\n    std::vector<LineItem> items;\n\npublic:\n    void addItem(double unitPrice, int quantity) {\n        items.emplace_back(unitPrice, quantity);\n    }\n\n    // Information Expert:\n    // Order hat die Items und kann daher den Gesamtpreis berechnen.\n    double total() const {\n        double sum = 0.0;\n        for (const auto& item : items) {\n            sum += item.subtotal();\n        }\n        return sum;\n    }\n};\n"
             },
             {
               "type": "explanation",
