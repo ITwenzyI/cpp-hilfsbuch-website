@@ -10584,15 +10584,21 @@
             },
             {
               "type": "code",
-              "title": "Ohne Pure Fabrication",
+              "title": "Ohne Pure Fabrication: Domain Objekt kennt Datenbank Details",
               "language": "cpp",
-              "code": "class Patient {\npublic:\n    void saveToDatabase();\n    void loadFromDatabase();\n};"
+              "code": "#include <string>\n\n// Problem:\n// - Patient (Domain) kennt SQL/DB (Technik)\n// - Bei DB Wechsel oder Schema Änderung muss Domain geändert werden\n// - Testen wird schwer (IO hängt an Domain)\nclass Patient {\n    int id;\n    std::string name;\n\npublic:\n    bool isValid() const {\n        return !name.empty();\n    }\n\n    void saveToDatabase();     // Technik in Domain\n    void loadFromDatabase();   // Technik in Domain\n};\n"
             },
             {
               "type": "code",
-              "title": "Mit Pure Fabrication",
+              "title": "Pure Fabrication: Repository kapselt Persistenz, Domain bleibt IO frei",
               "language": "cpp",
-              "code": "class Patient {\npublic:\n    bool isValid() const;\n};\n\nclass PatientRepository {\npublic:\n    void save(const Patient& patient);\n    Patient loadById(int id);\n};"
+              "code": "#include <optional>\n#include <string>\n\n// 1) Domain Objekt: nur Daten + Regeln\nclass Patient {\n    int id;\n    std::string name;\n\npublic:\n    Patient(int i, std::string n)\n        : id(i), name(std::move(n)) {}\n\n    bool isValid() const {\n        return !name.empty();\n    }\n\n    int getId() const { return id; }\n    const std::string& getName() const { return name; }\n};\n\n// 2) Pure Fabrication: technische Klasse, nicht Teil der Fachdomäne\n// Sie existiert nur, um Kopplung zu reduzieren und Kohäsion zu erhöhen.\nclass PatientRepository {\npublic:\n    void save(const Patient& patient) {\n        // hier wäre DB Code (SQLite prepare/bind/step)\n        // Domain bleibt davon komplett unberührt\n    }\n\n    std::optional<Patient> findById(int id) {\n        // hier wäre DB Code\n        // optional: kein Patient gefunden\n        return std::nullopt;\n    }\n};\n"
+            },
+            {
+              "type": "code",
+              "title": "Pure Fabrication (Erweiterung): Mapper trennt DB Darstellung von Domain",
+              "language": "cpp",
+              "code": "#include <string>\n\n// Technische Darstellung einer DB Zeile (vereinfacht)\nstruct PatientRow {\n    int id;\n    std::string name;\n};\n\n// Pure Fabrication: übersetzt technische DB Struktur in Domain Objekt\nclass PatientMapper {\npublic:\n    Patient toDomain(const PatientRow& row) const {\n        return Patient(row.id, row.name);\n    }\n};\n"
             },
             {
               "type": "list",
