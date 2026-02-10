@@ -9741,21 +9741,9 @@
             },
             {
               "type": "code",
-              "title": "Strategie Interface",
+              "title": "Strategy Pattern: Rabatte austauschbar",
               "language": "cpp",
-              "code": "#include <string>\n\nstruct DiscountStrategy {\n    virtual ~DiscountStrategy() = default;\n    virtual double apply(double price) const = 0;\n};"
-            },
-            {
-              "type": "code",
-              "title": "Konkrete Strategien",
-              "language": "cpp",
-              "code": "#include <string>\n\nstruct NoDiscount : DiscountStrategy {\n    double apply(double price) const override {\n        return price;\n    }\n};\n\nstruct PercentageDiscount : DiscountStrategy {\n    double apply(double price) const override {\n        return price * 0.9;\n    }\n};"
-            },
-            {
-              "type": "code",
-              "title": "Context mit austauschbarer Strategie",
-              "language": "cpp",
-              "code": "#include <memory>\n\nclass Checkout {\n    std::unique_ptr<DiscountStrategy> strategy;\n\npublic:\n    explicit Checkout(std::unique_ptr<DiscountStrategy> s)\n        : strategy(std::move(s)) {}\n\n    void setStrategy(std::unique_ptr<DiscountStrategy> s) {\n        strategy = std::move(s);\n    }\n\n    double calculate(double price) const {\n        return strategy->apply(price);\n    }\n};"
+              "code": "#include <iostream>\n#include <memory>\n#include <string>\n\n// Strategy Interface: definiert die austauschbare \"Berechnungsregel\"\n// Vorteil: Checkout kennt nur dieses Interface, nicht die konkreten Regeln.\nstruct DiscountStrategy {\n    virtual ~DiscountStrategy() = default;\n    virtual double apply(double price) const = 0;\n    virtual const char* name() const = 0;\n};\n\n// Konkrete Strategie 1: kein Rabatt\nstruct NoDiscount : DiscountStrategy {\n    double apply(double price) const override {\n        return price;\n    }\n    const char* name() const override {\n        return \"NoDiscount\";\n    }\n};\n\n// Konkrete Strategie 2: prozentualer Rabatt\nstruct PercentageDiscount : DiscountStrategy {\n    double percent; // z.B. 10 = 10%\n\n    explicit PercentageDiscount(double p) : percent(p) {}\n\n    double apply(double price) const override {\n        // Beispiel: 10% Rabatt => price * (1 - 0.10)\n        return price * (1.0 - percent / 100.0);\n    }\n    const char* name() const override {\n        return \"PercentageDiscount\";\n    }\n};\n\n// Konkrete Strategie 3: fester Betrag Rabatt (z.B. Gutschein)\nstruct FixedDiscount : DiscountStrategy {\n    double amount;\n\n    explicit FixedDiscount(double a) : amount(a) {}\n\n    double apply(double price) const override {\n        // Nicht negativ werden lassen\n        double result = price - amount;\n        return (result < 0.0) ? 0.0 : result;\n    }\n    const char* name() const override {\n        return \"FixedDiscount\";\n    }\n};\n\n// Context: nutzt eine Strategy, kennt aber keine Details der Implementierung.\nclass Checkout {\n    std::unique_ptr<DiscountStrategy> strategy;\n\npublic:\n    explicit Checkout(std::unique_ptr<DiscountStrategy> s)\n        : strategy(std::move(s)) {}\n\n    // Strategie zur Laufzeit austauschbar\n    void setStrategy(std::unique_ptr<DiscountStrategy> s) {\n        strategy = std::move(s);\n    }\n\n    double finalPrice(double basePrice) const {\n        // Checkout delegiert die Rabattlogik an die Strategy\n        return strategy->apply(basePrice);\n    }\n\n    const char* currentStrategyName() const {\n        return strategy->name();\n    }\n};\n\nint main() {\n    double price = 100.0;\n\n    // Start: keine Rabatte\n    Checkout checkout(std::make_unique<NoDiscount>());\n    std::cout << checkout.currentStrategyName() << \": \"\n              << checkout.finalPrice(price) << '\\n';\n    // Ausgabe: NoDiscount: 100\n\n    // Wechsel zur Laufzeit: 10% Rabatt\n    checkout.setStrategy(std::make_unique<PercentageDiscount>(10.0));\n    std::cout << checkout.currentStrategyName() << \": \"\n              << checkout.finalPrice(price) << '\\n';\n    // Ausgabe: PercentageDiscount: 90\n\n    // Wechsel zur Laufzeit: 15 EUR Rabatt\n    checkout.setStrategy(std::make_unique<FixedDiscount>(15.0));\n    std::cout << checkout.currentStrategyName() << \": \"\n              << checkout.finalPrice(price) << '\\n';\n    // Ausgabe: FixedDiscount: 85\n}\n"
             },
             {
               "type": "explanation",
