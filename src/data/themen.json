@@ -10395,15 +10395,15 @@
             },
             {
               "type": "code",
-              "title": "Stark gekoppelt",
+              "title": "Low Coupling verletzt: Service hängt direkt von FileLogger Details ab",
               "language": "cpp",
-              "code": "#include \"FileLogger.h\"\n\nclass Service {\n    FileLogger logger;\n};"
+              "code": "#include <string>\n#include \"FileLogger.hpp\" // harter Include: Service kennt das Detail\n\n// Problem:\n// - Service ist an FileLogger gebunden (Detail)\n// - FileLogger braucht evtl. Dateipfad, IO, Format usw.\n// - Austausch (ConsoleLogger, TestLogger) bedeutet Code ändern\nclass Service {\n    FileLogger logger; // konkrete Abhängigkeit\n\npublic:\n    explicit Service(const std::string& path)\n        : logger(path) {}\n\n    void run() {\n        logger.log(\"Service startet\");\n    }\n};\n"
             },
             {
               "type": "code",
-              "title": "Locker gekoppelt",
+              "title": "Low Coupling: Service hängt nur von ILogger ab (Constructor Injection)",
               "language": "cpp",
-              "code": "class Logger;\n\nclass Service {\n    Logger* logger;\n};"
+              "code": "#include <iostream>\n#include <memory>\n#include <string>\n\n// Abstraktion: Service kennt nur das\nstruct ILogger {\n    virtual ~ILogger() = default;\n    virtual void log(const std::string& msg) = 0;\n};\n\n// Konkrete Details: austauschbar\nclass ConsoleLogger : public ILogger {\npublic:\n    void log(const std::string& msg) override {\n        std::cout << \"[console] \" << msg << '\\n';\n    }\n};\n\nclass Service {\n    ILogger& logger; // keine Ownership-Frage, kein nullptr\n\npublic:\n    explicit Service(ILogger& l) : logger(l) {}\n\n    void run() {\n        logger.log(\"Service startet\");\n        logger.log(\"Service arbeitet\");\n    }\n};\n\nint main() {\n    ConsoleLogger logger;\n    Service s(logger); // Abhängigkeit von außen rein\n    s.run();\n}\n"
             },
             {
               "type": "explanation",
