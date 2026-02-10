@@ -10852,16 +10852,101 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Composition over Inheritance",
+          "difficulty": "intermediate",
           "blocks": [
-          ]
-        },
-
-        {
-          "title": "---",
-          "difficulty": "basic",
-          "blocks": [
+            {
+              "type": "definition",
+              "term": "Composition over Inheritance",
+              "text": "Composition over Inheritance bedeutet, Verhalten durch das Kombinieren von Objekten zu erweitern, statt es über Vererbung zu erzwingen."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Verhalten wird über enthaltene Objekte zusammengesetzt.",
+                "Klassen nutzen andere Klassen, statt von ihnen zu erben.",
+                "Erweiterungen bleiben flexibel und lokal."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Warum Komposition oft besser ist",
+              "text": [
+                "Vererbung koppelt stark an eine Basisklasse.",
+                "Änderungen an der Basisklasse wirken sich auf alle Ableitungen aus.",
+                "Komposition erlaubt es, Verhalten zur Laufzeit auszutauschen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Problematische Vererbung",
+              "language": "cpp",
+              "code": "class Logger {\npublic:\n    virtual void log(const std::string& msg) = 0;\n};\n\nclass FileLogger : public Logger {\npublic:\n    void log(const std::string& msg) override;\n};\n\nclass TimestampFileLogger : public FileLogger {\npublic:\n    void log(const std::string& msg) override;\n};"
+            },
+            {
+              "type": "code",
+              "title": "Komposition statt Vererbung",
+              "language": "cpp",
+              "code": "struct Logger {\n    virtual ~Logger() = default;\n    virtual void log(const std::string& msg) = 0;\n};\n\nclass FileLogger : public Logger {\npublic:\n    void log(const std::string& msg) override;\n};\n\nclass TimestampLogger : public Logger {\n    Logger& inner;\n\npublic:\n    explicit TimestampLogger(Logger& l) : inner(l) {}\n\n    void log(const std::string& msg) override {\n        inner.log(\"[ts] \" + msg);\n    }\n};"
+            },
+            {
+              "type": "explanation",
+              "title": "Echte is a Beziehung",
+              "text": [
+                "Vererbung ist sinnvoll, wenn eine echte is a Beziehung besteht.",
+                "Die abgeleitete Klasse muss überall einsetzbar sein, wo die Basisklasse erwartet wird.",
+                "Wenn diese Bedingung nicht klar erfüllt ist, ist Komposition meist die bessere Wahl."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Einsatzfälle für Komposition",
+              "items": [
+                "Erweiterbares Verhalten",
+                "Optionale Features",
+                "Kombination mehrerer Verantwortlichkeiten",
+                "Austauschbare Implementierungen"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Komposition vs Vererbung",
+              "columns": ["Komposition", "Vererbung"],
+              "rows": [
+                {
+                  "aspect": "Flexibilität",
+                  "values": ["Hoch", "Gering"]
+                },
+                {
+                  "aspect": "Kopplung",
+                  "values": ["Locker", "Stark"]
+                },
+                {
+                  "aspect": "Erweiterbarkeit",
+                  "values": ["Zur Laufzeit möglich", "Zur Compile Zeit fest"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Tiefe Vererbungshierarchien",
+              "text": "Viele Vererbungsebenen führen zu schwer verständlichem Code, versteckten Abhängigkeiten und fragilem Design. Kleine Änderungen haben oft große Auswirkungen."
+            },
+            {
+              "type": "important",
+              "text": "Vererbung ist kein Standardwerkzeug zur Wiederverwendung von Code. Bevorzuge Komposition, außer eine klare is a Beziehung ist gegeben."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Verhalten kombinieren statt vererben",
+                "Komposition ermöglicht flexible Erweiterung",
+                "Vererbung nur bei echter is a Beziehung",
+                "Tiefe Hierarchien vermeiden",
+                "Robusteres Design durch geringe Kopplung"
+              ]
+            }
           ]
         },
 
