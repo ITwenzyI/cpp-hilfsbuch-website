@@ -13103,13 +13103,53 @@
               "text": "Die Spaltenreihenfolge im SELECT muss zum späteren Spaltenlesen passen."
             },
             {
+              "type": "explanation",
+              "title": "DISTINCT",
+              "text": [
+                "DISTINCT entfernt doppelte Zeilen im Ergebnis.",
+                "Es bezieht sich auf die gesamte ausgewählte Spaltenkombination.",
+                "Nur eindeutige Werte werden zurückgegeben."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "DISTINCT Beispiel",
+              "language": "sql",
+              "code": "SELECT DISTINCT age FROM users;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "DISTINCT mit mehreren Spalten",
+              "text": [
+                "Bei mehreren Spalten gilt DISTINCT für die Kombination aller Spalten.",
+                "Nur identische Kombinationen werden entfernt.",
+                "Einzelne Spaltenwerte können sich weiterhin wiederholen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "DISTINCT mit mehreren Spalten",
+              "language": "sql",
+              "code": "SELECT DISTINCT age, name FROM users;\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "DISTINCT als Ersatz für saubere Modellierung",
+              "text": "DISTINCT sollte nicht verwendet werden, um fehlerhafte oder doppelte Daten im Schema zu kaschieren."
+            },
+            {
+              "type": "important",
+              "text": "DISTINCT verändert nur das Ergebnis einer Abfrage, nicht die gespeicherten Daten."
+            },
+            {
               "type": "summary",
               "points": [
                 "SELECT liest Daten aus Tabellen",
                 "Spalten werden vor FROM angegeben",
                 "FROM definiert die Tabelle",
                 "SELECT * ist nur für schnelle Tests geeignet",
-                "Explizite Spalten sind robuster"
+                "Explizite Spalten sind robuster",
+                "DISTINCT entfernt doppelte Ergebniszeilen"
               ]
             }
           ]
