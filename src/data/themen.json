@@ -13186,6 +13186,21 @@
             },
             {
               "type": "explanation",
+              "title": "Ungleich Operatoren (!= und <>)",
+              "text": [
+                "!= prüft auf Ungleichheit.",
+                "<> ist die Standard SQL Schreibweise für Ungleichheit.",
+                "Beide Varianten funktionieren in SQLite."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Ungleich Vergleich",
+              "language": "sql",
+              "code": "SELECT * FROM users WHERE age != 30;\nSELECT * FROM users WHERE age <> 30;\n"
+            },
+            {
+              "type": "explanation",
               "title": "AND und OR",
               "text": [
                 "AND verknüpft mehrere Bedingungen, die alle erfüllt sein müssen.",
@@ -13220,6 +13235,75 @@
               "text": "LIKE ist in SQLite standardmäßig nicht case sensitiv, abhängig von Collation."
             },
             {
+              "type": "explanation",
+              "title": "NOT",
+              "text": [
+                "NOT negiert eine Bedingung.",
+                "Die logische Aussage wird umgedreht.",
+                "Kann mit LIKE, IN, BETWEEN und anderen Bedingungen kombiniert werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "NOT Beispiele",
+              "language": "sql",
+              "code": "SELECT * FROM users WHERE NOT age = 30;\nSELECT * FROM users WHERE NOT name LIKE 'M%';\n"
+            },
+            {
+              "type": "explanation",
+              "title": "IN",
+              "text": [
+                "IN prüft, ob ein Wert in einer Liste enthalten ist.",
+                "Mehrere OR Bedingungen werden kompakt zusammengefasst.",
+                "Sehr nützlich bei ID Listen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "IN Beispiel",
+              "language": "sql",
+              "code": "SELECT * FROM users WHERE age IN (18, 21, 25);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "BETWEEN",
+              "text": [
+                "BETWEEN prüft, ob ein Wert in einem Bereich liegt.",
+                "Die Grenzwerte sind inklusive.",
+                "Entspricht >= und <= Kombination."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "BETWEEN Beispiel",
+              "language": "sql",
+              "code": "SELECT * FROM users WHERE age BETWEEN 18 AND 30;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Klammern ( )",
+              "text": [
+                "Klammern steuern die logische Auswertung.",
+                "Sie sind wichtig bei Kombination von AND und OR.",
+                "Ohne Klammern kann die Logik falsch interpretiert werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Klammern Beispiel",
+              "language": "sql",
+              "code": "SELECT * FROM users\nWHERE (age > 18 AND age < 65)\n   OR name LIKE 'M%';\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "Operator Priorität ignorieren",
+              "text": "AND wird vor OR ausgewertet. Ohne Klammern entstehen oft falsche Ergebnisse."
+            },
+            {
+              "type": "important",
+              "text": "Komplexe WHERE Bedingungen sollten immer mit Klammern strukturiert werden."
+            },
+            {
               "type": "important",
               "text": "Filter sollten so spezifisch wie nötig sein, um unnötige Daten zu vermeiden."
             },
@@ -13228,9 +13312,13 @@
               "points": [
                 "WHERE filtert Zeilen",
                 "Vergleichsoperatoren = < > sind Standard",
+                "!= und <> prüfen auf Ungleichheit",
                 "AND und OR verknüpfen Bedingungen",
                 "LIKE filtert nach Textmustern",
-                "Klammern sorgen für klare Logik"
+                "Klammern sorgen für klare Logik",
+                "NOT negiert Bedingungen",
+                "IN ersetzt mehrere OR Vergleiche",
+                "BETWEEN prüft Wertebereiche"
               ]
             }
           ]
