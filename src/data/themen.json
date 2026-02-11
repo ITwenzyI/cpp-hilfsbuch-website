@@ -11063,9 +11063,101 @@
         "icon": "🏗️",
         "topics": [
         {
-          "title": "---",
+          "title": "Projektstruktur in C++",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Projektstruktur",
+              "text": "Eine gute Projektstruktur organisiert C++ Code nach fachlichen Modulen und Verantwortlichkeiten, nicht nach Dateitypen oder Zufall."
+            },
+            {
+              "type": "explanation",
+              "title": "Ordner nach Modulen statt nach Dateityp",
+              "text": [
+                "Ordner sollten fachliche oder funktionale Einheiten widerspiegeln.",
+                "Ein Modul enthält seine Header und Implementierungen gemeinsam.",
+                "Strukturen wie include und src ohne weitere Unterteilung skalieren schlecht."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Schlechte Struktur",
+              "language": "text",
+              "code": "project/\n  src/\n    main.cpp\n    user.cpp\n    order.cpp\n    database.cpp\n    utils.cpp"
+            },
+            {
+              "type": "code",
+              "title": "Modular aufgebaute Struktur",
+              "language": "text",
+              "code": "project/\n  src/\n    app/\n      main.cpp\n    user/\n      User.hpp\n      User.cpp\n    order/\n      Order.hpp\n      Order.cpp\n    infrastructure/\n      Database.hpp\n      Database.cpp"
+            },
+            {
+              "type": "explanation",
+              "title": "Header und Implementierung trennen",
+              "text": [
+                "Header enthalten Deklarationen und öffentliche Schnittstellen.",
+                "Implementierungen gehören in cpp Dateien.",
+                "Das reduziert Kompilierabhängigkeiten und hält Schnittstellen klar."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Klare Einstiegspunkte",
+              "text": [
+                "Es sollte klar sein, wo das Programm startet, meist in main.",
+                "Große Projekte haben oft eine Application oder App Klasse als Koordinator.",
+                "Der Einstiegspunkt darf keine Geschäftslogik enthalten."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Module",
+              "items": [
+                "Domain für Fachmodelle",
+                "Application für Use Cases",
+                "Infrastructure für Datenbank und IO",
+                "Tests in separatem Ordner"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Strukturierte vs unstrukturierte Projekte",
+              "columns": ["Strukturiert", "Unstrukturiert"],
+              "rows": [
+                {
+                  "aspect": "Orientierung",
+                  "values": ["Schnell verständlich", "Unübersichtlich"]
+                },
+                {
+                  "aspect": "Erweiterbarkeit",
+                  "values": ["Skalierbar", "Chaotisch"]
+                },
+                {
+                  "aspect": "Kopplung",
+                  "values": ["Modular", "Vermischt"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Alles in src",
+              "text": "Wenn alle Dateien direkt im src Ordner liegen, verliert das Projekt schnell jede Struktur. Abhängigkeiten wachsen unkontrolliert."
+            },
+            {
+              "type": "important",
+              "text": "Projektstruktur ist Architektur auf Dateisystem Ebene. Wenn sie schlecht ist, wird auch das Design im Code meist schlecht."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Ordner nach Modulen statt nach Dateityp",
+                "Header und Implementierung sauber trennen",
+                "Klare Einstiegspunkte definieren",
+                "Skalierbare Struktur von Anfang an",
+                "Chaos im src vermeiden"
+              ]
+            }
           ]
         },
 
