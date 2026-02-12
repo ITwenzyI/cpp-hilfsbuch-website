@@ -11882,9 +11882,100 @@
         },
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "const correctness",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "const correctness",
+              "text": "const correctness bedeutet, const systematisch zu verwenden, um Unveränderlichkeit auszudrücken und den Compiler zur Durchsetzung dieser Absicht zu nutzen."
+            },
+            {
+              "type": "explanation",
+              "title": "const zeigt Absicht",
+              "text": [
+                "const signalisiert, dass ein Wert nicht verändert wird.",
+                "Es dokumentiert die beabsichtigte Nutzung eines Objekts.",
+                "Der Compiler verhindert unbeabsichtigte Modifikationen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "const bei Parametern",
+              "language": "cpp",
+              "code": "void print(const std::string& text);\n\nvoid process(const Order& order);"
+            },
+            {
+              "type": "explanation",
+              "title": "const bei Methoden",
+              "text": [
+                "Methoden mit const am Ende verändern den Objektzustand nicht.",
+                "Solche Methoden können auch auf const Objekten aufgerufen werden.",
+                "Das erhöht die Verlässlichkeit von Interfaces."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "const Methode",
+              "language": "cpp",
+              "code": "class Order {\n    double total;\n\npublic:\n    double getTotal() const {\n        return total;\n    }\n};"
+            },
+            {
+              "type": "explanation",
+              "title": "Hilft beim Denken über Ownership",
+              "text": [
+                "const Referenzen zeigen, dass keine Besitzübernahme erfolgt.",
+                "Unveränderliche Objekte sind einfacher zu verstehen.",
+                "const reduziert mentale Komplexität beim Lesen von Code."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Stabilere Interfaces",
+              "text": [
+                "const zwingt dich, zwischen lesenden und schreibenden Operationen zu unterscheiden.",
+                "Öffentliche Schnittstellen werden klarer definiert.",
+                "Änderungen am Objektzustand sind explizit erkennbar."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Mit vs ohne const correctness",
+              "columns": ["Mit const", "Ohne const"],
+              "rows": [
+                {
+                  "aspect": "Sicherheit",
+                  "values": ["Compiler schützt", "Fehler möglich"]
+                },
+                {
+                  "aspect": "Lesbarkeit",
+                  "values": ["Absicht klar", "Unklar"]
+                },
+                {
+                  "aspect": "API Qualität",
+                  "values": ["Stabil", "Schwammig"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "const aus Bequemlichkeit weglassen",
+              "text": "Wenn const nicht verwendet wird, obwohl es möglich wäre, gehen wichtige Garantien verloren. Das führt zu instabilen Interfaces und versteckten Seiteneffekten."
+            },
+            {
+              "type": "important",
+              "text": "const ist kein optionales Detail, sondern Teil eines sauberen C++ Designs. Fehlendes const ist oft ein Qualitätsmangel."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "const zeigt klare Absicht",
+                "Erhöht Sicherheit durch Compiler Unterstützung",
+                "Hilft beim Denken über Ownership",
+                "Macht Interfaces stabiler",
+                "const nicht aus Bequemlichkeit weglassen"
+              ]
+            }
           ]
         },
 
