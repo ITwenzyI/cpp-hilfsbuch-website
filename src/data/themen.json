@@ -16543,67 +16543,67 @@
               "type": "code",
               "title": "SQL mit Platzhaltern",
               "language": "sql",
-              "code": "INSERT INTO users (name, weight, age, email) VALUES (?, ?, ?, ?);"
+              "code": "INSERT INTO users (name, weight, age, email) VALUES (?, ?, ?, ?);\n"
             },
             {
               "type": "explanation",
               "title": "bindInt",
               "text": [
                 "bindInt bindet einen Ganzzahlwert an einen Platzhalter.",
-                "Typprüfung erfolgt intern durch SQLite.",
+                "Die zugrunde liegende SQLite Funktion ist sqlite3_bind_int.",
                 "Geeignet für INTEGER Spalten."
               ]
             },
             {
               "type": "code",
-              "title": "Integer binden",
+              "title": "Integer binden (Wrapper und original SQLite)",
               "language": "cpp",
-              "code": "stmt.bindInt(1, 42);"
+              "code": "stmt.bindInt(3, 42);\n// original:\nsqlite3_bind_int(stmt.get(), 3, 42);\n"
             },
             {
               "type": "explanation",
               "title": "bindDouble",
               "text": [
                 "bindDouble bindet einen Gleitkommawert an einen Platzhalter.",
-                "SQLite speichert Gleitkommazahlen intern als REAL.",
-                "Geeignet für Messwerte, Gewichte, Preise oder Zeitdauern."
+                "Die zugrunde liegende SQLite Funktion ist sqlite3_bind_double.",
+                "SQLite speichert Gleitkommazahlen intern als REAL."
               ]
             },
             {
               "type": "code",
-              "title": "Double binden",
+              "title": "Double binden (Wrapper und original SQLite)",
               "language": "cpp",
-              "code": "stmt.bindDouble(2, 72.5);"
+              "code": "stmt.bindDouble(2, 72.5);\n// original:\nsqlite3_bind_double(stmt.get(), 2, 72.5);\n"
             },
             {
               "type": "explanation",
               "title": "bindText",
               "text": [
                 "bindText bindet einen Textwert an einen Platzhalter.",
-                "SQLite kopiert oder referenziert den Text abhängig von der Implementierung.",
-                "Geeignet für TEXT Spalten."
+                "Die zugrunde liegende SQLite Funktion ist sqlite3_bind_text.",
+                "Für den Lifetime Parameter werden oft SQLITE_TRANSIENT oder SQLITE_STATIC verwendet."
               ]
             },
             {
               "type": "code",
-              "title": "Text binden",
+              "title": "Text binden (Wrapper und original SQLite)",
               "language": "cpp",
-              "code": "stmt.bindText(3, \"Max Mustermann\");"
+              "code": "stmt.bindText(1, \"Max Mustermann\");\n// original (mit SQLITE_TRANSIENT als sichere Wahl):\nsqlite3_bind_text(stmt.get(), 1, \"Max Mustermann\", -1, SQLITE_TRANSIENT);\n"
             },
             {
               "type": "explanation",
               "title": "bindNull",
               "text": [
                 "bindNull setzt einen Platzhalter explizit auf NULL.",
-                "Unterscheidung zwischen leerem String und NULL bleibt erhalten.",
+                "Die zugrunde liegende SQLite Funktion ist sqlite3_bind_null.",
                 "Wichtig für optionale Felder."
               ]
             },
             {
               "type": "code",
-              "title": "NULL binden",
+              "title": "NULL binden (Wrapper und original SQLite)",
               "language": "cpp",
-              "code": "stmt.bindNull(4);"
+              "code": "stmt.bindNull(4);\n// original:\nsqlite3_bind_null(stmt.get(), 4);\n"
             },
             {
               "type": "comparison",
@@ -16626,6 +16626,11 @@
               "text": "Ein falscher Parameter Index führt zu schwer auffindbaren Fehlern oder falsch zugeordneten Werten."
             },
             {
+              "type": "pitfall",
+              "title": "SQLITE_TRANSIENT vergessen",
+              "text": "Bei sqlite3_bind_text kann ein ungültiger Pointer entstehen, wenn der Text nicht lange genug lebt. SQLITE_TRANSIENT sorgt für eine Kopie."
+            },
+            {
               "type": "important",
               "text": "Parameter müssen immer über bind Funktionen gesetzt werden, niemals per String Konkatenation."
             },
@@ -16634,10 +16639,10 @@
               "points": [
                 "Parameter binden trennt SQL und Daten",
                 "Platzhalter Indizes beginnen bei 1",
-                "bindInt für Ganzzahlen",
-                "bindDouble für Gleitkommazahlen",
-                "bindText für Texte",
-                "bindNull für optionale Werte"
+                "bindInt nutzt sqlite3_bind_int",
+                "bindDouble nutzt sqlite3_bind_double",
+                "bindText nutzt sqlite3_bind_text",
+                "bindNull nutzt sqlite3_bind_null"
               ]
             }
           ]
