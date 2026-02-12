@@ -11783,9 +11783,101 @@
 
 
         {
-          "title": "---",
+          "title": "Lesbare Funktionsnamen",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Lesbare Funktionsnamen",
+              "text": "Ein lesbarer Funktionsname beschreibt klar und präzise, was die Funktion tut, sodass ihr Zweck ohne zusätzliche Kommentare verständlich ist."
+            },
+            {
+              "type": "explanation",
+              "title": "Name beschreibt was passiert",
+              "text": [
+                "Der Funktionsname sollte die Wirkung ausdrücken, nicht die Implementierung.",
+                "Ein guter Name macht die Intention deutlich.",
+                "Lesbarkeit ist wichtiger als Kürze."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Keine Kommentare nötig",
+              "text": [
+                "Wenn eine Funktion nur durch einen Kommentar verständlich wird, ist der Name meist schlecht gewählt.",
+                "Der Name sollte selbsterklärend sein.",
+                "Kommentare erklären warum, nicht was."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Schlechte Namen",
+              "language": "cpp",
+              "code": "void doStuff();\nvoid handle();\nvoid process();"
+            },
+            {
+              "type": "code",
+              "title": "Gute Namen",
+              "language": "cpp",
+              "code": "void calculateMonthlyInterest();\nvoid sendConfirmationEmail();\nbool isUserAuthenticated() const;"
+            },
+            {
+              "type": "explanation",
+              "title": "Parameter im Namen reflektieren",
+              "text": [
+                "Der Name sollte implizit zeigen, was mit den Parametern geschieht.",
+                "Beispiele sind loadById, saveUser, calculateTaxForOrder.",
+                "Unklare Funktionsnamen zwingen Leser in die Implementierung."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Präzise vs generische Namen",
+              "columns": ["Präzise", "Generisch"],
+              "rows": [
+                {
+                  "aspect": "Aussagekraft",
+                  "values": ["calculateInvoiceTotal", "process"]
+                },
+                {
+                  "aspect": "Kontextklarheit",
+                  "values": ["loadUserByEmail", "handleData"]
+                },
+                {
+                  "aspect": "Lesbarkeit",
+                  "values": ["validatePasswordStrength", "doCheck"]
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Muster",
+              "items": [
+                "calculate für Berechnungen",
+                "is oder has für boolsche Rückgaben",
+                "load oder save für Persistenz",
+                "create oder build für Erzeugung"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Generische Namen",
+              "text": "Namen wie doStuff, handle oder process sagen nichts über die eigentliche Funktion aus. Sie verstecken Absicht und erhöhen kognitive Last."
+            },
+            {
+              "type": "important",
+              "text": "Wenn du den Funktionsnamen liest und sofort verstehst, was passiert, ist der Name gut. Wenn nicht, ist er zu allgemein."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Name beschreibt klar was passiert",
+                "Kommentare sind nicht nötig um die Funktion zu verstehen",
+                "Parameterwirkung im Namen erkennbar",
+                "Generische Begriffe vermeiden",
+                "Lesbare Namen erhöhen Codequalität"
+              ]
+            }
           ]
         },
 
