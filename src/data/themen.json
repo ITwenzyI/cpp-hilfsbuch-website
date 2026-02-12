@@ -14934,6 +14934,100 @@
         "icon": "📐",
         "topics": [
         {
+          "title": "ALTER TABLE",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "ALTER TABLE",
+              "text": "ALTER TABLE verändert die Struktur einer bestehenden Tabelle, ohne sie neu zu erstellen."
+            },
+            {
+              "type": "explanation",
+              "title": "Wofür ALTER TABLE verwendet wird",
+              "text": [
+                "Spalten hinzufügen.",
+                "Tabellen umbenennen.",
+                "Spalten umbenennen.",
+                "Struktur schrittweise erweitern."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Spalte hinzufügen",
+              "text": [
+                "Neue Spalten werden mit ADD COLUMN ergänzt.",
+                "Bestehende Daten bleiben erhalten.",
+                "Neue Spalten erhalten NULL oder einen Default Wert."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Spalte hinzufügen",
+              "language": "sql",
+              "code": "ALTER TABLE users ADD COLUMN email TEXT;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Tabelle umbenennen",
+              "text": [
+                "Die Tabelle kann mit RENAME TO umbenannt werden.",
+                "Die Daten bleiben unverändert erhalten."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Tabelle umbenennen",
+              "language": "sql",
+              "code": "ALTER TABLE users RENAME TO customers;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Spalte umbenennen",
+              "text": [
+                "SQLite unterstützt das Umbenennen von Spalten.",
+                "Der Name wird geändert, nicht der Inhalt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Spalte umbenennen",
+              "language": "sql",
+              "code": "ALTER TABLE users RENAME COLUMN name TO full_name;\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Einschränkungen in SQLite",
+              "text": [
+                "Spalten können nicht direkt gelöscht werden.",
+                "Komplexe Strukturänderungen erfordern eine neue Tabelle.",
+                "Daten müssen dann kopiert werden."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Struktur leichtfertig ändern",
+              "text": "Schema Änderungen wirken sich auf bestehenden Code und Abfragen aus."
+            },
+            {
+              "type": "important",
+              "text": "ALTER TABLE verändert die Struktur dauerhaft. Änderungen sollten geplant erfolgen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "ALTER TABLE ändert bestehende Tabellen",
+                "ADD COLUMN fügt neue Spalten hinzu",
+                "RENAME TO benennt Tabellen um",
+                "RENAME COLUMN benennt Spalten um",
+                "Komplexe Änderungen erfordern Migration"
+              ]
+            }
+          ]
+        },
+
+        
+        {
           "title": "Primary Key",
           "difficulty": "basic",
           "blocks": [
@@ -15176,8 +15270,9 @@
         },
 
 
+
         {
-          "title": "Index",
+          "title": "Indizes",
           "difficulty": "basic",
           "blocks": [
             {
