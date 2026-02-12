@@ -11163,9 +11163,102 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Domain Logik von IO trennen",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Domain und IO Trennung",
+              "text": "Domain Logik von IO zu trennen bedeutet, dass Fachklassen keinerlei Wissen über Dateien, Datenbanken oder Konsolenausgabe besitzen."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundprinzip",
+              "text": [
+                "Die Domain verarbeitet Daten und enthält Geschäftsregeln.",
+                "IO Schichten liefern Daten an die Domain oder speichern deren Ergebnisse.",
+                "Die Domain kennt keine technischen Details wie std::cout oder SQL."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Rollenverteilung",
+              "text": [
+                "IO liest Daten aus Datei, Datenbank oder Netzwerk.",
+                "Die Domain validiert, berechnet und entscheidet.",
+                "IO präsentiert oder persistiert die Ergebnisse."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Falsche Vermischung",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nclass Order {\npublic:\n    double totalPrice() const {\n        double price = 100.0;\n        std::cout << \"Preis berechnet\" << std::endl;\n        return price;\n    }\n};"
+            },
+            {
+              "type": "code",
+              "title": "Saubere Trennung",
+              "language": "cpp",
+              "code": "class Order {\npublic:\n    double totalPrice() const {\n        return 100.0;\n    }\n};\n\nvoid printOrder(const Order& order) {\n    std::cout << order.totalPrice() << std::endl;\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Warum das Tests erleichtert",
+              "text": [
+                "Reine Domain Klassen benötigen keine Datei oder Datenbank.",
+                "Unit Tests können Logik isoliert prüfen.",
+                "Keine Seiteneffekte durch Ausgabe oder externe Systeme."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische IO Quellen",
+              "items": [
+                "Dateien",
+                "Datenbanken",
+                "Netzwerk",
+                "Konsoleneingabe und Ausgabe",
+                "GUI oder Web Schnittstellen"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Mit vs ohne Trennung",
+              "columns": ["Getrennt", "Vermischt"],
+              "rows": [
+                {
+                  "aspect": "Testbarkeit",
+                  "values": ["Sehr gut", "Schwierig"]
+                },
+                {
+                  "aspect": "Wiederverwendbarkeit",
+                  "values": ["Hoch", "Gering"]
+                },
+                {
+                  "aspect": "Komplexität",
+                  "values": ["Beherrschbar", "Schnell chaotisch"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "std cout in der Domain",
+              "text": "Sobald Fachklassen direkt auf std::cout, Dateien oder Datenbanken zugreifen, sind sie technisch gekoppelt und verlieren ihre Unabhängigkeit."
+            },
+            {
+              "type": "important",
+              "text": "Eine saubere Domain sollte rein logisch sein. Alles, was mit Ein oder Ausgabe zu tun hat, gehört in eine andere Schicht."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Domain kennt keine Dateien, Datenbanken oder Konsolen",
+                "IO liefert Daten, Domain verarbeitet",
+                "Massiv bessere Testbarkeit",
+                "Keine Seiteneffekte in der Fachlogik",
+                "std cout gehört nicht in die Domain"
+              ]
+            }
           ]
         },
 
