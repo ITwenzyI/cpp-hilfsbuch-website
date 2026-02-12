@@ -11981,9 +11981,103 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Saubere Header Dateien",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Saubere Header",
+              "text": "Saubere Header Dateien enthalten nur die öffentliche Schnittstelle einer Klasse und minimieren Abhängigkeiten sowie Implementierungsdetails."
+            },
+            {
+              "type": "explanation",
+              "title": "Nur notwendige Includes",
+              "text": [
+                "Jeder Include im Header erhöht die Kopplung und die Compile Zeit.",
+                "Header sollten nur das includen, was für die Deklaration zwingend notwendig ist.",
+                "Alles andere gehört in die cpp Datei."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Forward Declarations nutzen",
+              "text": [
+                "Wenn nur Zeiger oder Referenzen verwendet werden, reicht eine Vorwärtsdeklaration.",
+                "Das reduziert unnötige Abhängigkeiten.",
+                "Forward Declarations verbessern die Modularität."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Mit unnötigem Include",
+              "language": "cpp",
+              "code": "#include \"Database.hpp\"\n\nclass UserService {\n    Database db;\n};"
+            },
+            {
+              "type": "code",
+              "title": "Mit Forward Declaration",
+              "language": "cpp",
+              "code": "class Database;\n\nclass UserService {\n    Database* db;\n};"
+            },
+            {
+              "type": "explanation",
+              "title": "Keine Implementierungsdetails im Header",
+              "text": [
+                "Header definieren die Schnittstelle, nicht die Logik.",
+                "Private Hilfsmethoden mit komplexer Logik gehören in die cpp Datei.",
+                "Der Header soll möglichst stabil bleiben."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Falsche Logik im Header",
+              "language": "cpp",
+              "code": "class Calculator {\npublic:\n    int add(int a, int b) {\n        return a + b;\n    }\n};"
+            },
+            {
+              "type": "code",
+              "title": "Saubere Trennung",
+              "language": "cpp",
+              "code": "// Calculator.hpp\nclass Calculator {\npublic:\n    int add(int a, int b);\n};\n\n// Calculator.cpp\nint Calculator::add(int a, int b) {\n    return a + b;\n}"
+            },
+            {
+              "type": "comparison",
+              "title": "Sauberer vs überladener Header",
+              "columns": ["Sauber", "Überladen"],
+              "rows": [
+                {
+                  "aspect": "Abhängigkeiten",
+                  "values": ["Minimal", "Viele Includes"]
+                },
+                {
+                  "aspect": "Compile Zeit",
+                  "values": ["Schneller", "Langsamer"]
+                },
+                {
+                  "aspect": "Stabilität",
+                  "values": ["Hohe API Stabilität", "Häufige Rebuilds"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Logik im Header",
+              "text": "Wenn komplexe Logik im Header steht, führt jede Änderung zu Rebuilds vieler Dateien. Außerdem verschwimmt die Trennung zwischen Schnittstelle und Implementierung."
+            },
+            {
+              "type": "important",
+              "text": "Ein Header ist ein Vertrag. Je schlanker und stabiler er ist, desto robuster wird das gesamte Projekt."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Nur notwendige Includes verwenden",
+                "Forward Declarations bevorzugen",
+                "Keine Implementierungsdetails im Header",
+                "Logik gehört in die cpp Datei",
+                "Schlanke Header verbessern Wartbarkeit und Build Zeit"
+              ]
+            }
           ]
         }
 
