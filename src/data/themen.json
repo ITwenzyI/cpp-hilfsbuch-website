@@ -1970,6 +1970,103 @@
                 ]
               }
             ]
+          },
+          {
+            "title": "Ternärer Operator",
+            "difficulty": "basic",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "Ternärer Operator",
+                "text": "Der ternäre Operator ist ein bedingter Ausdruck der Form (Bedingung) ? Ausdruck1 : Ausdruck2 und liefert abhängig von der Bedingung einen von zwei Werten zurück."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee",
+                "text": [
+                  "Der ternäre Operator ist eine kompakte Alternative zu einer einfachen if else Struktur.",
+                  "Er wird häufig zur Initialisierung oder Zuweisung verwendet.",
+                  "Er ist ein Ausdruck und liefert immer einen Wert."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Einfache Verwendung",
+                "language": "cpp",
+                "code": "int a = 10;\nint b = 20;\n\nint max = (a > b) ? a : b;"
+              },
+              {
+                "type": "explanation",
+                "title": "Lesart",
+                "text": [
+                  "Wenn die Bedingung wahr ist, wird Ausdruck1 ausgewertet.",
+                  "Ist sie falsch, wird Ausdruck2 ausgewertet.",
+                  "Nur einer der beiden Ausdrücke wird tatsächlich ausgeführt."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Mit bool Rückgabewert",
+                "language": "cpp",
+                "code": "bool isAdult(int age) {\n    return (age >= 18) ? true : false;\n}"
+              },
+              {
+                "type": "explanation",
+                "title": "Typkompatibilität",
+                "text": [
+                  "Beide Ausdrücke müssen kompatible Typen besitzen.",
+                  "Der Compiler bestimmt einen gemeinsamen Typ.",
+                  "Unterschiedliche Typen können implizite Konvertierungen auslösen."
+                ]
+              },
+              {
+                "type": "comparison",
+                "title": "Ternärer Operator vs if else",
+                "columns": ["Ternärer Operator", "if else"],
+                "rows": [
+                  {
+                    "aspect": "Form",
+                    "values": ["Ausdruck", "Kontrollstruktur"]
+                  },
+                  {
+                    "aspect": "Typischer Einsatz",
+                    "values": ["Einfache Wertwahl", "Komplexe Logik"]
+                  },
+                  {
+                    "aspect": "Lesbarkeit",
+                    "values": ["Kurz bei einfachen Bedingungen", "Besser bei komplexen Fällen"]
+                  }
+                ]
+              },
+              {
+                "type": "explanation",
+                "title": "Wann sinnvoll",
+                "text": [
+                  "Bei einfachen, klaren Bedingungen.",
+                  "Bei Initialisierung von Variablen.",
+                  "Wenn beide Alternativen einfache Ausdrücke sind."
+                ]
+              },
+              {
+                "type": "pitfall",
+                "title": "Verschachtelte ternäre Operatoren",
+                "text": "Mehrfach verschachtelte ternäre Operatoren verschlechtern die Lesbarkeit stark. In solchen Fällen ist if else klarer."
+              },
+              {
+                "type": "important",
+                "text": "Der ternäre Operator ist für einfache Entscheidungen gedacht. Wenn du länger überlegen musst, um ihn zu verstehen, solltest du if else verwenden."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "Form: (Bedingung) ? Ausdruck1 : Ausdruck2",
+                  "Liefert immer einen Wert",
+                  "Geeignet für einfache Entscheidungen",
+                  "Typkompatibilität beachten",
+                  "Nicht übermäßig verschachteln"
+                ]
+              }
+            ]
           }
         ]
       },
