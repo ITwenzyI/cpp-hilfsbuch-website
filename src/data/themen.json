@@ -11675,9 +11675,109 @@
 
 
         {
-          "title": "---",
+          "title": "CamelCase vs snake_case",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Naming Style",
+              "text": "CamelCase und snake_case sind unterschiedliche Schreibweisen für Bezeichner. Entscheidend ist nicht welcher Stil gewählt wird, sondern dass er im gesamten Projekt konsistent angewendet wird."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundprinzip",
+              "text": [
+                "Ein Projekt sollte sich für einen klaren Stil entscheiden.",
+                "Inkonsistenz erschwert Lesen und Wartung.",
+                "Konventionen sind Team Entscheidungen, keine Geschmacksfrage einzelner Entwickler."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "CamelCase",
+              "text": [
+                "Wörter werden ohne Unterstrich geschrieben.",
+                "Bei PascalCase beginnen alle Wörter mit Großbuchstaben.",
+                "Bei camelCase beginnt nur das erste Wort klein."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "CamelCase Beispiele",
+              "language": "cpp",
+              "code": "class PatientRecord;\nvoid calculateTotalPrice();\nint maxRetryCount;"
+            },
+            {
+              "type": "explanation",
+              "title": "snake_case",
+              "text": [
+                "Wörter werden durch Unterstriche getrennt.",
+                "Alle Buchstaben sind meist klein geschrieben.",
+                "Dieser Stil ist stark durch die Standard Library geprägt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "snake_case Beispiele",
+              "language": "cpp",
+              "code": "class patient_record;\nvoid calculate_total_price();\nint max_retry_count;"
+            },
+            {
+              "type": "explanation",
+              "title": "Unterschiedliche Stile für verschiedene Elemente",
+              "text": [
+                "Typen können in PascalCase benannt werden.",
+                "Funktionen und Variablen können in snake_case oder camelCase stehen.",
+                "Viele Projekte kombinieren bewusst unterschiedliche Stile je nach Kategorie."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Orientierung an STL oder Team Style",
+              "text": [
+                "Die C++ Standard Library verwendet snake_case für Funktionen und Typen wie std::vector.",
+                "Große Codebasen definieren meist eigene Style Guides.",
+                "Entscheidend ist, dass sich alle Entwickler daran halten."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "CamelCase vs snake_case",
+              "columns": ["CamelCase", "snake_case"],
+              "rows": [
+                {
+                  "aspect": "Lesbarkeit",
+                  "values": ["Optisch kompakt", "Klare Worttrennung"]
+                },
+                {
+                  "aspect": "Verbreitung",
+                  "values": ["Oft in Klassen", "Stark in STL und vielen Projekten"]
+                },
+                {
+                  "aspect": "Kombination",
+                  "values": ["Typen häufig PascalCase", "Funktionen häufig snake_case"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Mischformen",
+              "text": "Wenn im selben Projekt calculateTotal, calculate_total und Calculate_Total nebeneinander existieren, wirkt der Code unprofessionell und inkonsistent."
+            },
+            {
+              "type": "important",
+              "text": "Konsistenz schlägt persönliche Präferenz. Ein klar definierter Stil erhöht die Qualität des gesamten Projekts."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Konsistente Entscheidung im Projekt ist entscheidend",
+                "Unterschiedliche Stile für Typen und Funktionen möglich",
+                "Orientierung an STL oder Team Style sinnvoll",
+                "Mischformen vermeiden",
+                "Konsistenz ist wichtiger als Stilwahl"
+              ]
+            }
           ]
         },
 
