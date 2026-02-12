@@ -11264,9 +11264,91 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Datenbank Code von Fachlogik trennen",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "DB Trennung",
+              "text": "Datenbank Code von Fachlogik zu trennen bedeutet, dass SQL und Datenbankzugriffe nicht im Business Code stehen, sondern in einer eigenen Schicht gekapselt werden."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum SQL nicht in Business Code gehört",
+              "text": [
+                "Fachlogik soll unabhängig von einer konkreten Datenbank sein.",
+                "SQL im Business Code erzeugt Kopplung und macht Änderungen teuer.",
+                "Tests werden kompliziert, weil plötzlich eine Datenbank nötig ist."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Repository als Kapsel",
+              "text": [
+                "Ein Repository ist eine technische Klasse für Persistenzzugriffe.",
+                "Es enthält SQL Statements, Mapping und Fehlerbehandlung für die DB.",
+                "Der Rest des Systems nutzt nur Methoden wie save, findById oder listAll."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Domain arbeitet mit Objekten",
+              "text": [
+                "Die Domain kennt nur Fachobjekte wie Patient, Order oder Appointment.",
+                "Repository übersetzt zwischen Datenbankzeilen und Objekten.",
+                "Domain Entscheidungen basieren auf Objekten, nicht auf SQL Abfragen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Schlechte Vermischung",
+              "language": "cpp",
+              "code": "#include <string>\n\nclass PatientService {\npublic:\n    void registerPatient(const std::string& name) {\n        const char* sql = \"INSERT INTO patients(name) VALUES(?)\";\n        // prepare, bind, step\n    }\n};"
+            },
+            {
+              "type": "code",
+              "title": "Saubere Trennung mit Repository",
+              "language": "cpp",
+              "code": "#include <string>\n\nstruct Patient {\n    int id;\n    std::string name;\n};\n\nclass PatientRepository {\npublic:\n    void save(const Patient& patient);\n    Patient loadById(int id);\n};\n\nclass PatientService {\n    PatientRepository& repo;\n\npublic:\n    explicit PatientService(PatientRepository& r) : repo(r) {}\n\n    void registerPatient(const std::string& name) {\n        Patient p{0, name};\n        repo.save(p);\n    }\n};"
+            },
+            {
+              "type": "comparison",
+              "title": "Domain Objekte vs SQL im Business Code",
+              "columns": ["Domain Objekte", "SQL im Business Code"],
+              "rows": [
+                {
+                  "aspect": "Kopplung",
+                  "values": ["Gering", "Hoch"]
+                },
+                {
+                  "aspect": "Testbarkeit",
+                  "values": ["Gut", "Schlecht"]
+                },
+                {
+                  "aspect": "Änderungen",
+                  "values": ["Lokal im Repository", "Überall verteilt"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Datenbank als Domain Model",
+              "text": "Wenn Tabellenstruktur direkt das Domain Model bestimmt, wird das Fachmodell von technischen Details dominiert. Domain sollte der Fachlichkeit folgen, nicht der DB."
+            },
+            {
+              "type": "important",
+              "text": "Repository kapselt SQL, Mapping und DB Fehler. Domain und Services sollten keine DB APIs kennen."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "SQL gehört nicht in Business Code",
+                "Repository kapselt den Datenbankzugriff",
+                "Domain arbeitet mit Objekten statt SQL",
+                "Änderungen bleiben lokal in der Persistenzschicht",
+                "Datenbank darf nicht das Domain Model diktieren"
+              ]
+            }
           ]
         },
 
