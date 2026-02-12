@@ -11353,9 +11353,102 @@
         },
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Abhängigkeiten kontrollieren",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Dependency Control",
+              "text": "Abhängigkeiten kontrollieren bedeutet, Abhängigkeitsrichtungen bewusst zu gestalten, Zyklen zu vermeiden und unnötige Includes zu reduzieren, damit das System modular bleibt."
+            },
+            {
+              "type": "explanation",
+              "title": "Abhängigkeiten zeigen nach innen",
+              "text": [
+                "Fachlogik und Kernmodule sollen unabhängig von technischen Details sein.",
+                "Technische Schichten hängen vom Kern ab, nicht umgekehrt.",
+                "So bleiben zentrale Teile stabil, auch wenn sich Details ändern."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Keine zyklischen Abhängigkeiten",
+              "text": [
+                "Zyklen machen Änderungen riskant und verhindern saubere Modularität.",
+                "Sie führen oft zu Include Problemen und schwer nachvollziehbaren Kopplungen.",
+                "Wenn A B braucht und B A braucht, ist meist die Verantwortlichkeit falsch geschnitten."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Includes minimieren",
+              "text": [
+                "Jeder Include im Header zieht weitere Abhängigkeiten nach sich.",
+                "Forward Declarations reichen häufig für Zeiger oder Referenzen.",
+                "Includes gehören möglichst in cpp Dateien."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Zyklische Abhängigkeit als Problem",
+              "language": "cpp",
+              "code": "// A.hpp\n#include \"B.hpp\"\nclass A { B b; };\n\n// B.hpp\n#include \"A.hpp\"\nclass B { A a; };"
+            },
+            {
+              "type": "code",
+              "title": "Zyklus auflösen mit Forward Declaration",
+              "language": "cpp",
+              "code": "// A.hpp\nclass B;\nclass A { B* b; };\n\n// B.hpp\nclass A;\nclass B { A* a; };"
+            },
+            {
+              "type": "list",
+              "title": "Typische Maßnahmen",
+              "items": [
+                "Abhängigkeitsrichtungen pro Schicht definieren",
+                "Zyklische Abhängigkeiten sofort auflösen",
+                "Schnittstellen nutzen statt konkrete Typen",
+                "Header nur das nötigste includen",
+                "Implementierungsdetails in cpp verschieben"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Kontrollierte vs unkontrollierte Abhängigkeiten",
+              "columns": ["Kontrolliert", "Unkontrolliert"],
+              "rows": [
+                {
+                  "aspect": "Änderungsfolgen",
+                  "values": ["Lokal", "Systemweit"]
+                },
+                {
+                  "aspect": "Build Zeit",
+                  "values": ["Besser", "Schlechter"]
+                },
+                {
+                  "aspect": "Verständlichkeit",
+                  "values": ["Modular", "Alles kennt alles"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Alles kennt alles",
+              "text": "Wenn jede Klasse jede andere direkt kennt, entsteht ein Netz aus Abhängigkeiten. Das macht Refactoring teuer und Fehler schwer zu isolieren."
+            },
+            {
+              "type": "important",
+              "text": "Wenn du Abhängigkeiten nicht aktiv steuerst, steuern sie dich. Spätestens bei Wachstum wird das Projekt sonst unwartbar."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Abhängigkeiten zeigen nach innen zum Kern",
+                "Zyklische Abhängigkeiten vermeiden",
+                "Includes im Header minimieren",
+                "Schnittstellen statt konkrete Typen",
+                "Alles kennt alles ist ein massives Warnsignal"
+              ]
+            }
           ]
         },
 
