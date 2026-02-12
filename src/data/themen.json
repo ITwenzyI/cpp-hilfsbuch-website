@@ -11454,9 +11454,101 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Composition Root",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Composition Root",
+              "text": "Ein Composition Root ist die zentrale Stelle im Programm, an der Objekte erstellt und ihre Abhängigkeiten verdrahtet werden, typischerweise im main oder in einem App Einstiegspunkt."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Objekterzeugung und Verdrahtung sollen nicht im Fachcode verteilt sein.",
+                "Im Composition Root wird festgelegt, welche konkreten Implementierungen verwendet werden.",
+                "Dadurch sind Abhängigkeiten an einem Ort sichtbar und kontrollierbar."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Warum das sinnvoll ist",
+              "text": [
+                "Fachlogik bleibt frei von new und konkreten Typen.",
+                "Abhängigkeitsrichtung bleibt sauber nach innen zum Kern.",
+                "Tests können leichter andere Implementierungen einsetzen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Typischer Ort",
+              "text": [
+                "Kleine Projekte nutzen main als Composition Root.",
+                "Größere Projekte nutzen eine App oder Bootstrap Funktion.",
+                "Die Verdrahtung sollte dort konzentriert bleiben."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Composition Root im main",
+              "language": "cpp",
+              "code": "int main() {\n    Database db(\"data/app.db\");\n    PatientRepository repo(db);\n    PatientService service(repo);\n\n    App app(service);\n    return app.run();\n}"
+            },
+            {
+              "type": "code",
+              "title": "Schlechtes Gegenbeispiel",
+              "language": "cpp",
+              "code": "class PatientService {\npublic:\n    void registerPatient() {\n        Database db(\"data/app.db\");\n        PatientRepository repo(db);\n        // ...\n    }\n};"
+            },
+            {
+              "type": "list",
+              "title": "Typische Aufgaben im Composition Root",
+              "items": [
+                "Konkrete Implementierungen auswählen",
+                "Abhängigkeiten übergeben, zum Beispiel via Konstruktor",
+                "Konfiguration laden und verteilen",
+                "App Start und Shutdown koordinieren"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Mit vs ohne Composition Root",
+              "columns": ["Mit Composition Root", "Ohne Composition Root"],
+              "rows": [
+                {
+                  "aspect": "Sichtbarkeit der Abhängigkeiten",
+                  "values": ["Zentral", "Verstreut"]
+                },
+                {
+                  "aspect": "Testbarkeit",
+                  "values": ["Gut", "Schlecht"]
+                },
+                {
+                  "aspect": "Änderungsaufwand",
+                  "values": ["Lokal", "Überall"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Objekte überall erzeugen",
+              "text": "Wenn Objekte an vielen Stellen erzeugt werden, ist unklar, wer wofür verantwortlich ist. Abhängigkeiten werden unsichtbar und schwer austauschbar."
+            },
+            {
+              "type": "important",
+              "text": "Der Composition Root darf ruhig wissen, welche konkreten Typen existieren. Diese Kenntnis gehört genau dorthin und nicht in die Domain."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Zentrale Stelle für Objekterzeugung und Verdrahtung",
+                "Abhängigkeiten an einem Ort sichtbar",
+                "Typisch in main oder App Einstiegspunkt",
+                "Fachlogik bleibt frei von new und Details",
+                "Objekte nicht überall im Code erzeugen"
+              ]
+            }
           ]
         }
 
