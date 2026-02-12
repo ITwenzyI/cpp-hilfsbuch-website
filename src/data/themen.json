@@ -16406,7 +16406,7 @@
               "type": "code",
               "title": "Statement.hpp",
               "language": "cpp",
-              "code": "#pragma once\n\n#include <sqlite3.h>\n\nclass Statement {\npublic:\n    explicit Statement(sqlite3_stmt* stmt = nullptr);\n    ~Statement();\n\n    Statement(const Statement&) = delete;\n    Statement& operator=(const Statement&) = delete;\n\n    Statement(Statement&& other) noexcept;\n    Statement& operator=(Statement&& other) noexcept;\n\n    [[nodiscard]] sqlite3_stmt* get() const;\n    [[nodiscard]] int stepRaw();\n\n    void reset();\n\nprivate:\n    sqlite3_stmt* stmt_;\n};\n"
+              "code": "#pragma once\n\n#include <sqlite3.h>\n#include <string>\n\nclass Statement {\npublic:\n    explicit Statement(sqlite3_stmt* stmt = nullptr);\n    ~Statement();\n\n    Statement(const Statement&) = delete;\n    Statement& operator=(const Statement&) = delete;\n\n    Statement(Statement&& other) noexcept;\n    Statement& operator=(Statement&& other) noexcept;\n\n    [[nodiscard]] sqlite3_stmt* get() const;\n\n    [[nodiscard]] int stepRaw();\n    [[nodiscard]] int step();\n\n    void reset();\n\n    void bindInt(int index, int value);\n    void bindDouble(int index, double value);\n    void bindText(int index, const std::string& value);\n    void bindNull(int index);\n\nprivate:\n    sqlite3_stmt* stmt_;\n};\n"
             },
             {
               "type": "explanation",
@@ -16419,10 +16419,9 @@
             },
             {
               "type": "code",
-              "title": "Statement.cpp",
+              "title": "Statement.cpp Grundstruktur",
               "language": "cpp",
               "code": "#include \"statement.hpp\"\n#include <stdexcept>\n\nStatement::Statement(sqlite3_stmt* stmt)\n    : stmt_(stmt) {\n}\n\nStatement::~Statement() {\n    if (stmt_) {\n        sqlite3_finalize(stmt_);\n        stmt_ = nullptr;\n    }\n}\n\nStatement::Statement(Statement&& other) noexcept\n    : stmt_(other.stmt_) {\n    other.stmt_ = nullptr;\n}\n\nStatement& Statement::operator=(Statement&& other) noexcept {\n    if (this != &other) {\n        if (stmt_) {\n            sqlite3_finalize(stmt_);\n        }\n        stmt_ = other.stmt_;\n        other.stmt_ = nullptr;\n    }\n    return *this;\n}\n"
-
             },
             {
               "type": "explanation",
@@ -16442,12 +16441,11 @@
             },
             {
               "type": "explanation",
-              "title": "stepRaw Methode",
+              "title": "stepRaw vs step",
               "text": [
-                "stepRaw führt sqlite3_step direkt auf dem Statement aus.",
-                "Vor der Ausführung wird geprüft, ob ein gültiges Statement existiert.",
-                "Bei einem ungültigen Zustand wird eine logic_error Exception geworfen.",
-                "Der Rückgabewert von sqlite3_step wird unverändert weitergegeben."
+                "stepRaw gibt den Rückgabecode von sqlite3_step unverändert zurück.",
+                "step ist eine komfortablere Variante mit Fehlerprüfung.",
+                "step lässt nur SQLITE_ROW und SQLITE_DONE als gültige Ergebnisse durch."
               ]
             },
             {
@@ -16455,6 +16453,33 @@
               "title": "stepRaw Implementierung",
               "language": "cpp",
               "code": "int Statement::stepRaw() {\n    if (stmt_ == nullptr) {\n        throw std::logic_error(\"Step fehlgeschlagen.\");\n    }\n    return sqlite3_step(stmt_);\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "step Implementierung",
+              "language": "cpp",
+              "code": "int Statement::step() {\n    if (!stmt_) {\n        throw std::logic_error(\"Statement ist null.\");\n    }\n\n    int rc = sqlite3_step(stmt_);\n    if (rc == SQLITE_ROW || rc == SQLITE_DONE) {\n        return rc;\n    }\n\n    throw std::runtime_error(\"Step fehlgeschlagen.\");\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "bind Funktionen",
+              "text": [
+                "bind Funktionen setzen Werte auf Platzhalter im Statement.",
+                "Die Indizes starten bei 1.",
+                "Bei Fehlern wird eine Exception geworfen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "bindText und bindNull Implementierung",
+              "language": "cpp",
+              "code": "void Statement::bindText(int index, const std::string& value) {\n    if (!stmt_) {\n        throw std::logic_error(\"Statement ist null.\");\n    }\n\n    int rc = sqlite3_bind_text(stmt_, index, value.c_str(), -1, SQLITE_TRANSIENT);\n    if (rc != SQLITE_OK) {\n        throw std::runtime_error(\"Bind fehlgeschlagen.\");\n    }\n}\n\nvoid Statement::bindNull(int index) {\n    if (!stmt_) {\n        throw std::logic_error(\"Statement ist null.\");\n    }\n\n    int rc = sqlite3_bind_null(stmt_, index);\n    if (rc != SQLITE_OK) {\n        throw std::runtime_error(\"Bind fehlgeschlagen.\");\n    }\n}\n"
+            },
+            {
+              "type": "code",
+              "title": "bindInt und bindDouble Implementierung",
+              "language": "cpp",
+              "code": "void Statement::bindInt(int index, int value) {\n    if (!stmt_) {\n        throw std::logic_error(\"Statement ist null.\");\n    }\n\n    int rc = sqlite3_bind_int(stmt_, index, value);\n    if (rc != SQLITE_OK) {\n        throw std::runtime_error(\"Bind fehlgeschlagen.\");\n    }\n}\n\nvoid Statement::bindDouble(int index, double value) {\n    if (!stmt_) {\n        throw std::logic_error(\"Statement ist null.\");\n    }\n\n    int rc = sqlite3_bind_double(stmt_, index, value);\n    if (rc != SQLITE_OK) {\n        throw std::runtime_error(\"Bind fehlgeschlagen.\");\n    }\n}\n"
             },
             {
               "type": "explanation",
@@ -16473,18 +16498,19 @@
             },
             {
               "type": "explanation",
-              "title": "Typische Nutzung von reset",
+              "title": "Typische Nutzung mit bind und step",
               "text": [
-                "reset wird nach sqlite3_step verwendet.",
-                "Das gleiche Statement kann mehrfach mit unterschiedlichen Daten ausgeführt werden.",
-                "Besonders sinnvoll bei Inserts oder Updates in Schleifen."
+                "prepare liefert ein Statement Objekt.",
+                "bind setzt die Parameter auf die Platzhalter.",
+                "step oder stepRaw führt aus.",
+                "reset ermöglicht Wiederverwendung."
               ]
             },
             {
               "type": "code",
               "title": "Beispiel Wiederverwendung eines Statements",
               "language": "cpp",
-              "code": "auto stmt = db.prepare(\"INSERT INTO users (name, age) VALUES (?, ?);\");\n\nstmt.bindText(1, \"Max\");\nstmt.bindInt(2, 30);\nstmt.stepRaw();\n\nstmt.reset();\n\nstmt.bindText(1, \"Anna\");\nstmt.bindInt(2, 25);\nstmt.stepRaw();\n"
+              "code": "auto stmt = db.prepare(\"INSERT INTO users (name, age) VALUES (?, ?);\");\n\nstmt.bindText(1, \"Max\");\nstmt.bindInt(2, 30);\nstmt.step();\n\nstmt.reset();\n\nstmt.bindText(1, \"Anna\");\nstmt.bindInt(2, 25);\nstmt.step();\n"
             },
             {
               "type": "important",
@@ -16492,8 +16518,8 @@
             },
             {
               "type": "pitfall",
-              "title": "Statement ohne RAII",
-              "text": "Manuelles sqlite3_finalize wird leicht vergessen und führt zu Speicherlecks oder Datenbank Locks."
+              "title": "Bind ohne gültiges Statement",
+              "text": "Wenn stmt_ null ist, führen bind oder step zu undefiniertem Verhalten. Deshalb wird vorher geprüft und eine logic_error geworfen."
             },
             {
               "type": "important",
@@ -16505,8 +16531,9 @@
                 "Statement kapselt sqlite3_stmt nach RAII",
                 "finalize erfolgt im Destruktor",
                 "Copy verboten, Move erlaubt",
-                "reset ermöglicht Wiederverwendung",
-                "stepRaw bildet die Basis für höhere APIs"
+                "bindInt, bindDouble, bindText, bindNull setzen Parameter",
+                "step prüft auf SQLITE_ROW oder SQLITE_DONE",
+                "reset ermöglicht Wiederverwendung"
               ]
             }
           ]
