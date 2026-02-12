@@ -11565,9 +11565,111 @@
         "icon": "✒️",
         "topics": [
         {
-          "title": "---",
+          "title": "Naming Konventionen in C++",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Naming Konventionen",
+              "text": "Naming Konventionen legen fest, wie Klassen, Funktionen, Variablen und Konstanten benannt werden, damit Code lesbar, verständlich und konsistent bleibt."
+            },
+            {
+              "type": "explanation",
+              "title": "Namen beschreiben Absicht",
+              "text": [
+                "Ein guter Name erklärt, warum etwas existiert, nicht nur was es ist.",
+                "Lesbarkeit ist wichtiger als Kürze.",
+                "Code wird häufiger gelesen als geschrieben."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Klassen sind Nomen",
+              "text": [
+                "Klassen repräsentieren Dinge oder Konzepte.",
+                "Typische Namen sind User, Order, DatabaseConnection.",
+                "Der Name sollte ein fachliches oder technisches Objekt ausdrücken."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel Klassenname",
+              "language": "cpp",
+              "code": "class PatientRecord {\n};"
+            },
+            {
+              "type": "explanation",
+              "title": "Funktionen sind Verben",
+              "text": [
+                "Funktionen beschreiben Aktionen.",
+                "Typische Namen sind calculateTotal, save, loadById.",
+                "Der Name sollte klar machen, was passiert."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel Funktionsname",
+              "language": "cpp",
+              "code": "double calculateTotal() const;\nvoid save(const Patient& patient);"
+            },
+            {
+              "type": "explanation",
+              "title": "Einheitlicher Stil im Projekt",
+              "text": [
+                "Ob camelCase oder snake_case genutzt wird, ist weniger wichtig als Konsistenz.",
+                "Ein Projekt sollte einen klaren Stil definieren und durchziehen.",
+                "Inkonsistenz erzeugt Reibung beim Lesen."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Stilregeln",
+              "items": [
+                "Klassen in PascalCase",
+                "Funktionen in camelCase",
+                "Member Variablen mit klar erkennbarem Schema",
+                "Konstanten deutlich kennzeichnen",
+                "Keine Mischformen im selben Projekt"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Gute vs schlechte Namen",
+              "columns": ["Gut", "Schlecht"],
+              "rows": [
+                {
+                  "aspect": "Aussagekraft",
+                  "values": ["describeOrderTotal", "calc"]
+                },
+                {
+                  "aspect": "Kontextklarheit",
+                  "values": ["PatientRepository", "PR"]
+                },
+                {
+                  "aspect": "Lesbarkeit",
+                  "values": ["maxRetryCount", "mrc"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Abkürzungen ohne Kontext",
+              "text": "Unklare Abkürzungen sparen wenige Zeichen, kosten aber Verständnis. Wenn ein Name erklärt werden muss, ist er meist schlecht gewählt."
+            },
+            {
+              "type": "important",
+              "text": "Einheitliche und sprechende Namen sind ein zentrales Qualitätsmerkmal von professionellem C++ Code."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Namen beschreiben Absicht",
+                "Klassen sind Nomen",
+                "Funktionen sind Verben",
+                "Stil im Projekt einheitlich halten",
+                "Abkürzungen ohne Kontext vermeiden"
+              ]
+            }
           ]
         },
 
