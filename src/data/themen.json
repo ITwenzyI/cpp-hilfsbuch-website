@@ -14462,22 +14462,68 @@
               ]
             },
             {
+              "type": "explanation",
+              "title": "INSERT mit Platzhaltern",
+              "text": [
+                "In professionellem Code werden keine festen Werte in das SQL geschrieben.",
+                "Stattdessen werden Platzhalter verwendet.",
+                "Die Werte werden später sicher gebunden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "INSERT mit Parametern",
+              "language": "sql",
+              "code": "INSERT INTO users (name, age) VALUES (?, ?);\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Warum Platzhalter wichtig sind",
+              "text": [
+                "Verhindert SQL Injection.",
+                "Trennt SQL Struktur von Daten.",
+                "Erlaubt Wiederverwendung vorbereiteter Statements."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "INSERT mit Prepared Statement in C++",
+              "language": "cpp",
+              "code": "Statement stmt = db.prepare(\"INSERT INTO users (name, age) VALUES (?, ?);\");\nstmt.bindText(1, name);\nstmt.bindInt(2, age);\n\nint rc = stmt.stepRaw();\nif (rc != SQLITE_DONE) {\n    throw std::runtime_error(\"INSERT fehlgeschlagen\");\n}\n"
+            },
+            {
+              "type": "explanation",
+              "title": "last_insert_rowid",
+              "text": [
+                "Nach erfolgreichem INSERT kann die erzeugte ID gelesen werden.",
+                "Die ID gehört zur aktuellen Verbindung.",
+                "Dies funktioniert nur direkt nach dem INSERT."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Letzte ID lesen",
+              "language": "cpp",
+              "code": "int id = static_cast<int>(sqlite3_last_insert_rowid(db.get()));\n"
+            },
+            {
               "type": "pitfall",
-              "title": "INSERT ohne Spaltenliste",
-              "text": "INSERT ohne explizite Spaltenliste ist fehleranfällig, wenn sich die Tabellenstruktur ändert."
+              "title": "String Konkatenation für SQL",
+              "text": "SQL Strings dürfen niemals durch Zusammenbauen von Benutzereingaben erzeugt werden."
             },
             {
               "type": "important",
-              "text": "INSERT fügt Daten hinzu, verändert aber keine bestehenden Zeilen."
+              "text": "Professionelle INSERT Statements verwenden immer Platzhalter und bind."
             },
             {
               "type": "summary",
               "points": [
-                "INSERT fügt eine neue Zeile ein",
-                "Spalten sollten immer explizit angegeben werden",
-                "Mehrere Zeilen können in einem INSERT eingefügt werden",
+                "INSERT fügt neue Zeilen ein",
+                "Spalten sollten explizit angegeben werden",
+                "Mehrere Zeilen können eingefügt werden",
                 "IDs werden oft automatisch vergeben",
-                "Saubere INSERTs sind robust gegenüber Schema Änderungen"
+                "Platzhalter mit ? sind Best Practice",
+                "Prepared Statements sind sicher und performant"
               ]
             }
           ]
