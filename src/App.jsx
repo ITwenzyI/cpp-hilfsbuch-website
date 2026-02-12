@@ -48,6 +48,7 @@ function App() {
   // Smart search (Fuse.js)
   useEffect(() => {
     const query = searchTerm.trim();
+    const normalizedQuery = query.toLowerCase();
 
     if (query.length < 2) {
       setSearchResults([]);
@@ -92,7 +93,15 @@ function App() {
 
     const result = fuse.search(query);
     const sorted = result.sort((a, b) => a.score - b.score);
-    setSearchResults(sorted.map((r) => r.item));
+    const strictResults = sorted
+      .map((r) => r.item)
+      .filter((item) => {
+        const titleHasMatch = item.title.toLowerCase().includes(normalizedQuery);
+        const contentHasMatch = Boolean(item.matchInfo?.snippet);
+        return titleHasMatch || contentHasMatch;
+      });
+
+    setSearchResults(strictResults);
   }, [searchTerm]);
 
   /* ============================================================================
@@ -102,7 +111,8 @@ function App() {
   // Highlight text like STRG+F
   const highlightMatch = (text, query) => {
     if (!text) return "";
-    const regex = new RegExp(`(${query})`, "gi");
+    const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(`(${escapedQuery})`, "gi");
     return text.replace(regex, `<mark class="bg-yellow-300">$1</mark>`);
   };
 
@@ -252,8 +262,6 @@ function App() {
 
   // Search result list item
   const renderSearchResult = (topic, idx) => {
-    console.log(topic.title, topic.parentTopic);
-
   const match = topic.matchInfo;
 
   let fullText = "";
