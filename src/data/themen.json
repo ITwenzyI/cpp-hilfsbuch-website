@@ -2378,6 +2378,100 @@
           "title": "break",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "break",
+              "text": "break beendet die aktuelle Schleife oder switch Anweisung sofort und setzt die Programmausführung nach dem Block fort."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Sobald break ausgeführt wird, wird der umgebende Schleifen oder switch Block verlassen.",
+                "Die Kontrolle springt hinter die geschweiften Klammern.",
+                "Nur der innerste umgebende Block wird beendet."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "break in einer for Schleife",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint main() {\n    for (int i = 0; i < 10; ++i) {\n        if (i == 5) {\n            break;\n        }\n        std::cout << i << \" \";\n    } // Endet nach 0 1 2 3 4\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Verhalten in Schleifen",
+              "text": [
+                "break beendet die Schleife vollständig.",
+                "Die Iteration wird nicht fortgesetzt.",
+                "Die Bedingung der Schleife wird nicht erneut geprüft."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "break in einer while Schleife",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint main() {\n    int value = 0;\n    while (true) {\n        if (value == 3) {\n            break;\n        }\n        std::cout << value << \" \";\n        ++value;\n    } // Ausgabe: 0 1 2\n}"
+            },
+            {
+              "type": "code",
+              "title": "break in switch",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint main() {\n    int x = 2;\n\n    switch (x) {\n        case 1:\n            std::cout << \"Eins\";\n            break;\n        case 2:\n            std::cout << \"Zwei\";\n            break;\n        default:\n            std::cout << \"Andere\";\n    }\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "break in switch",
+              "text": [
+                "Ohne break würde der Code in den nächsten case fallen.",
+                "break verhindert das sogenannte Fallthrough.",
+                "In modernen C++ Versionen kann Fallthrough explizit markiert werden."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "break vs continue vs return",
+              "columns": ["break", "continue", "return"],
+              "rows": [
+                {
+                  "aspect": "Wirkung",
+                  "values": ["Beendet Schleife oder switch", "Überspringt Rest der Iteration", "Beendet Funktion"]
+                },
+                {
+                  "aspect": "Gültigkeit",
+                  "values": ["Schleifen und switch", "Nur Schleifen", "In Funktionen"]
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Einsatzfälle",
+              "items": [
+                "Suche in einer Schleife abbrechen",
+                "Frühzeitiger Abbruch bei Fehler",
+                "Beenden einer Endlosschleife",
+                "Verhindern von Fallthrough in switch"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Nur innerste Schleife wird beendet",
+              "text": "In verschachtelten Schleifen beendet break nur die innerste Schleife. Äußere Schleifen laufen weiter."
+            },
+            {
+              "type": "important",
+              "text": "break sollte klar begründet sein. Wenn viele break Anweisungen nötig sind, ist die Schleifenstruktur oft schlecht gewählt."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "break beendet Schleifen oder switch sofort",
+                "Kontrolle springt hinter den Block",
+                "Verhindert Fallthrough in switch",
+                "Beendet nur den innersten Block",
+                "Gezielt und sparsam einsetzen"
+              ]
+            }
           ]
         },
 
