@@ -2576,6 +2576,106 @@
           "title": "return",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "return",
+              "text": "return beendet die aktuelle Funktion sofort und gibt optional einen Wert an den Aufrufer zurück."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Sobald return ausgeführt wird, wird die Funktion verlassen.",
+                "Die Programmausführung setzt an der Aufrufstelle fort.",
+                "In Funktionen mit Rückgabewert muss ein passender Wert zurückgegeben werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "return mit Rückgabewert",
+              "language": "cpp",
+              "code": "int add(int a, int b) {\n    return a + b;\n}"
+            },
+            {
+              "type": "code",
+              "title": "return in void Funktion",
+              "language": "cpp",
+              "code": "void printIfPositive(int value) {\n    if (value <= 0) {\n        return;\n    }\n    std::cout << value;\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Früher Rücksprung",
+              "text": [
+                "return kann genutzt werden, um frühzeitig aus einer Funktion auszusteigen.",
+                "Das reduziert Verschachtelung von if Blöcken.",
+                "Diese Technik wird oft als Guard Clause bezeichnet."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Guard Clause Beispiel",
+              "language": "cpp",
+              "code": "bool isValid(int age) {\n    if (age < 0) {\n        return false;\n    }\n    if (age > 120) {\n        return false;\n    }\n    return true;\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "return in main",
+              "text": [
+                "In main signalisiert return einen Exit Code an das Betriebssystem.",
+                "0 bedeutet üblicherweise Erfolg.",
+                "Andere Werte signalisieren Fehler."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "return in main",
+              "language": "cpp",
+              "code": "int main() {\n    return 0;\n}"
+            },
+            {
+              "type": "comparison",
+              "title": "return vs break vs continue",
+              "columns": ["return", "break", "continue"],
+              "rows": [
+                {
+                  "aspect": "Wirkung",
+                  "values": ["Beendet Funktion", "Beendet Schleife oder switch", "Nächste Iteration"]
+                },
+                {
+                  "aspect": "Gültigkeit",
+                  "values": ["In Funktionen", "Schleifen und switch", "Nur Schleifen"]
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Einsatzfälle",
+              "items": [
+                "Berechnete Werte zurückgeben",
+                "Fehlerfälle früh beenden",
+                "Guard Clauses zur Vereinfachung",
+                "Exit Code in main setzen"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Unklare Kontrollflüsse",
+              "text": "Zu viele return Anweisungen in langen Funktionen können die Nachvollziehbarkeit erschweren. Funktionen sollten möglichst kurz und klar strukturiert sein."
+            },
+            {
+              "type": "important",
+              "text": "return beendet immer die gesamte Funktion, nicht nur einen Block oder eine Schleife."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "return beendet die aktuelle Funktion",
+                "Optionaler Rückgabewert möglich",
+                "Erlaubt frühe Ausstiege mit Guard Clauses",
+                "In main definiert return den Exit Code",
+                "Nicht mit break oder continue verwechseln"
+              ]
+            }
           ]
         }
 
