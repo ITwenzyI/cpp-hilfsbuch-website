@@ -12575,6 +12575,8 @@
               "title": "Include-Verzeichnisse",
               "text": [
                 "Include-Pfade werden pro Target definiert.",
+                "${CMAKE_CURRENT_SOURCE_DIR} ist der Ordner, in dem die aktuelle CMakeLists.txt liegt.",
+                "${CMAKE_CURRENT_SOURCE_DIR}/include bedeutet: Der Unterordner include relativ zu dieser CMakeLists.",
                 "PRIVATE, PUBLIC und INTERFACE steuern die Sichtbarkeit."
               ]
             },
