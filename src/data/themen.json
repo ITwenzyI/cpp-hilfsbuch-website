@@ -16578,7 +16578,7 @@
         "icon": "🧾",
         "topics": [
         {
-          "title": "Warum Prepared Statements",
+          "title": "Prepared Statements",
           "difficulty": "basic",
           "blocks": [
             {
@@ -16617,7 +16617,7 @@
               "type": "code",
               "title": "Prepared Statement mit Platzhaltern",
               "language": "cpp",
-              "code": "auto stmt = db.prepare(\"INSERT INTO users (name, age) VALUES (?, ?);\");\n\nstmt.bindText(1, name);\nstmt.bindInt(2, age);\nstmt.step();\n"
+              "code": "auto stmt = db_.prepare(\"INSERT INTO users (name, age) VALUES (?, ?);\");\n\nstmt.bindText(1, name);\nstmt.bindInt(2, age);\nstmt.step();\n"
             },
             {
               "type": "comparison",
