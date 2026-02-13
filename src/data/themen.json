@@ -17332,15 +17332,15 @@
               "title": "NULL Handling",
               "text": [
                 "Spalten können NULL sein.",
-                "Beim Lesen von NULL liefert sqlite3_column_text einen Null Zeiger.",
-                "NULL muss explizit geprüft werden."
+                "NULL sollte über sqlite3_column_type geprüft werden.",
+                "Erst wenn der Typ nicht SQLITE_NULL ist, darf der Wert gelesen werden."
               ]
             },
             {
               "type": "code",
               "title": "NULL sicher behandeln",
               "language": "cpp",
-              "code": "const unsigned char* text = sqlite3_column_text(stmt.get(), 2);\n\nif (text == nullptr) {\n    // Wert ist NULL\n}\n"
+              "code": "if (sqlite3_column_type(stmt.get(), column) == SQLITE_NULL) {\n    return \"\";\n}\n\nconst unsigned char* text = sqlite3_column_text(stmt.get(), column);\nif (text != nullptr) {\n    return reinterpret_cast<const char*>(text);\n}\n\nreturn \"\";\n"
             },
             {
               "type": "explanation",
