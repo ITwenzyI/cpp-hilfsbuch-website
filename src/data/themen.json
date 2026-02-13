@@ -2480,6 +2480,94 @@
           "title": "continue",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "continue",
+              "text": "continue überspringt den restlichen Code der aktuellen Schleifeniteration und startet direkt mit der nächsten Iteration."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "continue wirkt nur innerhalb von Schleifen.",
+                "Die aktuelle Iteration wird abgebrochen.",
+                "Die Schleifenbedingung wird erneut geprüft und die nächste Iteration beginnt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "continue in einer for Schleife",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint main() {\n    for (int i = 0; i < 6; ++i) {\n        if (i % 2 == 0) {\n            continue;\n        }\n        std::cout << i << \" \";\n    } // Ausgabe: 0 1 3 5\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Verhalten in Schleifen",
+              "text": [
+                "Bei for Schleifen wird zuerst der Rest des Blocks übersprungen.",
+                "Dann wird der Inkrement Teil ausgeführt.",
+                "Anschließend wird die Bedingung erneut geprüft."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "continue in einer while Schleife",
+              "language": "cpp",
+              "code": "#include <iostream>\n\nint main() {\n    int i = 0;\n    while (i < 6) {\n        ++i;\n        if (i == 3) {\n            continue;\n        }\n        std::cout << i << \" \";\n    } // Ausgabe: 1 2 4 5\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Unterschied zu break",
+              "text": [
+                "continue beendet nicht die Schleife.",
+                "Nur die aktuelle Iteration wird übersprungen.",
+                "break hingegen verlässt die Schleife vollständig."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "continue vs break vs return",
+              "columns": ["continue", "break", "return"],
+              "rows": [
+                {
+                  "aspect": "Wirkung",
+                  "values": ["Nächste Iteration", "Schleife beenden", "Funktion beenden"]
+                },
+                {
+                  "aspect": "Gültigkeit",
+                  "values": ["Nur Schleifen", "Schleifen und switch", "In Funktionen"]
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Einsatzfälle",
+              "items": [
+                "Bestimmte Werte überspringen",
+                "Ungültige Eingaben ignorieren",
+                "Frühzeitig zur nächsten Iteration wechseln",
+                "Schleifenlogik vereinfachen"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Unklare Schleifenstruktur",
+              "text": "Viele continue Anweisungen können die Lesbarkeit verschlechtern. Wenn mehrere continue nötig sind, ist die Schleifenstruktur oft nicht optimal."
+            },
+            {
+              "type": "important",
+              "text": "continue eignet sich gut zur Reduktion von verschachtelten if Blöcken, sollte aber bewusst eingesetzt werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "continue überspringt den Rest der Iteration",
+                "Wirkt nur in Schleifen",
+                "Schleife läuft weiter",
+                "Unterschied zu break klar beachten",
+                "Nicht übermäßig einsetzen"
+              ]
+            }
           ]
         },
 
