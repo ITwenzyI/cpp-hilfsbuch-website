@@ -2368,6 +2368,38 @@
             ]
           }
         ]
+      },
+
+      {
+        "name": "Kontrollflusssteuerung",
+        "icon": "🔀",
+        "topics": [
+        {
+          "title": "break",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "continue",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": "return",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
       }
     ]
   },
