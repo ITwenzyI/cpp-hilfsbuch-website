@@ -1,9 +1,7 @@
-# Important to not publish!
 dist/
 node_modules/
 .env
 .DS_Store
 .vite
 *.log
-prompt.txt
-commit.txt
+docs/
