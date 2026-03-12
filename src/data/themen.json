@@ -11538,7 +11538,7 @@
 
 
       {
-        "name": "Architektur und Schichten",
+        "name": "Architektur und Namenskonvention",
         "icon": "🏗️",
         "topics": [
         {
@@ -11638,20 +11638,9 @@
               ]
             }
           ]
-        }
+        },
 
 
-
-        ]
-      },
-
-
-
-
-      {
-        "name": "Code Style und Namenskonventionen",
-        "icon": "✒️",
-        "topics": [
         {
           "title": "Naming Konventionen in C++",
           "difficulty": "basic",
@@ -11751,6 +11740,7 @@
             }
           ]
         }
+
 
 
         ]
