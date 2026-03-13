@@ -11937,9 +11937,111 @@
         },
 
         {
-          "title": ".clang-tidy",
-          "difficulty": "basic",
+          "title": "clang-tidy",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "clang-tidy",
+              "text": "clang-tidy ist ein statisches Analysewerkzeug für C und C++, das Codequalität überprüft, mögliche Fehler erkennt und Verbesserungsvorschläge macht."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "clang-tidy analysiert den Quellcode ohne ihn auszuführen.",
+                "Es prüft typische Programmierfehler, Stilprobleme und Modernisierungsmöglichkeiten.",
+                "Das Tool basiert auf dem Clang Compiler Frontend."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Prüfungen",
+              "text": [
+                "Erkennung potenzieller Bugs.",
+                "Hinweise auf ineffizienten oder unsauberen Code.",
+                "Empfehlungen für modernes C++."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispielproblem",
+              "language": "cpp",
+              "code": "int* create() {\n    int value = 10;\n    return &value;\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Warum clang-tidy hier warnt",
+              "text": [
+                "Die Funktion gibt die Adresse einer lokalen Variable zurück.",
+                "Nach dem Verlassen der Funktion existiert die Variable nicht mehr.",
+                "clang-tidy erkennt solche gefährlichen Muster."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Einsatzbereiche",
+              "text": [
+                "Automatische Codeprüfung im Projekt.",
+                "Verbesserung bestehender Codebasen.",
+                "Durchsetzung einheitlicher Coding Regeln."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel .clang-tidy Konfiguration",
+              "language": "yaml",
+              "code": "Checks: >\n  clang-analyzer-*,\n  bugprone-*,\n  modernize-*,\n  performance-*,\n  readability-*\n\nWarningsAsErrors: ''\n\nHeaderFilterRegex: '.*'\n\nFormatStyle: file"
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Check Kategorien",
+              "items": [
+                "clang-analyzer für statische Fehleranalyse",
+                "bugprone für typische Programmierfehler",
+                "modernize für modernes C++",
+                "performance für effizienteren Code",
+                "readability für bessere Lesbarkeit"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "clang-format vs clang-tidy",
+              "columns": ["clang-format", "clang-tidy"],
+              "rows": [
+                {
+                  "aspect": "Zweck",
+                  "values": ["Codeformatierung", "Codeanalyse"]
+                },
+                {
+                  "aspect": "Änderungen",
+                  "values": ["Formatiert automatisch", "Gibt Warnungen und Empfehlungen"]
+                },
+                {
+                  "aspect": "Typische Nutzung",
+                  "values": ["Einheitlicher Stil", "Codequalität verbessern"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu viele Checks aktivieren",
+              "text": "Wenn zu viele Checks gleichzeitig aktiviert sind, entstehen sehr viele Warnungen. Projekte sollten nur relevante Regeln aktivieren."
+            },
+            {
+              "type": "important",
+              "text": "clang-tidy hilft Fehler früh zu erkennen und sorgt langfristig für saubereren und moderneren C++ Code."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "clang-tidy ist ein statisches Analysewerkzeug",
+                "Erkennt Bugs und Codeprobleme",
+                "Empfiehlt modernes C++",
+                "Konfiguration erfolgt über .clang-tidy",
+                "Ergänzt clang-format zur Codequalität"
+              ]
+            }
           ]
         },
 
