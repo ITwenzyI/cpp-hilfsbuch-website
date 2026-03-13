@@ -12901,6 +12901,128 @@
           ]
         },
         {
+          "title": "std::monostate",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "std::monostate",
+              "text": "std::monostate ist ein leerer Typ aus <variant>, der häufig als Platzhalter in std::variant verwendet wird, um einen neutralen oder leeren Zustand zu modellieren."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "std::monostate enthält keine Daten.",
+                "Er wird meist als erster Typ in std::variant verwendet.",
+                "Dadurch erhält ein variant einen definierten 'leeren' Startzustand."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Benötigter Header",
+              "items": [
+                "<variant>"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Warum std::monostate existiert",
+              "text": [
+                "std::variant wird standardmäßig mit seinem ersten Typ initialisiert.",
+                "Wenn kein sinnvoller Default Wert existiert, kann std::monostate diesen Platz einnehmen.",
+                "Dadurch wird ein bewusst leerer Zustand modelliert."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Variant mit monostate",
+              "language": "cpp",
+              "code": "#include <variant>\n#include <string>\n\nint main() {\n    std::variant<std::monostate, int, std::string> value;\n\n    // Default Zustand\n    // value enthält std::monostate\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Leeren Zustand prüfen",
+              "text": [
+                "Mit holds_alternative kann geprüft werden, ob der variant aktuell leer ist.",
+                "Dies ersetzt oft manuelle Flags."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "monostate prüfen",
+              "language": "cpp",
+              "code": "#include <variant>\n#include <iostream>\n\nint main() {\n    std::variant<std::monostate, int> v;\n\n    if (std::holds_alternative<std::monostate>(v)) {\n        std::cout << \"kein Wert gesetzt\" << '\\n';\n    }\n\n    // Ausgabe:\n    // kein Wert gesetzt\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Praktisches Beispiel",
+              "text": [
+                "std::monostate kann einen optionalen Zustand modellieren.",
+                "Zum Beispiel bei einem Ergebnis, das noch nicht berechnet wurde."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Praxisbeispiel Ergebniszustand",
+              "language": "cpp",
+              "code": "#include <variant>\n#include <iostream>\n\nusing Result = std::variant<std::monostate, int>;\n\nint main() {\n    Result value;\n\n    if (std::holds_alternative<std::monostate>(value)) {\n        std::cout << \"no result yet\" << '\\n';\n    }\n\n    value = 42;\n\n    std::cout << std::get<int>(value) << '\\n';\n\n    // Ausgabe:\n    // no result yet\n    // 42\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Zusammenarbeit mit std::visit",
+              "text": [
+                "Auch std::monostate kann in einem Visitor behandelt werden.",
+                "Dadurch wird der leere Zustand explizit verarbeitet."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Visitor mit monostate",
+              "language": "cpp",
+              "code": "#include <variant>\n#include <iostream>\n\nusing Value = std::variant<std::monostate, int, double>;\n\nint main() {\n    Value v;\n\n    std::visit([](auto&& value) {\n        using T = std::decay_t<decltype(value)>;\n\n        if constexpr (std::is_same_v<T, std::monostate>)\n            std::cout << \"empty\" << '\\n';\n        else\n            std::cout << value << '\\n';\n\n    }, v);\n\n    // Ausgabe:\n    // empty\n}"
+            },
+            {
+              "type": "comparison",
+              "title": "monostate vs optional",
+              "columns": ["std::monostate + variant", "std::optional"],
+              "rows": [
+                {
+                  "aspect": "Typen",
+                  "values": ["Mehrere mögliche Typen", "Nur ein Typ"]
+                },
+                {
+                  "aspect": "Leerer Zustand",
+                  "values": ["monostate", "nullopt"]
+                },
+                {
+                  "aspect": "Flexibilität",
+                  "values": ["Sehr hoch", "Begrenzt"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "monostate vergessen",
+              "text": "Wenn ein variant keinen sinnvollen Default Typ besitzt, kann das Fehlen von std::monostate zu unerwarteten Startwerten führen."
+            },
+            {
+              "type": "important",
+              "text": "std::monostate ist besonders nützlich, wenn ein std::variant einen bewusst leeren Startzustand besitzen soll."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "std::monostate ist ein leerer Platzhalter Typ",
+                "Wird häufig als erster Typ in std::variant verwendet",
+                "Ermöglicht einen klar definierten leeren Zustand",
+                "Kann mit holds_alternative geprüft werden",
+                "Sehr nützlich in APIs und Result Typen"
+              ]
+            }
+          ]
+        },
+        {
           "title": "std::any",
           "difficulty": "intermediate",
           "blocks": [
