@@ -12736,137 +12736,165 @@
             {
               "type": "definition",
               "term": "std::variant",
-              "text": "std::variant ist ein typsicherer Union-Typ, der zu jedem Zeitpunkt genau einen von mehreren fest definierten Typen enthält."
+              "text": "std::variant ist ein typsicherer Union Typ aus C++17, der zu jedem Zeitpunkt genau einen von mehreren fest definierten Typen enthält."
             },
             {
               "type": "explanation",
-              "title": "Grundidee von std::variant",
+              "title": "Grundidee",
               "text": [
                 "std::variant modelliert eine Entweder-oder-Beziehung zwischen mehreren Typen.",
-                "Im Gegensatz zu klassischen Unions ist std::variant vollständig typsicher."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Typische Einsatzgebiete",
-              "text": [
-                "Rückgabewerte mit mehreren möglichen Typen.",
-                "Ersetzen von Vererbungs-Hierarchien für einfache Fälle.",
-                "Zustände oder Ergebnisse mit klar abgegrenzten Typen."
+                "Im Gegensatz zu klassischen C Unions verwaltet variant den aktiven Typ sicher.",
+                "Der aktuell gespeicherte Typ wird zur Laufzeit verfolgt."
               ]
             },
             {
               "type": "list",
-              "title": "Benötigter Header",
+              "title": "Header",
               "items": [
                 "<variant>"
               ]
             },
             {
               "type": "explanation",
-              "title": "Erzeugen eines std::variant",
+              "title": "Typische Einsatzgebiete",
               "text": [
-                "Ein variant wird mit einer festen Typmenge definiert.",
-                "Der aktuell gespeicherte Typ wird automatisch verwaltet."
+                "Parser Ergebnisse mit mehreren möglichen Typen.",
+                "Status oder Result Typen.",
+                "Alternative zu kleinen Vererbungs Hierarchien.",
+                "Konfigurationswerte mit unterschiedlichen Datentypen."
               ]
             },
             {
               "type": "code",
-              "title": "std::variant Grundbeispiel",
+              "title": "Einfaches variant Beispiel",
               "language": "cpp",
-              "code": "#include <variant>\n#include <string>\n\nint main() {\n    std::variant<int, double, std::string> v;\n\n    v = 10;\n    v = 3.14;\n    v = \"Hallo\";\n}\n"
+              "code": "#include <variant>\n#include <string>\n\nint main() {\n    std::variant<int, double, std::string> value;\n\n    value = 10;          // int aktiv\n    value = 3.14;        // double aktiv\n    value = \"Hallo\";    // std::string aktiv\n}"
             },
             {
               "type": "explanation",
-              "title": "Zugriff auf den Wert",
+              "title": "Default Verhalten",
+              "text": [
+                "Ein variant wird standardmäßig mit dem ersten Typ initialisiert.",
+                "Der erste Typ muss deshalb default konstruktierbar sein."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Default Initialisierung",
+              "language": "cpp",
+              "code": "#include <variant>\n#include <iostream>\n\nint main() {\n    std::variant<int, double> v;\n\n    std::cout << std::get<int>(v) << '\\n';\n\n    // Ausgabe:\n    // 0\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Zugriff mit std::get",
               "text": [
                 "std::get greift auf den aktuell gespeicherten Typ zu.",
-                "Ein falscher Zugriff löst eine Exception aus."
+                "Wenn der falsche Typ abgefragt wird, wird std::bad_variant_access geworfen."
               ]
             },
             {
               "type": "code",
-              "title": "std::get verwenden",
+              "title": "std::get Beispiel",
               "language": "cpp",
-              "code": "#include <variant>\n#include <iostream>\n#include <string>\n\nint main() {\n    std::variant<int, std::string> v = \"Text\";\n\n    std::cout << std::get<std::string>(v) << std::endl;\n    // std::get<int>(v); // wirft std::bad_variant_access\n}\n"
+              "code": "#include <variant>\n#include <iostream>\n#include <string>\n\nint main() {\n    std::variant<int, std::string> v = \"Text\";\n\n    std::cout << std::get<std::string>(v) << '\\n';\n\n    // std::get<int>(v); -> Exception\n}"
             },
             {
               "type": "explanation",
-              "title": "Sicheren Zugriff prüfen",
+              "title": "Sicherer Zugriff",
               "text": [
-                "holds_alternative prüft, welcher Typ aktuell aktiv ist.",
+                "holds_alternative prüft den aktuell gespeicherten Typ.",
                 "get_if liefert einen Zeiger oder nullptr zurück."
               ]
             },
             {
               "type": "code",
-              "title": "holds_alternative und get_if",
+              "title": "get_if Beispiel",
               "language": "cpp",
-              "code": "#include <variant>\n#include <iostream>\n\nint main() {\n    std::variant<int, double> v = 2.5;\n\n    if (std::holds_alternative<double>(v)) {\n        std::cout << *std::get_if<double>(&v) << std::endl;\n    }\n}\n"
+              "code": "#include <variant>\n#include <iostream>\n\nint main() {\n    std::variant<int, double> v = 2.5;\n\n    if (auto ptr = std::get_if<double>(&v)) {\n        std::cout << *ptr << '\\n';\n    }\n\n    // Ausgabe:\n    // 2.5\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Typindex",
+              "text": [
+                "variant speichert intern einen Index für den aktiven Typ.",
+                "Dieser kann mit index() abgefragt werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "index Beispiel",
+              "language": "cpp",
+              "code": "#include <variant>\n#include <iostream>\n\nint main() {\n    std::variant<int, double> v = 3.14;\n\n    std::cout << v.index() << '\\n';\n\n    // Ausgabe:\n    // 1 (double ist der zweite Typ)\n}"
             },
             {
               "type": "explanation",
               "title": "std::visit",
               "text": [
-                "std::visit ist der empfohlene Weg, um variant-Werte zu verarbeiten.",
-                "Alle möglichen Typen müssen behandelt werden."
+                "std::visit ist der empfohlene Weg, um variant Werte zu verarbeiten.",
+                "Alle möglichen Typen werden über einen Visitor behandelt."
               ]
             },
             {
               "type": "code",
-              "title": "std::visit mit Lambda",
+              "title": "std::visit Beispiel",
               "language": "cpp",
-              "code": "#include <variant>\n#include <iostream>\n#include <string>\n\nint main() {\n    std::variant<int, double, std::string> v = 42;\n\n    std::visit([](auto&& value) {\n        std::cout << value << std::endl;\n    }, v);\n}\n"
+              "code": "#include <variant>\n#include <iostream>\n\nint main() {\n    std::variant<int, double> v = 10;\n\n    std::visit([](auto value) {\n        std::cout << value << '\\n';\n    }, v);\n\n    // Ausgabe:\n    // 10\n}"
+            },
+            {
+              "type": "code",
+              "title": "Typabhängige Verarbeitung",
+              "language": "cpp",
+              "code": "#include <variant>\n#include <iostream>\n#include <string>\n\nstruct Visitor {\n    void operator()(int x) const {\n        std::cout << \"Integer: \" << x << '\\n';\n    }\n\n    void operator()(double x) const {\n        std::cout << \"Double: \" << x << '\\n';\n    }\n\n    void operator()(const std::string& s) const {\n        std::cout << \"String: \" << s << '\\n';\n    }\n};\n\nint main() {\n    std::variant<int, double, std::string> v = \"Hallo\";\n\n    std::visit(Visitor{}, v);\n\n    // Ausgabe:\n    // String: Hallo\n}"
             },
             {
               "type": "explanation",
-              "title": "Mehrere Typen explizit behandeln",
+              "title": "Praxisbeispiel Parser Ergebnis",
               "text": [
-                "Überladene Lambdas erlauben typabhängige Logik.",
-                "Dies ersetzt häufig klassische switch-Konstrukte."
+                "variant eignet sich gut für Funktionen, die mehrere mögliche Ergebnisarten liefern.",
+                "Zum Beispiel beim Parsen von Eingaben."
               ]
             },
             {
               "type": "code",
-              "title": "std::visit mit überladenen Lambdas",
+              "title": "Praxisbeispiel",
               "language": "cpp",
-              "code": "#include <variant>\n#include <iostream>\n#include <string>\n\nstruct Visitor {\n    void operator()(int x) const { std::cout << \"int: \" << x << std::endl; }\n    void operator()(double d) const { std::cout << \"double: \" << d << std::endl; }\n    void operator()(const std::string& s) const { std::cout << \"string: \" << s << std::endl; }\n};\n\nint main() {\n    std::variant<int, double, std::string> v = \"Hallo\";\n    std::visit(Visitor{}, v);\n}\n"
+              "code": "#include <variant>\n#include <string>\n\nstd::variant<int, std::string> parseNumber(const std::string& input) {\n    try {\n        return std::stoi(input);\n    }\n    catch (...) {\n        return \"invalid\";\n    }\n}"
             },
             {
               "type": "comparison",
-              "title": "std::variant vs Vererbung",
-              "columns": ["std::variant", "Vererbung"],
+              "title": "variant vs optional vs any",
+              "columns": ["variant", "optional", "any"],
               "rows": [
                 {
-                  "aspect": "Typen zur Laufzeit",
-                  "values": ["Begrenzt und bekannt", "Beliebig"]
+                  "aspect": "Anzahl möglicher Typen",
+                  "values": ["Mehrere feste Typen", "Ein Typ oder leer", "Beliebige Typen"]
                 },
                 {
                   "aspect": "Typsicherheit",
-                  "values": ["Sehr hoch", "Abhängig vom Design"]
+                  "values": ["Sehr hoch", "Sehr hoch", "Niedriger"]
                 },
                 {
-                  "aspect": "Overhead",
-                  "values": ["Gering", "Höher"]
+                  "aspect": "Typprüfung",
+                  "values": ["Compilezeit bekannt", "Compilezeit bekannt", "Laufzeitprüfung"]
                 }
               ]
             },
             {
               "type": "pitfall",
               "title": "std::get ohne Prüfung",
-              "text": "std::get ohne vorherige Typprüfung kann std::bad_variant_access auslösen."
+              "text": "std::get ohne vorherige Typprüfung kann std::bad_variant_access werfen."
             },
             {
               "type": "important",
-              "text": "std::visit ist der empfohlene und sicherste Weg, um mit std::variant zu arbeiten."
+              "text": "std::visit ist der sicherste und idiomatische Weg, um variant Werte zu verarbeiten."
             },
             {
               "type": "summary",
               "points": [
                 "std::variant speichert genau einen von mehreren Typen",
-                "Typsicherer Ersatz für Union und einfache Vererbung",
+                "Typsicherer Ersatz für Union",
                 "std::visit ist Best Practice",
-                "get_if und holds_alternative für sicheren Zugriff",
+                "get_if und holds_alternative ermöglichen sicheren Zugriff",
                 "Sehr nützlich für klar definierte Alternativen"
               ]
             }
