@@ -13541,40 +13541,82 @@
           "difficulty": "basic",
           "blocks": [
             {
-              "type": "code",
-              "title": "Minimale CMakeLists.txt",
-              "language": "cpp",
-              "code": "cmake_minimum_required(VERSION 3.20)\n\nproject(MeinProjekt LANGUAGES CXX)\n\nadd_executable(MeinProgramm main.cpp)\n"
+              "type": "definition",
+              "term": "CMakeLists.txt Vorlagen",
+              "text": "CMakeLists.txt Vorlagen sind wiederverwendbare Grundgerüste für C++ Projekte mit CMake. Moderne Vorlagen arbeiten target basiert und konfigurieren Eigenschaften direkt am jeweiligen Target."
+            },
+            {
+              "type": "explanation",
+              "title": "Moderne Grundidee",
+              "text": [
+                "Modernes CMake arbeitet mit Targets wie Executables und Libraries.",
+                "Eigenschaften wie Include Pfade, Compile Features und Link Abhängigkeiten werden direkt am Target gesetzt.",
+                "Das macht Projekte klarer, modularer und besser wartbar."
+              ]
             },
             {
               "type": "code",
-              "title": "CMakeLists.txt mit C++ Standard",
-              "language": "cpp",
+              "title": "Minimale CMakeLists.txt",
+              "language": "cmake",
               "code": "cmake_minimum_required(VERSION 3.20)\n\nproject(MeinProjekt LANGUAGES CXX)\n\nadd_executable(MeinProgramm main.cpp)\n\ntarget_compile_features(MeinProgramm PRIVATE cxx_std_20)\n"
             },
             {
               "type": "code",
-              "title": "Projekt mit mehreren Quelldateien",
-              "language": "cpp",
-              "code": "cmake_minimum_required(VERSION 3.20)\n\nproject(MehrDateien LANGUAGES CXX)\n\nadd_executable(App\n    main.cpp\n    foo.cpp\n    foo.hpp\n)\n\ntarget_compile_features(App PRIVATE cxx_std_20)\n"
+              "title": "Projekt mit mehreren Quelldateien, empfohlene Variante",
+              "language": "cmake",
+              "code": "cmake_minimum_required(VERSION 3.20)\n\nproject(MehrDateien LANGUAGES CXX)\n\nadd_executable(App\n    src/main.cpp\n    src/foo.cpp\n    src/bar.cpp\n)\n\ntarget_compile_features(App PRIVATE cxx_std_20)\n\ntarget_include_directories(App PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Warum explizite Dateilisten meist besser sind",
+              "text": [
+                "Neue oder entfernte Dateien sind direkt in der CMakeLists sichtbar.",
+                "Änderungen an der Projektstruktur bleiben bewusst und nachvollziehbar.",
+                "Die offizielle CMake Dokumentation empfiehlt GLOB nicht als Standard zum Einsammeln von Source Dateien."
+              ]
             },
             {
               "type": "code",
               "title": "Projekt mit Bibliothek",
-              "language": "cpp",
-              "code": "cmake_minimum_required(VERSION 3.20)\n\nproject(BibliotheksProjekt LANGUAGES CXX)\n\nadd_library(util util.cpp util.hpp)\nadd_executable(App main.cpp)\n\ntarget_compile_features(util PUBLIC cxx_std_20)\n\ntarget_link_libraries(App PRIVATE util)\n"
+              "language": "cmake",
+              "code": "cmake_minimum_required(VERSION 3.20)\n\nproject(BibliotheksProjekt LANGUAGES CXX)\n\nadd_library(util\n    src/util.cpp\n)\n\nadd_executable(App\n    src/main.cpp\n)\n\ntarget_compile_features(util PUBLIC cxx_std_20)\ntarget_compile_features(App PRIVATE cxx_std_20)\n\ntarget_include_directories(util PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)\n\ntarget_link_libraries(App PRIVATE util)\n"
             },
             {
               "type": "code",
-              "title": "Include-Verzeichnisse pro Target",
-              "language": "cpp",
-              "code": "cmake_minimum_required(VERSION 3.20)\n\nproject(IncludeBeispiel LANGUAGES CXX)\n\nadd_executable(App main.cpp)\n\ntarget_include_directories(App\n    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include\n)\n"
+              "title": "Include Verzeichnisse pro Target",
+              "language": "cmake",
+              "code": "cmake_minimum_required(VERSION 3.20)\n\nproject(IncludeBeispiel LANGUAGES CXX)\n\nadd_executable(App src/main.cpp)\n\ntarget_compile_features(App PRIVATE cxx_std_20)\n\ntarget_include_directories(App\n    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include\n)\n"
             },
             {
               "type": "code",
-              "title": "Build-Typ und Compiler-Optionen",
-              "language": "cpp",
-              "code": "cmake_minimum_required(VERSION 3.20)\n\nproject(BuildTyp LANGUAGES CXX)\n\nadd_executable(App main.cpp)\n\ntarget_compile_features(App PRIVATE cxx_std_20)\n\ntarget_compile_options(App PRIVATE -Wall -Wextra -Wpedantic)\n"
+              "title": "Warnungen pro Target setzen",
+              "language": "cmake",
+              "code": "cmake_minimum_required(VERSION 3.20)\n\nproject(BuildTyp LANGUAGES CXX)\n\nadd_executable(App src/main.cpp)\n\ntarget_compile_features(App PRIVATE cxx_std_20)\n\ntarget_compile_options(App PRIVATE\n    -Wall\n    -Wextra\n    -Wpedantic\n)\n"
+            },
+            {
+              "type": "code",
+              "title": "Optionale Komfort Variante mit GLOB_RECURSE",
+              "language": "cmake",
+              "code": "cmake_minimum_required(VERSION 3.20)\n\nproject(GlobProjekt LANGUAGES CXX)\n\nfile(GLOB_RECURSE APP_SOURCES CONFIGURE_DEPENDS\n    \"${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp\"\n    \"${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp\"\n)\n\nadd_executable(App ${APP_SOURCES})\n\ntarget_compile_features(App PRIVATE cxx_std_20)\n\ntarget_include_directories(App PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)\n"
+            },
+            {
+              "type": "pitfall",
+              "title": "GLOB_RECURSE als Standard verkaufen",
+              "text": "file(GLOB_RECURSE ... CONFIGURE_DEPENDS) ist bequem, aber nicht der offiziell empfohlene Standard für Source Listen. Es kann in kleinen Projekten praktisch sein, sollte aber bewusst als Komfortlösung und nicht als Best Practice dargestellt werden."
+            },
+            {
+              "type": "important",
+              "text": "Modernes CMake bedeutet vor allem target basiertes CMake. Der zentrale Punkt ist nicht GLOB, sondern dass Compile Features, Includes und Abhängigkeiten direkt am jeweiligen Target definiert werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Modernes CMake ist target basiert",
+                "target_compile_features und target_include_directories direkt am Target setzen",
+                "Explizite Dateilisten sind meist die empfohlene Variante",
+                "GLOB_RECURSE mit CONFIGURE_DEPENDS ist optional, aber nicht Standard Best Practice",
+                "Klare Targets machen CMake Projekte wartbarer"
+              ]
             }
           ]
         },
