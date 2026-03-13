@@ -11691,6 +11691,80 @@
           "title": ".gitignore",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": ".gitignore",
+              "text": "Eine .gitignore Datei definiert, welche Dateien und Ordner Git beim Committen ignorieren soll."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Viele Dateien eines Projekts sollten nicht im Repository gespeichert werden.",
+                "Dazu gehören Build Artefakte, temporäre Dateien oder lokale Konfigurationen.",
+                ".gitignore verhindert, dass diese Dateien versehentlich versioniert werden."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Gründe für Ignorieren",
+              "text": [
+                "Build Dateien können jederzeit neu erzeugt werden.",
+                "Editor und IDE Dateien sind oft lokal und benutzerspezifisch.",
+                "Große oder temporäre Dateien blähen das Repository unnötig auf."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Typische C++ .gitignore",
+              "language": "text",
+              "code": "# Build directories\nbuild/\nout/\nbin/\n.cache/\n/cmake-build-debug\n\n# CMake\nCMakeFiles/\nCMakeCache.txt\ncmake_install.cmake\ncompile_commands.json\nMakefile\n\n# Object files\n*.o\n*.obj\n*.lo\n*.slo\n\n# Static libraries\n*.a\n*.lib\n\n# Shared libraries\n*.so\n*.dylib\n*.dll\n\n# Executables\n*.exe\n*.out\n*.app\n\n# Debug\n*.dSYM/\n*.stackdump\n\n# Logs\n*.log\n\n# Temporary files\n*.tmp\n*.temp\n\n# IDE folders\n.vscode/\n.idea/\n\n# OS files\n.DS_Store\nThumbs.db"
+            },
+            {
+              "type": "explanation",
+              "title": "Wichtige Regeln",
+              "text": [
+                "Jede Zeile beschreibt eine Datei oder ein Muster.",
+                "Ordner werden mit einem abschließenden Slash angegeben.",
+                "Sternchen können als Wildcard für mehrere Dateien genutzt werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiele für Muster",
+              "language": "text",
+              "code": "*.log\nbuild/\n.vscode/\n*.exe"
+            },
+            {
+              "type": "list",
+              "title": "Typische Inhalte einer .gitignore",
+              "items": [
+                "Build Ordner",
+                "Objektdateien",
+                "Kompilierte Programme",
+                "IDE Konfigurationsdateien",
+                "Temporäre Dateien"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu spät hinzufügen",
+              "text": "Wenn Dateien bereits im Repository sind, werden sie nicht automatisch ignoriert. Sie müssen zuerst mit git rm --cached entfernt werden."
+            },
+            {
+              "type": "important",
+              "text": ".gitignore verhindert nur das Hinzufügen neuer Dateien. Bereits versionierte Dateien bleiben weiterhin im Repository."
+            },
+            {
+              "type": "summary",
+              "points": [
+                ".gitignore definiert ignorierte Dateien für Git",
+                "Build Artefakte gehören nicht ins Repository",
+                "Wildcards ermöglichen flexible Muster",
+                "IDE und temporäre Dateien sollten ignoriert werden",
+                "Bereits getrackte Dateien werden nicht automatisch ignoriert"
+              ]
+            }
           ]
         },
 
