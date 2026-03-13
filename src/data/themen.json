@@ -11707,7 +11707,66 @@
           "title": ".clang-format",
           "difficulty": "basic",
           "blocks": [
-            
+            {
+                "type": "definition",
+                "term": ".clang-format",
+                "text": "Die .clang-format Datei ist eine Konfigurationsdatei für clang-format und legt fest, wie C++ Code automatisch formatiert wird. Sie definiert Regeln für Einrückung, Klammern, Pointer- und Referenzschreibweise, Zeilenlängen und viele weitere Stilfragen."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee von automatischer Code-Formatierung",
+                "text": [
+                  "clang-format formatiert C++ Code automatisch nach festen Regeln.",
+                  "Ziel ist ein einheitlicher Stil im gesamten Projekt, unabhängig davon, wer den Code schreibt.",
+                  "Die .clang-format Datei wird im Projekt abgelegt und von Editoren und Tools automatisch erkannt.",
+                  "Formatierung ist dabei strikt von Logik und Funktionalität getrennt."
+                ]
+              },
+              {
+                "type": "list",
+                "title": "Warum eine .clang-format Datei sinnvoll ist",
+                "items": [
+                  "Verhindert Stil-Diskussionen im Team.",
+                  "Macht Code sofort lesbar und konsistent.",
+                  "Erleichtert Code-Reviews, da nur inhaltliche Änderungen sichtbar sind.",
+                  "Reduziert manuelle Formatierungsarbeit."
+                ]
+              },
+              {
+                "type": "list",
+                "title": "Typische Inhalte einer .clang-format Datei",
+                "items": [
+                  "Einrückung und Tab-Verhalten.",
+                  "Klammerstil bei Klassen, Funktionen und Kontrollstrukturen.",
+                  "Position von Pointern und Referenzen.",
+                  "Maximale Zeilenlänge.",
+                  "Ausrichtungs- und Leerzeichenregeln."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "C++ .clang-format Datei",
+                "language": "yaml",
+                "code": "BasedOnStyle: LLVM\nIndentWidth: 4\nTabWidth: 4\nUseTab: Never\nContinuationIndentWidth: 4\nColumnLimit: 100\nBreakBeforeBraces: Attach\nAllowShortFunctionsOnASingleLine: None\nAllowShortBlocksOnASingleLine: Never\nAllowShortIfStatementsOnASingleLine: false\nAllowShortLoopsOnASingleLine: false\nPointerAlignment: Left\nReferenceAlignment: Left\nQualifierAlignment: Left\nSpaceBeforeParens: ControlStatements\nSpacesInParentheses: false\nSpacesInAngles: false\nSpacesInSquareBrackets: false\nAlignAfterOpenBracket: DontAlign\nAlignOperands: false\nAlignConsecutiveAssignments: false\nAlignConsecutiveDeclarations: false\nAlignTrailingComments: false\nAlwaysBreakAfterReturnType: None\nBinPackParameters: true\nBinPackArguments: true\nAllowAllArgumentsOnNextLine: false\nAllowAllParametersOfDeclarationOnNextLine: false\nPenaltyBreakBeforeFirstCallParameter: 1\nIndentCaseLabels: true\nIndentCaseBlocks: false\nSortIncludes: true\nIncludeBlocks: Preserve\nReflowComments: false\nNamespaceIndentation: Inner\nAlwaysBreakTemplateDeclarations: No\nStandard: c++20\nCpp11BracedListStyle: true\nFixNamespaceComments: true"
+              },
+              {
+                "type": "explanation",
+                "title": "Position der .clang-format Datei",
+                "text": [
+                  "Die Datei liegt im Projekt-Root, meist neben CMakeLists.txt oder dem .git Ordner.",
+                  "clang-format verwendet immer die nächstgelegene .clang-format Datei.",
+                  "Eine Datei im Projekt überschreibt globale oder Editor-Defaults."
+                ]
+              },
+              {
+                "type": "explanation",
+                "title": "Abgrenzung zu Editor-Einstellungen",
+                "text": [
+                  "Die .clang-format Datei ist projektweit gültig.",
+                  "Editor-Einstellungen wie fallbackStyle gelten nur lokal.",
+                  "In echten Projekten ist eine .clang-format Datei der empfohlene Weg."
+                ]
+              }
           ]
         },
 
