@@ -4746,7 +4746,7 @@
             ]
           },
           {
-            "title": "std::string_view",
+            "title": "string_view",
             "difficulty": "intermediate",
             "blocks": [
               {
@@ -4888,6 +4888,152 @@
                   "Sehr effizient für Funktionsparameter",
                   "Ideal für Parsing und Teilstrings",
                   "Lebensdauer des Original Strings muss garantiert sein"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "charconv",
+            "difficulty": "intermediate",
+            "blocks": [
+              {
+                "type": "definition",
+                "term": "<charconv>",
+                "text": "Der Header <charconv> stellt Funktionen bereit, um Zahlen effizient zwischen Text und numerischen Typen zu konvertieren. Die wichtigsten Funktionen sind std::from_chars und std::to_chars."
+              },
+              {
+                "type": "explanation",
+                "title": "Grundidee",
+                "text": [
+                  "std::from_chars konvertiert Zeichenfolgen in Zahlen.",
+                  "std::to_chars konvertiert Zahlen in Zeichenfolgen.",
+                  "Im Gegensatz zu std::stoi oder std::stringstream werden keine Exceptions geworfen.",
+                  "Die Funktionen arbeiten ohne Speicherallokationen und sind deshalb sehr schnell."
+                ]
+              },
+              {
+                "type": "list",
+                "title": "Wichtige Funktionen",
+                "items": [
+                  "std::from_chars: Text → Zahl",
+                  "std::to_chars: Zahl → Text"
+                ]
+              },
+              {
+                "type": "explanation",
+                "title": "Rückgabewert von from_chars",
+                "text": [
+                  "std::from_chars gibt ein Objekt vom Typ std::from_chars_result zurück.",
+                  "Dieses enthält zwei Felder: ptr und ec.",
+                  "ptr zeigt auf das erste Zeichen, das nicht mehr zum geparsten Wert gehört.",
+                  "ec ist ein Fehlercode vom Typ std::errc."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Einfaches Parsing Beispiel",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <charconv>\n#include <string_view>\n\nint main() {\n    std::string_view text = \"42\";\n\n    int value{};\n\n    auto result = std::from_chars(text.data(), text.data() + text.size(), value);\n\n    if (result.ec == std::errc()) {\n        std::cout << value << '\\n';\n    }\n\n    // Ausgabe:\n    // 42\n}"
+              },
+              {
+                "type": "explanation",
+                "title": "Bedeutung von result.ec",
+                "text": [
+                  "result.ec ist ein Fehlercode vom Typ std::errc.",
+                  "Wenn result.ec == std::errc() gilt, ist kein Fehler aufgetreten.",
+                  "Das entspricht einem erfolgreichen Parsing."
+                ]
+              },
+              {
+                "type": "list",
+                "title": "Wichtige std::errc Fehlercodes",
+                "items": [
+                  "std::errc(): kein Fehler",
+                  "std::errc::invalid_argument: keine gültige Zahl gefunden",
+                  "std::errc::result_out_of_range: Zahl passt nicht in den Zieltyp"
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Fehler: kein gültiger Integer",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <charconv>\n#include <string_view>\n\nint main() {\n    std::string_view text = \"abc\";\n\n    int value{};\n\n    auto result = std::from_chars(text.data(), text.data() + text.size(), value);\n\n    if (result.ec == std::errc::invalid_argument) {\n        std::cout << \"keine Zahl\" << '\\n';\n    }\n\n    // Ausgabe:\n    // keine Zahl\n}"
+              },
+              {
+                "type": "code",
+                "title": "Fehler: Zahl zu groß",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <charconv>\n#include <string_view>\n\nint main() {\n    std::string_view text = \"999999999999999999999\";\n\n    int value{};\n\n    auto result = std::from_chars(text.data(), text.data() + text.size(), value);\n\n    if (result.ec == std::errc::result_out_of_range) {\n        std::cout << \"Zahl zu groß\" << '\\n';\n    }\n\n    // Ausgabe:\n    // Zahl zu groß\n}"
+              },
+              {
+                "type": "explanation",
+                "title": "Wie viele Zeichen wurden gelesen",
+                "text": [
+                  "result.ptr zeigt auf das erste Zeichen nach der geparsten Zahl.",
+                  "Damit kann überprüft werden, ob noch Text übrig ist."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Teilweises Parsing erkennen",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <charconv>\n#include <string_view>\n\nint main() {\n    std::string_view text = \"123abc\";\n\n    int value{};\n\n    auto result = std::from_chars(text.data(), text.data() + text.size(), value);\n\n    std::cout << value << '\\n';\n\n    std::string_view rest(result.ptr, text.data() + text.size() - result.ptr);\n\n    std::cout << rest << '\\n';\n\n    // Ausgabe:\n    // 123\n    // abc\n}"
+              },
+              {
+                "type": "explanation",
+                "title": "Praxisbeispiel mit string_view",
+                "text": [
+                  "from_chars arbeitet mit Pointerbereichen.",
+                  "string_view liefert diese direkt über data() und size().",
+                  "Dadurch kann Parsing komplett ohne temporäre Strings erfolgen."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Praxisbeispiel: Konfigurationsparser",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <string_view>\n#include <charconv>\n\nint main() {\n    std::string_view line = \"timeout=30\";\n\n    auto pos = line.find('=');\n\n    std::string_view value = line.substr(pos + 1);\n\n    int timeout{};\n\n    std::from_chars(value.data(), value.data() + value.size(), timeout);\n\n    std::cout << timeout << '\\n';\n\n    // Ausgabe:\n    // 30\n}"
+              },
+              {
+                "type": "comparison",
+                "title": "from_chars vs stoi",
+                "columns": ["std::from_chars", "std::stoi"],
+                "rows": [
+                  {
+                    "aspect": "Exceptions",
+                    "values": ["Keine", "Wirft Exceptions"]
+                  },
+                  {
+                    "aspect": "Performance",
+                    "values": ["Sehr hoch", "Langsamer"]
+                  },
+                  {
+                    "aspect": "Speicherallokation",
+                    "values": ["Keine", "Möglich"]
+                  },
+                  {
+                    "aspect": "Locale",
+                    "values": ["Keine", "Locale abhängig"]
+                  }
+                ]
+              },
+              {
+                "type": "pitfall",
+                "title": "Fehlercode ignorieren",
+                "text": "Der Rückgabewert von from_chars sollte immer geprüft werden. Ohne Prüfung können ungültige oder abgeschnittene Werte entstehen."
+              },
+              {
+                "type": "important",
+                "text": "std::from_chars ist der schnellste Weg, um Zahlen aus Text zu parsen und wird besonders in Performance kritischem Code verwendet."
+              },
+              {
+                "type": "summary",
+                "points": [
+                  "<charconv> ermöglicht schnelle Text ↔ Zahl Konvertierung",
+                  "Keine Exceptions und keine Speicherallokation",
+                  "std::from_chars liefert Fehlercodes über std::errc",
+                  "result.ptr zeigt auf den verbleibenden Text",
+                  "Ideal in Kombination mit std::string_view"
                 ]
               }
             ]
