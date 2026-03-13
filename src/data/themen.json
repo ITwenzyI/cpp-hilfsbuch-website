@@ -4746,28 +4746,30 @@
             ]
           },
           {
-            "title": "string_view",
+            "title": "std::string_view",
             "difficulty": "intermediate",
             "blocks": [
               {
                 "type": "definition",
                 "term": "<string_view>",
-                "text": "Der Header <string_view> stellt den Typ std::string_view bereit, der eine nicht-besitzende Sicht auf eine Zeichenkette beschreibt."
+                "text": "Der Header <string_view> stellt den Typ std::string_view bereit, der eine nicht besitzende Sicht auf eine Zeichenkette beschreibt."
               },
               {
                 "type": "explanation",
                 "title": "Grundidee",
                 "text": [
-                  "std::string_view speichert lediglich einen Zeiger auf Zeichen und eine Länge, besitzt aber keinen eigenen Speicher.",
-                  "Dadurch können Strings effizient gelesen und weitergereicht werden, ohne Kopien zu erzeugen."
+                  "std::string_view speichert nur einen Zeiger auf Zeichen und eine Länge.",
+                  "Der Speicher gehört weiterhin dem ursprünglichen String.",
+                  "Dadurch können Strings effizient gelesen und weitergegeben werden, ohne Kopien zu erzeugen."
                 ]
               },
               {
                 "type": "explanation",
-                "title": "Typische Einsatzszenarien",
+                "title": "Interne Struktur",
                 "text": [
-                  "Funktionsparameter für nur-lesenden Zugriff auf Strings.",
-                  "Arbeiten mit Teilstrings ohne Erzeugung neuer std::string Objekte."
+                  "Ein std::string_view besteht intern nur aus zwei Werten.",
+                  "Ein Pointer auf das erste Zeichen und die Länge des betrachteten Bereichs.",
+                  "Deshalb ist ein string_view sehr klein und extrem günstig zu kopieren."
                 ]
               },
               {
@@ -4775,22 +4777,70 @@
                 "title": "Wichtige Eigenschaften",
                 "items": [
                   "Kein Besitz am Speicher",
-                  "Konstante Zeit für Kopieren und Zuweisung",
-                  "Kann aus std::string, C-String und String-Literalen erstellt werden",
-                  "Nur lesender Zugriff auf die Zeichen"
+                  "Sehr günstige Kopierkosten",
+                  "Kann aus std::string, C Strings und Literalen erzeugt werden",
+                  "Nur lesender Zugriff",
+                  "Perfekt für Funktionsparameter"
+                ]
+              },
+              {
+                "type": "explanation",
+                "title": "Typische Einsatzszenarien",
+                "text": [
+                  "Funktionsparameter für read only Strings.",
+                  "Parsing von Textdaten.",
+                  "Arbeiten mit Teilstrings ohne neue std::string Objekte zu erzeugen.",
+                  "APIs die Strings effizient akzeptieren sollen."
                 ]
               },
               {
                 "type": "code",
-                "title": "Verwendung als Funktionsparameter",
+                "title": "Funktionsparameter ohne Kopie",
                 "language": "cpp",
-                "code": "#include <iostream>\n#include <string>\n#include <string_view>\n\nvoid print(std::string_view sv) {\n    std::cout << sv << std::endl; // Gibt den betrachteten String aus\n}\n\nint main() {\n    std::string s = \"Hallo Welt\";\n    print(s);                     // Keine Kopie von s\n    print(\"C++\");                // Auch String-Literale sind erlaubt\n}\n"
+                "code": "#include <iostream>\n#include <string>\n#include <string_view>\n\nvoid print(std::string_view sv) {\n    std::cout << sv << '\\n';\n}\n\nint main() {\n    std::string s = \"Hallo Welt\";\n\n    print(s);        // std::string\n    print(\"C++\");   // String Literal\n\n    // Ausgabe:\n    // Hallo Welt\n    // C++\n}"
+              },
+              {
+                "type": "explanation",
+                "title": "Warum string_view besser als const std::string&",
+                "text": [
+                  "const std::string& akzeptiert keine String Literale ohne temporären String.",
+                  "std::string_view kann Literale, std::string und C Strings direkt akzeptieren.",
+                  "Das macht APIs flexibler und effizienter."
+                ]
               },
               {
                 "type": "code",
                 "title": "Teilstring ohne Kopie",
                 "language": "cpp",
-                "code": "#include <iostream>\n#include <string_view>\n\nint main() {\n    std::string_view sv = \"Informatik\";\n    std::string_view sub = sv.substr(0, 4); // Sicht auf \"Info\"\n\n    std::cout << sub << std::endl;           // Ausgabe: Info\n}\n"
+                "code": "#include <iostream>\n#include <string_view>\n\nint main() {\n    std::string_view sv = \"Informatik\";\n\n    std::string_view sub = sv.substr(0,4);\n\n    std::cout << sub << '\\n';\n\n    // Ausgabe:\n    // Info\n}"
+              },
+              {
+                "type": "explanation",
+                "title": "Parsing Beispiel aus der Praxis",
+                "text": [
+                  "string_view eignet sich besonders gut zum Parsen von Text.",
+                  "Man kann Teile des Strings betrachten ohne neue Strings zu erzeugen."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Einfacher Parser",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <string_view>\n\nint main() {\n    std::string_view line = \"user:42\";\n\n    auto pos = line.find(':');\n\n    std::string_view key = line.substr(0,pos);\n    std::string_view value = line.substr(pos+1);\n\n    std::cout << key << '\\n';\n    std::cout << value << '\\n';\n\n    // Ausgabe:\n    // user\n    // 42\n}"
+              },
+              {
+                "type": "explanation",
+                "title": "Prefix und Suffix entfernen",
+                "text": [
+                  "remove_prefix und remove_suffix verschieben die Sicht auf den String.",
+                  "Dabei wird kein Speicher kopiert oder verändert."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "remove_prefix Beispiel",
+                "language": "cpp",
+                "code": "#include <iostream>\n#include <string_view>\n\nint main() {\n    std::string_view sv = \"prefix_value\";\n\n    sv.remove_prefix(7);\n\n    std::cout << sv << '\\n';\n\n    // Ausgabe:\n    // value\n}"
               },
               {
                 "type": "comparison",
@@ -4808,24 +4858,36 @@
                   {
                     "aspect": "Veränderbarkeit",
                     "values": ["Nein", "Ja"]
+                  },
+                  {
+                    "aspect": "Typische Nutzung",
+                    "values": ["Lesender Zugriff", "Daten speichern"]
                   }
                 ]
               },
               {
                 "type": "pitfall",
-                "title": "Lebensdauerproblem",
-                "text": "Ein std::string_view wird ungültig, sobald der zugrunde liegende String zerstört oder verändert wird."
+                "title": "Dangling string_view",
+                "text": "Ein string_view wird ungültig, wenn der zugrunde liegende String zerstört wird."
+              },
+              {
+                "type": "code",
+                "title": "Gefährliches Beispiel",
+                "language": "cpp",
+                "code": "#include <string>\n#include <string_view>\n\nstd::string_view bad() {\n    std::string temp = \"hello\";\n    return temp; // Fehler\n}"
               },
               {
                 "type": "important",
-                "text": "std::string_view eignet sich ideal für nur-lesenden Zugriff, darf aber niemals länger leben als der referenzierte String."
+                "text": "Ein std::string_view darf niemals länger leben als der referenzierte String."
               },
               {
                 "type": "summary",
                 "points": [
-                  "<string_view> bietet eine effiziente String-Sicht",
-                  "Keine Speicherverwaltung, keine Kopien",
-                  "Lebensdauer des Original-Strings ist entscheidend"
+                  "std::string_view ist eine nicht besitzende String Sicht",
+                  "Speichert nur Pointer und Länge",
+                  "Sehr effizient für Funktionsparameter",
+                  "Ideal für Parsing und Teilstrings",
+                  "Lebensdauer des Original Strings muss garantiert sein"
                 ]
               }
             ]
