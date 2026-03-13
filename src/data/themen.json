@@ -11910,14 +11910,39 @@
               "code": "double calculateTotal() const;\nvoid save(const Patient& patient);"
             },
             {
-              "type": "list",
-              "title": "Typische Stilregeln",
-              "items": [
-                "Klassen in PascalCase",
-                "Funktionen in camelCase",
-                "Member Variablen mit klar erkennbarem Schema",
-                "Konstanten deutlich kennzeichnen",
-                "Keine Mischformen im selben Projekt"
+              "type": "explanation",
+              "title": "Typische Stilregeln:",
+              "text": [
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Klassen in PascalCase",
+              "text": [
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Funktionen in camelCase",
+              "text": [
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Variablen in snake_case",
+              "text": [
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Datein in snake_case",
+              "text": [
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Member Variablen mit _ am Ende (z.B db_)",
+              "text": [
               ]
             },
             {
