@@ -11720,99 +11720,141 @@
         "icon": "🏗️",
         "topics": [
         {
-          "title": "Projektstruktur in C++",
+          "title": "Projektstruktur in C++ (Layered Architecture)",
           "difficulty": "basic",
           "blocks": [
             {
               "type": "definition",
               "term": "Projektstruktur",
-              "text": "Eine gute Projektstruktur organisiert C++ Code nach fachlichen Modulen und Verantwortlichkeiten, nicht nach Dateitypen oder Zufall."
+              "text": "Eine gute Projektstruktur organisiert Code nach Verantwortlichkeiten und Architekturschichten. In einer Layered Architecture werden Domain, Anwendung, Infrastruktur und UI klar voneinander getrennt."
             },
             {
               "type": "explanation",
-              "title": "Ordner nach Modulen statt nach Dateityp",
+              "title": "Grundidee der Layered Architecture",
               "text": [
-                "Ordner sollten fachliche oder funktionale Einheiten widerspiegeln.",
-                "Ein Modul enthält seine Header und Implementierungen gemeinsam.",
-                "Strukturen wie include und src ohne weitere Unterteilung skalieren schlecht."
+                "Der Code wird in Schichten organisiert, die unterschiedliche Verantwortlichkeiten haben.",
+                "Innere Schichten enthalten Fachlogik und kennen keine technischen Details.",
+                "Äußere Schichten implementieren technische Details wie Datenbanken oder Benutzeroberflächen.",
+                "Abhängigkeiten zeigen immer nach innen."
               ]
             },
             {
               "type": "code",
-              "title": "Schlechte Struktur",
+              "title": "Typische Projektstruktur",
               "language": "text",
-              "code": "project/\n  src/\n    main.cpp\n    user.cpp\n    order.cpp\n    database.cpp\n    utils.cpp"
+              "code": "project/\n  src/\n    application/\n    common/\n    domain/\n    infrastructure/\n    ui/\n    main.cpp\n\n  tests/\n\n  sql/\n\n  external/\n    sqlite/"
+            },
+            {
+              "type": "explanation",
+              "title": "Domain Layer",
+              "text": [
+                "Der Domain Layer enthält die Fachlogik des Programms.",
+                "Hier befinden sich Entities, Value Objects und Domain Regeln.",
+                "Dieser Layer kennt keine Datenbank, kein UI und keine IO.",
+                "Die Domain sollte möglichst unabhängig von Frameworks und Libraries sein."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Application Layer",
+              "text": [
+                "Der Application Layer orchestriert Use Cases.",
+                "Er verbindet Domain Logik mit Infrastruktur.",
+                "Hier werden Anwendungsfälle implementiert, zum Beispiel RegisterUser oder CreateMedicationPlan.",
+                "Typischerweise werden hier Interfaces für Repositories definiert."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Infrastructure Layer",
+              "text": [
+                "Die Infrastructure Schicht implementiert technische Details.",
+                "Dazu gehören Datenbanken, Dateizugriff, Netzwerke oder externe Libraries.",
+                "Typische Beispiele sind SQLite Repositories oder HTTP Clients.",
+                "Diese Schicht implementiert Interfaces aus der Application Schicht."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "UI Layer",
+              "text": [
+                "Der UI Layer enthält die Benutzeroberfläche.",
+                "Das kann eine CLI, GUI oder Web API sein.",
+                "Diese Schicht liest Input vom Benutzer und ruft Application Use Cases auf.",
+                "Sie enthält keine Geschäftslogik."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Common Layer",
+              "text": [
+                "Der Common Ordner enthält wiederverwendbare Hilfskomponenten.",
+                "Typische Inhalte sind Result Typen, Error Codes oder Validierungsfunktionen.",
+                "Diese Komponenten können von mehreren Schichten genutzt werden."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Einstiegspunkt main",
+              "text": [
+                "Die main Funktion ist der Einstiegspunkt des Programms.",
+                "Hier werden Objekte erzeugt und Abhängigkeiten zusammengebaut.",
+                "Dieser Ort wird häufig als Composition Root bezeichnet.",
+                "main sollte keine Geschäftslogik enthalten."
+              ]
             },
             {
               "type": "code",
-              "title": "Modular aufgebaute Struktur",
-              "language": "text",
-              "code": "project/\n  src/\n    app/\n      main.cpp\n    user/\n      User.hpp\n      User.cpp\n    order/\n      Order.hpp\n      Order.cpp\n    infrastructure/\n      Database.hpp\n      Database.cpp"
+              "title": "Typischer Einstiegspunkt",
+              "language": "cpp",
+              "code": "#include \"ui/cli/App.hpp\"\n#include \"infrastructure/sqlite/UserRepositorySqlite.hpp\"\n\nint main() {\n    UserRepositorySqlite repository;\n\n    App app(repository);\n\n    app.run();\n}"
             },
             {
               "type": "explanation",
-              "title": "Header und Implementierung trennen",
+              "title": "Weitere wichtige Projektordner",
               "text": [
-                "Header enthalten Deklarationen und öffentliche Schnittstellen.",
-                "Implementierungen gehören in cpp Dateien.",
-                "Das reduziert Kompilierabhängigkeiten und hält Schnittstellen klar."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Klare Einstiegspunkte",
-              "text": [
-                "Es sollte klar sein, wo das Programm startet, meist in main.",
-                "Große Projekte haben oft eine Application oder App Klasse als Koordinator.",
-                "Der Einstiegspunkt darf keine Geschäftslogik enthalten."
-              ]
-            },
-            {
-              "type": "list",
-              "title": "Typische Module",
-              "items": [
-                "Domain für Fachmodelle",
-                "Application für Use Cases",
-                "Infrastructure für Datenbank und IO",
-                "Tests in separatem Ordner"
+                "tests enthält Unit und Integrationstests.",
+                "sql enthält SQL Skripte wie Schema oder Migrationen.",
+                "external enthält externe Bibliotheken, zum Beispiel SQLite."
               ]
             },
             {
               "type": "comparison",
-              "title": "Strukturierte vs unstrukturierte Projekte",
-              "columns": ["Strukturiert", "Unstrukturiert"],
+              "title": "Layered vs ungeordnete Struktur",
+              "columns": ["Layered Architektur", "Unstrukturierte Struktur"],
               "rows": [
                 {
-                  "aspect": "Orientierung",
-                  "values": ["Schnell verständlich", "Unübersichtlich"]
+                  "aspect": "Abhängigkeiten",
+                  "values": ["Kontrolliert", "Chaotisch"]
                 },
                 {
-                  "aspect": "Erweiterbarkeit",
-                  "values": ["Skalierbar", "Chaotisch"]
+                  "aspect": "Testbarkeit",
+                  "values": ["Sehr gut", "Schwierig"]
                 },
                 {
-                  "aspect": "Kopplung",
-                  "values": ["Modular", "Vermischt"]
+                  "aspect": "Skalierbarkeit",
+                  "values": ["Gut für große Projekte", "Nur für kleine Programme geeignet"]
                 }
               ]
             },
             {
               "type": "pitfall",
-              "title": "Alles in src",
-              "text": "Wenn alle Dateien direkt im src Ordner liegen, verliert das Projekt schnell jede Struktur. Abhängigkeiten wachsen unkontrolliert."
+              "title": "Layer vermischen",
+              "text": "Ein häufiger Fehler ist, UI Code oder Datenbankzugriffe direkt in der Domain zu verwenden. Dadurch wird die Architektur zerstört."
             },
             {
               "type": "important",
-              "text": "Projektstruktur ist Architektur auf Dateisystem Ebene. Wenn sie schlecht ist, wird auch das Design im Code meist schlecht."
+              "text": "Die Domain sollte niemals von Infrastruktur oder UI abhängen. Die Abhängigkeitsrichtung zeigt immer nach innen."
             },
             {
               "type": "summary",
               "points": [
-                "Ordner nach Modulen statt nach Dateityp",
-                "Header und Implementierung sauber trennen",
-                "Klare Einstiegspunkte definieren",
-                "Skalierbare Struktur von Anfang an",
-                "Chaos im src vermeiden"
+                "Code wird nach Architekturschichten organisiert",
+                "Domain enthält reine Fachlogik",
+                "Application orchestriert Use Cases",
+                "Infrastructure implementiert technische Details",
+                "UI verarbeitet Benutzerinteraktionen",
+                "main fungiert als Composition Root"
               ]
             }
           ]
