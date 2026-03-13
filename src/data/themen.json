@@ -11677,6 +11677,58 @@
 
 
         ]
+      },
+
+
+      
+
+
+      {
+        "name": "Project Configuration",
+        "icon": "⚙",
+        "topics": [
+        {
+          "title": ".gitignore",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": ".gitattributes",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": ".clang-format",
+          "difficulty": "basic",
+          "blocks": [
+            
+          ]
+        },
+
+        {
+          "title": ".clang-tidy",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+
+        {
+          "title": ".editorconfig",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        }
+
+
+
+        ]
       }
 
       
