@@ -4527,89 +4527,126 @@
             {
               "type": "definition",
               "term": "<iomanip>",
-              "text": "Header mit Manipulatoren zur Steuerung der Ausgabeformatierung."
+              "text": "Der Header <iomanip> enthält sogenannte Stream Manipulatoren, mit denen sich die Ausgabe von Streams wie std::cout präzise formatieren lässt."
             },
             {
               "type": "explanation",
-              "title": "Einsatzgebiet von <iomanip>",
+              "title": "Grundidee",
               "text": [
-                "<iomanip> verändert, wie Werte ausgegeben werden, nicht die Werte selbst.",
-                "Er wird häufig für saubere Konsolenausgaben und Tabellen verwendet."
+                "Manipulatoren verändern die Darstellung von Daten im Stream, nicht den gespeicherten Wert.",
+                "Sie werden direkt in die Ausgabe mit dem << Operator eingebunden.",
+                "Viele Manipulatoren verändern den Zustand des Streams und wirken deshalb auch auf folgende Ausgaben."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Einsatzgebiete",
+              "text": [
+                "Tabellenartige Konsolenausgaben.",
+                "Formatierte Zahlen und Dezimalstellen.",
+                "Darstellung von bool Werten als Text.",
+                "Zeit und Datumsformatierung."
               ]
             },
             {
               "type": "list",
               "title": "Wichtige Manipulatoren",
               "items": [
-                "std::setw: Feldbreite setzen",
-                "std::setprecision: Anzahl der Stellen",
-                "std::fixed: feste Nachkommastellen",
-                "std::left / std::right: Ausrichtung",
-                "std::put_time: Zeitangaben formatieren",
-                "std::boolalpha: true/false als Text"
+                "std::setw: setzt die Feldbreite der nächsten Ausgabe",
+                "std::setprecision: bestimmt die Anzahl der Stellen bei Fließkommazahlen",
+                "std::fixed: erzwingt feste Nachkommastellen",
+                "std::left / std::right: richtet Text links oder rechts aus",
+                "std::boolalpha: gibt bool Werte als true oder false aus",
+                "std::put_time: formatiert Zeitangaben"
               ]
             },
             {
               "type": "code",
               "title": "Feste Nachkommastellen",
               "language": "cpp",
-              "code": "#include <iomanip>\n\nstd::cout << std::fixed << std::setprecision(2) << 3.14159; // 3.14"
+              "code": "#include <iostream>\n#include <iomanip>\n\nint main() {\n    double value = 3.14159;\n\n    std::cout << std::fixed << std::setprecision(2) << value << '\\n';\n\n    // Ausgabe:\n    // 3.14\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "setprecision und fixed",
+              "text": [
+                "setprecision bestimmt standardmäßig die Anzahl signifikanter Stellen.",
+                "In Kombination mit std::fixed wird stattdessen die Anzahl der Nachkommastellen festgelegt."
+              ]
             },
             {
               "type": "code",
               "title": "Feldbreite und Ausrichtung",
               "language": "cpp",
-              "code": "std::cout << std::setw(10) << std::right << 42;\nstd::cout << std::setw(10) << std::left << 42;"
+              "code": "#include <iostream>\n#include <iomanip>\n\nint main() {\n    std::cout << std::setw(10) << std::right << 42 << '\\n';\n    std::cout << std::setw(10) << std::left  << 42 << '\\n';\n\n    // Ausgabe:\n    //         42\n    // 42        \n}"
+            },
+            {
+              "type": "explanation",
+              "title": "setw Verhalten",
+              "text": [
+                "std::setw gilt nur für die nächste Ausgabe.",
+                "Danach wird die Feldbreite wieder zurückgesetzt.",
+                "Alignment Manipulatoren bleiben dagegen aktiv."
+              ]
             },
             {
               "type": "code",
               "title": "Tabellenartige Ausgabe",
               "language": "cpp",
-              "code": "std::cout << std::setw(10) << \"Name\"\n          << std::setw(5) << \"Age\" << '\\n';\n\nstd::cout << std::setw(10) << \"Anna\"\n          << std::setw(5) << 23 << '\\n';"
+              "code": "#include <iostream>\n#include <iomanip>\n\nint main() {\n    std::cout << std::left\n              << std::setw(12) << \"Name\"\n              << std::setw(6)  << \"Age\"\n              << '\\n';\n\n    std::cout << std::setw(12) << \"Anna\"\n              << std::setw(6)  << 23\n              << '\\n';\n\n    std::cout << std::setw(12) << \"Max\"\n              << std::setw(6)  << 31\n              << '\\n';\n\n    // Ausgabe:\n    // Name        Age\n    // Anna        23\n    // Max         31\n}"
             },
             {
               "type": "code",
               "title": "boolalpha verwenden",
               "language": "cpp",
-              "code": "bool flag = true;\nstd::cout << std::boolalpha << flag; // gibt \"true\" aus"
+              "code": "#include <iostream>\n\nint main() {\n    bool flag = true;\n\n    std::cout << std::boolalpha << flag << '\\n';\n\n    // Ausgabe:\n    // true\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "boolalpha",
+              "text": [
+                "Ohne std::boolalpha werden bool Werte als 1 oder 0 ausgegeben.",
+                "Mit boolalpha werden stattdessen die Wörter true und false verwendet."
+              ]
             },
             {
               "type": "code",
               "title": "Manipulatoren kombinieren",
               "language": "cpp",
-              "code": "double x = 12.3456;\nstd::cout << std::setw(8)\n          << std::fixed\n          << std::setprecision(1)\n          << x;"
+              "code": "#include <iostream>\n#include <iomanip>\n\nint main() {\n    double x = 12.3456;\n\n    std::cout << std::setw(8)\n              << std::fixed\n              << std::setprecision(1)\n              << x\n              << '\\n';\n\n    // Ausgabe:\n    //     12.3\n}"
             },
             {
               "type": "code",
               "title": "Datum und Uhrzeit mit put_time",
               "language": "cpp",
-              "code": "#include <iostream>\n#include <iomanip>\n#include <ctime>\n\nint main() {\n    std::time_t now = std::time(nullptr);\n    std::tm* local = std::localtime(&now);\n\n    std::cout << std::put_time(local, \"%d.%m.%Y %H:%M:%S\"); // z.B. 20.12.2025 14:32:10\n}\n"
+              "code": "#include <iostream>\n#include <iomanip>\n#include <ctime>\n\nint main() {\n    std::time_t now = std::time(nullptr);\n    std::tm* local = std::localtime(&now);\n\n    std::cout << std::put_time(local, \"%d.%m.%Y %H:%M:%S\") << '\\n';\n\n    // Beispielausgabe:\n    // 20.12.2025 14:32:10\n}"
             },
             {
               "type": "explanation",
               "title": "put_time",
               "text": [
-                "std::put_time formatiert Zeitangaben aus einer tm Struktur für die Ausgabe.",
-                "Das Format folgt den gleichen Platzhaltern wie strftime aus der C Bibliothek."
+                "std::put_time formatiert eine tm Struktur für die Ausgabe.",
+                "Die Formatstrings entsprechen denen von strftime aus der C Standardbibliothek."
               ]
             },
             {
               "type": "pitfall",
-              "title": "Abhängigkeit von <ctime>",
-              "text": "put_time benötigt eine gueltige tm Struktur, die meist aus <ctime> stammt."
+              "title": "Stream Zustand",
+              "text": "Viele Manipulatoren bleiben aktiv, nachdem sie gesetzt wurden. Das kann zu unerwarteter Formatierung in späteren Ausgaben führen."
             },
             {
               "type": "important",
-              "text": "put_time ist der empfohlene Weg zur formatierten Zeit Ausgabe mit Streams."
+              "text": "Manipulatoren verändern den Zustand des Streams. Wenn eine bestimmte Formatierung nur lokal gelten soll, sollte sie bewusst zurückgesetzt werden."
             },
             {
               "type": "summary",
               "points": [
-                "Manipulatoren steuern die Darstellung",
-                "setw für Spaltenbreite",
-                "setprecision und fixed für Zahlen",
-                "put_time für formatierte Zeit Ausgabe",
-                "Formatierung wirkt auf den Stream"
+                "<iomanip> steuert die Ausgabeformatierung von Streams",
+                "setw definiert Spaltenbreite",
+                "setprecision und fixed kontrollieren Fließkommazahlen",
+                "boolalpha gibt bool Werte als Text aus",
+                "put_time formatiert Zeit und Datum",
+                "Manipulatoren wirken auf den Stream Zustand"
               ]
             }
           ]
