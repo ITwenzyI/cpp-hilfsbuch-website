@@ -2895,71 +2895,130 @@
               {
                 "type": "definition",
                 "term": "inline Funktion",
-                "text": "Eine Funktion, bei der der Compiler versucht, den Funktionsaufruf durch den Funktionscode zu ersetzen."
+                "text": "Eine inline Funktion ist eine Funktion, die mehrfach in verschiedenen Translation Units definiert werden darf und bei der der Compiler versuchen kann, den Funktionsaufruf direkt durch den Funktionscode zu ersetzen."
               },
               {
                 "type": "explanation",
-                "title": "Grundidee von inline",
+                "title": "Zwei Bedeutungen von inline",
                 "text": [
-                  "inline soll den Overhead eines Funktionsaufrufs vermeiden.",
-                  "Der Compiler darf inline ignorieren, es ist nur eine Empfehlung."
+                  "inline hat zwei wichtige Bedeutungen in modernem C++.",
+                  "Erstens kann der Compiler den Funktionsaufruf durch den Funktionskörper ersetzen.",
+                  "Zweitens erlaubt inline, dass dieselbe Funktion in mehreren Translation Units definiert sein darf.",
+                  "Der zweite Punkt ist heute meist wichtiger als der Performance Aspekt."
                 ]
               },
               {
                 "type": "definition",
                 "term": "Funktionsaufruf Overhead",
-                "text": "Zusätzlicher Aufwand durch Sprung, Rücksprung und Parameterübergabe bei einem Funktionsaufruf."
+                "text": "Der Overhead eines Funktionsaufrufs entsteht durch Sprung zur Funktion, Übergabe der Parameter und Rücksprung zum Aufrufer."
               },
               {
                 "type": "code",
-                "title": "inline Funktionsdefinition",
+                "title": "inline vor einer Funktion",
                 "language": "cpp",
-                "code": "inline int square(int x) {\n    // einfacher, kurzer Code\n    return x * x;\n}"
+                "code": "#include <iostream>\n\ninline int square(int x) {\n    return x * x;\n}\n\nint main() {\n    std::cout << square(4) << '\\n';\n\n    // Ausgabe:\n    // 16\n}"
               },
               {
                 "type": "explanation",
-                "title": "Wann inline sinnvoll ist",
+                "title": "Warum inline im Header wichtig ist",
                 "text": [
-                  "Bei sehr kleinen, häufig aufgerufenen Funktionen.",
-                  "Typisch bei Getter und Setter Funktionen."
+                  "Normalerweise darf eine Funktion nur einmal im gesamten Programm definiert werden.",
+                  "Wenn eine Funktion in einem Header definiert wird, wird sie in jede Translation Unit kopiert.",
+                  "inline erlaubt diese mehrfachen Definitionen, solange sie identisch sind.",
+                  "Deshalb sind kleine Hilfsfunktionen im Header fast immer inline."
                 ]
               },
               {
                 "type": "code",
-                "title": "Typischer Einsatz in Klassen",
+                "title": "inline Funktion im Header",
                 "language": "cpp",
-                "code": "class Counter {\nprivate:\n    int value;\n\npublic:\n    int get() const { // implizit inline\n        return value;\n    }\n};"
-              },
-              {
-                "type": "definition",
-                "term": "implizit inline",
-                "text": "Funktionen, die innerhalb einer Klassendefinition definiert sind, gelten automatisch als inline."
+                "code": "// math_utils.hpp\n\n#pragma once\n\ninline int add(int a, int b) {\n    return a + b;\n}"
               },
               {
                 "type": "explanation",
-                "title": "inline und Header Dateien",
+                "title": "implizit inline in Klassen",
                 "text": [
-                  "inline Funktionen dürfen in Header Dateien definiert werden.",
-                  "Mehrfache Definitionen sind erlaubt, solange sie identisch sind."
+                  "Funktionen, die direkt innerhalb einer Klassendefinition implementiert werden, sind automatisch inline.",
+                  "Deshalb benötigen Getter und kleine Methoden häufig kein explizites inline."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Implizit inline in Klassen",
+                "language": "cpp",
+                "code": "class Counter {\nprivate:\n    int value{0};\n\npublic:\n    int get() const {\n        return value;\n    }\n\n    void increment() {\n        ++value;\n    }\n};"
+              },
+              {
+                "type": "explanation",
+                "title": "Typische Einsatzfälle",
+                "text": [
+                  "Kleine mathematische Hilfsfunktionen.",
+                  "Getter und Setter.",
+                  "Utility Funktionen im Header.",
+                  "Header Only Libraries."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "Typisches Utility Beispiel",
+                "language": "cpp",
+                "code": "#pragma once\n\n#include <string_view>\n\ninline bool isEmpty(std::string_view s) {\n    return s.empty();\n}"
+              },
+              {
+                "type": "explanation",
+                "title": "inline Variablen (C++17)",
+                "text": [
+                  "Seit C++17 können auch Variablen inline sein.",
+                  "Das erlaubt globale Variablen in Header Dateien ohne Multiple Definition Fehler."
+                ]
+              },
+              {
+                "type": "code",
+                "title": "inline Variable",
+                "language": "cpp",
+                "code": "// config.hpp\n\n#pragma once\n\ninline const int MAX_USERS = 100;"
+              },
+              {
+                "type": "comparison",
+                "title": "inline vs normale Funktion",
+                "columns": ["inline Funktion", "normale Funktion"],
+                "rows": [
+                  {
+                    "aspect": "Mehrfachdefinition erlaubt",
+                    "values": ["Ja", "Nein"]
+                  },
+                  {
+                    "aspect": "Definition im Header möglich",
+                    "values": ["Ja", "Nur Deklaration"]
+                  },
+                  {
+                    "aspect": "Funktionsaufruf kann ersetzt werden",
+                    "values": ["Möglich", "Nein"]
+                  }
                 ]
               },
               {
                 "type": "pitfall",
                 "title": "Zu große inline Funktionen",
-                "text": "Große inline Funktionen können den Code aufblähen und die Performance verschlechtern."
+                "text": "Große inline Funktionen können den Code stark vergrößern und die Performance verschlechtern."
+              },
+              {
+                "type": "pitfall",
+                "title": "inline garantiert kein Inlining",
+                "text": "Der Compiler entscheidet selbst, ob eine Funktion tatsächlich inline expandiert wird."
               },
               {
                 "type": "important",
-                "text": "inline ist kein Garant für Performance, die Entscheidung trifft der Compiler."
+                "text": "Der wichtigste Zweck von inline in modernem C++ ist, dass Funktionen sicher in Header Dateien definiert werden dürfen."
               },
               {
                 "type": "summary",
                 "points": [
-                  "inline reduziert Funktionsaufruf Overhead",
-                  "Der Compiler entscheidet, ob inline angewendet wird",
-                  "Besonders sinnvoll für kleine Funktionen",
-                  "Methoden in Klassen sind implizit inline",
-                  "Zu viel inline kann schaden"
+                  "inline Funktionen dürfen mehrfach definiert werden",
+                  "inline erlaubt Implementierungen im Header",
+                  "Methoden innerhalb einer Klasse sind implizit inline",
+                  "Der Compiler entscheidet über tatsächliches Inlining",
+                  "Seit C++17 gibt es auch inline Variablen"
                 ]
               }
             ]
