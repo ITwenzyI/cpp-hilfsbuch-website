@@ -11937,7 +11937,7 @@
         },
 
         {
-          "title": "clang-tidy",
+          "title": ".clang-tidy",
           "difficulty": "intermediate",
           "blocks": [
             {
@@ -12050,6 +12050,93 @@
           "title": ".editorconfig",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": ".editorconfig",
+              "text": "Eine .editorconfig Datei definiert einheitliche Editor Einstellungen für ein Projekt, zum Beispiel Einrückung, Zeilenenden und Zeichencodierung."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                ".editorconfig sorgt dafür, dass alle Entwickler im Projekt dieselben Formatierungsregeln verwenden.",
+                "Viele Editoren und IDEs unterstützen EditorConfig automatisch.",
+                "Damit werden Unterschiede durch persönliche Editor Einstellungen vermieden."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Typische Einstellungen",
+              "text": [
+                "indent_style bestimmt ob Tabs oder Spaces verwendet werden.",
+                "indent_size definiert die Größe der Einrückung.",
+                "end_of_line legt fest welches Zeilenende verwendet wird.",
+                "charset bestimmt die Zeichencodierung der Datei."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel .editorconfig für ein C++ Projekt",
+              "language": "ini",
+              "code": "root = true\n\n[*.{cpp,hpp,h,c,txt,md,cmake}]\ncharset = utf-8\nend_of_line = lf\ninsert_final_newline = true\nindent_style = space\nindent_size = 4\n\n[CMakeLists.txt]\ncharset = utf-8\nend_of_line = lf\ninsert_final_newline = true\nindent_style = space\nindent_size = 4"
+            },
+            {
+              "type": "explanation",
+              "title": "Bedeutung der Regeln",
+              "text": [
+                "root = true verhindert, dass EditorConfig Einstellungen aus übergeordneten Ordnern übernommen werden.",
+                "Die eckigen Klammern definieren auf welche Dateien die Regeln angewendet werden.",
+                "Wildcard Muster ermöglichen Regeln für mehrere Dateitypen."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Vorteile von EditorConfig",
+              "items": [
+                "Einheitliche Formatierung im gesamten Team",
+                "Unabhängig vom verwendeten Editor",
+                "Weniger unnötige Änderungen im Git Verlauf",
+                "Einfach zu konfigurieren"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": ".editorconfig vs clang-format",
+              "columns": [".editorconfig", "clang-format"],
+              "rows": [
+                {
+                  "aspect": "Zweck",
+                  "values": ["Editor Einstellungen", "Codeformatierung"]
+                },
+                {
+                  "aspect": "Geltungsbereich",
+                  "values": ["Alle Dateitypen", "Primär C und C++"]
+                },
+                {
+                  "aspect": "Funktionsumfang",
+                  "values": ["Basisformatierung", "Detaillierte Codeformatierung"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Konflikte mit anderen Tools",
+              "text": "Wenn clang-format oder andere Formatierungswerkzeuge andere Regeln verwenden, können widersprüchliche Formatierungen entstehen."
+            },
+            {
+              "type": "important",
+              "text": ".editorconfig stellt sicher, dass grundlegende Formatierungsregeln unabhängig vom verwendeten Editor eingehalten werden."
+            },
+            {
+              "type": "summary",
+              "points": [
+                ".editorconfig definiert Editor Einstellungen für ein Projekt",
+                "Sorgt für konsistente Einrückung und Zeilenenden",
+                "Funktioniert editorübergreifend",
+                "Reduziert unnötige Formatierungsänderungen",
+                "Ergänzt Tools wie clang-format"
+              ]
+            }
           ]
         }
 
