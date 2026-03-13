@@ -11773,6 +11773,98 @@
           "title": ".gitattributes",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": ".gitattributes",
+              "text": "Die .gitattributes Datei definiert, wie Git bestimmte Dateitypen behandeln soll, zum Beispiel Zeilenenden, Text oder Binärdateien."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                ".gitattributes erlaubt es, Git Verhalten für Dateien zu konfigurieren.",
+                "Damit können Probleme mit unterschiedlichen Betriebssystemen vermieden werden.",
+                "Besonders wichtig ist die Kontrolle von Zeilenenden."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Warum Zeilenenden wichtig sind",
+              "text": [
+                "Linux und macOS verwenden LF als Zeilenende.",
+                "Windows verwendet CRLF.",
+                "Unterschiedliche Zeilenenden können unnötige Änderungen im Git Verlauf erzeugen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel .gitattributes für ein C++ Projekt",
+              "language": "text",
+              "code": "* text=auto eol=lf\n*.png binary\n*.jpg binary\n*.exe binary\n*.dll binary"
+            },
+            {
+              "type": "explanation",
+              "title": "Bedeutung der Regeln",
+              "text": [
+                "text=auto lässt Git automatisch erkennen, ob eine Datei Text ist.",
+                "eol=lf erzwingt das Zeilenende LF im Repository.",
+                "binary verhindert Textbehandlung für Binärdateien."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Typische Regeln",
+              "language": "text",
+              "code": "# Textdateien normalisieren\n* text=auto\n\n# Binärdateien\n*.png binary\n*.jpg binary\n*.zip binary\n*.exe binary"
+            },
+            {
+              "type": "list",
+              "title": "Typische Einsatzbereiche",
+              "items": [
+                "Zeilenenden konsistent halten",
+                "Binärdateien korrekt behandeln",
+                "Merge Konflikte reduzieren",
+                "Repository konsistent zwischen Betriebssystemen halten"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": ".gitattributes vs .gitignore",
+              "columns": [".gitattributes", ".gitignore"],
+              "rows": [
+                {
+                  "aspect": "Zweck",
+                  "values": ["Steuert Git Verhalten", "Ignoriert Dateien"]
+                },
+                {
+                  "aspect": "Dateien im Repo",
+                  "values": ["Bleiben im Repository", "Werden nicht hinzugefügt"]
+                },
+                {
+                  "aspect": "Typische Nutzung",
+                  "values": ["Zeilenenden und Dateitypen", "Build Dateien und temporäre Dateien"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Fehlende Binärdefinition",
+              "text": "Wenn Binärdateien nicht als binary markiert sind, kann Git versuchen sie wie Text zu behandeln, was zu fehlerhaften Diffs oder Merges führen kann."
+            },
+            {
+              "type": "important",
+              "text": "Eine .gitattributes Datei sorgt dafür, dass das Repository unabhängig vom Betriebssystem konsistent bleibt."
+            },
+            {
+              "type": "summary",
+              "points": [
+                ".gitattributes steuert das Verhalten von Git",
+                "Hilft bei konsistenten Zeilenenden",
+                "Markiert Binärdateien korrekt",
+                "Verhindert unnötige Änderungen im Git Verlauf",
+                "Wichtig für plattformübergreifende Projekte"
+              ]
+            }
           ]
         },
 
