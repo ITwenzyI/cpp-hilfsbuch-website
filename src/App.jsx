@@ -371,12 +371,39 @@ const getRelatedTopics = (topicEntry, allTopics, limit = RELATED_TOPICS_LIMIT) =
     .map((entry) => entry.candidate);
 };
 
+const getTagCounts = (topics) => {
+  const counts = new Map();
+
+  topics.forEach((topic) => {
+    topic.tags.forEach((tag) => {
+      counts.set(tag, (counts.get(tag) || 0) + 1);
+    });
+  });
+
+  return Array.from(counts.entries()).sort((left, right) => {
+    if (right[1] !== left[1]) {
+      return right[1] - left[1];
+    }
+
+    return left[0].localeCompare(right[0], "de");
+  });
+};
+
+const filterTopicsByTag = (topics, activeTag) => {
+  if (!activeTag) {
+    return topics;
+  }
+
+  return topics.filter((topic) => topic.tags.includes(activeTag));
+};
+
 function App() {
   const [selectedCategoryName, setSelectedCategoryName] = useState(null);
   const [selectedSubcategoryName, setSelectedSubcategoryName] = useState(null);
   const [selectedTopicId, setSelectedTopicId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [activeTag, setActiveTag] = useState(null);
   const [darkMode, setDarkMode] = useState(
     () => typeof window !== "undefined" && window.localStorage.getItem(STORAGE_KEYS.theme) === "dark"
   );
@@ -398,6 +425,8 @@ function App() {
   const relatedTopics = selectedTopicEntry
     ? getRelatedTopics(selectedTopicEntry, searchableTopics)
     : [];
+  const filteredSearchResults = filterTopicsByTag(searchResults, activeTag);
+  const homeFilteredTopics = filterTopicsByTag(searchableTopics, activeTag);
 
   const ensureExpandedPath = (topicEntry) => {
     const categoryKey = `cat:${topicEntry.category}`;
@@ -432,6 +461,58 @@ function App() {
     setSearchTerm("");
     setSearchResults([]);
     setShowSidebar(false);
+  };
+
+  const renderTagFilterBar = (topics, title = "Tags filtern") => {
+    const tagCounts = getTagCounts(topics);
+
+    if (tagCounts.length === 0) {
+      return null;
+    }
+
+    return (
+      <section className="rounded-[2rem] border border-slate-200 bg-white/90 p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+              Themenfilter
+            </p>
+            <h2 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
+              {title}
+            </h2>
+          </div>
+
+          {activeTag && (
+            <button
+              className="rounded-full border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+              onClick={() => setActiveTag(null)}
+            >
+              Filter zurücksetzen
+            </button>
+          )}
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {tagCounts.map(([tag, count]) => {
+            const isActive = activeTag === tag;
+
+            return (
+              <button
+                key={tag}
+                className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+                  isActive
+                    ? "bg-cyan-600 text-white dark:bg-cyan-400 dark:text-slate-950"
+                    : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+                }`}
+                onClick={() => setActiveTag((currentTag) => (currentTag === tag ? null : tag))}
+              >
+                #{tag} <span className="opacity-70">{count}</span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+    );
   };
 
   const openSubcategory = (category, subcategory) => {
@@ -831,6 +912,36 @@ function App() {
         </section>
       )}
 
+      {renderTagFilterBar(searchableTopics, "Nach Tags stöbern")}
+
+      {activeTag && (
+        <section className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+                Aktiver Filter
+              </p>
+              <h2 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
+                Themen mit #{activeTag}
+              </h2>
+            </div>
+            <span className="rounded-full bg-cyan-100 px-3 py-1 text-sm font-medium text-cyan-900 dark:bg-cyan-500/15 dark:text-cyan-200">
+              {homeFilteredTopics.length}
+            </span>
+          </div>
+
+          {homeFilteredTopics.length > 0 ? (
+            <div className="grid gap-4 lg:grid-cols-2">
+              {homeFilteredTopics.slice(0, 8).map((topic) => renderTopicCard(topic))}
+            </div>
+          ) : (
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Für diesen Tag wurden aktuell keine Themen gefunden.
+            </p>
+          )}
+        </section>
+      )}
+
       <section className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
         <div className="mb-6">
           <h2 className="text-xl font-bold text-slate-900 dark:text-white">Kategorien im Überblick</h2>
@@ -889,6 +1000,11 @@ function App() {
       return null;
     }
 
+    const categoryTopics = searchableTopics.filter(
+      (topic) => topic.category === selectedCategory.category
+    );
+    const filteredCategoryTopics = filterTopicsByTag(categoryTopics, activeTag);
+
     return (
       <div className="space-y-6">
         <div className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
@@ -903,11 +1019,41 @@ function App() {
           </p>
         </div>
 
+        {renderTagFilterBar(categoryTopics, `${selectedCategory.category} filtern`)}
+
+        {activeTag && (
+          <section className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+                  Tag-Ansicht
+                </p>
+                <h2 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
+                  Passende Themen für #{activeTag}
+                </h2>
+              </div>
+              <span className="rounded-full bg-cyan-100 px-3 py-1 text-sm font-medium text-cyan-900 dark:bg-cyan-500/15 dark:text-cyan-200">
+                {filteredCategoryTopics.length}
+              </span>
+            </div>
+
+            {filteredCategoryTopics.length > 0 ? (
+              <div className="grid gap-4 lg:grid-cols-2">
+                {filteredCategoryTopics.map((topic) => renderTopicCard(topic))}
+              </div>
+            ) : (
+              <p className="text-sm text-slate-500 dark:text-slate-400">
+                In dieser Kategorie gibt es aktuell keine Themen mit #{activeTag}.
+              </p>
+            )}
+          </section>
+        )}
+
         <div className="grid gap-4 lg:grid-cols-2">
           {selectedCategory.subcategories.map((subcategory) => {
-            const subcategoryTopics = searchableTopics.filter(
+            const subcategoryTopics = categoryTopics.filter(
               (topic) =>
-                topic.category === selectedCategory.category && topic.subcategory === subcategory.name
+                topic.subcategory === subcategory.name
             );
 
             return (
@@ -957,6 +1103,7 @@ function App() {
       (topic) =>
         topic.category === selectedCategory.category && topic.subcategory === selectedSubcategory.name
     );
+    const filteredTopics = filterTopicsByTag(topics, activeTag);
 
     return (
       <div className="space-y-6">
@@ -982,9 +1129,17 @@ function App() {
           </p>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-2">
-          {topics.map((topic) => renderTopicCard(topic))}
-        </div>
+        {renderTagFilterBar(topics, `${selectedSubcategory.name} filtern`)}
+
+        {filteredTopics.length > 0 ? (
+          <div className="grid gap-4 lg:grid-cols-2">
+            {filteredTopics.map((topic) => renderTopicCard(topic))}
+          </div>
+        ) : (
+          <div className="rounded-[2rem] border border-dashed border-slate-300 bg-white/90 p-8 text-slate-500 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-400">
+            In dieser Unterkategorie gibt es aktuell keine Themen mit #{activeTag}.
+          </div>
+        )}
       </div>
     );
   };
@@ -1160,13 +1315,15 @@ function App() {
                   Ergebnisse für "{searchTerm}"
                 </h1>
                 <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                  {searchResults.length} Treffer
+                  {filteredSearchResults.length} Treffer
                 </p>
               </div>
 
-              {searchResults.length > 0 ? (
+              {renderTagFilterBar(searchResults, "Suchergebnisse eingrenzen")}
+
+              {filteredSearchResults.length > 0 ? (
                 <ul className="grid gap-4 lg:grid-cols-2">
-                  {searchResults.map((topic) => renderSearchResult(topic))}
+                  {filteredSearchResults.map((topic) => renderSearchResult(topic))}
                 </ul>
               ) : (
                 <div className="rounded-[2rem] border border-dashed border-slate-300 bg-white/90 p-8 text-slate-500 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-400">
