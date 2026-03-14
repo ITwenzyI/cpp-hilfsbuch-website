@@ -16,6 +16,54 @@ const STORAGE_KEYS = {
 };
 
 const MAX_RECENT_TOPICS = 8;
+const RELATED_TOPICS_LIMIT = 3;
+const RELATED_STOP_WORDS = new Set([
+  "aber",
+  "alle",
+  "auch",
+  "beim",
+  "c",
+  "class",
+  "const",
+  "cpp",
+  "das",
+  "dass",
+  "dem",
+  "den",
+  "der",
+  "des",
+  "die",
+  "dies",
+  "diese",
+  "diesem",
+  "diese",
+  "dieser",
+  "einer",
+  "eine",
+  "einem",
+  "einen",
+  "einer",
+  "enum",
+  "für",
+  "function",
+  "hast",
+  "ich",
+  "ist",
+  "kann",
+  "mit",
+  "nicht",
+  "oder",
+  "sich",
+  "sind",
+  "std",
+  "struct",
+  "thema",
+  "und",
+  "using",
+  "von",
+  "wenn",
+  "while",
+]);
 
 const slugify = (value) =>
   value
@@ -26,6 +74,15 @@ const slugify = (value) =>
     .replace(/\s+/g, "-");
 
 const normalizeTopicTitle = (title) => title.replace(/[<>]/g, "").trim();
+
+const extractKeywords = (text) => {
+  const matches = text.toLowerCase().match(/[a-zA-ZäöüÄÖÜß_][a-zA-Z0-9_äöüÄÖÜß-]*/g) || [];
+  return new Set(
+    matches.filter(
+      (word) => word.length > 2 && !RELATED_STOP_WORDS.has(word)
+    )
+  );
+};
 
 const highlightMatch = (text, query) => {
   if (!text) return "";
@@ -216,6 +273,61 @@ const getDifficultyClasses = (difficulty) => {
   return "bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200";
 };
 
+const getRelatedTopics = (topicEntry, allTopics, limit = RELATED_TOPICS_LIMIT) => {
+  if (!topicEntry) {
+    return [];
+  }
+
+  const referenceKeywords = extractKeywords(`${topicEntry.title} ${topicEntry.searchText}`);
+
+  return allTopics
+    .filter((candidate) => candidate.id !== topicEntry.id)
+    .map((candidate) => {
+      let score = 0;
+
+      if (candidate.subcategory === topicEntry.subcategory) {
+        score += 6;
+      } else if (candidate.category === topicEntry.category) {
+        score += 3;
+      }
+
+      if (candidate.difficulty === topicEntry.difficulty) {
+        score += 1;
+      }
+
+      const candidateKeywords = extractKeywords(`${candidate.title} ${candidate.searchText}`);
+      let sharedKeywords = 0;
+
+      referenceKeywords.forEach((keyword) => {
+        if (candidateKeywords.has(keyword)) {
+          sharedKeywords += 1;
+        }
+      });
+
+      score += sharedKeywords * 1.5;
+
+      return {
+        candidate,
+        score,
+        sharedKeywords,
+      };
+    })
+    .filter((entry) => entry.score > 0)
+    .sort((left, right) => {
+      if (right.score !== left.score) {
+        return right.score - left.score;
+      }
+
+      if (right.sharedKeywords !== left.sharedKeywords) {
+        return right.sharedKeywords - left.sharedKeywords;
+      }
+
+      return left.candidate.title.localeCompare(right.candidate.title, "de");
+    })
+    .slice(0, limit)
+    .map((entry) => entry.candidate);
+};
+
 function App() {
   const [selectedCategoryName, setSelectedCategoryName] = useState(null);
   const [selectedSubcategoryName, setSelectedSubcategoryName] = useState(null);
@@ -240,6 +352,9 @@ function App() {
   const selectedTopic = selectedTopicEntry?.topicRef || null;
   const favoriteTopics = favoriteTopicIds.map((topicId) => topicLookup.get(topicId)).filter(Boolean);
   const recentTopics = recentTopicIds.map((topicId) => topicLookup.get(topicId)).filter(Boolean);
+  const relatedTopics = selectedTopicEntry
+    ? getRelatedTopics(selectedTopicEntry, searchableTopics)
+    : [];
 
   const ensureExpandedPath = (topicEntry) => {
     const categoryKey = `cat:${topicEntry.category}`;
@@ -1064,6 +1179,26 @@ function App() {
                         ))
                       : selectedTopic.content?.code && <CodeBlock code={selectedTopic.content.code} />}
                   </>
+                )}
+
+                {relatedTopics.length > 0 && (
+                  <section className="mt-10 border-t border-slate-200 pt-8 dark:border-slate-800">
+                    <div className="mb-5">
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+                        Weiterlernen
+                      </p>
+                      <h2 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
+                        Verwandte Themen
+                      </h2>
+                      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                        Vorschläge aus ähnlichen Bereichen, damit du direkt am passenden Punkt weitermachen kannst.
+                      </p>
+                    </div>
+
+                    <div className="grid gap-4 lg:grid-cols-3">
+                      {relatedTopics.map((topic) => renderTopicCard(topic, "compact"))}
+                    </div>
+                  </section>
                 )}
               </div>
             </section>
