@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 export default function CodeBlock({ title, code, language = "cpp" }) {
-  const copyToClipboard = () => navigator.clipboard.writeText(code);
+  const [copied, setCopied] = useState(false);
   const isDark = document.documentElement.classList.contains("dark");
+
+  const copyToClipboard = async () => {
+    await navigator.clipboard.writeText(code);
+    setCopied(true);
+  };
+
+  useEffect(() => {
+    if (!copied) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => setCopied(false), 1800);
+    return () => window.clearTimeout(timeoutId);
+  }, [copied]);
 
   return (
     <section className="mb-6">
@@ -17,9 +31,13 @@ export default function CodeBlock({ title, code, language = "cpp" }) {
       <div className="relative">
         <button
           onClick={copyToClipboard}
-          className="absolute top-2 right-2 z-10 bg-gray-200 dark:bg-gray-700 text-xs px-3 py-1 rounded shadow hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          className={`absolute top-2 right-2 z-10 rounded px-3 py-1 text-xs shadow transition ${
+            copied
+              ? "bg-emerald-500 text-white"
+              : "bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+          }`}
         >
-          📋 Kopieren
+          {copied ? "Kopiert" : "📋 Kopieren"}
         </button>
 
         <SyntaxHighlighter

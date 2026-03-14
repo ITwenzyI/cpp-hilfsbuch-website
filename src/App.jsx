@@ -1,51 +1,476 @@
-import React, { useState, useEffect } from "react";
-import themen from "./data/themen.json";
+import React, { useEffect, useRef, useState } from "react";
 import Fuse from "fuse.js";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
+import themen from "./data/themen.json";
 import CodeBlock from "./components/CodeBlock";
-import "highlight.js/styles/github-dark.css";
 import ContentRenderer from "./components/ContentRenderer";
+import "highlight.js/styles/github-dark.css";
 
+const STORAGE_KEYS = {
+  theme: "theme",
+  favorites: "cpp-hilfsbuch:favorites",
+  recent: "cpp-hilfsbuch:recent-topics",
+};
 
-/* ============================================================================
-   STATE MANAGEMENT & CONSTANTS
-============================================================================ */
+const MAX_RECENT_TOPICS = 8;
+const RELATED_TOPICS_LIMIT = 3;
+const RELATED_STOP_WORDS = new Set([
+  "aber",
+  "alle",
+  "auch",
+  "beim",
+  "c",
+  "class",
+  "const",
+  "cpp",
+  "das",
+  "dass",
+  "dem",
+  "den",
+  "der",
+  "des",
+  "die",
+  "dies",
+  "diese",
+  "diesem",
+  "diese",
+  "dieser",
+  "einer",
+  "eine",
+  "einem",
+  "einen",
+  "einer",
+  "enum",
+  "für",
+  "function",
+  "hast",
+  "ich",
+  "ist",
+  "kann",
+  "mit",
+  "nicht",
+  "oder",
+  "sich",
+  "sind",
+  "std",
+  "struct",
+  "thema",
+  "und",
+  "using",
+  "von",
+  "wenn",
+  "while",
+]);
+
+const slugify = (value) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/[<>]/g, "")
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-");
+
+const normalizeTopicTitle = (title) => title.replace(/[<>]/g, "").trim();
+
+const extractKeywords = (text) => {
+  const matches = text.toLowerCase().match(/[a-zA-ZäöüÄÖÜß_][a-zA-Z0-9_äöüÄÖÜß-]*/g) || [];
+  return new Set(
+    matches.filter(
+      (word) => word.length > 2 && !RELATED_STOP_WORDS.has(word)
+    )
+  );
+};
+
+const highlightMatch = (text, query) => {
+  if (!text) return "";
+
+  const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`(${escapedQuery})`, "gi");
+  return text.replace(regex, '<mark class="rounded bg-amber-200 px-1 text-slate-900">$1</mark>');
+};
+
+const getSnippet = (text, query, length = 140) => {
+  if (!text) return "";
+
+  const lower = text.toLowerCase();
+  const idx = lower.indexOf(query.toLowerCase());
+  if (idx === -1) return "";
+
+  const start = Math.max(0, idx - Math.floor(length / 2));
+  const end = Math.min(text.length, idx + Math.floor(length / 2));
+  const prefix = start > 0 ? "..." : "";
+  const suffix = end < text.length ? "..." : "";
+
+  return `${prefix}${text.substring(start, end)}${suffix}`;
+};
+
+const formatText = (text) => {
+  if (Array.isArray(text)) {
+    return text.join("\n");
+  }
+
+  return text;
+};
+
+const buildSearchText = (topic) => {
+  let text = `${topic.title} `;
+
+  if (topic.blocks) {
+    topic.blocks.forEach((block) => {
+      Object.values(block).forEach((value) => {
+        if (typeof value === "string") {
+          text += `${value} `;
+        } else if (Array.isArray(value)) {
+          value.forEach((item) => {
+            if (typeof item === "string") {
+              text += `${item} `;
+            } else if (item && typeof item === "object") {
+              Object.values(item).forEach((inner) => {
+                if (typeof inner === "string") {
+                  text += `${inner} `;
+                } else if (Array.isArray(inner)) {
+                  inner.forEach((nestedValue) => {
+                    if (typeof nestedValue === "string") {
+                      text += `${nestedValue} `;
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    });
+  }
+
+  return text;
+};
+
+const findMatchInBlocks = (topic, query) => {
+  const normalizedQuery = query.trim().toLowerCase();
+  if (!normalizedQuery || !topic?.blocks) {
+    return null;
+  }
+
+  const getLabel = (block) => {
+    if (block.type === "definition") return `Definition: ${block.term || ""}`.trim();
+    if (block.type === "code") return `Code: ${block.title || ""}`.trim();
+    if (block.type === "list") return `Liste: ${block.title || ""}`.trim();
+    if (block.type === "explanation") return `Erklärung: ${block.title || ""}`.trim();
+    if (block.type === "comparison") return `Vergleich: ${block.title || ""}`.trim();
+    if (block.type === "note") return "Hinweis";
+    if (block.type === "important") return "Wichtig";
+    if (block.type === "pitfall") return `Fehler: ${block.title || ""}`.trim();
+    if (block.type === "summary") return "Zusammenfassung";
+    if (block.type === "example") return `Beispiel: ${block.title || ""}`.trim();
+    return block.type;
+  };
+
+  const candidates = [];
+
+  topic.blocks.forEach((block) => {
+    const label = getLabel(block);
+
+    Object.values(block).forEach((value) => {
+      if (typeof value === "string") {
+        candidates.push({ label, text: value });
+      } else if (Array.isArray(value)) {
+        value.forEach((item) => {
+          if (typeof item === "string") {
+            candidates.push({ label, text: item });
+          } else if (item && typeof item === "object") {
+            Object.values(item).forEach((inner) => {
+              if (typeof inner === "string") {
+                candidates.push({ label, text: inner });
+              } else if (Array.isArray(inner)) {
+                inner.forEach((nestedValue) => {
+                  if (typeof nestedValue === "string") {
+                    candidates.push({ label, text: nestedValue });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  });
+
+  for (const candidate of candidates) {
+    if (candidate.text.toLowerCase().includes(normalizedQuery)) {
+      return {
+        where: candidate.label,
+        snippet: getSnippet(candidate.text, query),
+      };
+    }
+  }
+
+  return null;
+};
+
+const enrichedTopics = themen.flatMap((category) =>
+  category.subcategories.flatMap((subcategory) =>
+    subcategory.topics.map((topic) => ({
+      id: `${slugify(category.category)}__${slugify(subcategory.name)}__${slugify(topic.title)}`,
+      category: category.category,
+      categoryIcon: category.icon,
+      categoryRef: category,
+      subcategory: subcategory.name,
+      subcategoryIcon: subcategory.icon,
+      subcategoryRef: subcategory,
+      title: normalizeTopicTitle(topic.title),
+      topicRef: topic,
+      searchText: buildSearchText(topic),
+      difficulty: topic.difficulty || "mixed",
+      isHeader: /^<.*>$/.test(topic.title),
+    }))
+  )
+);
+
+const searchableTopics = enrichedTopics.filter((topic) => !topic.isHeader);
+const topicLookup = new Map(searchableTopics.map((topic) => [topic.id, topic]));
+const totalSubcategories = themen.reduce(
+  (sum, category) => sum + category.subcategories.length,
+  0
+);
+const totalTopics = searchableTopics.length;
+
+const readStoredList = (key) => {
+  if (typeof window === "undefined") {
+    return [];
+  }
+
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(key) || "[]");
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed.filter((id) => topicLookup.has(id));
+  } catch {
+    return [];
+  }
+};
+
+const getDifficultyLabel = (difficulty) => {
+  if (difficulty === "basic") return "Basic";
+  if (difficulty === "advanced") return "Fortgeschritten";
+  return "Mix";
+};
+
+const getDifficultyClasses = (difficulty) => {
+  if (difficulty === "basic") {
+    return "bg-emerald-100 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-200";
+  }
+
+  if (difficulty === "advanced") {
+    return "bg-amber-100 text-amber-900 dark:bg-amber-500/15 dark:text-amber-200";
+  }
+
+  return "bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200";
+};
+
+const getRelatedTopics = (topicEntry, allTopics, limit = RELATED_TOPICS_LIMIT) => {
+  if (!topicEntry) {
+    return [];
+  }
+
+  const referenceKeywords = extractKeywords(`${topicEntry.title} ${topicEntry.searchText}`);
+
+  return allTopics
+    .filter((candidate) => candidate.id !== topicEntry.id)
+    .map((candidate) => {
+      let score = 0;
+
+      if (candidate.subcategory === topicEntry.subcategory) {
+        score += 6;
+      } else if (candidate.category === topicEntry.category) {
+        score += 3;
+      }
+
+      if (candidate.difficulty === topicEntry.difficulty) {
+        score += 1;
+      }
+
+      const candidateKeywords = extractKeywords(`${candidate.title} ${candidate.searchText}`);
+      let sharedKeywords = 0;
+
+      referenceKeywords.forEach((keyword) => {
+        if (candidateKeywords.has(keyword)) {
+          sharedKeywords += 1;
+        }
+      });
+
+      score += sharedKeywords * 1.5;
+
+      return {
+        candidate,
+        score,
+        sharedKeywords,
+      };
+    })
+    .filter((entry) => entry.score > 0)
+    .sort((left, right) => {
+      if (right.score !== left.score) {
+        return right.score - left.score;
+      }
+
+      if (right.sharedKeywords !== left.sharedKeywords) {
+        return right.sharedKeywords - left.sharedKeywords;
+      }
+
+      return left.candidate.title.localeCompare(right.candidate.title, "de");
+    })
+    .slice(0, limit)
+    .map((entry) => entry.candidate);
+};
 
 function App() {
-  // Selected navigation items
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedSubcategory, setSelectedSubcategory] = useState(null);
-  const [selectedTopic, setSelectedTopic] = useState(null);
-
-  // Search system
+  const [selectedCategoryName, setSelectedCategoryName] = useState(null);
+  const [selectedSubcategoryName, setSelectedSubcategoryName] = useState(null);
+  const [selectedTopicId, setSelectedTopicId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-
-  // UI States
-  const [darkMode, setDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
+  const [darkMode, setDarkMode] = useState(
+    () => typeof window !== "undefined" && window.localStorage.getItem(STORAGE_KEYS.theme) === "dark"
+  );
   const [expandedCategories, setExpandedCategories] = useState([]);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [favoriteTopicIds, setFavoriteTopicIds] = useState(() => readStoredList(STORAGE_KEYS.favorites));
+  const [recentTopicIds, setRecentTopicIds] = useState(() => readStoredList(STORAGE_KEYS.recent));
+  const searchInputRef = useRef(null);
 
-  /* ============================================================================
-     EFFECTS
-  ============================================================================ */
+  const selectedCategory =
+    themen.find((category) => category.category === selectedCategoryName) || null;
+  const selectedSubcategory =
+    selectedCategory?.subcategories.find((subcategory) => subcategory.name === selectedSubcategoryName) ||
+    null;
+  const selectedTopicEntry = selectedTopicId ? topicLookup.get(selectedTopicId) || null : null;
+  const selectedTopic = selectedTopicEntry?.topicRef || null;
+  const favoriteTopics = favoriteTopicIds.map((topicId) => topicLookup.get(topicId)).filter(Boolean);
+  const recentTopics = recentTopicIds.map((topicId) => topicLookup.get(topicId)).filter(Boolean);
+  const relatedTopics = selectedTopicEntry
+    ? getRelatedTopics(selectedTopicEntry, searchableTopics)
+    : [];
 
-  // Handle dark mode
+  const ensureExpandedPath = (topicEntry) => {
+    const categoryKey = `cat:${topicEntry.category}`;
+    const subcategoryKey = `sub:${topicEntry.category}:${topicEntry.subcategory}`;
+
+    setExpandedCategories((previous) =>
+      Array.from(new Set([...previous, categoryKey, subcategoryKey]))
+    );
+  };
+
+  const rememberTopic = (topicId) => {
+    setRecentTopicIds((previous) => [
+      topicId,
+      ...previous.filter((existingId) => existingId !== topicId),
+    ].slice(0, MAX_RECENT_TOPICS));
+  };
+
+  const openCategory = (category) => {
+    setSelectedCategoryName(category.category);
+    setSelectedSubcategoryName(null);
+    setSelectedTopicId(null);
+    setExpandedCategories((previous) => {
+      const key = `cat:${category.category}`;
+      return previous.includes(key) ? previous : [...previous, key];
+    });
+  };
+
+  const goHome = () => {
+    setSelectedCategoryName(null);
+    setSelectedSubcategoryName(null);
+    setSelectedTopicId(null);
+    setSearchTerm("");
+    setSearchResults([]);
+    setShowSidebar(false);
+  };
+
+  const openSubcategory = (category, subcategory) => {
+    setSelectedCategoryName(category.category);
+    setSelectedSubcategoryName(subcategory.name);
+    setSelectedTopicId(null);
+    setExpandedCategories((previous) => {
+      const categoryKey = `cat:${category.category}`;
+      const subcategoryKey = `sub:${category.category}:${subcategory.name}`;
+      return Array.from(new Set([...previous, categoryKey, subcategoryKey]));
+    });
+    setShowSidebar(false);
+  };
+
+  const openTopic = (topicEntry, options = {}) => {
+    const { addToRecent = true, clearSearch = true, closeSidebar = true } = options;
+
+    setSelectedCategoryName(topicEntry.category);
+    setSelectedSubcategoryName(topicEntry.subcategory);
+    setSelectedTopicId(topicEntry.id);
+    ensureExpandedPath(topicEntry);
+
+    if (addToRecent) {
+      rememberTopic(topicEntry.id);
+    }
+
+    if (clearSearch) {
+      setSearchTerm("");
+      setSearchResults([]);
+    }
+
+    if (closeSidebar) {
+      setShowSidebar(false);
+    }
+  };
+
+  const toggleCategory = (categoryName) => {
+    const key = `cat:${categoryName}`;
+    setExpandedCategories((previous) =>
+      previous.includes(key)
+        ? previous.filter((entry) => entry !== key)
+        : [...previous, key]
+    );
+  };
+
+  const toggleSubcategory = (categoryName, subcategoryName) => {
+    const key = `sub:${categoryName}:${subcategoryName}`;
+    setExpandedCategories((previous) =>
+      previous.includes(key)
+        ? previous.filter((entry) => entry !== key)
+        : [...previous, key]
+    );
+  };
+
+  const toggleFavorite = (topicId) => {
+    setFavoriteTopicIds((previous) =>
+      previous.includes(topicId)
+        ? previous.filter((existingId) => existingId !== topicId)
+        : [topicId, ...previous]
+    );
+  };
+
   useEffect(() => {
     const root = document.documentElement;
+
     if (darkMode) {
       root.classList.add("dark");
-      localStorage.setItem("theme", "dark");
+      window.localStorage.setItem(STORAGE_KEYS.theme, "dark");
     } else {
       root.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+      window.localStorage.setItem(STORAGE_KEYS.theme, "light");
     }
   }, [darkMode]);
 
-  // Smart search (Fuse.js)
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_KEYS.favorites, JSON.stringify(favoriteTopicIds));
+  }, [favoriteTopicIds]);
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_KEYS.recent, JSON.stringify(recentTopicIds));
+  }, [recentTopicIds]);
+
   useEffect(() => {
     const query = searchTerm.trim();
     const normalizedQuery = query.toLowerCase();
@@ -55,31 +480,7 @@ function App() {
       return;
     }
 
-    // flatten all topics (inkl. übergeordnetes Topic aus der Reihenfolge)
-    const allTopics = themen.flatMap((cat) =>
-      cat.subcategories.flatMap((sub) => {
-        let currentHeaderTitle = null;
-
-        return sub.topics.map((topic) => {
-          const isHeader = /^<.*>$/.test(topic.title);
-          if (isHeader) currentHeaderTitle = topic.title;
-
-          return {
-            ...topic,
-            category: cat.category,
-            categoryIcon: cat.icon,
-            subcategory: sub.name,
-            subcategoryIcon: sub.icon,
-            parentTopic: isHeader ? null : currentHeaderTitle,
-            searchText: buildSearchText(topic),
-            matchInfo: findMatchInBlocks(topic, query),
-          };
-        });
-      })
-    );
-
-
-    const fuse = new Fuse(allTopics, {
+    const fuse = new Fuse(searchableTopics, {
       keys: [
         { name: "title", weight: 0.6 },
         { name: "searchText", weight: 0.4 },
@@ -91,10 +492,13 @@ function App() {
       includeScore: true,
     });
 
-    const result = fuse.search(query);
-    const sorted = result.sort((a, b) => a.score - b.score);
-    const strictResults = sorted
-      .map((r) => r.item)
+    const strictResults = fuse
+      .search(query)
+      .sort((left, right) => left.score - right.score)
+      .map((result) => ({
+        ...result.item,
+        matchInfo: findMatchInBlocks(result.item.topicRef, query),
+      }))
       .filter((item) => {
         const titleHasMatch = item.title.toLowerCase().includes(normalizedQuery);
         const contentHasMatch = Boolean(item.matchInfo?.snippet);
@@ -104,387 +508,662 @@ function App() {
     setSearchResults(strictResults);
   }, [searchTerm]);
 
-  /* ============================================================================
-     HELPER FUNCTIONS (HIGHLIGHT, SNIPPET, TEXT FORMAT)
-  ============================================================================ */
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
 
-  // Highlight text like STRG+F
-  const highlightMatch = (text, query) => {
-    if (!text) return "";
-    const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const regex = new RegExp(`(${escapedQuery})`, "gi");
-    return text.replace(regex, `<mark class="bg-yellow-300">$1</mark>`);
-  };
+    const openTopicFromHash = () => {
+      const hash = window.location.hash || "";
 
-  // Snippet preview around matched term
-  const getSnippet = (text, query, length = 120) => {
-    if (!text) return "";
+      if (!hash.startsWith("#topic=")) {
+        return;
+      }
 
-    const lower = text.toLowerCase();
-    const idx = lower.indexOf(query.toLowerCase());
-    if (idx === -1) return "";
+      const topicId = decodeURIComponent(hash.replace("#topic=", ""));
+      const topicEntry = topicLookup.get(topicId);
 
-    const start = Math.max(0, idx - length / 2);
-    const end = Math.min(text.length, idx + length / 2);
+      if (topicEntry) {
+        openTopic(topicEntry, {
+          addToRecent: false,
+          clearSearch: false,
+          closeSidebar: false,
+        });
+      }
+    };
 
-    return text.substring(start, end) + "...";
-  };
+    openTopicFromHash();
+    window.addEventListener("hashchange", openTopicFromHash);
 
-  // Convert arrays to markdown text
-  const formatText = (text) => {
-    if (Array.isArray(text)) return text.join("\n");
-    return text;
-  };
+    return () => window.removeEventListener("hashchange", openTopicFromHash);
+  }, []);
 
-  // Sidebar category toggler
-  const toggleCategory = (category) => {
-    setExpandedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const baseUrl = `${window.location.pathname}${window.location.search}`;
+
+    if (selectedTopicId) {
+      window.history.replaceState(null, "", `${baseUrl}#topic=${encodeURIComponent(selectedTopicId)}`);
+    } else if (window.location.hash) {
+      window.history.replaceState(null, "", baseUrl);
+    }
+  }, [selectedTopicId]);
+
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key === "/" && event.target.tagName !== "INPUT" && event.target.tagName !== "TEXTAREA") {
+        event.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+
+  const renderBreadcrumb = () => {
+    if (!selectedCategory || !selectedSubcategory || !selectedTopicEntry) {
+      return null;
+    }
+
+    return (
+      <div className="mb-3 flex flex-wrap items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+        <button
+          className="rounded-full bg-slate-200/70 px-3 py-1 text-slate-700 transition hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+          onClick={() => openCategory(selectedCategory)}
+        >
+          {selectedCategory.icon} {selectedCategory.category}
+        </button>
+        <span>›</span>
+        <button
+          className="rounded-full bg-slate-200/70 px-3 py-1 text-slate-700 transition hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+          onClick={() => openSubcategory(selectedCategory, selectedSubcategory)}
+        >
+          {selectedSubcategory.icon} {selectedSubcategory.name}
+        </button>
+        <span>›</span>
+        <span className="font-semibold text-slate-700 dark:text-slate-100">
+          {selectedTopicEntry.title}
+        </span>
+      </div>
     );
   };
 
-    const buildSearchText = (topic) => {
-    let text = topic.title + " ";
+  const renderTopicCard = (topicEntry, variant = "default") => {
+    const isFavorite = favoriteTopicIds.includes(topicEntry.id);
+    const compact = variant === "compact";
 
-    if (topic.blocks) {
-      topic.blocks.forEach((block) => {
-        Object.values(block).forEach((value) => {
-          if (typeof value === "string") {
-            text += value + " ";
-          } else if (Array.isArray(value)) {
-            value.forEach((v) => {
-              if (typeof v === "string") text += v + " ";
-              if (typeof v === "object" && v !== null) {
-                Object.values(v).forEach((inner) => {
-                  if (typeof inner === "string") text += inner + " ";
-                });
-              }
-            });
-          }
-        });
-      });
-    }
+    return (
+      <article
+        key={topicEntry.id}
+        className={`rounded-3xl border border-slate-200 bg-white/90 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-cyan-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900/90 dark:hover:border-cyan-700 ${
+          compact ? "p-4" : ""
+        }`}
+      >
+        <div className="mb-3 flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-300">
+              {topicEntry.category} · {topicEntry.subcategory}
+            </p>
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+              {topicEntry.title}
+            </h3>
+          </div>
 
-    return text.toLowerCase();
+          <button
+            type="button"
+            aria-label={isFavorite ? "Thema aus Merkliste entfernen" : "Thema merken"}
+            className={`rounded-full border px-3 py-1 text-sm transition ${
+              isFavorite
+                ? "border-amber-300 bg-amber-100 text-amber-900 dark:border-amber-600 dark:bg-amber-500/10 dark:text-amber-200"
+                : "border-slate-200 bg-slate-100 text-slate-500 hover:border-amber-300 hover:text-amber-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+            }`}
+            onClick={() => toggleFavorite(topicEntry.id)}
+          >
+            {isFavorite ? "★" : "☆"}
+          </button>
+        </div>
+
+        <div className="mb-4 flex flex-wrap gap-2 text-xs">
+          <span className="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+            {topicEntry.categoryIcon} {topicEntry.subcategoryIcon}
+          </span>
+          <span className={`rounded-full px-3 py-1 font-medium ${getDifficultyClasses(topicEntry.difficulty)}`}>
+            {getDifficultyLabel(topicEntry.difficulty)}
+          </span>
+        </div>
+
+        <div className="flex items-center justify-between gap-3">
+          <button
+            className="rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-700 dark:bg-cyan-500 dark:text-slate-950 dark:hover:bg-cyan-400"
+            onClick={() => openTopic(topicEntry)}
+          >
+            Öffnen
+          </button>
+          <button
+            className="text-sm font-medium text-cyan-700 transition hover:text-cyan-800 dark:text-cyan-300 dark:hover:text-cyan-200"
+            onClick={() => {
+              const url = `${window.location.origin}${window.location.pathname}#topic=${encodeURIComponent(topicEntry.id)}`;
+              window.navigator.clipboard.writeText(url);
+            }}
+          >
+            Link kopieren
+          </button>
+        </div>
+      </article>
+    );
   };
 
-  const findMatchInBlocks = (topic, query) => {
-  const q = (query || "").trim().toLowerCase();
-  if (!q || !topic?.blocks) return null;
-
-  const makeLabel = (block) => {
-    if (block.type === "definition") return `Definition: ${block.term || ""}`.trim();
-    if (block.type === "code") return `Code: ${block.title || ""}`.trim();
-    if (block.type === "list") return `Liste: ${block.title || ""}`.trim();
-    if (block.type === "explanation") return `Erklärung: ${block.title || ""}`.trim();
-    if (block.type === "comparison") return `Vergleich: ${block.title || ""}`.trim();
-    if (block.type === "note") return `Hinweis`;
-    if (block.type === "important") return `Wichtig`;
-    if (block.type === "pitfall") return `Fehler: ${block.title || ""}`.trim();
-    if (block.type === "summary") return `Zusammenfassung`;
-    if (block.type === "example") return `Beispiel: ${block.title || ""}`.trim();
-    return block.type;
-  };
-
-  const candidates = [];
-
-  for (const block of topic.blocks) {
-    const label = makeLabel(block);
-
-    // Strings
-    for (const [key, value] of Object.entries(block)) {
-      if (typeof value === "string") {
-        candidates.push({ label, text: value });
-      }
-    }
-
-    // Arrays (strings oder objects)
-    for (const value of Object.values(block)) {
-      if (Array.isArray(value)) {
-        for (const item of value) {
-          if (typeof item === "string") candidates.push({ label, text: item });
-          if (item && typeof item === "object") {
-            for (const inner of Object.values(item)) {
-              if (typeof inner === "string") candidates.push({ label, text: inner });
-              if (Array.isArray(inner)) {
-                inner.forEach((x) => {
-                  if (typeof x === "string") candidates.push({ label, text: x });
-                });
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  // Finde erstes Feld, das den Query enthält
-  for (const c of candidates) {
-    const lower = c.text.toLowerCase();
-    const idx = lower.indexOf(q);
-    if (idx !== -1) {
-      const snippet = getSnippet(c.text, query, 140);
-      return { where: c.label, snippet };
-    }
-  }
-
-  return null;
-};
-
-
-  /* ============================================================================
-     RENDER HELPERS (UI COMPOSITION)
-  ============================================================================ */
-
-  // Breadcrumb for topic view
-  const renderBreadcrumb = () => (
-    <div className="text-sm text-gray-500 dark:text-gray-400 mb-2 flex flex-wrap items-center gap-1">
-      <span>{selectedCategory?.icon} {selectedCategory?.category}</span>
-
-      {selectedCategory?.subcategories?.map((sub) =>
-        sub.topics.includes(selectedTopic) ? (
-          <React.Fragment key={sub.name}>
-            <span className="mx-1">›</span>
-            <span>{sub.icon} {sub.name}</span>
-          </React.Fragment>
-        ) : null
-      )}
-
-      <span className="mx-1">›</span>
-
-      <span className="text-gray-700 dark:text-gray-200 font-semibold">
-        📄 {selectedTopic.title}
-      </span>
-    </div>
-  );
-
-  // Search result list item
-  const renderSearchResult = (topic, idx) => {
-  const match = topic.matchInfo;
-
-  let fullText = "";
-
-  if (Array.isArray(topic.content?.text)) {
-    fullText += topic.content.text.join(" ");
-  } else if (typeof topic.content?.text === "string") {
-    fullText += topic.content.text;
-  }
-
-  if (Array.isArray(topic.content?.code)) {
-    fullText += " " + topic.content.code.join(" ");
-  } else if (typeof topic.content?.code === "string") {
-    fullText += " " + topic.content.code;
-  }
-
-  fullText = fullText.trim();
-
-  const legacySnippet = getSnippet(fullText, searchTerm);
-  const snippetToShow = match?.snippet || legacySnippet;
-
+  const renderSearchResult = (topicEntry) => {
+    const match = topicEntry.matchInfo;
+    const fullText = topicEntry.searchText.trim();
+    const snippet = match?.snippet || getSnippet(fullText, searchTerm);
 
     return (
       <li
-        key={idx}
-        className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer"
-        onClick={() => {
-          const cat = themen.find((c) => c.category === topic.category);
-          const sub = cat.subcategories.find((s) => s.name === topic.subcategory);
-          setSelectedCategory(cat);
-          setSelectedSubcategory(sub);
-          setSelectedTopic(topic);
-          setSearchTerm("");
-          setSearchResults([]);
-        }}
+        key={topicEntry.id}
+        className="cursor-pointer rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-cyan-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900 dark:hover:border-cyan-700"
+        onClick={() => openTopic(topicEntry)}
       >
+        <div className="mb-2 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-300">
+          <span>{topicEntry.categoryIcon} {topicEntry.category}</span>
+          <span>·</span>
+          <span>{topicEntry.subcategoryIcon} {topicEntry.subcategory}</span>
+        </div>
+
         <h3
-          className="font-bold text-blue-600 dark:text-blue-400 mb-1"
-          dangerouslySetInnerHTML={{
-            __html: highlightMatch(topic.title, searchTerm),
-          }}
+          className="mb-2 text-lg font-semibold text-slate-900 dark:text-white"
+          dangerouslySetInnerHTML={{ __html: highlightMatch(topicEntry.title, searchTerm) }}
         />
-
-        <p className="text-xs text-gray-500 mb-2">
-          {topic.categoryIcon} {topic.category} › {topic.subcategoryIcon} {topic.subcategory}
-        </p>
-
-        {topic.parentTopic && topic.parentTopic !== topic.title && (
-        <p className="text-xs text-gray-500 mb-1">
-          Topic: {topic.parentTopic}
-        </p>
-      )}
 
         {match?.where && (
-        <p className="text-xs text-gray-500 mb-1">
-          Treffer in: {match.where}
-        </p>
-      )}
+          <p className="mb-2 text-xs text-slate-500 dark:text-slate-400">
+            Treffer in: {match.where}
+          </p>
+        )}
 
-      {snippetToShow && (
-        <p
-          className="text-sm text-gray-700 dark:text-gray-300"
-          dangerouslySetInnerHTML={{
-            __html: highlightMatch(snippetToShow, searchTerm),
-          }}
-        />
-      )}
+        {snippet && (
+          <p
+            className="text-sm leading-6 text-slate-600 dark:text-slate-300"
+            dangerouslySetInnerHTML={{ __html: highlightMatch(snippet, searchTerm) }}
+          />
+        )}
       </li>
     );
   };
 
-  /* ============================================================================
-     MAIN RETURN (PAGE LAYOUT)
-  ============================================================================ */
+  const renderHome = () => (
+    <div className="space-y-8">
+      <section className="overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-950 via-sky-900 to-cyan-700 p-8 text-white shadow-2xl shadow-cyan-950/20">
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.35em] text-cyan-100/90">
+          Persönliches C++ Nachschlagewerk
+        </p>
+        <h1 className="max-w-3xl text-3xl font-black leading-tight md:text-5xl">
+          Dein persönliches C++ Nachschlagewerk.
+        </h1>
+        <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-200 md:text-base">
+          Strukturierte C++ Themen, kompakte Erklärungen und schnelle Navigation durch Kategorien, Merkliste und zuletzt geöffnete Inhalte.
+        </p>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <div className="rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur">
+            <p className="text-sm text-cyan-100">Kategorien</p>
+            <p className="mt-2 text-3xl font-bold">{themen.length}</p>
+          </div>
+          <div className="rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur">
+            <p className="text-sm text-cyan-100">Unterkategorien</p>
+            <p className="mt-2 text-3xl font-bold">{totalSubcategories}</p>
+          </div>
+          <div className="rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur">
+            <p className="text-sm text-cyan-100">Themen</p>
+            <p className="mt-2 text-3xl font-bold">{totalTopics}</p>
+          </div>
+        </div>
+      </section>
+
+      {(favoriteTopics.length > 0 || recentTopics.length > 0) && (
+        <section className="grid gap-6 xl:grid-cols-2">
+          {favoriteTopics.length > 0 && (
+            <div className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+              <div className="mb-4 flex items-center justify-between gap-3">
+                <div>
+                  <h2 className="text-xl font-bold text-slate-900 dark:text-white">Merkliste</h2>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                    Themen, die du häufiger nachschlägst.
+                  </p>
+                </div>
+                <span className="rounded-full bg-amber-100 px-3 py-1 text-sm font-medium text-amber-900 dark:bg-amber-500/15 dark:text-amber-200">
+                  {favoriteTopics.length}
+                </span>
+              </div>
+
+              <div className="grid gap-4">
+                {favoriteTopics.slice(0, 4).map((topic) => renderTopicCard(topic, "compact"))}
+              </div>
+            </div>
+          )}
+
+          {recentTopics.length > 0 && (
+            <div className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+              <div className="mb-4 flex items-center justify-between gap-3">
+                <div>
+                  <h2 className="text-xl font-bold text-slate-900 dark:text-white">Zuletzt geöffnet</h2>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                    Für einen schnellen Wiedereinstieg beim Lernen.
+                  </p>
+                </div>
+                <span className="rounded-full bg-cyan-100 px-3 py-1 text-sm font-medium text-cyan-900 dark:bg-cyan-500/15 dark:text-cyan-200">
+                  {recentTopics.length}
+                </span>
+              </div>
+
+              <div className="grid gap-4">
+                {recentTopics.slice(0, 4).map((topic) => renderTopicCard(topic, "compact"))}
+              </div>
+            </div>
+          )}
+        </section>
+      )}
+
+      <section className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+        <div className="mb-6">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">Kategorien im Überblick</h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400">
+          </p>
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          {themen.map((category) => {
+            const categoryTopics = searchableTopics.filter((topic) => topic.category === category.category);
+
+            return (
+              <button
+                key={category.category}
+                className="rounded-3xl border border-slate-200 bg-slate-50 p-5 text-left transition hover:-translate-y-0.5 hover:border-cyan-300 hover:bg-white hover:shadow-lg dark:border-slate-800 dark:bg-slate-950 dark:hover:border-cyan-700"
+                onClick={() => openCategory(category)}
+              >
+                <div className="mb-3 flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+                      {category.icon} Kategorie
+                    </p>
+                    <h3 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
+                      {category.category}
+                    </h3>
+                  </div>
+                  <span className="rounded-full bg-slate-200 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                    {categoryTopics.length} Themen
+                  </span>
+                </div>
+
+                <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
+                  {category.subcategories.length} Unterkategorien
+                </p>
+
+                <div className="flex flex-wrap gap-2">
+                  {category.subcategories.slice(0, 4).map((subcategory) => (
+                    <span
+                      key={`${category.category}-${subcategory.name}`}
+                      className="rounded-full bg-white px-3 py-1 text-sm text-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                    >
+                      {subcategory.icon} {subcategory.name}
+                    </span>
+                  ))}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+    </div>
+  );
+
+  const renderCategoryOverview = () => {
+    if (!selectedCategory) {
+      return null;
+    }
+
+    return (
+      <div className="space-y-6">
+        <div className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+            {selectedCategory.icon} Kategorie
+          </p>
+          <h1 className="mt-2 text-3xl font-black text-slate-900 dark:text-white">
+            {selectedCategory.category}
+          </h1>
+          <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
+            Wähle eine Unterkategorie, um gezielt in deine Themen einzusteigen.
+          </p>
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          {selectedCategory.subcategories.map((subcategory) => {
+            const subcategoryTopics = searchableTopics.filter(
+              (topic) =>
+                topic.category === selectedCategory.category && topic.subcategory === subcategory.name
+            );
+
+            return (
+              <button
+                key={subcategory.name}
+                className="rounded-3xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-cyan-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900 dark:hover:border-cyan-700"
+                onClick={() => openSubcategory(selectedCategory, subcategory)}
+              >
+                <div className="mb-3 flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+                      {subcategory.icon} Unterkategorie
+                    </p>
+                    <h2 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
+                      {subcategory.name}
+                    </h2>
+                  </div>
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                    {subcategoryTopics.length}
+                  </span>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {subcategoryTopics.slice(0, 3).map((topic) => (
+                    <span
+                      key={topic.id}
+                      className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+                    >
+                      {topic.title}
+                    </span>
+                  ))}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
+  const renderSubcategoryOverview = () => {
+    if (!selectedSubcategory || !selectedCategory) {
+      return null;
+    }
+
+    const topics = searchableTopics.filter(
+      (topic) =>
+        topic.category === selectedCategory.category && topic.subcategory === selectedSubcategory.name
+    );
+
+    return (
+      <div className="space-y-6">
+        <div className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+          <div className="mb-3 flex flex-wrap items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+            <button
+              className="rounded-full bg-slate-100 px-3 py-1 transition hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
+              onClick={() => openCategory(selectedCategory)}
+            >
+              {selectedCategory.icon} {selectedCategory.category}
+            </button>
+            <span>›</span>
+            <span className="font-semibold text-slate-700 dark:text-slate-100">
+              {selectedSubcategory.icon} {selectedSubcategory.name}
+            </span>
+          </div>
+
+          <h1 className="text-3xl font-black text-slate-900 dark:text-white">
+            {selectedSubcategory.name}
+          </h1>
+          <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
+            {topics.length} Themen in diesem Bereich.
+          </p>
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          {topics.map((topic) => renderTopicCard(topic))}
+        </div>
+      </div>
+    );
+  };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-gray-50 dark:bg-gray-900 dark:text-white">
-
-      {/* ================= MOBILE HEADER ================= */}
-      <header className="md:hidden flex justify-between items-center p-4 bg-white dark:bg-gray-800 shadow">
-        <h1 className="text-lg font-bold">C++ Hilfsbuch</h1>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="px-3 py-1 rounded-full text-sm bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500"
-          >
-            {darkMode ? "🌞" : "🌙"}
-          </button>
-
-          <button
-            onClick={() => setShowSidebar(!showSidebar)}
-            className="px-3 py-1 rounded-full text-sm bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500"
-          >
-            ☰
-          </button>
-        </div>
-      </header>
-
-      {/* ================= SIDEBAR ================= */}
+    <div className="flex min-h-screen bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-white">
       <aside
-        className={`md:block ${showSidebar ? "block" : "hidden"} w-full md:w-1/4 p-4 bg-white dark:bg-gray-800 shadow-lg overflow-y-auto z-10`}
+        className={`fixed inset-y-0 left-0 z-30 w-[88vw] max-w-sm overflow-y-auto border-r border-slate-200 bg-white/95 p-5 shadow-2xl shadow-slate-950/10 backdrop-blur transition-transform dark:border-slate-800 dark:bg-slate-950/95 md:static md:block md:w-[340px] md:translate-x-0 md:shadow-none ${
+          showSidebar ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Kategorien</h2>
+        <div className="mb-6 flex items-center justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-cyan-700 dark:text-cyan-300">
+              C++ Lernhilfe
+            </p>
+            <h2 className="mt-2 text-2xl font-black text-slate-900 dark:text-white">
+              C++ Hilfsbuch
+            </h2>
+          </div>
 
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="hidden md:inline px-3 py-1 rounded-full text-sm bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500"
-          >
-            {darkMode ? "🌞 Hell" : "🌙 Dunkel"}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setDarkMode((value) => !value)}
+              className="rounded-full border border-slate-200 bg-slate-100 px-3 py-2 text-sm font-medium transition hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700"
+            >
+              {darkMode ? "🌞" : "🌙"}
+            </button>
+            <button
+              onClick={() => setShowSidebar(false)}
+              className="rounded-full border border-slate-200 bg-slate-100 px-3 py-2 text-sm font-medium transition hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 md:hidden"
+            >
+              ✕
+            </button>
+          </div>
         </div>
 
-        <ul className="space-y-2">
-          {themen.map((cat, index) => (
-            <li key={index}>
-              {/* Category Button */}
-              <button
-                className="w-full text-left px-4 py-2 rounded-xl bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 flex justify-between"
-                onClick={() => toggleCategory(`cat:${cat.category}`)}
-              >
-                <span>{cat.icon} {cat.category}</span>
-                <span>{expandedCategories.includes(`cat:${cat.category}`) ? "▲" : "▼"}</span>
-              </button>
+        <div className="mb-4 rounded-3xl bg-slate-100 p-4 dark:bg-slate-900">
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            Made by Kilian.
+          </p>
+        </div>
 
-              {/* Subcategories */}
-              {expandedCategories.includes(`cat:${cat.category}`) && (
-                <ul className="ml-4 mt-1 space-y-1">
-                  {cat.subcategories.map((sub, subIndex) => (
-                    <li key={subIndex}>
-                      <button
-                        onClick={() => {
-                        const key = `sub:${cat.category}:${sub.name}`;
-                        setExpandedCategories((prev) =>
-                          prev.includes(key)
-                            ? prev.filter((c) => c !== key)
-                            : [...prev, key]
-                        );
-                      }}
-                        className="w-full text-left px-4 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded flex justify-between"
-                      >
-                        <span>{sub.icon} {sub.name}</span>
-                        <span>
-                          {expandedCategories.includes(`sub:${cat.category}:${sub.name}`) ? "▲" : "▼"}
-                        </span>
-                      </button>
+        <ul className="space-y-3">
+          {themen.map((category) => {
+            const categoryKey = `cat:${category.category}`;
+            const categoryExpanded = expandedCategories.includes(categoryKey);
 
-                      {/* Topics */}
-                      {expandedCategories.includes(`sub:${cat.category}:${sub.name}`) && (
-                        <ul className="ml-4 mt-1 space-y-1">
-                          {sub.topics.map((topic, topicIndex) => (
-                            <li key={topicIndex}>
-                              <button
-                                className="w-full text-left px-4 py-1 hover:bg-blue-100 dark:hover:bg-gray-600 rounded"
-                                onClick={() => {
-                                  setSelectedCategory(cat);
-                                  setSelectedSubcategory(sub);
-                                  setSelectedTopic(topic);
-                                  setShowSidebar(false);
-                                }}
-                              >
-                                {topic.title}
-                              </button>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
+            return (
+              <li key={category.category}>
+                <div className="flex gap-2">
+                  <button
+                    className="flex-1 rounded-2xl bg-slate-100 px-4 py-3 text-left font-semibold transition hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800"
+                    onClick={() => openCategory(category)}
+                  >
+                    {category.icon} {category.category}
+                  </button>
+                  <button
+                    className="rounded-2xl bg-slate-100 px-4 py-3 text-sm transition hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800"
+                    onClick={() => toggleCategory(category.category)}
+                  >
+                    {categoryExpanded ? "▲" : "▼"}
+                  </button>
+                </div>
+
+                {categoryExpanded && (
+                  <ul className="ml-3 mt-3 space-y-2 border-l border-slate-200 pl-4 dark:border-slate-800">
+                    {category.subcategories.map((subcategory) => {
+                      const subcategoryKey = `sub:${category.category}:${subcategory.name}`;
+                      const subcategoryExpanded = expandedCategories.includes(subcategoryKey);
+
+                      return (
+                        <li key={`${category.category}-${subcategory.name}`}>
+                          <div className="flex gap-2">
+                            <button
+                              className="flex-1 rounded-2xl bg-white px-4 py-2 text-left text-sm font-medium transition hover:bg-cyan-50 dark:bg-slate-900 dark:hover:bg-slate-800"
+                              onClick={() => openSubcategory(category, subcategory)}
+                            >
+                              {subcategory.icon} {subcategory.name}
+                            </button>
+                            <button
+                              className="rounded-2xl bg-white px-3 py-2 text-xs transition hover:bg-cyan-50 dark:bg-slate-900 dark:hover:bg-slate-800"
+                              onClick={() => toggleSubcategory(category.category, subcategory.name)}
+                            >
+                              {subcategoryExpanded ? "▲" : "▼"}
+                            </button>
+                          </div>
+
+                          {subcategoryExpanded && (
+                            <ul className="mt-2 space-y-1">
+                              {searchableTopics
+                                .filter(
+                                  (topic) =>
+                                    topic.category === category.category &&
+                                    topic.subcategory === subcategory.name
+                                )
+                                .map((topic) => (
+                                  <li key={topic.id}>
+                                    <button
+                                      className={`w-full rounded-xl px-4 py-2 text-left text-sm transition ${
+                                        selectedTopicId === topic.id
+                                          ? "bg-cyan-100 text-cyan-900 dark:bg-cyan-500/15 dark:text-cyan-200"
+                                          : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                                      }`}
+                                      onClick={() => openTopic(topic)}
+                                    >
+                                      {topic.title}
+                                    </button>
+                                  </li>
+                                ))}
+                            </ul>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </aside>
 
-      {/* ================= CONTENT AREA ================= */}
-      <main className="flex-1 p-4 md:p-6 overflow-y-auto">
-
-        {/* Searchbar */}
-        <input
-          type="text"
-          placeholder="Suche nach Thema, Inhalt, Kategorie..."
-          className="w-full mb-6 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+      {showSidebar && (
+        <button
+          className="fixed inset-0 z-20 bg-slate-950/45 md:hidden"
+          aria-label="Sidebar schließen"
+          onClick={() => setShowSidebar(false)}
         />
+      )}
 
-        {/* ================= SEARCH VIEW ================= */}
-        {searchTerm.trim() ? (
-          <>
-            <h2 className="text-xl font-semibold mb-4">
-              Suchergebnisse für: "{searchTerm}"
-            </h2>
+      <main className="relative z-10 flex-1">
+        <header className="sticky top-0 z-10 border-b border-slate-200 bg-slate-100/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
+          <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-4 md:px-8">
+            <button
+              onClick={() => setShowSidebar(true)}
+              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800 md:hidden"
+            >
+              ☰
+            </button>
 
-            {searchResults.length > 0 ? (
-              <ul className="space-y-4">
-                {searchResults.map((topic, idx) => renderSearchResult(topic, idx))}
-              </ul>
-            ) : (
-              <p className="text-gray-500">Keine Treffer gefunden.</p>
-            )}
-          </>
-        ) : selectedCategory ? (
-          <>
-            <h1 className="text-2xl font-bold mb-4">{selectedCategory.category}</h1>
+            <button
+              onClick={goHome}
+              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800"
+            >
+              Startseite
+            </button>
 
-            {/* ================= TOPIC VIEW ================= */}
-            {selectedTopic ? (
-              <>
+            <div className="relative flex-1">
+              <input
+                ref={searchInputRef}
+                type="text"
+                placeholder="Suche nach Thema, Inhalt oder Begriff..."
+                className="w-full rounded-full border border-slate-200 bg-white px-5 py-3 pr-24 text-sm shadow-sm outline-none transition focus:border-cyan-400 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-500 dark:focus:ring-cyan-500/10"
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+              />
+              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                / Fokus
+              </span>
+            </div>
+          </div>
+        </header>
 
-                {renderBreadcrumb()}
+        <div className="mx-auto max-w-7xl px-4 py-6 md:px-8 md:py-8">
+          {searchTerm.trim() ? (
+            <section className="space-y-5">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+                  Suche
+                </p>
+                <h1 className="mt-2 text-3xl font-black text-slate-900 dark:text-white">
+                  Ergebnisse für "{searchTerm}"
+                </h1>
+                <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                  {searchResults.length} Treffer
+                </p>
+              </div>
 
-                <h2 className="text-xl font-semibold mb-2">{selectedTopic.title}</h2>
+              {searchResults.length > 0 ? (
+                <ul className="grid gap-4 lg:grid-cols-2">
+                  {searchResults.map((topic) => renderSearchResult(topic))}
+                </ul>
+              ) : (
+                <div className="rounded-[2rem] border border-dashed border-slate-300 bg-white/90 p-8 text-slate-500 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-400">
+                  Keine Treffer gefunden. Probier einen kürzeren Begriff oder suche nach einem C++ Schlüsselwort.
+                </div>
+              )}
+            </section>
+          ) : selectedTopic ? (
+            <section className="space-y-5">
+              {renderBreadcrumb()}
 
-                {/* ================= CONTENT ================= */}
+              <div className="rounded-[2rem] border border-slate-200 bg-white/95 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/95">
+                <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <div className="mb-3 flex flex-wrap gap-2 text-xs">
+                      <span className="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                        {selectedTopicEntry.categoryIcon} {selectedTopicEntry.category}
+                      </span>
+                      <span className="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                        {selectedTopicEntry.subcategoryIcon} {selectedTopicEntry.subcategory}
+                      </span>
+                      <span className={`rounded-full px-3 py-1 font-medium ${getDifficultyClasses(selectedTopicEntry.difficulty)}`}>
+                        {getDifficultyLabel(selectedTopicEntry.difficulty)}
+                      </span>
+                    </div>
+
+                    <h1 className="text-3xl font-black text-slate-900 dark:text-white">
+                      {selectedTopic.title}
+                    </h1>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
+                        favoriteTopicIds.includes(selectedTopicEntry.id)
+                          ? "border-amber-300 bg-amber-100 text-amber-900 dark:border-amber-600 dark:bg-amber-500/10 dark:text-amber-200"
+                          : "border-slate-200 bg-slate-100 text-slate-700 hover:border-amber-300 hover:text-amber-800 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                      }`}
+                      onClick={() => toggleFavorite(selectedTopicEntry.id)}
+                    >
+                      {favoriteTopicIds.includes(selectedTopicEntry.id) ? "★ Gemerkt" : "☆ Merken"}
+                    </button>
+                    <button
+                      className="rounded-full border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+                      onClick={() => {
+                        const url = `${window.location.origin}${window.location.pathname}#topic=${encodeURIComponent(selectedTopicEntry.id)}`;
+                        window.navigator.clipboard.writeText(url);
+                      }}
+                    >
+                      Link kopieren
+                    </button>
+                  </div>
+                </div>
+
                 {selectedTopic.blocks ? (
                   <ContentRenderer blocks={selectedTopic.blocks} />
                 ) : (
                   <>
-                    {/* Fallback: altes Markdown */}
                     {selectedTopic.content?.text && (
-                      <div className="prose dark:prose-invert max-w-none mb-4">
+                      <div className="prose max-w-none prose-slate dark:prose-invert">
                         <ReactMarkdown
                           remarkPlugins={[remarkGfm]}
                           rehypePlugins={[rehypeRaw, rehypeHighlight]}
@@ -495,34 +1174,42 @@ function App() {
                     )}
 
                     {Array.isArray(selectedTopic.content?.code)
-                      ? selectedTopic.content.code.map((snippet, i) => (
-                          <CodeBlock key={i} code={snippet} />
+                      ? selectedTopic.content.code.map((snippet, index) => (
+                          <CodeBlock key={index} code={snippet} />
                         ))
-                      : selectedTopic.content?.code && (
-                          <CodeBlock code={selectedTopic.content.code} />
-                        )}
+                      : selectedTopic.content?.code && <CodeBlock code={selectedTopic.content.code} />}
                   </>
                 )}
 
-              </>
-            ) : (
-              /* ================= SUBCATEGORY VIEW ================= */
-              <div className="space-y-2">
-                {selectedSubcategory?.topics.map((topic, idx) => (
-                  <button
-                    key={idx}
-                    className="block w-full text-left p-3 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-600"
-                    onClick={() => setSelectedTopic(topic)}
-                  >
-                    📄 {topic.title}
-                  </button>
-                ))}
+                {relatedTopics.length > 0 && (
+                  <section className="mt-10 border-t border-slate-200 pt-8 dark:border-slate-800">
+                    <div className="mb-5">
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+                        Weiterlernen
+                      </p>
+                      <h2 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
+                        Verwandte Themen
+                      </h2>
+                      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                        Vorschläge aus ähnlichen Bereichen, damit du direkt am passenden Punkt weitermachen kannst.
+                      </p>
+                    </div>
+
+                    <div className="grid gap-4 lg:grid-cols-3">
+                      {relatedTopics.map((topic) => renderTopicCard(topic, "compact"))}
+                    </div>
+                  </section>
+                )}
               </div>
-            )}
-          </>
-        ) : (
-          <p className="text-gray-500">Wähle links eine Kategorie aus oder suche etwas.</p>
-        )}
+            </section>
+          ) : selectedSubcategory ? (
+            renderSubcategoryOverview()
+          ) : selectedCategory ? (
+            renderCategoryOverview()
+          ) : (
+            renderHome()
+          )}
+        </div>
       </main>
     </div>
   );
