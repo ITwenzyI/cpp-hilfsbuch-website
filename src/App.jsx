@@ -17,6 +17,7 @@ const STORAGE_KEYS = {
 
 const MAX_RECENT_TOPICS = 8;
 const RELATED_TOPICS_LIMIT = 3;
+const NETWORK_SECTION_LIMIT = 3;
 const RELATED_STOP_WORDS = new Set([
   "aber",
   "alle",
@@ -185,6 +186,17 @@ const deriveTopicTags = ({ category, subcategory, title, searchText, difficulty 
   return Array.from(new Set(tags)).slice(0, 8);
 };
 
+const getSemanticTags = (topic) =>
+  topic.tags.filter(
+    (tag) =>
+      ![topic.category, topic.subcategory, "Basic", "Fortgeschritten", "Mix"].includes(tag)
+  );
+
+const getSharedSemanticTags = (leftTopic, rightTopic) => {
+  const leftTags = new Set(getSemanticTags(leftTopic));
+  return getSemanticTags(rightTopic).filter((tag) => leftTags.has(tag));
+};
+
 const findMatchInBlocks = (topic, query) => {
   const normalizedQuery = query.trim().toLowerCase();
   if (!normalizedQuery || !topic?.blocks) {
@@ -247,16 +259,19 @@ const findMatchInBlocks = (topic, query) => {
   return null;
 };
 
-const enrichedTopics = themen.flatMap((category) =>
-  category.subcategories.flatMap((subcategory) =>
-    subcategory.topics.map((topic) => ({
+const enrichedTopics = themen.flatMap((category, categoryIndex) =>
+  category.subcategories.flatMap((subcategory, subcategoryIndex) =>
+    subcategory.topics.map((topic, topicIndex) => ({
       id: `${slugify(category.category)}__${slugify(subcategory.name)}__${slugify(topic.title)}`,
       category: category.category,
       categoryIcon: category.icon,
       categoryRef: category,
+      categoryIndex,
       subcategory: subcategory.name,
       subcategoryIcon: subcategory.icon,
       subcategoryRef: subcategory,
+      subcategoryIndex,
+      topicIndex,
       title: normalizeTopicTitle(topic.title),
       topicRef: topic,
       searchText: buildSearchText(topic),
@@ -369,6 +384,142 @@ const getRelatedTopics = (topicEntry, allTopics, limit = RELATED_TOPICS_LIMIT) =
     })
     .slice(0, limit)
     .map((entry) => entry.candidate);
+};
+
+const getSharedKeywordCount = (leftTopic, rightTopic) => {
+  const leftKeywords = extractKeywords(`${leftTopic.title} ${leftTopic.searchText}`);
+  const rightKeywords = extractKeywords(`${rightTopic.title} ${rightTopic.searchText}`);
+  let sharedKeywordCount = 0;
+
+  leftKeywords.forEach((keyword) => {
+    if (rightKeywords.has(keyword)) {
+      sharedKeywordCount += 1;
+    }
+  });
+
+  return sharedKeywordCount;
+};
+
+const buildTopicNetwork = (topicEntry, allTopics) => {
+  if (!topicEntry) {
+    return {
+      prerequisites: [],
+      nextTopics: [],
+      companionTopics: [],
+    };
+  }
+
+  const sameSubcategoryTopics = allTopics
+    .filter(
+      (candidate) =>
+        candidate.category === topicEntry.category &&
+        candidate.subcategory === topicEntry.subcategory &&
+        candidate.id !== topicEntry.id
+    )
+    .sort((left, right) => left.topicIndex - right.topicIndex);
+
+  const prerequisites = sameSubcategoryTopics
+    .filter((candidate) => candidate.topicIndex < topicEntry.topicIndex)
+    .map((candidate) => {
+      const distance = topicEntry.topicIndex - candidate.topicIndex;
+      const sharedTags = getSharedSemanticTags(topicEntry, candidate);
+      const sharedKeywordCount = getSharedKeywordCount(topicEntry, candidate);
+      let score = 10 - distance;
+
+      if (candidate.difficulty === "basic") {
+        score += 2;
+      }
+
+      score += sharedTags.length * 2;
+      score += sharedKeywordCount;
+
+      return {
+        topic: candidate,
+        score,
+        reason:
+          sharedTags.length > 0
+            ? `Vorwissen mit Fokus auf ${sharedTags.slice(0, 2).join(", ")}`
+            : "Früheres Thema aus derselben Unterkategorie",
+      };
+    })
+    .sort((left, right) => right.score - left.score)
+    .slice(0, NETWORK_SECTION_LIMIT);
+
+  const nextTopics = sameSubcategoryTopics
+    .filter((candidate) => candidate.topicIndex > topicEntry.topicIndex)
+    .map((candidate) => {
+      const distance = candidate.topicIndex - topicEntry.topicIndex;
+      const sharedTags = getSharedSemanticTags(topicEntry, candidate);
+      const sharedKeywordCount = getSharedKeywordCount(topicEntry, candidate);
+      let score = 10 - distance;
+
+      if (candidate.difficulty === "advanced") {
+        score += 2;
+      }
+
+      score += sharedTags.length * 2;
+      score += sharedKeywordCount;
+
+      return {
+        topic: candidate,
+        score,
+        reason:
+          sharedTags.length > 0
+            ? `Sinnvolle Fortsetzung zu ${sharedTags.slice(0, 2).join(", ")}`
+            : "Nächstes Thema aus derselben Unterkategorie",
+      };
+    })
+    .sort((left, right) => right.score - left.score)
+    .slice(0, NETWORK_SECTION_LIMIT);
+
+  const excludedTopicIds = new Set([
+    topicEntry.id,
+    ...prerequisites.map((entry) => entry.topic.id),
+    ...nextTopics.map((entry) => entry.topic.id),
+  ]);
+
+  const companionTopics = allTopics
+    .filter((candidate) => !excludedTopicIds.has(candidate.id))
+    .map((candidate) => {
+      const sharedTags = getSharedSemanticTags(topicEntry, candidate);
+      const sharedKeywordCount = getSharedKeywordCount(topicEntry, candidate);
+      let score = 0;
+
+      if (candidate.category === topicEntry.category) {
+        score += 3;
+      }
+
+      if (candidate.subcategory === topicEntry.subcategory) {
+        score += 2;
+      }
+
+      if (candidate.difficulty === topicEntry.difficulty) {
+        score += 1;
+      }
+
+      score += sharedTags.length * 2;
+      score += sharedKeywordCount;
+
+      return {
+        topic: candidate,
+        score,
+        reason:
+          sharedTags.length > 0
+            ? `Passt thematisch wegen ${sharedTags.slice(0, 2).join(", ")}`
+            : candidate.category === topicEntry.category
+              ? "Hilfreiche Ergänzung aus derselben Kategorie"
+              : "Inhaltlich angrenzendes Thema",
+      };
+    })
+    .filter((entry) => entry.score > 0)
+    .sort((left, right) => right.score - left.score)
+    .slice(0, NETWORK_SECTION_LIMIT);
+
+  return {
+    prerequisites,
+    nextTopics,
+    companionTopics,
+  };
 };
 
 const getTagCounts = (topics) => {
