@@ -65,6 +65,23 @@ const RELATED_STOP_WORDS = new Set([
   "while",
 ]);
 
+const TAG_RULES = [
+  { tag: "Syntax", patterns: ["syntax", "operator", "schlüsselwort", "schluesselwort", "ausdruck"] },
+  { tag: "Variablen", patterns: ["variable", "variablen", "deklaration", "definition", "initialisierung", "zuweisung"] },
+  { tag: "Datentypen", patterns: ["datentyp", "typen", "int", "double", "float", "char", "bool"] },
+  { tag: "Kontrollfluss", patterns: ["if", "else", "switch", "while", "for", "schleife", "kontroll"] },
+  { tag: "Funktionen", patterns: ["funktion", "funktionen", "parameter", "argument", "rückgabewert", "rueckgabewert"] },
+  { tag: "Pointer", patterns: ["pointer", "zeiger", "adresse", "dereferenz"] },
+  { tag: "Referenzen", patterns: ["referenz", "referenzen"] },
+  { tag: "Speicher", patterns: ["speicher", "stack", "heap", "lebensdauer", "new", "delete"] },
+  { tag: "OOP", patterns: ["klasse", "objekt", "vererbung", "polymorph", "konstruktor", "destruktor", "oop"] },
+  { tag: "STL", patterns: ["stl", "vector", "map", "set", "iterator", "algorithm", "container"] },
+  { tag: "Strings", patterns: ["string", "zeichenkette", "cstring"] },
+  { tag: "I/O", patterns: ["cout", "cin", "ein", "ausgabe", "eingabe", "stream", "datei"] },
+  { tag: "Debugging", patterns: ["fehler", "pitfall", "debug", "bug", "warnung"] },
+  { tag: "Modern C++", patterns: ["modern", "auto", "smart pointer", "lambda", "constexpr", "move"] },
+];
+
 const slugify = (value) =>
   value
     .toLowerCase()
@@ -149,6 +166,25 @@ const buildSearchText = (topic) => {
   return text;
 };
 
+const deriveTopicTags = ({ category, subcategory, title, searchText, difficulty }) => {
+  const haystack = `${category} ${subcategory} ${title} ${searchText}`.toLowerCase();
+  const tags = [category, subcategory];
+
+  if (difficulty === "basic") {
+    tags.push("Basic");
+  } else if (difficulty === "advanced") {
+    tags.push("Fortgeschritten");
+  }
+
+  TAG_RULES.forEach((rule) => {
+    if (rule.patterns.some((pattern) => haystack.includes(pattern))) {
+      tags.push(rule.tag);
+    }
+  });
+
+  return Array.from(new Set(tags)).slice(0, 8);
+};
+
 const findMatchInBlocks = (topic, query) => {
   const normalizedQuery = query.trim().toLowerCase();
   if (!normalizedQuery || !topic?.blocks) {
@@ -225,6 +261,13 @@ const enrichedTopics = themen.flatMap((category) =>
       topicRef: topic,
       searchText: buildSearchText(topic),
       difficulty: topic.difficulty || "mixed",
+      tags: deriveTopicTags({
+        category: category.category,
+        subcategory: subcategory.name,
+        title: normalizeTopicTitle(topic.title),
+        searchText: buildSearchText(topic),
+        difficulty: topic.difficulty || "mixed",
+      }),
       isHeader: /^<.*>$/.test(topic.title),
     }))
   )
@@ -595,6 +638,7 @@ function App() {
   const renderTopicCard = (topicEntry, variant = "default") => {
     const isFavorite = favoriteTopicIds.includes(topicEntry.id);
     const compact = variant === "compact";
+    const visibleTags = compact ? topicEntry.tags.slice(0, 3) : topicEntry.tags.slice(0, 4);
 
     return (
       <article
@@ -634,6 +678,14 @@ function App() {
           <span className={`rounded-full px-3 py-1 font-medium ${getDifficultyClasses(topicEntry.difficulty)}`}>
             {getDifficultyLabel(topicEntry.difficulty)}
           </span>
+          {visibleTags.map((tag) => (
+            <span
+              key={`${topicEntry.id}-${tag}`}
+              className="rounded-full bg-cyan-50 px-3 py-1 font-medium text-cyan-800 dark:bg-cyan-500/10 dark:text-cyan-200"
+            >
+              #{tag}
+            </span>
+          ))}
         </div>
 
         <div className="flex items-center justify-between gap-3">
@@ -672,6 +724,17 @@ function App() {
           <span>{topicEntry.categoryIcon} {topicEntry.category}</span>
           <span>·</span>
           <span>{topicEntry.subcategoryIcon} {topicEntry.subcategory}</span>
+        </div>
+
+        <div className="mb-3 flex flex-wrap gap-2">
+          {topicEntry.tags.slice(0, 4).map((tag) => (
+            <span
+              key={`${topicEntry.id}-${tag}`}
+              className="rounded-full bg-cyan-50 px-3 py-1 text-xs font-medium text-cyan-800 dark:bg-cyan-500/10 dark:text-cyan-200"
+            >
+              #{tag}
+            </span>
+          ))}
         </div>
 
         <h3
@@ -1128,6 +1191,17 @@ function App() {
                       <span className={`rounded-full px-3 py-1 font-medium ${getDifficultyClasses(selectedTopicEntry.difficulty)}`}>
                         {getDifficultyLabel(selectedTopicEntry.difficulty)}
                       </span>
+                    </div>
+
+                    <div className="mb-4 flex flex-wrap gap-2">
+                      {selectedTopicEntry.tags.map((tag) => (
+                        <span
+                          key={`${selectedTopicEntry.id}-${tag}`}
+                          className="rounded-full bg-cyan-50 px-3 py-1 text-xs font-medium text-cyan-800 dark:bg-cyan-500/10 dark:text-cyan-200"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
                     </div>
 
                     <h1 className="text-3xl font-black text-slate-900 dark:text-white">
