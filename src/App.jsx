@@ -16,7 +16,6 @@ const STORAGE_KEYS = {
 };
 
 const MAX_RECENT_TOPICS = 8;
-const RELATED_TOPICS_LIMIT = 3;
 const NETWORK_SECTION_LIMIT = 3;
 const RELATED_STOP_WORDS = new Set([
   "aber",
@@ -331,61 +330,6 @@ const getDifficultyClasses = (difficulty) => {
   return "bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200";
 };
 
-const getRelatedTopics = (topicEntry, allTopics, limit = RELATED_TOPICS_LIMIT) => {
-  if (!topicEntry) {
-    return [];
-  }
-
-  const referenceKeywords = extractKeywords(`${topicEntry.title} ${topicEntry.searchText}`);
-
-  return allTopics
-    .filter((candidate) => candidate.id !== topicEntry.id)
-    .map((candidate) => {
-      let score = 0;
-
-      if (candidate.subcategory === topicEntry.subcategory) {
-        score += 6;
-      } else if (candidate.category === topicEntry.category) {
-        score += 3;
-      }
-
-      if (candidate.difficulty === topicEntry.difficulty) {
-        score += 1;
-      }
-
-      const candidateKeywords = extractKeywords(`${candidate.title} ${candidate.searchText}`);
-      let sharedKeywords = 0;
-
-      referenceKeywords.forEach((keyword) => {
-        if (candidateKeywords.has(keyword)) {
-          sharedKeywords += 1;
-        }
-      });
-
-      score += sharedKeywords * 1.5;
-
-      return {
-        candidate,
-        score,
-        sharedKeywords,
-      };
-    })
-    .filter((entry) => entry.score > 0)
-    .sort((left, right) => {
-      if (right.score !== left.score) {
-        return right.score - left.score;
-      }
-
-      if (right.sharedKeywords !== left.sharedKeywords) {
-        return right.sharedKeywords - left.sharedKeywords;
-      }
-
-      return left.candidate.title.localeCompare(right.candidate.title, "de");
-    })
-    .slice(0, limit)
-    .map((entry) => entry.candidate);
-};
-
 const getSharedKeywordCount = (leftTopic, rightTopic) => {
   const leftKeywords = extractKeywords(`${leftTopic.title} ${leftTopic.searchText}`);
   const rightKeywords = extractKeywords(`${rightTopic.title} ${rightTopic.searchText}`);
@@ -573,9 +517,13 @@ function App() {
   const selectedTopic = selectedTopicEntry?.topicRef || null;
   const favoriteTopics = favoriteTopicIds.map((topicId) => topicLookup.get(topicId)).filter(Boolean);
   const recentTopics = recentTopicIds.map((topicId) => topicLookup.get(topicId)).filter(Boolean);
-  const relatedTopics = selectedTopicEntry
-    ? getRelatedTopics(selectedTopicEntry, searchableTopics)
-    : [];
+  const topicNetwork = selectedTopicEntry
+    ? buildTopicNetwork(selectedTopicEntry, searchableTopics)
+    : { prerequisites: [], nextTopics: [], companionTopics: [] };
+  const hasTopicNetwork =
+    topicNetwork.prerequisites.length > 0 ||
+    topicNetwork.nextTopics.length > 0 ||
+    topicNetwork.companionTopics.length > 0;
   const filteredSearchResults = filterTopicsByTag(searchResults, activeTag);
   const homeFilteredTopics = filterTopicsByTag(searchableTopics, activeTag);
 
@@ -987,6 +935,80 @@ function App() {
           />
         )}
       </li>
+    );
+  };
+
+  const renderTopicNetworkCard = (entry, tone) => {
+    const toneClasses = {
+      emerald: "border-emerald-200 bg-emerald-50/80 text-emerald-900 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-100",
+      amber: "border-amber-200 bg-amber-50/80 text-amber-900 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-100",
+      cyan: "border-cyan-200 bg-cyan-50/80 text-cyan-900 dark:border-cyan-500/20 dark:bg-cyan-500/10 dark:text-cyan-100",
+    };
+
+    return (
+      <article
+        key={entry.topic.id}
+        className={`rounded-3xl border p-5 shadow-sm ${toneClasses[tone]}`}
+      >
+        <div className="mb-3 flex items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] opacity-75">
+              {entry.topic.category} · {entry.topic.subcategory}
+            </p>
+            <h3 className="mt-2 text-lg font-bold">
+              {entry.topic.title}
+            </h3>
+          </div>
+          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${getDifficultyClasses(entry.topic.difficulty)}`}>
+            {getDifficultyLabel(entry.topic.difficulty)}
+          </span>
+        </div>
+
+        <p className="mb-4 text-sm leading-6 opacity-80">
+          {entry.reason}
+        </p>
+
+        <div className="mb-4 flex flex-wrap gap-2">
+          {entry.topic.tags.slice(0, 3).map((tag) => (
+            <span
+              key={`${entry.topic.id}-${tag}`}
+              className="rounded-full bg-white/80 px-3 py-1 text-xs font-medium text-slate-700 dark:bg-slate-950/50 dark:text-slate-200"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+
+        <button
+          className="rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
+          onClick={() => openTopic(entry.topic)}
+        >
+          Thema öffnen
+        </button>
+      </article>
+    );
+  };
+
+  const renderTopicNetworkSection = (title, description, entries, tone) => {
+    if (entries.length === 0) {
+      return null;
+    }
+
+    return (
+      <section className="space-y-4">
+        <div>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+            {title}
+          </h2>
+          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+            {description}
+          </p>
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-3">
+          {entries.map((entry) => renderTopicNetworkCard(entry, tone))}
+        </div>
+      </section>
     );
   };
 
@@ -1563,23 +1585,39 @@ function App() {
                   </>
                 )}
 
-                {relatedTopics.length > 0 && (
-                  <section className="mt-10 border-t border-slate-200 pt-8 dark:border-slate-800">
-                    <div className="mb-5">
+                {hasTopicNetwork && (
+                  <section className="mt-10 space-y-8 border-t border-slate-200 pt-8 dark:border-slate-800">
+                    <div>
                       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
-                        Weiterlernen
+                        Themennetz
                       </p>
                       <h2 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
-                        Verwandte Themen
+                        Dazu passen diese nächsten Ankerpunkte
                       </h2>
                       <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                        Vorschläge aus ähnlichen Bereichen, damit du direkt am passenden Punkt weitermachen kannst.
                       </p>
                     </div>
 
-                    <div className="grid gap-4 lg:grid-cols-3">
-                      {relatedTopics.map((topic) => renderTopicCard(topic, "compact"))}
-                    </div>
+                    {renderTopicNetworkSection(
+                      "Hilfreiches Vorwissen",
+                      "Themen, die dir den Einstieg oder das Verständnis dieses Abschnitts erleichtern.",
+                      topicNetwork.prerequisites,
+                      "emerald"
+                    )}
+
+                    {renderTopicNetworkSection(
+                      "Als Nächstes sinnvoll",
+                      "Naheliegende Anschluss-Themen, wenn du auf dieser Stelle weiterlernen oder tiefer gehen willst.",
+                      topicNetwork.nextTopics,
+                      "amber"
+                    )}
+
+                    {renderTopicNetworkSection(
+                      "Passt gut dazu",
+                      "Ergänzende Themen aus demselben Kontext, die oft zusammen nachgeschlagen werden.",
+                      topicNetwork.companionTopics,
+                      "cyan"
+                    )}
                   </section>
                 )}
               </div>
