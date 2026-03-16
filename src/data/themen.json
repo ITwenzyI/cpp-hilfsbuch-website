@@ -9,7 +9,7 @@
         "icon": "📘",
         "topics": [
           {
-            "title": "Wichtige Grundbegriffe ",
+            "title": "Wichtige Grundbegriffe",
             "difficulty": "basic",
             "blocks": [
               {
@@ -9048,7 +9048,7 @@
             },
             {
               "type": "list",
-              "title": "Cast-Arten in C++",
+              "title": "Cast-Arten",
               "items": [
                 "static_cast",
                 "dynamic_cast",
@@ -11683,7 +11683,7 @@
         "icon": "🏗️",
         "topics": [
         {
-          "title": "Projektstruktur in C++ (Layered Architecture)",
+          "title": "Projektstruktur(Layered Architecture)",
           "difficulty": "basic",
           "blocks": [
             {
@@ -11825,7 +11825,7 @@
 
 
         {
-          "title": "Naming Konventionen in C++",
+          "title": "Naming Konventionen",
           "difficulty": "basic",
           "blocks": [
             {
