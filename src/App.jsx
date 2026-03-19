@@ -570,20 +570,20 @@ function App() {
     }
 
     return (
-      <section className="rounded-[2rem] border border-slate-200 bg-white/90 p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+      <section className="rounded-[2rem] border border-stone-300 bg-[rgba(255,251,245,0.9)] p-5 shadow-sm shadow-stone-900/5 dark:border-stone-800 dark:bg-[rgba(24,20,17,0.92)]">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-800 dark:text-amber-300">
               Themenfilter
             </p>
-            <h2 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
+            <h2 className="mt-2 text-xl font-bold text-stone-900 dark:text-stone-100">
               {title}
             </h2>
           </div>
 
           {activeTag && (
             <button
-              className="rounded-full border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+              className="rounded-full border border-stone-300 bg-stone-100 px-4 py-2 text-sm font-medium text-stone-700 transition hover:bg-stone-200 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:bg-stone-800"
               onClick={() => setActiveTag(null)}
             >
               Filter zurücksetzen
@@ -600,8 +600,8 @@ function App() {
                 key={tag}
                 className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                   isActive
-                    ? "bg-cyan-600 text-white dark:bg-cyan-400 dark:text-slate-950"
-                    : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+                    ? "bg-amber-800 text-amber-50 shadow-sm dark:bg-amber-300 dark:text-stone-950"
+                    : "bg-stone-100 text-stone-700 hover:bg-stone-200 dark:bg-stone-900 dark:text-stone-200 dark:hover:bg-stone-800"
                 }`}
                 onClick={() => setActiveTag((currentTag) => (currentTag === tag ? null : tag))}
               >
@@ -793,22 +793,22 @@ function App() {
     }
 
     return (
-      <div className="mb-3 flex flex-wrap items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+      <div className="mb-3 flex flex-wrap items-center gap-2 text-sm text-stone-500 dark:text-stone-400">
         <button
-          className="rounded-full bg-slate-200/70 px-3 py-1 text-slate-700 transition hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+          className="rounded-full border border-stone-300 bg-stone-100 px-3 py-1 text-stone-700 transition hover:bg-stone-200 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:bg-stone-800"
           onClick={() => openCategory(selectedCategory)}
         >
           {selectedCategory.icon} {selectedCategory.category}
         </button>
         <span>›</span>
         <button
-          className="rounded-full bg-slate-200/70 px-3 py-1 text-slate-700 transition hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+          className="rounded-full border border-stone-300 bg-stone-100 px-3 py-1 text-stone-700 transition hover:bg-stone-200 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:bg-stone-800"
           onClick={() => openSubcategory(selectedCategory, selectedSubcategory)}
         >
           {selectedSubcategory.icon} {selectedSubcategory.name}
         </button>
         <span>›</span>
-        <span className="font-semibold text-slate-700 dark:text-slate-100">
+        <span className="font-semibold text-stone-700 dark:text-stone-100">
           {selectedTopicEntry.title}
         </span>
       </div>
@@ -823,16 +823,16 @@ function App() {
     return (
       <article
         key={topicEntry.id}
-        className={`rounded-3xl border border-slate-200 bg-white/90 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-cyan-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900/90 dark:hover:border-cyan-700 ${
+        className={`rounded-3xl border border-stone-300 bg-[rgba(255,251,245,0.92)] p-5 shadow-sm shadow-stone-900/5 transition hover:-translate-y-0.5 hover:border-amber-400 hover:shadow-lg dark:border-stone-800 dark:bg-[rgba(24,20,17,0.92)] dark:hover:border-amber-500 ${
           compact ? "p-4" : ""
         }`}
       >
         <div className="mb-3 flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-300">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800 dark:text-amber-300">
               {topicEntry.category} · {topicEntry.subcategory}
             </p>
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+            <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100">
               {topicEntry.title}
             </h3>
           </div>
@@ -843,7 +843,7 @@ function App() {
             className={`rounded-full border px-3 py-1 text-sm transition ${
               isFavorite
                 ? "border-amber-300 bg-amber-100 text-amber-900 dark:border-amber-600 dark:bg-amber-500/10 dark:text-amber-200"
-                : "border-slate-200 bg-slate-100 text-slate-500 hover:border-amber-300 hover:text-amber-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+                : "border-stone-300 bg-stone-100 text-stone-500 hover:border-amber-400 hover:text-amber-800 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-300"
             }`}
             onClick={() => toggleFavorite(topicEntry.id)}
           >
@@ -852,7 +852,7 @@ function App() {
         </div>
 
         <div className="mb-4 flex flex-wrap gap-2 text-xs">
-          <span className="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+          <span className="rounded-full bg-stone-100 px-3 py-1 font-medium text-stone-700 dark:bg-stone-900 dark:text-stone-200">
             {topicEntry.categoryIcon} {topicEntry.subcategoryIcon}
           </span>
           <span className={`rounded-full px-3 py-1 font-medium ${getDifficultyClasses(topicEntry.difficulty)}`}>
@@ -861,7 +861,7 @@ function App() {
           {visibleTags.map((tag) => (
             <span
               key={`${topicEntry.id}-${tag}`}
-              className="rounded-full bg-cyan-50 px-3 py-1 font-medium text-cyan-800 dark:bg-cyan-500/10 dark:text-cyan-200"
+              className="rounded-full bg-amber-50 px-3 py-1 font-medium text-amber-800 dark:bg-amber-500/10 dark:text-amber-200"
             >
               #{tag}
             </span>
@@ -870,13 +870,13 @@ function App() {
 
         <div className="flex items-center justify-between gap-3">
           <button
-            className="rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-700 dark:bg-cyan-500 dark:text-slate-950 dark:hover:bg-cyan-400"
+            className="rounded-full bg-stone-900 px-4 py-2 text-sm font-semibold text-stone-50 transition hover:bg-amber-800 dark:bg-amber-300 dark:text-stone-950 dark:hover:bg-amber-200"
             onClick={() => openTopic(topicEntry)}
           >
             Öffnen
           </button>
           <button
-            className="text-sm font-medium text-cyan-700 transition hover:text-cyan-800 dark:text-cyan-300 dark:hover:text-cyan-200"
+            className="text-sm font-medium text-amber-800 transition hover:text-amber-900 dark:text-amber-300 dark:hover:text-amber-200"
             onClick={() => {
               const url = `${window.location.origin}${window.location.pathname}#topic=${encodeURIComponent(topicEntry.id)}`;
               window.navigator.clipboard.writeText(url);
@@ -897,10 +897,10 @@ function App() {
     return (
       <li
         key={topicEntry.id}
-        className="cursor-pointer rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-cyan-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900 dark:hover:border-cyan-700"
+        className="cursor-pointer rounded-3xl border border-stone-300 bg-[rgba(255,251,245,0.92)] p-5 shadow-sm shadow-stone-900/5 transition hover:-translate-y-0.5 hover:border-amber-400 hover:shadow-lg dark:border-stone-800 dark:bg-[rgba(24,20,17,0.92)] dark:hover:border-amber-500"
         onClick={() => openTopic(topicEntry)}
       >
-        <div className="mb-2 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-300">
+        <div className="mb-2 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber-800 dark:text-amber-300">
           <span>{topicEntry.categoryIcon} {topicEntry.category}</span>
           <span>·</span>
           <span>{topicEntry.subcategoryIcon} {topicEntry.subcategory}</span>
@@ -910,7 +910,7 @@ function App() {
           {topicEntry.tags.slice(0, 4).map((tag) => (
             <span
               key={`${topicEntry.id}-${tag}`}
-              className="rounded-full bg-cyan-50 px-3 py-1 text-xs font-medium text-cyan-800 dark:bg-cyan-500/10 dark:text-cyan-200"
+              className="rounded-full bg-amber-50 px-3 py-1 text-xs font-medium text-amber-800 dark:bg-amber-500/10 dark:text-amber-200"
             >
               #{tag}
             </span>
@@ -918,7 +918,7 @@ function App() {
         </div>
 
         <h3
-          className="mb-2 text-lg font-semibold text-slate-900 dark:text-white"
+          className="mb-2 text-lg font-semibold text-stone-900 dark:text-stone-100"
           dangerouslySetInnerHTML={{ __html: highlightMatch(topicEntry.title, searchTerm) }}
         />
 
@@ -940,9 +940,9 @@ function App() {
 
   const renderTopicNetworkCard = (entry, tone) => {
     const toneClasses = {
-      emerald: "border-emerald-200 bg-emerald-50/80 text-emerald-900 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-100",
-      amber: "border-amber-200 bg-amber-50/80 text-amber-900 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-100",
-      cyan: "border-cyan-200 bg-cyan-50/80 text-cyan-900 dark:border-cyan-500/20 dark:bg-cyan-500/10 dark:text-cyan-100",
+      emerald: "border-stone-300 bg-[rgba(242,236,221,0.95)] text-stone-900 dark:border-stone-800 dark:bg-[rgba(28,23,19,0.95)] dark:text-stone-100",
+      amber: "border-amber-200 bg-[rgba(248,239,225,0.95)] text-stone-900 dark:border-amber-900/40 dark:bg-[rgba(46,33,24,0.95)] dark:text-stone-100",
+      cyan: "border-stone-300 bg-[rgba(239,233,224,0.95)] text-stone-900 dark:border-stone-800 dark:bg-[rgba(26,22,18,0.95)] dark:text-stone-100",
     };
 
     return (
@@ -972,7 +972,7 @@ function App() {
           {entry.topic.tags.slice(0, 3).map((tag) => (
             <span
               key={`${entry.topic.id}-${tag}`}
-              className="rounded-full bg-white/80 px-3 py-1 text-xs font-medium text-slate-700 dark:bg-slate-950/50 dark:text-slate-200"
+              className="rounded-full bg-white/80 px-3 py-1 text-xs font-medium text-stone-700 dark:bg-stone-950/50 dark:text-stone-200"
             >
               #{tag}
             </span>
@@ -980,7 +980,7 @@ function App() {
         </div>
 
         <button
-          className="rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
+          className="rounded-full bg-stone-900 px-4 py-2 text-sm font-semibold text-stone-50 transition hover:bg-amber-800 dark:bg-amber-300 dark:text-stone-950 dark:hover:bg-amber-200"
           onClick={() => openTopic(entry.topic)}
         >
           Thema öffnen
@@ -997,10 +997,10 @@ function App() {
     return (
       <section className="space-y-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+          <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">
             {title}
           </h2>
-          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+          <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
             {description}
           </p>
         </div>
@@ -1014,28 +1014,28 @@ function App() {
 
   const renderHome = () => (
     <div className="space-y-8">
-      <section className="overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-950 via-sky-900 to-cyan-700 p-8 text-white shadow-2xl shadow-cyan-950/20">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.35em] text-cyan-100/90">
+      <section className="overflow-hidden rounded-[2rem] border border-stone-300 bg-[linear-gradient(135deg,rgba(255,251,245,0.98),rgba(238,227,214,0.98))] p-8 text-stone-900 shadow-xl shadow-stone-900/5 dark:border-stone-800 dark:bg-[linear-gradient(135deg,rgba(31,25,21,0.98),rgba(20,16,13,0.98))] dark:text-stone-100">
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.35em] text-amber-800 dark:text-amber-300">
           Persönliches C++ Nachschlagewerk
         </p>
         <h1 className="max-w-3xl text-3xl font-black leading-tight md:text-5xl">
           Dein persönliches C++ Nachschlagewerk.
         </h1>
-        <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-200 md:text-base">
+        <p className="mt-4 max-w-2xl text-sm leading-7 text-stone-600 md:text-base dark:text-stone-300">
           Strukturierte C++ Themen, kompakte Erklärungen und schnelle Navigation durch Kategorien, Merkliste und zuletzt geöffnete Inhalte.
         </p>
 
         <div className="mt-8 grid gap-4 md:grid-cols-3">
-          <div className="rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur">
-            <p className="text-sm text-cyan-100">Kategorien</p>
+          <div className="rounded-3xl border border-stone-300 bg-[rgba(255,255,255,0.55)] p-5 dark:border-stone-800 dark:bg-[rgba(255,255,255,0.03)]">
+            <p className="text-sm text-stone-500 dark:text-stone-400">Kategorien</p>
             <p className="mt-2 text-3xl font-bold">{themen.length}</p>
           </div>
-          <div className="rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur">
-            <p className="text-sm text-cyan-100">Unterkategorien</p>
+          <div className="rounded-3xl border border-stone-300 bg-[rgba(255,255,255,0.55)] p-5 dark:border-stone-800 dark:bg-[rgba(255,255,255,0.03)]">
+            <p className="text-sm text-stone-500 dark:text-stone-400">Unterkategorien</p>
             <p className="mt-2 text-3xl font-bold">{totalSubcategories}</p>
           </div>
-          <div className="rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur">
-            <p className="text-sm text-cyan-100">Themen</p>
+          <div className="rounded-3xl border border-stone-300 bg-[rgba(255,255,255,0.55)] p-5 dark:border-stone-800 dark:bg-[rgba(255,255,255,0.03)]">
+            <p className="text-sm text-stone-500 dark:text-stone-400">Themen</p>
             <p className="mt-2 text-3xl font-bold">{totalTopics}</p>
           </div>
         </div>
@@ -1044,11 +1044,11 @@ function App() {
       {(favoriteTopics.length > 0 || recentTopics.length > 0) && (
         <section className="grid gap-6 xl:grid-cols-2">
           {favoriteTopics.length > 0 && (
-            <div className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+            <div className="rounded-[2rem] border border-stone-300 bg-[rgba(255,251,245,0.92)] p-6 shadow-sm shadow-stone-900/5 dark:border-stone-800 dark:bg-[rgba(24,20,17,0.92)]">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <div>
-                  <h2 className="text-xl font-bold text-slate-900 dark:text-white">Merkliste</h2>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                  <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">Merkliste</h2>
+                  <p className="text-sm text-stone-500 dark:text-stone-400">
                     Themen, die du häufiger nachschlägst.
                   </p>
                 </div>
@@ -1064,15 +1064,15 @@ function App() {
           )}
 
           {recentTopics.length > 0 && (
-            <div className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+            <div className="rounded-[2rem] border border-stone-300 bg-[rgba(255,251,245,0.92)] p-6 shadow-sm shadow-stone-900/5 dark:border-stone-800 dark:bg-[rgba(24,20,17,0.92)]">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <div>
-                  <h2 className="text-xl font-bold text-slate-900 dark:text-white">Zuletzt geöffnet</h2>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                  <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">Zuletzt geöffnet</h2>
+                  <p className="text-sm text-stone-500 dark:text-stone-400">
                     Für einen schnellen Wiedereinstieg beim Lernen.
                   </p>
                 </div>
-                <span className="rounded-full bg-cyan-100 px-3 py-1 text-sm font-medium text-cyan-900 dark:bg-cyan-500/15 dark:text-cyan-200">
+                <span className="rounded-full bg-stone-200 px-3 py-1 text-sm font-medium text-stone-800 dark:bg-stone-800 dark:text-stone-200">
                   {recentTopics.length}
                 </span>
               </div>
@@ -1088,17 +1088,17 @@ function App() {
       {renderTagFilterBar(searchableTopics, "Nach Tags stöbern")}
 
       {activeTag && (
-        <section className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+        <section className="rounded-[2rem] border border-stone-300 bg-[rgba(255,251,245,0.92)] p-6 shadow-sm shadow-stone-900/5 dark:border-stone-800 dark:bg-[rgba(24,20,17,0.92)]">
           <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-800 dark:text-amber-300">
                 Aktiver Filter
               </p>
-              <h2 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
+              <h2 className="mt-2 text-xl font-bold text-stone-900 dark:text-stone-100">
                 Themen mit #{activeTag}
               </h2>
             </div>
-            <span className="rounded-full bg-cyan-100 px-3 py-1 text-sm font-medium text-cyan-900 dark:bg-cyan-500/15 dark:text-cyan-200">
+            <span className="rounded-full bg-stone-200 px-3 py-1 text-sm font-medium text-stone-800 dark:bg-stone-800 dark:text-stone-200">
               {homeFilteredTopics.length}
             </span>
           </div>
@@ -1108,17 +1108,17 @@ function App() {
               {homeFilteredTopics.slice(0, 8).map((topic) => renderTopicCard(topic))}
             </div>
           ) : (
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+            <p className="text-sm text-stone-500 dark:text-stone-400">
               Für diesen Tag wurden aktuell keine Themen gefunden.
             </p>
           )}
         </section>
       )}
 
-      <section className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+      <section className="rounded-[2rem] border border-stone-300 bg-[rgba(255,251,245,0.92)] p-6 shadow-sm shadow-stone-900/5 dark:border-stone-800 dark:bg-[rgba(24,20,17,0.92)]">
         <div className="mb-6">
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white">Kategorien im Überblick</h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">Kategorien im Überblick</h2>
+          <p className="text-sm text-stone-500 dark:text-stone-400">
           </p>
         </div>
 
@@ -1129,24 +1129,24 @@ function App() {
             return (
               <button
                 key={category.category}
-                className="rounded-3xl border border-slate-200 bg-slate-50 p-5 text-left transition hover:-translate-y-0.5 hover:border-cyan-300 hover:bg-white hover:shadow-lg dark:border-slate-800 dark:bg-slate-950 dark:hover:border-cyan-700"
+                className="rounded-3xl border border-stone-300 bg-stone-100/80 p-5 text-left transition hover:-translate-y-0.5 hover:border-amber-400 hover:bg-[rgba(255,251,245,0.96)] hover:shadow-lg dark:border-stone-800 dark:bg-stone-950 dark:hover:border-amber-500"
                 onClick={() => openCategory(category)}
               >
                 <div className="mb-3 flex items-center justify-between gap-4">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-800 dark:text-amber-300">
                       {category.icon} Kategorie
                     </p>
-                    <h3 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
+                    <h3 className="mt-2 text-xl font-bold text-stone-900 dark:text-stone-100">
                       {category.category}
                     </h3>
                   </div>
-                  <span className="rounded-full bg-slate-200 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                  <span className="rounded-full bg-stone-200 px-3 py-1 text-sm font-medium text-stone-700 dark:bg-stone-800 dark:text-stone-200">
                     {categoryTopics.length} Themen
                   </span>
                 </div>
 
-                <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
+                <p className="mb-4 text-sm text-stone-500 dark:text-stone-400">
                   {category.subcategories.length} Unterkategorien
                 </p>
 
@@ -1154,7 +1154,7 @@ function App() {
                   {category.subcategories.slice(0, 4).map((subcategory) => (
                     <span
                       key={`${category.category}-${subcategory.name}`}
-                      className="rounded-full bg-white px-3 py-1 text-sm text-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                      className="rounded-full bg-white/80 px-3 py-1 text-sm text-stone-700 dark:bg-stone-900 dark:text-stone-200"
                     >
                       {subcategory.icon} {subcategory.name}
                     </span>
@@ -1180,14 +1180,14 @@ function App() {
 
     return (
       <div className="space-y-6">
-        <div className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+        <div className="rounded-[2rem] border border-stone-300 bg-[rgba(255,251,245,0.92)] p-6 shadow-sm shadow-stone-900/5 dark:border-stone-800 dark:bg-[rgba(24,20,17,0.92)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-800 dark:text-amber-300">
             {selectedCategory.icon} Kategorie
           </p>
-          <h1 className="mt-2 text-3xl font-black text-slate-900 dark:text-white">
+          <h1 className="mt-2 text-3xl font-black text-stone-900 dark:text-stone-100">
             {selectedCategory.category}
           </h1>
-          <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
+          <p className="mt-3 text-sm text-stone-500 dark:text-stone-400">
             Wähle eine Unterkategorie, um gezielt in deine Themen einzusteigen.
           </p>
         </div>
@@ -1195,17 +1195,17 @@ function App() {
         {renderTagFilterBar(categoryTopics, `${selectedCategory.category} filtern`)}
 
         {activeTag && (
-          <section className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+          <section className="rounded-[2rem] border border-stone-300 bg-[rgba(255,251,245,0.92)] p-6 shadow-sm shadow-stone-900/5 dark:border-stone-800 dark:bg-[rgba(24,20,17,0.92)]">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-800 dark:text-amber-300">
                   Tag-Ansicht
                 </p>
-                <h2 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
+                <h2 className="mt-2 text-xl font-bold text-stone-900 dark:text-stone-100">
                   Passende Themen für #{activeTag}
                 </h2>
               </div>
-              <span className="rounded-full bg-cyan-100 px-3 py-1 text-sm font-medium text-cyan-900 dark:bg-cyan-500/15 dark:text-cyan-200">
+              <span className="rounded-full bg-stone-200 px-3 py-1 text-sm font-medium text-stone-800 dark:bg-stone-800 dark:text-stone-200">
                 {filteredCategoryTopics.length}
               </span>
             </div>
@@ -1215,7 +1215,7 @@ function App() {
                 {filteredCategoryTopics.map((topic) => renderTopicCard(topic))}
               </div>
             ) : (
-              <p className="text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-sm text-stone-500 dark:text-stone-400">
                 In dieser Kategorie gibt es aktuell keine Themen mit #{activeTag}.
               </p>
             )}
@@ -1232,19 +1232,19 @@ function App() {
             return (
               <button
                 key={subcategory.name}
-                className="rounded-3xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-cyan-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900 dark:hover:border-cyan-700"
+                className="rounded-3xl border border-stone-300 bg-[rgba(255,251,245,0.92)] p-5 text-left shadow-sm shadow-stone-900/5 transition hover:-translate-y-0.5 hover:border-amber-400 hover:shadow-lg dark:border-stone-800 dark:bg-[rgba(24,20,17,0.92)] dark:hover:border-amber-500"
                 onClick={() => openSubcategory(selectedCategory, subcategory)}
               >
                 <div className="mb-3 flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-800 dark:text-amber-300">
                       {subcategory.icon} Unterkategorie
                     </p>
-                    <h2 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
+                    <h2 className="mt-2 text-xl font-bold text-stone-900 dark:text-stone-100">
                       {subcategory.name}
                     </h2>
                   </div>
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                  <span className="rounded-full bg-stone-100 px-3 py-1 text-sm font-medium text-stone-700 dark:bg-stone-900 dark:text-stone-200">
                     {subcategoryTopics.length}
                   </span>
                 </div>
@@ -1253,7 +1253,7 @@ function App() {
                   {subcategoryTopics.slice(0, 3).map((topic) => (
                     <span
                       key={topic.id}
-                      className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+                      className="rounded-full bg-stone-100 px-3 py-1 text-xs text-stone-600 dark:bg-stone-900 dark:text-stone-300"
                     >
                       {topic.title}
                     </span>
@@ -1280,24 +1280,24 @@ function App() {
 
     return (
       <div className="space-y-6">
-        <div className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
-          <div className="mb-3 flex flex-wrap items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+        <div className="rounded-[2rem] border border-stone-300 bg-[rgba(255,251,245,0.92)] p-6 shadow-sm shadow-stone-900/5 dark:border-stone-800 dark:bg-[rgba(24,20,17,0.92)]">
+          <div className="mb-3 flex flex-wrap items-center gap-2 text-sm text-stone-500 dark:text-stone-400">
             <button
-              className="rounded-full bg-slate-100 px-3 py-1 transition hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
+              className="rounded-full border border-stone-300 bg-stone-100 px-3 py-1 transition hover:bg-stone-200 dark:border-stone-700 dark:bg-stone-900 dark:hover:bg-stone-800"
               onClick={() => openCategory(selectedCategory)}
             >
               {selectedCategory.icon} {selectedCategory.category}
             </button>
             <span>›</span>
-            <span className="font-semibold text-slate-700 dark:text-slate-100">
+            <span className="font-semibold text-stone-700 dark:text-stone-100">
               {selectedSubcategory.icon} {selectedSubcategory.name}
             </span>
           </div>
 
-          <h1 className="text-3xl font-black text-slate-900 dark:text-white">
+          <h1 className="text-3xl font-black text-stone-900 dark:text-stone-100">
             {selectedSubcategory.name}
           </h1>
-          <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
+          <p className="mt-3 text-sm text-stone-500 dark:text-stone-400">
             {topics.length} Themen in diesem Bereich.
           </p>
         </div>
@@ -1309,7 +1309,7 @@ function App() {
             {filteredTopics.map((topic) => renderTopicCard(topic))}
           </div>
         ) : (
-          <div className="rounded-[2rem] border border-dashed border-slate-300 bg-white/90 p-8 text-slate-500 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-400">
+          <div className="rounded-[2rem] border border-dashed border-stone-300 bg-[rgba(255,251,245,0.92)] p-8 text-stone-500 dark:border-stone-700 dark:bg-[rgba(24,20,17,0.92)] dark:text-stone-400">
             In dieser Unterkategorie gibt es aktuell keine Themen mit #{activeTag}.
           </div>
         )}
@@ -1318,18 +1318,18 @@ function App() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-white">
+    <div className="flex h-screen overflow-hidden bg-stone-200 text-stone-900 dark:bg-[#14110e] dark:text-stone-100">
       <aside
-        className={`fixed inset-y-0 left-0 z-30 w-[88vw] max-w-sm overflow-y-auto border-r border-slate-200 bg-white/95 p-5 shadow-2xl shadow-slate-950/10 backdrop-blur transition-transform dark:border-slate-800 dark:bg-slate-950/95 md:static md:block md:h-screen md:w-[340px] md:shrink-0 md:translate-x-0 md:shadow-none ${
+        className={`fixed inset-y-0 left-0 z-30 w-[88vw] max-w-sm overflow-y-auto border-r border-stone-300 bg-[rgba(247,242,232,0.96)] p-5 shadow-2xl shadow-stone-950/10 transition-transform dark:border-stone-800 dark:bg-[rgba(24,20,17,0.96)] md:static md:block md:h-screen md:w-[340px] md:shrink-0 md:translate-x-0 md:shadow-none ${
           showSidebar ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="mb-6 flex items-center justify-between gap-3">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-cyan-700 dark:text-cyan-300">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-800 dark:text-amber-300">
               C++ Lernhilfe
             </p>
-            <h2 className="mt-2 text-2xl font-black text-slate-900 dark:text-white">
+            <h2 className="mt-2 text-2xl font-black text-stone-900 dark:text-stone-100">
               C++ Hilfsbuch
             </h2>
           </div>
@@ -1337,21 +1337,21 @@ function App() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setDarkMode((value) => !value)}
-              className="rounded-full border border-slate-200 bg-slate-100 px-3 py-2 text-sm font-medium transition hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700"
+              className="rounded-full border border-stone-300 bg-stone-100 px-3 py-2 text-sm font-medium transition hover:bg-stone-200 dark:border-stone-700 dark:bg-stone-900 dark:hover:bg-stone-800"
             >
               {darkMode ? "🌞" : "🌙"}
             </button>
             <button
               onClick={() => setShowSidebar(false)}
-              className="rounded-full border border-slate-200 bg-slate-100 px-3 py-2 text-sm font-medium transition hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 md:hidden"
+              className="rounded-full border border-stone-300 bg-stone-100 px-3 py-2 text-sm font-medium transition hover:bg-stone-200 dark:border-stone-700 dark:bg-stone-900 dark:hover:bg-stone-800 md:hidden"
             >
               ✕
             </button>
           </div>
         </div>
 
-        <div className="mb-4 rounded-3xl bg-slate-100 p-4 dark:bg-slate-900">
-          <p className="text-sm text-slate-600 dark:text-slate-300">
+        <div className="mb-4 rounded-3xl border border-stone-300/70 bg-stone-100 p-4 dark:border-stone-800 dark:bg-stone-950">
+          <p className="text-sm text-stone-600 dark:text-stone-300">
             Made by Kilian.
           </p>
         </div>
@@ -1365,13 +1365,13 @@ function App() {
               <li key={category.category}>
                 <div className="flex gap-2">
                   <button
-                    className="flex-1 rounded-2xl bg-slate-100 px-4 py-3 text-left font-semibold transition hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800"
+                    className="flex-1 rounded-2xl border border-stone-300 bg-stone-100 px-4 py-3 text-left font-semibold transition hover:bg-stone-200 dark:border-stone-800 dark:bg-stone-950 dark:hover:bg-stone-900"
                     onClick={() => openCategory(category)}
                   >
                     {category.icon} {category.category}
                   </button>
                   <button
-                    className="rounded-2xl bg-slate-100 px-4 py-3 text-sm transition hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800"
+                    className="rounded-2xl border border-stone-300 bg-stone-100 px-4 py-3 text-sm transition hover:bg-stone-200 dark:border-stone-800 dark:bg-stone-950 dark:hover:bg-stone-900"
                     onClick={() => toggleCategory(category.category)}
                   >
                     {categoryExpanded ? "▲" : "▼"}
@@ -1379,7 +1379,7 @@ function App() {
                 </div>
 
                 {categoryExpanded && (
-                  <ul className="ml-3 mt-3 space-y-2 border-l border-slate-200 pl-4 dark:border-slate-800">
+                  <ul className="ml-3 mt-3 space-y-2 border-l border-stone-300 pl-4 dark:border-stone-800">
                     {category.subcategories.map((subcategory) => {
                       const subcategoryKey = `sub:${category.category}:${subcategory.name}`;
                       const subcategoryExpanded = expandedCategories.includes(subcategoryKey);
@@ -1388,13 +1388,13 @@ function App() {
                         <li key={`${category.category}-${subcategory.name}`}>
                           <div className="flex gap-2">
                             <button
-                              className="flex-1 rounded-2xl bg-white px-4 py-2 text-left text-sm font-medium transition hover:bg-cyan-50 dark:bg-slate-900 dark:hover:bg-slate-800"
+                              className="flex-1 rounded-2xl border border-stone-300 bg-[rgba(255,251,245,0.92)] px-4 py-2 text-left text-sm font-medium transition hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-950 dark:hover:bg-stone-900"
                               onClick={() => openSubcategory(category, subcategory)}
                             >
                               {subcategory.icon} {subcategory.name}
                             </button>
                             <button
-                              className="rounded-2xl bg-white px-3 py-2 text-xs transition hover:bg-cyan-50 dark:bg-slate-900 dark:hover:bg-slate-800"
+                              className="rounded-2xl border border-stone-300 bg-[rgba(255,251,245,0.92)] px-3 py-2 text-xs transition hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-950 dark:hover:bg-stone-900"
                               onClick={() => toggleSubcategory(category.category, subcategory.name)}
                             >
                               {subcategoryExpanded ? "▲" : "▼"}
@@ -1414,8 +1414,8 @@ function App() {
                                     <button
                                       className={`w-full rounded-xl px-4 py-2 text-left text-sm transition ${
                                         selectedTopicId === topic.id
-                                          ? "bg-cyan-100 text-cyan-900 dark:bg-cyan-500/15 dark:text-cyan-200"
-                                          : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                                          ? "bg-amber-100 text-amber-950 dark:bg-amber-500/15 dark:text-amber-200"
+                                          : "hover:bg-stone-100 dark:hover:bg-stone-900"
                                       }`}
                                       onClick={() => openTopic(topic)}
                                     >
@@ -1438,25 +1438,25 @@ function App() {
 
       {showSidebar && (
         <button
-          className="fixed inset-0 z-20 bg-slate-950/45 md:hidden"
+          className="fixed inset-0 z-20 bg-stone-950/45 md:hidden"
           aria-label="Sidebar schließen"
           onClick={() => setShowSidebar(false)}
         />
       )}
 
       <main className="relative z-10 min-w-0 flex-1 overflow-y-auto overscroll-contain">
-        <header className="sticky top-0 z-10 border-b border-slate-200 bg-slate-100/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
+        <header className="sticky top-0 z-10 border-b border-stone-300 bg-[rgba(247,242,232,0.9)] backdrop-blur dark:border-stone-800 dark:bg-[rgba(20,17,14,0.88)]">
           <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-4 md:px-8">
             <button
               onClick={() => setShowSidebar(true)}
-              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800 md:hidden"
+              className="rounded-full border border-stone-300 bg-[rgba(255,251,245,0.95)] px-4 py-2 text-sm font-medium transition hover:bg-stone-100 dark:border-stone-700 dark:bg-stone-950 dark:hover:bg-stone-900 md:hidden"
             >
               ☰
             </button>
 
             <button
               onClick={goHome}
-              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800"
+              className="rounded-full border border-stone-300 bg-[rgba(255,251,245,0.95)] px-4 py-2 text-sm font-medium transition hover:bg-stone-100 dark:border-stone-700 dark:bg-stone-950 dark:hover:bg-stone-900"
             >
               Startseite
             </button>
@@ -1466,11 +1466,11 @@ function App() {
                 ref={searchInputRef}
                 type="text"
                 placeholder="Suche nach Thema, Inhalt oder Begriff..."
-                className="w-full rounded-full border border-slate-200 bg-white px-5 py-3 pr-24 text-sm shadow-sm outline-none transition focus:border-cyan-400 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-500 dark:focus:ring-cyan-500/10"
+                className="w-full rounded-full border border-stone-300 bg-[rgba(255,251,245,0.96)] px-5 py-3 pr-24 text-sm shadow-sm outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-100 dark:border-stone-700 dark:bg-stone-950 dark:focus:border-amber-400 dark:focus:ring-amber-500/10"
                 value={searchTerm}
                 onChange={(event) => setSearchTerm(event.target.value)}
               />
-              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-stone-100 px-3 py-1 text-xs text-stone-500 dark:bg-stone-900 dark:text-stone-400">
                 / Fokus
               </span>
             </div>
@@ -1481,13 +1481,13 @@ function App() {
           {searchTerm.trim() ? (
             <section className="space-y-5">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-800 dark:text-amber-300">
                   Suche
                 </p>
-                <h1 className="mt-2 text-3xl font-black text-slate-900 dark:text-white">
+                <h1 className="mt-2 text-3xl font-black text-stone-900 dark:text-stone-100">
                   Ergebnisse für "{searchTerm}"
                 </h1>
-                <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
                   {filteredSearchResults.length} Treffer
                 </p>
               </div>
@@ -1499,7 +1499,7 @@ function App() {
                   {filteredSearchResults.map((topic) => renderSearchResult(topic))}
                 </ul>
               ) : (
-                <div className="rounded-[2rem] border border-dashed border-slate-300 bg-white/90 p-8 text-slate-500 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-400">
+                <div className="rounded-[2rem] border border-dashed border-stone-300 bg-[rgba(255,251,245,0.92)] p-8 text-stone-500 dark:border-stone-700 dark:bg-[rgba(24,20,17,0.92)] dark:text-stone-400">
                   Keine Treffer gefunden. Probier einen kürzeren Begriff oder suche nach einem C++ Schlüsselwort.
                 </div>
               )}
@@ -1508,14 +1508,14 @@ function App() {
             <section className="space-y-5">
               {renderBreadcrumb()}
 
-              <div className="rounded-[2rem] border border-slate-200 bg-white/95 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/95">
+              <div className="rounded-[2rem] border border-stone-300 bg-[rgba(255,251,245,0.94)] p-6 shadow-sm shadow-stone-900/5 dark:border-stone-800 dark:bg-[rgba(24,20,17,0.94)]">
                 <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
                   <div>
                     <div className="mb-3 flex flex-wrap gap-2 text-xs">
-                      <span className="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                      <span className="rounded-full bg-stone-100 px-3 py-1 font-medium text-stone-700 dark:bg-stone-900 dark:text-stone-200">
                         {selectedTopicEntry.categoryIcon} {selectedTopicEntry.category}
                       </span>
-                      <span className="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                      <span className="rounded-full bg-stone-100 px-3 py-1 font-medium text-stone-700 dark:bg-stone-900 dark:text-stone-200">
                         {selectedTopicEntry.subcategoryIcon} {selectedTopicEntry.subcategory}
                       </span>
                       <span className={`rounded-full px-3 py-1 font-medium ${getDifficultyClasses(selectedTopicEntry.difficulty)}`}>
@@ -1527,14 +1527,14 @@ function App() {
                       {selectedTopicEntry.tags.map((tag) => (
                         <span
                           key={`${selectedTopicEntry.id}-${tag}`}
-                          className="rounded-full bg-cyan-50 px-3 py-1 text-xs font-medium text-cyan-800 dark:bg-cyan-500/10 dark:text-cyan-200"
+                          className="rounded-full bg-amber-50 px-3 py-1 text-xs font-medium text-amber-800 dark:bg-amber-500/10 dark:text-amber-200"
                         >
                           #{tag}
                         </span>
                       ))}
                     </div>
 
-                    <h1 className="text-3xl font-black text-slate-900 dark:text-white">
+                    <h1 className="text-3xl font-black text-stone-900 dark:text-stone-100">
                       {selectedTopic.title}
                     </h1>
                   </div>
@@ -1544,14 +1544,14 @@ function App() {
                       className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
                         favoriteTopicIds.includes(selectedTopicEntry.id)
                           ? "border-amber-300 bg-amber-100 text-amber-900 dark:border-amber-600 dark:bg-amber-500/10 dark:text-amber-200"
-                          : "border-slate-200 bg-slate-100 text-slate-700 hover:border-amber-300 hover:text-amber-800 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                          : "border-stone-300 bg-stone-100 text-stone-700 hover:border-amber-400 hover:text-amber-800 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200"
                       }`}
                       onClick={() => toggleFavorite(selectedTopicEntry.id)}
                     >
                       {favoriteTopicIds.includes(selectedTopicEntry.id) ? "★ Gemerkt" : "☆ Merken"}
                     </button>
                     <button
-                      className="rounded-full border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+                      className="rounded-full border border-stone-300 bg-stone-100 px-4 py-2 text-sm font-medium text-stone-700 transition hover:bg-stone-200 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:bg-stone-800"
                       onClick={() => {
                         const url = `${window.location.origin}${window.location.pathname}#topic=${encodeURIComponent(selectedTopicEntry.id)}`;
                         window.navigator.clipboard.writeText(url);
@@ -1586,15 +1586,15 @@ function App() {
                 )}
 
                 {hasTopicNetwork && (
-                  <section className="mt-10 space-y-8 border-t border-slate-200 pt-8 dark:border-slate-800">
+                  <section className="mt-10 space-y-8 border-t border-stone-300 pt-8 dark:border-stone-800">
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+                      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-800 dark:text-amber-300">
                         Themennetz
                       </p>
-                      <h2 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
+                      <h2 className="mt-2 text-2xl font-bold text-stone-900 dark:text-stone-100">
                         Dazu passen diese nächsten Ankerpunkte
                       </h2>
-                      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                      <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
                       </p>
                     </div>
 

@@ -1,3 +1,71 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --paper: #efe7da;
+    --paper-soft: #f7f2e8;
+    --ink: #241f1a;
+    --muted-ink: #6c6257;
+    --accent: #8a4b2a;
+    --accent-soft: #d9b9a0;
+    --line: rgba(78, 59, 44, 0.14);
+  }
+
+  .dark {
+    --paper: #171411;
+    --paper-soft: #201b16;
+    --ink: #f3ede3;
+    --muted-ink: #b4a698;
+    --accent: #d79a73;
+    --accent-soft: rgba(215, 154, 115, 0.2);
+    --line: rgba(230, 217, 201, 0.12);
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    color: var(--ink);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.35), transparent 28%),
+      radial-gradient(circle at top left, rgba(138, 75, 42, 0.08), transparent 28%),
+      linear-gradient(180deg, var(--paper-soft), var(--paper));
+    font-family: Aptos, "Segoe UI", "Trebuchet MS", sans-serif;
+    text-rendering: optimizeLegibility;
+  }
+
+  .dark body {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 24%),
+      radial-gradient(circle at top left, rgba(215, 154, 115, 0.08), transparent 30%),
+      linear-gradient(180deg, #191511, #130f0c);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "Aptos Display", Aptos, "Segoe UI", sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  ::selection {
+    background: rgba(138, 75, 42, 0.18);
+  }
+
+  button,
+  input {
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease,
+      color 160ms ease,
+      box-shadow 160ms ease,
+      transform 160ms ease;
+  }
+}
