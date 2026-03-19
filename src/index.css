@@ -50,8 +50,9 @@
   h2,
   h3,
   h4 {
-    font-family: "Iowan Old Style", Palatino, "Book Antiqua", Georgia, serif;
-    letter-spacing: -0.02em;
+    font-family: "Aptos Display", Aptos, "Segoe UI", sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
   }
 
   ::selection {
