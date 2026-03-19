@@ -1318,9 +1318,9 @@ function App() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-white">
+    <div className="flex h-screen overflow-hidden bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-white">
       <aside
-        className={`fixed inset-y-0 left-0 z-30 w-[88vw] max-w-sm overflow-y-auto border-r border-slate-200 bg-white/95 p-5 shadow-2xl shadow-slate-950/10 backdrop-blur transition-transform dark:border-slate-800 dark:bg-slate-950/95 md:static md:block md:w-[340px] md:translate-x-0 md:shadow-none ${
+        className={`fixed inset-y-0 left-0 z-30 w-[88vw] max-w-sm overflow-y-auto border-r border-slate-200 bg-white/95 p-5 shadow-2xl shadow-slate-950/10 backdrop-blur transition-transform dark:border-slate-800 dark:bg-slate-950/95 md:static md:block md:h-screen md:w-[340px] md:shrink-0 md:translate-x-0 md:shadow-none ${
           showSidebar ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -1444,7 +1444,7 @@ function App() {
         />
       )}
 
-      <main className="relative z-10 flex-1">
+      <main className="relative z-10 min-w-0 flex-1 overflow-y-auto overscroll-contain">
         <header className="sticky top-0 z-10 border-b border-slate-200 bg-slate-100/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
           <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-4 md:px-8">
             <button
