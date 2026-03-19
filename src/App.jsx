@@ -1320,7 +1320,7 @@ function App() {
   return (
     <div className="flex h-screen overflow-hidden bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-white">
       <aside
-        className={`fixed inset-y-0 left-0 z-30 w-[88vw] max-w-sm overflow-y-auto border-r border-slate-200 bg-white/95 p-5 shadow-2xl shadow-slate-950/10 backdrop-blur transition-transform dark:border-slate-800 dark:bg-slate-950/95 md:static md:block md:w-[340px] md:translate-x-0 md:shadow-none ${
+        className={`fixed inset-y-0 left-0 z-30 w-[88vw] max-w-sm overflow-y-auto border-r border-slate-200 bg-white/95 p-5 shadow-2xl shadow-slate-950/10 backdrop-blur transition-transform dark:border-slate-800 dark:bg-slate-950/95 md:static md:block md:h-screen md:w-[340px] md:shrink-0 md:translate-x-0 md:shadow-none ${
           showSidebar ? "translate-x-0" : "-translate-x-full"
         }`}
       >
