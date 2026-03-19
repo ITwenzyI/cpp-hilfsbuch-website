@@ -570,20 +570,20 @@ function App() {
     }
 
     return (
-      <section className="rounded-[2rem] border border-slate-200 bg-white/90 p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+      <section className="rounded-[2rem] border border-stone-300 bg-[rgba(255,251,245,0.9)] p-5 shadow-sm shadow-stone-900/5 dark:border-stone-800 dark:bg-[rgba(24,20,17,0.92)]">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-800 dark:text-amber-300">
               Themenfilter
             </p>
-            <h2 className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
+            <h2 className="mt-2 text-xl font-bold text-stone-900 dark:text-stone-100">
               {title}
             </h2>
           </div>
 
           {activeTag && (
             <button
-              className="rounded-full border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+              className="rounded-full border border-stone-300 bg-stone-100 px-4 py-2 text-sm font-medium text-stone-700 transition hover:bg-stone-200 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:bg-stone-800"
               onClick={() => setActiveTag(null)}
             >
               Filter zurücksetzen
@@ -600,8 +600,8 @@ function App() {
                 key={tag}
                 className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                   isActive
-                    ? "bg-cyan-600 text-white dark:bg-cyan-400 dark:text-slate-950"
-                    : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+                    ? "bg-amber-800 text-amber-50 shadow-sm dark:bg-amber-300 dark:text-stone-950"
+                    : "bg-stone-100 text-stone-700 hover:bg-stone-200 dark:bg-stone-900 dark:text-stone-200 dark:hover:bg-stone-800"
                 }`}
                 onClick={() => setActiveTag((currentTag) => (currentTag === tag ? null : tag))}
               >
@@ -793,22 +793,22 @@ function App() {
     }
 
     return (
-      <div className="mb-3 flex flex-wrap items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+      <div className="mb-3 flex flex-wrap items-center gap-2 text-sm text-stone-500 dark:text-stone-400">
         <button
-          className="rounded-full bg-slate-200/70 px-3 py-1 text-slate-700 transition hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+          className="rounded-full border border-stone-300 bg-stone-100 px-3 py-1 text-stone-700 transition hover:bg-stone-200 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:bg-stone-800"
           onClick={() => openCategory(selectedCategory)}
         >
           {selectedCategory.icon} {selectedCategory.category}
         </button>
         <span>›</span>
         <button
-          className="rounded-full bg-slate-200/70 px-3 py-1 text-slate-700 transition hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+          className="rounded-full border border-stone-300 bg-stone-100 px-3 py-1 text-stone-700 transition hover:bg-stone-200 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:bg-stone-800"
           onClick={() => openSubcategory(selectedCategory, selectedSubcategory)}
         >
           {selectedSubcategory.icon} {selectedSubcategory.name}
         </button>
         <span>›</span>
-        <span className="font-semibold text-slate-700 dark:text-slate-100">
+        <span className="font-semibold text-stone-700 dark:text-stone-100">
           {selectedTopicEntry.title}
         </span>
       </div>
@@ -1318,18 +1318,18 @@ function App() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-white">
+    <div className="flex h-screen overflow-hidden bg-stone-200 text-stone-900 dark:bg-[#14110e] dark:text-stone-100">
       <aside
-        className={`fixed inset-y-0 left-0 z-30 w-[88vw] max-w-sm overflow-y-auto border-r border-slate-200 bg-white/95 p-5 shadow-2xl shadow-slate-950/10 backdrop-blur transition-transform dark:border-slate-800 dark:bg-slate-950/95 md:static md:block md:h-screen md:w-[340px] md:shrink-0 md:translate-x-0 md:shadow-none ${
+        className={`fixed inset-y-0 left-0 z-30 w-[88vw] max-w-sm overflow-y-auto border-r border-stone-300 bg-[rgba(247,242,232,0.96)] p-5 shadow-2xl shadow-stone-950/10 transition-transform dark:border-stone-800 dark:bg-[rgba(24,20,17,0.96)] md:static md:block md:h-screen md:w-[340px] md:shrink-0 md:translate-x-0 md:shadow-none ${
           showSidebar ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="mb-6 flex items-center justify-between gap-3">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-cyan-700 dark:text-cyan-300">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-800 dark:text-amber-300">
               C++ Lernhilfe
             </p>
-            <h2 className="mt-2 text-2xl font-black text-slate-900 dark:text-white">
+            <h2 className="mt-2 text-2xl font-black text-stone-900 dark:text-stone-100">
               C++ Hilfsbuch
             </h2>
           </div>
@@ -1337,21 +1337,21 @@ function App() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setDarkMode((value) => !value)}
-              className="rounded-full border border-slate-200 bg-slate-100 px-3 py-2 text-sm font-medium transition hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700"
+              className="rounded-full border border-stone-300 bg-stone-100 px-3 py-2 text-sm font-medium transition hover:bg-stone-200 dark:border-stone-700 dark:bg-stone-900 dark:hover:bg-stone-800"
             >
               {darkMode ? "🌞" : "🌙"}
             </button>
             <button
               onClick={() => setShowSidebar(false)}
-              className="rounded-full border border-slate-200 bg-slate-100 px-3 py-2 text-sm font-medium transition hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 md:hidden"
+              className="rounded-full border border-stone-300 bg-stone-100 px-3 py-2 text-sm font-medium transition hover:bg-stone-200 dark:border-stone-700 dark:bg-stone-900 dark:hover:bg-stone-800 md:hidden"
             >
               ✕
             </button>
           </div>
         </div>
 
-        <div className="mb-4 rounded-3xl bg-slate-100 p-4 dark:bg-slate-900">
-          <p className="text-sm text-slate-600 dark:text-slate-300">
+        <div className="mb-4 rounded-3xl border border-stone-300/70 bg-stone-100 p-4 dark:border-stone-800 dark:bg-stone-950">
+          <p className="text-sm text-stone-600 dark:text-stone-300">
             Made by Kilian.
           </p>
         </div>
@@ -1365,13 +1365,13 @@ function App() {
               <li key={category.category}>
                 <div className="flex gap-2">
                   <button
-                    className="flex-1 rounded-2xl bg-slate-100 px-4 py-3 text-left font-semibold transition hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800"
+                    className="flex-1 rounded-2xl border border-stone-300 bg-stone-100 px-4 py-3 text-left font-semibold transition hover:bg-stone-200 dark:border-stone-800 dark:bg-stone-950 dark:hover:bg-stone-900"
                     onClick={() => openCategory(category)}
                   >
                     {category.icon} {category.category}
                   </button>
                   <button
-                    className="rounded-2xl bg-slate-100 px-4 py-3 text-sm transition hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800"
+                    className="rounded-2xl border border-stone-300 bg-stone-100 px-4 py-3 text-sm transition hover:bg-stone-200 dark:border-stone-800 dark:bg-stone-950 dark:hover:bg-stone-900"
                     onClick={() => toggleCategory(category.category)}
                   >
                     {categoryExpanded ? "▲" : "▼"}
@@ -1379,7 +1379,7 @@ function App() {
                 </div>
 
                 {categoryExpanded && (
-                  <ul className="ml-3 mt-3 space-y-2 border-l border-slate-200 pl-4 dark:border-slate-800">
+                  <ul className="ml-3 mt-3 space-y-2 border-l border-stone-300 pl-4 dark:border-stone-800">
                     {category.subcategories.map((subcategory) => {
                       const subcategoryKey = `sub:${category.category}:${subcategory.name}`;
                       const subcategoryExpanded = expandedCategories.includes(subcategoryKey);
@@ -1388,13 +1388,13 @@ function App() {
                         <li key={`${category.category}-${subcategory.name}`}>
                           <div className="flex gap-2">
                             <button
-                              className="flex-1 rounded-2xl bg-white px-4 py-2 text-left text-sm font-medium transition hover:bg-cyan-50 dark:bg-slate-900 dark:hover:bg-slate-800"
+                              className="flex-1 rounded-2xl border border-stone-300 bg-[rgba(255,251,245,0.92)] px-4 py-2 text-left text-sm font-medium transition hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-950 dark:hover:bg-stone-900"
                               onClick={() => openSubcategory(category, subcategory)}
                             >
                               {subcategory.icon} {subcategory.name}
                             </button>
                             <button
-                              className="rounded-2xl bg-white px-3 py-2 text-xs transition hover:bg-cyan-50 dark:bg-slate-900 dark:hover:bg-slate-800"
+                              className="rounded-2xl border border-stone-300 bg-[rgba(255,251,245,0.92)] px-3 py-2 text-xs transition hover:bg-stone-100 dark:border-stone-800 dark:bg-stone-950 dark:hover:bg-stone-900"
                               onClick={() => toggleSubcategory(category.category, subcategory.name)}
                             >
                               {subcategoryExpanded ? "▲" : "▼"}
@@ -1414,8 +1414,8 @@ function App() {
                                     <button
                                       className={`w-full rounded-xl px-4 py-2 text-left text-sm transition ${
                                         selectedTopicId === topic.id
-                                          ? "bg-cyan-100 text-cyan-900 dark:bg-cyan-500/15 dark:text-cyan-200"
-                                          : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                                          ? "bg-amber-100 text-amber-950 dark:bg-amber-500/15 dark:text-amber-200"
+                                          : "hover:bg-stone-100 dark:hover:bg-stone-900"
                                       }`}
                                       onClick={() => openTopic(topic)}
                                     >
@@ -1438,25 +1438,25 @@ function App() {
 
       {showSidebar && (
         <button
-          className="fixed inset-0 z-20 bg-slate-950/45 md:hidden"
+          className="fixed inset-0 z-20 bg-stone-950/45 md:hidden"
           aria-label="Sidebar schließen"
           onClick={() => setShowSidebar(false)}
         />
       )}
 
       <main className="relative z-10 min-w-0 flex-1 overflow-y-auto overscroll-contain">
-        <header className="sticky top-0 z-10 border-b border-slate-200 bg-slate-100/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
+        <header className="sticky top-0 z-10 border-b border-stone-300 bg-[rgba(247,242,232,0.9)] backdrop-blur dark:border-stone-800 dark:bg-[rgba(20,17,14,0.88)]">
           <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-4 md:px-8">
             <button
               onClick={() => setShowSidebar(true)}
-              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800 md:hidden"
+              className="rounded-full border border-stone-300 bg-[rgba(255,251,245,0.95)] px-4 py-2 text-sm font-medium transition hover:bg-stone-100 dark:border-stone-700 dark:bg-stone-950 dark:hover:bg-stone-900 md:hidden"
             >
               ☰
             </button>
 
             <button
               onClick={goHome}
-              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800"
+              className="rounded-full border border-stone-300 bg-[rgba(255,251,245,0.95)] px-4 py-2 text-sm font-medium transition hover:bg-stone-100 dark:border-stone-700 dark:bg-stone-950 dark:hover:bg-stone-900"
             >
               Startseite
             </button>
@@ -1466,11 +1466,11 @@ function App() {
                 ref={searchInputRef}
                 type="text"
                 placeholder="Suche nach Thema, Inhalt oder Begriff..."
-                className="w-full rounded-full border border-slate-200 bg-white px-5 py-3 pr-24 text-sm shadow-sm outline-none transition focus:border-cyan-400 focus:ring-4 focus:ring-cyan-100 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-500 dark:focus:ring-cyan-500/10"
+                className="w-full rounded-full border border-stone-300 bg-[rgba(255,251,245,0.96)] px-5 py-3 pr-24 text-sm shadow-sm outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-100 dark:border-stone-700 dark:bg-stone-950 dark:focus:border-amber-400 dark:focus:ring-amber-500/10"
                 value={searchTerm}
                 onChange={(event) => setSearchTerm(event.target.value)}
               />
-              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-stone-100 px-3 py-1 text-xs text-stone-500 dark:bg-stone-900 dark:text-stone-400">
                 / Fokus
               </span>
             </div>
