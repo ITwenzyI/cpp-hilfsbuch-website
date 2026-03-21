@@ -12851,9 +12851,169 @@
         },
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Testing in Layered Architecture",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "In einer Layered Architecture hat jede Schicht eine klare Verantwortung.",
+                "Tests sollten diese Verantwortungen widerspiegeln.",
+                "Ziel ist es, jede Schicht isoliert und gezielt zu testen."
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "Domain Layer Testing",
+              "text": "Tests im Domain Layer prüfen reine Geschäftslogik ohne externe Abhängigkeiten."
+            },
+            {
+              "type": "list",
+              "title": "Was im Domain Layer getestet wird",
+              "items": [
+                "Value Objects (z.B. Validierung von Daten)",
+                "Business Regeln",
+                "Reine Funktionen",
+                "Invarianten"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Eigenschaften von Domain Tests",
+              "text": [
+                "Keine Mocks notwendig",
+                "Sehr schnell",
+                "Deterministisch",
+                "Einfach zu schreiben"
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Domain Tests sind die wichtigste und stabilste Testbasis eines Projekts."
+            },
+            {
+              "type": "definition",
+              "term": "Application Layer Testing",
+              "text": "Tests im Application Layer prüfen die Orchestrierung von Use Cases und die Interaktion mit Abhängigkeiten."
+            },
+            {
+              "type": "list",
+              "title": "Was im Application Layer getestet wird",
+              "items": [
+                "Use Cases",
+                "Service Logik",
+                "Interaktionen mit Repositories",
+                "Fehlerbehandlung"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wie Application Layer getestet wird",
+              "text": [
+                "Externe Abhängigkeiten werden gemockt.",
+                "Der Fokus liegt auf Verhalten, nicht Implementierung.",
+                "Man prüft, welche Methoden aufgerufen werden und was zurückkommt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Application Test mit Mock",
+              "language": "cpp",
+              "code": "// Beispiel: Use Case nutzt Repository\nEXPECT_CALL(repo, getUserCount())\n    .WillOnce(::testing::Return(5));\n\nEXPECT_TRUE(service.hasUsers());"
+            },
+            {
+              "type": "definition",
+              "term": "Infrastructure Testing",
+              "text": "Tests im Infrastructure Layer prüfen konkrete Implementierungen wie Datenbanken oder externe Systeme."
+            },
+            {
+              "type": "list",
+              "title": "Was im Infrastructure Layer getestet wird",
+              "items": [
+                "SQLite Repositories",
+                "Dateizugriffe",
+                "API Clients",
+                "Persistenzlogik"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wie Infrastructure getestet wird",
+              "text": [
+                "Hier werden echte Implementierungen verwendet (keine Mocks).",
+                "Oft mit Testdatenbanken oder In-Memory Lösungen.",
+                "Tests sind langsamer, aber realistischer."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel SQLite Test",
+              "language": "cpp",
+              "code": "// echte DB verwenden\nrepo.addUser(1);\n\nEXPECT_EQ(repo.getUserCount(), 1);"
+            },
+            {
+              "type": "definition",
+              "term": "UI Testing",
+              "text": "UI Tests prüfen die Benutzeroberfläche und Interaktion mit dem Nutzer."
+            },
+            {
+              "type": "explanation",
+              "title": "UI testen oder nicht?",
+              "text": [
+                "UI Tests sind oft langsam und fragil.",
+                "In vielen Projekten wird UI nur minimal getestet.",
+                "Wichtige Logik gehört nicht ins UI, sondern in Application oder Domain.",
+                "Daher testet man primär die unteren Layer."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Testing nach Layer",
+              "columns": ["Layer", "Was testen?", "Mocking"],
+              "rows": [
+                {
+                  "aspect": "Domain",
+                  "values": ["Logik", "Regeln", "Nein"]
+                },
+                {
+                  "aspect": "Application",
+                  "values": ["Use Cases", "Interaktionen", "Ja"]
+                },
+                {
+                  "aspect": "Infrastructure",
+                  "values": ["Datenbank", "IO", "Nein"]
+                },
+                {
+                  "aspect": "UI",
+                  "values": ["Interaktion", "Selten", "Nein"]
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Fehler",
+              "items": [
+                "Alles nur mit echten Datenbanken testen",
+                "Domain Layer nicht testen",
+                "Mocks im Domain Layer verwenden",
+                "Zu viel Logik im UI lassen"
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Gute Tests folgen der Architektur. Schlechte Tests ignorieren sie."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Jede Schicht wird unterschiedlich getestet",
+                "Domain: ohne Mocks, reine Logik",
+                "Application: mit Mocks, Verhalten testen",
+                "Infrastructure: echte Implementierungen testen",
+                "UI: meist minimal testen"
+              ]
+            }
           ]
         },
 
