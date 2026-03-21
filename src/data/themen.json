@@ -12527,9 +12527,136 @@
         },
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Parameterisierte Tests",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Parameterisierte Tests",
+              "text": "Parameterisierte Tests ermöglichen es, denselben Test mit unterschiedlichen Eingabewerten mehrfach auszuführen."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum parameterisierte Tests wichtig sind",
+              "text": [
+                "Viele Funktionen müssen mit verschiedenen Eingaben getestet werden.",
+                "Ohne Parameterisierung würde man viele ähnliche Tests schreiben.",
+                "Parameterisierte Tests vermeiden Duplikation und verbessern Wartbarkeit."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Anwendungsfälle",
+              "items": [
+                "Mathematische Funktionen mit vielen Eingabewerten",
+                "Validierungslogik (z.B. verschiedene gültige und ungültige Inputs)",
+                "Edge Cases (Grenzwerte)",
+                "Parsing und Konvertierung"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Value-Parameterized Tests",
+              "text": [
+                "Der gleiche Test wird mit verschiedenen Werten ausgeführt.",
+                "Die Testdaten werden von außen bereitgestellt.",
+                "GoogleTest führt automatisch alle Varianten aus."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Value-Parameterized Beispiel",
+              "language": "cpp",
+              "code": "#include <gtest/gtest.h>\n\nclass AddTest : public ::testing::TestWithParam<std::tuple<int, int, int>> {};\n\nTEST_P(AddTest, HandlesVariousInputs) {\n    auto [a, b, expected] = GetParam();\n    EXPECT_EQ(a + b, expected);\n}\n\nINSTANTIATE_TEST_SUITE_P(\n    AdditionTests,\n    AddTest,\n    ::testing::Values(\n        std::make_tuple(1, 2, 3),\n        std::make_tuple(2, 3, 5),\n        std::make_tuple(-1, -1, -2)\n    )\n);"
+            },
+            {
+              "type": "explanation",
+              "title": "Was passiert hier",
+              "text": [
+                "TestWithParam definiert ein Fixture mit Parametern.",
+                "TEST_P definiert den Test, der mehrfach ausgeführt wird.",
+                "GetParam liefert die aktuellen Testdaten.",
+                "INSTANTIATE_TEST_SUITE_P definiert die Testfälle."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Typed Tests",
+              "text": [
+                "Typed Tests ermöglichen Tests für verschiedene Typen.",
+                "Der gleiche Test wird z.B. für int, float oder double ausgeführt.",
+                "Besonders nützlich für Templates oder generischen Code."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Typed Test Beispiel erklärt",
+              "language": "cpp",
+              "code": "#include <gtest/gtest.h>\n\n// 1. Template Fixture definieren\n// Diese Klasse wird später für verschiedene Typen instanziiert\ntemplate <typename T>\nclass MyTypedTest : public ::testing::Test {\nprotected:\n    // Beispiel: gemeinsamer Wert für alle Tests\n    T value{}; // default initialisiert (z.B. 0 für int, 0.0 für double)\n};\n\n// 2. Liste der Typen definieren, die getestet werden sollen\ntypedef ::testing::Types<int, double> MyTypes;\n\n// 3. GoogleTest mitteilen, dass diese Fixture mit diesen Typen verwendet wird\nTYPED_TEST_SUITE(MyTypedTest, MyTypes);\n\n// 4. Der eigentliche Test\n// Dieser Test wird automatisch für jeden Typ ausgeführt (int und double)\nTYPED_TEST(MyTypedTest, DefaultIsZero) {\n    // TypeParam ist der aktuelle Typ (hier: int oder double)\n    TypeParam value{};\n\n    // Für int → value = 0\n    // Für double → value = 0.0\n    EXPECT_EQ(value, 0);\n}\n\n// Ergebnis:\n// GoogleTest erzeugt intern zwei Tests:\n// - MyTypedTest<int>.DefaultIsZero\n// - MyTypedTest<double>.DefaultIsZero\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Value vs Typed Tests",
+              "columns": ["Value-Parameterized", "Typed Tests"],
+              "rows": [
+                {
+                  "aspect": "Variation",
+                  "values": ["Unterschiedliche Werte", "Unterschiedliche Typen"]
+                },
+                {
+                  "aspect": "Einsatz",
+                  "values": ["Input-Kombinationen", "Generischer Code"]
+                },
+                {
+                  "aspect": "Komplexität",
+                  "values": ["Mittel", "Höher"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wann parameterisierte Tests sinnvoll sind",
+              "text": [
+                "Wenn viele ähnliche Tests mit unterschiedlichen Eingaben existieren.",
+                "Wenn Logik für verschiedene Fälle identisch ist.",
+                "Wenn man Edge Cases systematisch abdecken möchte.",
+                "Wenn Duplikation reduziert werden soll."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wann NICHT verwenden",
+              "items": [
+                "Wenn Tests sehr unterschiedlich sind",
+                "Wenn die Logik schwer lesbar wird",
+                "Wenn nur wenige Fälle existieren",
+                "Wenn Verständlichkeit leidet"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Unlesbare Tests",
+              "text": "Zu viele Parameter oder komplexe Strukturen machen Tests schwer verständlich."
+            },
+            {
+              "type": "pitfall",
+              "title": "Overengineering",
+              "text": "Parameterisierung für einfache Tests macht den Code unnötig kompliziert."
+            },
+            {
+              "type": "important",
+              "text": "Parameterisierte Tests sollen Duplikation reduzieren, nicht die Lesbarkeit verschlechtern."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Parameterisierte Tests führen denselben Test mit verschiedenen Daten aus",
+                "Value-Parameterized Tests variieren Eingaben",
+                "Typed Tests variieren Datentypen",
+                "Sie sind wichtig für skalierbare Tests",
+                "Lesbarkeit bleibt wichtiger als maximale Abstraktion"
+              ]
+            }
           ]
         },
 
