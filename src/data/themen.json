@@ -11947,16 +11947,141 @@
 
   {
     "category": "Tests",
-    "icon": "🗄️",
+    "icon": "🧪",
     "subcategories": [
       {
         "name": "Google Tests",
-        "icon": "🧱",
+        "icon": "🥇",
         "topics": [
         {
-          "title": "---",
+          "title": "Grundlagen des Testens",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Unit Testing",
+              "text": "Unit Testing ist das Testen der kleinsten isolierten Einheiten eines Programms, z.B. einzelner Funktionen oder Klassen, um sicherzustellen, dass sie korrekt funktionieren."
+            },
+            {
+              "type": "explanation",
+              "title": "Was ist Unit Testing wirklich?",
+              "text": [
+                "Beim Unit Testing wird Code isoliert getestet, ohne Abhängigkeiten wie Datenbanken oder externe Systeme.",
+                "Ziel ist es, eine einzelne Verantwortung (z.B. eine Funktion oder Methode) korrekt zu überprüfen.",
+                "Ein Test prüft: 'Wenn ich diesen Input gebe, bekomme ich den erwarteten Output?'"
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Vorteile von Unit Testing",
+              "items": [
+                "Frühes Erkennen von Fehlern",
+                "Sicheres Refactoring",
+                "Bessere Codequalität",
+                "Dokumentation des erwarteten Verhaltens"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Warum Testing besonders in C++ wichtig ist",
+              "text": [
+                "C++ hat keine Laufzeit-Sicherheitsmechanismen wie viele höhere Sprachen.",
+                "Fehler wie Speicherprobleme oder undefiniertes Verhalten sind schwer zu finden.",
+                "Compilerfehler erkennen keine Logikfehler.",
+                "Ohne Tests werden größere C++ Projekte schnell unwartbar."
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "Testarten",
+              "text": "Testarten unterscheiden sich darin, wie viel des Systems gleichzeitig getestet wird."
+            },
+            {
+              "type": "explanation",
+              "title": "Überblick Testarten",
+              "text": [
+                "Unit Tests: Testen einzelne Funktionen oder Klassen isoliert.",
+                "Integration Tests: Testen das Zusammenspiel mehrerer Komponenten.",
+                "End-to-End Tests (E2E): Testen das komplette System aus Sicht des Nutzers."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Vergleich der Testarten",
+              "columns": ["Unit Test", "Integration Test", "E2E Test"],
+              "rows": [
+                {
+                  "aspect": "Ziel",
+                  "values": ["Einzelne Einheit prüfen", "Zusammenspiel prüfen", "Gesamtsystem prüfen"]
+                },
+                {
+                  "aspect": "Geschwindigkeit",
+                  "values": ["Sehr schnell", "Mittel", "Langsam"]
+                },
+                {
+                  "aspect": "Komplexität",
+                  "values": ["Niedrig", "Mittel", "Hoch"]
+                },
+                {
+                  "aspect": "Fehlersuche",
+                  "values": ["Sehr einfach", "Mittel", "Schwierig"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Warum man Testarten kombiniert",
+              "text": [
+                "Unit Tests prüfen Logik im Detail.",
+                "Integration Tests erkennen Fehler zwischen Komponenten.",
+                "E2E Tests prüfen reale Nutzungsszenarien.",
+                "Nur eine Testart alleine reicht in echten Projekten nicht aus."
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "GoogleTest",
+              "text": "GoogleTest ist ein Framework für C++, mit dem automatisierte Tests geschrieben und ausgeführt werden können."
+            },
+            {
+              "type": "explanation",
+              "title": "Was ist GoogleTest",
+              "text": [
+                "GoogleTest ist ein weit verbreitetes Testframework für C++.",
+                "Es stellt Makros wie TEST, EXPECT und ASSERT bereit.",
+                "Tests werden automatisch ausgeführt und ausgewertet.",
+                "Es lässt sich nahtlos in CMake und professionelle Build-Systeme integrieren."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Warum ein Testframework verwenden",
+              "items": [
+                "Automatische Ausführung von Tests",
+                "Klare Struktur für Testfälle",
+                "Aussagekräftige Fehlermeldungen",
+                "Integration in CI/CD möglich"
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Testing ist kein optionales Extra, sondern ein zentraler Bestandteil professioneller Softwareentwicklung."
+            },
+            {
+              "type": "pitfall",
+              "title": "Typischer Anfängerfehler",
+              "text": "Tests werden erst am Ende oder gar nicht geschrieben. Dadurch entstehen instabile Systeme und schwer auffindbare Fehler."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Unit Testing prüft isolierte Code-Einheiten",
+                "Tests erhöhen Stabilität und Wartbarkeit",
+                "In C++ sind Tests besonders wichtig",
+                "Es gibt verschiedene Testarten mit unterschiedlichen Zielen",
+                "GoogleTest ist ein Standard-Framework für C++ Tests"
+              ]
+            }
           ]
         },
 
