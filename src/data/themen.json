@@ -8035,7 +8035,7 @@
               "type": "code",
               "title": "Verschachtelte Namespaces",
               "language": "cpp",
-              "code": "#include <iostream>\n\nnamespace Projekt {\n    namespace Modul {\n        void info() {\n            std::cout << \"Modul\" << std::endl;\n        }\n    }\n}\n\nint main() {\n    Projekt::Modul::info();\n}\n"
+              "code": "#include <iostream>\n\nnamespace Projekt::Modul {\n    void info() {\n    std::cout << \"Modul\" << std::endl;\n    }\n}\n\nint main() {\n    Projekt::Modul::info();\n}\n"
             },
             {
               "type": "code",
