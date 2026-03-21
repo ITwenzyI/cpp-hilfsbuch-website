@@ -13495,6 +13495,191 @@
 
 
         {
+          "title": "Typische Fehler beim Testen",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Warum typische Fehler wichtig sind",
+              "text": [
+                "Viele Probleme beim Testen entstehen nicht durch fehlendes Wissen, sondern durch falsche Gewohnheiten.",
+                "Diese Fehler führen dazu, dass Tests unzuverlässig, schwer verständlich oder nutzlos werden.",
+                "Wer diese Fehler kennt, kann sie bewusst vermeiden und deutlich bessere Tests schreiben."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Die häufigsten Fehler",
+              "items": [
+                "Zu große Tests",
+                "Zu viele Assertions in einem Test",
+                "Abhängigkeiten nicht mocken",
+                "Tests hängen voneinander ab",
+                "Nicht deterministische Tests",
+                "Schlechtes Naming",
+                "Logik im Testcode"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Zu große Tests",
+              "text": [
+                "Ein Test prüft mehrere Dinge gleichzeitig.",
+                "Wenn der Test fehlschlägt, ist unklar, welcher Teil das Problem verursacht.",
+                "Große Tests sind schwer zu lesen und schwer zu debuggen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Schlechter Test (zu viele Dinge gleichzeitig)",
+              "language": "cpp",
+              "code": "TEST(UserServiceTest, EverythingWorks) {\n    EXPECT_EQ(createUser(\"Max\"), true);\n    EXPECT_EQ(getUserCount(), 1);\n    EXPECT_EQ(getUserName(0), \"Max\");\n}"
+            },
+            {
+              "type": "code",
+              "title": "Besser: aufteilen in einzelne Tests",
+              "language": "cpp",
+              "code": "TEST(UserServiceTest, CreatesUserSuccessfully) {\n    EXPECT_TRUE(createUser(\"Max\"));\n}\n\nTEST(UserServiceTest, IncreasesUserCount) {\n    createUser(\"Max\");\n    EXPECT_EQ(getUserCount(), 1);\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Zu viele Assertions",
+              "text": [
+                "Viele Assertions in einem Test machen ihn unübersichtlich.",
+                "Ein Fehler kann mehrere Folgefehler erzeugen.",
+                "Der eigentliche Grund für den Fehler ist schwer erkennbar."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu viele EXPECTs",
+              "text": "Wenn ein Test viele EXPECTs enthält, verliert man schnell den Überblick, welche Assertion wirklich relevant ist."
+            },
+            {
+              "type": "explanation",
+              "title": "Abhängigkeiten nicht mocken",
+              "text": [
+                "Tests greifen auf echte Datenbanken, Dateien oder APIs zu.",
+                "Dadurch werden sie langsam und unzuverlässig.",
+                "Fehler in externen Systemen verfälschen die Testergebnisse."
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Application Layer sollte fast immer mit Mocks getestet werden, nicht mit echten Abhängigkeiten."
+            },
+            {
+              "type": "explanation",
+              "title": "Tests hängen voneinander ab",
+              "text": [
+                "Ein Test funktioniert nur, wenn ein anderer Test vorher gelaufen ist.",
+                "Das führt zu instabilen und schwer debugbaren Tests.",
+                "Tests müssen unabhängig voneinander sein."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Unabhängige vs abhängige Tests",
+              "columns": ["Unabhängig", "Abhängig"],
+              "rows": [
+                {
+                  "aspect": "Reihenfolge",
+                  "values": ["egal", "entscheidend"]
+                },
+                {
+                  "aspect": "Stabilität",
+                  "values": ["hoch", "niedrig"]
+                },
+                {
+                  "aspect": "Debugging",
+                  "values": ["einfach", "schwierig"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Nicht deterministische Tests",
+              "text": [
+                "Tests liefern nicht immer das gleiche Ergebnis.",
+                "Ursachen sind oft Zeit, Zufall oder externe Systeme.",
+                "Solche Tests nennt man flaky und sie zerstören Vertrauen in das Testsystem."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Ursachen für flaky Tests",
+              "items": [
+                "Zufallswerte ohne Kontrolle",
+                "Abhängigkeit von aktueller Zeit",
+                "Gemeinsamer globaler Zustand",
+                "Netzwerk oder externe Systeme",
+                "Race Conditions"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Flaky Tests",
+              "text": "Ein Test, der manchmal besteht und manchmal fehlschlägt, ist gefährlich, weil man ihm nicht mehr vertrauen kann."
+            },
+            {
+              "type": "explanation",
+              "title": "Schlechtes Naming",
+              "text": [
+                "Testnamen wie Test1 oder CheckStuff sagen nichts aus.",
+                "Gute Namen beschreiben das Verhalten.",
+                "Ein Testname sollte klar machen, was erwartet wird."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Schlechter vs guter Name",
+              "language": "cpp",
+              "code": "TEST(UserTest, Test1) {}\n\nTEST(UserServiceTest, ReturnsTrueWhenUserExists) {}"
+            },
+            {
+              "type": "explanation",
+              "title": "Logik im Testcode",
+              "text": [
+                "Tests enthalten Bedingungen, Schleifen oder komplexe Berechnungen.",
+                "Dadurch wird der Test schwer verständlich.",
+                "Fehler können im Test selbst entstehen, nicht nur im Produktivcode."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Test enthält eigene Logik",
+              "text": "Wenn ein Test selbst komplexe Entscheidungen trifft, wird er schwer nachvollziehbar und verliert an Aussagekraft."
+            },
+            {
+              "type": "explanation",
+              "title": "Der größte Fehler insgesamt",
+              "text": [
+                "Viele schreiben Tests nur, um Tests zu haben.",
+                "Die Qualität der Tests ist aber entscheidend, nicht die Anzahl.",
+                "Schlechte Tests bremsen Entwicklung mehr, als sie helfen."
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Ein schlechter Test ist oft gefährlicher als kein Test, weil er falsche Sicherheit vermittelt."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Zu große Tests sind schwer zu debuggen",
+                "Zu viele Assertions machen Tests unübersichtlich",
+                "Mocks sind wichtig für isolierte Tests",
+                "Tests müssen unabhängig sein",
+                "Deterministische Tests sind entscheidend",
+                "Gutes Naming verbessert Verständlichkeit",
+                "Testcode sollte keine eigene Logik enthalten"
+              ]
+            }
+          ]
+        },
+
+
+        {
           "title": "---",
           "difficulty": "basic",
           "blocks": [
