@@ -12661,9 +12661,192 @@
         },
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Mocking mit GoogleMock",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Mock",
+              "text": "Ein Mock ist ein Testobjekt, das das Verhalten echter Abhängigkeiten simuliert und überprüft, wie es verwendet wird."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum Mocking notwendig ist",
+              "text": [
+                "Viele Klassen hängen von externen Komponenten ab (z.B. Datenbanken, APIs).",
+                "Diese Abhängigkeiten sind im Test schwer oder unzuverlässig nutzbar.",
+                "Mocking erlaubt es, diese Abhängigkeiten zu ersetzen und isoliert zu testen.",
+                "So testet man nur die eigene Logik und nicht das gesamte System."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Abhängigkeiten",
+              "items": [
+                "Datenbanken (z.B. SQLite)",
+                "Dateisystem",
+                "Netzwerk-APIs",
+                "Repositories im infrastructure Layer"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von Mocking",
+              "text": [
+                "Anstatt eine echte Implementierung zu verwenden, wird ein Mock eingesetzt.",
+                "Der Mock simuliert Verhalten und überprüft Aufrufe.",
+                "So kann man kontrollieren, wie Abhängigkeiten genutzt werden."
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "GoogleMock",
+              "text": "GoogleMock ist eine Erweiterung von GoogleTest, mit der Mock-Objekte erstellt und deren Verhalten überprüft werden können."
+            },
+            {
+              "type": "explanation",
+              "title": "GoogleMock Grundlagen",
+              "text": [
+                "Mocks basieren meist auf Interfaces (abstrakten Klassen).",
+                "Methoden werden mit MOCK_METHOD definiert.",
+                "Erwartungen werden mit EXPECT_CALL festgelegt.",
+                "GoogleMock überprüft automatisch, ob diese Erwartungen erfüllt wurden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Mock Beispiel",
+              "language": "cpp",
+              "code": "#include <gtest/gtest.h>\n#include <gmock/gmock.h>\n\n// 1. Interface (z.B. Repository)\nclass IUserRepository {\npublic:\n    virtual ~IUserRepository() = default;\n    virtual int getUserCount() const = 0;\n};\n\n// 2. Mock erstellen\nclass MockUserRepository : public IUserRepository {\npublic:\n    MOCK_METHOD(int, getUserCount, (), (const, override));\n};\n\n// 3. Test mit Mock\nTEST(UserServiceTest, ReturnsCorrectCount) {\n    MockUserRepository repo;\n\n    // Erwartung definieren\n    EXPECT_CALL(repo, getUserCount())\n        .WillOnce(::testing::Return(5));\n\n    // Nutzung\n    EXPECT_EQ(repo.getUserCount(), 5);\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "EXPECT_CALL (entscheidend)",
+              "text": [
+                "EXPECT_CALL definiert, welche Methode aufgerufen werden soll.",
+                "Man kann festlegen, wie oft sie aufgerufen wird.",
+                "Man definiert auch, was zurückgegeben wird.",
+                "Wenn die Erwartung nicht erfüllt wird, schlägt der Test fehl."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "EXPECT_CALL Varianten",
+              "language": "cpp",
+              "code": "EXPECT_CALL(repo, getUserCount())\n    .Times(1)\n    .WillOnce(::testing::Return(5));\n\nEXPECT_CALL(repo, getUserCount())\n    .Times(::testing::AtLeast(1));"
+            },
+            {
+              "type": "code",
+              "title": "Mock steuert Verhalten (true / false Entscheidung)",
+              "language": "cpp",
+              "code": "// Interface (Dependency)\nclass IFeatureService {\npublic:\n    virtual ~IFeatureService() = default;\n    virtual bool isFeatureEnabled() const = 0;\n};\n\n// Business Logik (zu testende Klasse)\nclass AppService {\npublic:\n    explicit AppService(const IFeatureService& feature) : feature_(feature) {}\n\n    std::string run() const {\n        if (feature_.isFeatureEnabled()) {\n            return \"Feature ON\";\n        }\n        return \"Feature OFF\";\n    }\n\nprivate:\n    const IFeatureService& feature_;\n};\n\n// Mock\nclass MockFeatureService : public IFeatureService {\npublic:\n    MOCK_METHOD(bool, isFeatureEnabled, (), (const, override));\n};\n\n// Test: Feature aktiviert\nTEST(AppServiceTest, ReturnsOnWhenFeatureEnabled) {\n    MockFeatureService feature;\n\n    EXPECT_CALL(feature, isFeatureEnabled())\n        .WillOnce(::testing::Return(true));\n\n    AppService service(feature);\n\n    EXPECT_EQ(service.run(), \"Feature ON\");\n}\n\n// Test: Feature deaktiviert\nTEST(AppServiceTest, ReturnsOffWhenFeatureDisabled) {\n    MockFeatureService feature;\n\n    EXPECT_CALL(feature, isFeatureEnabled())\n        .WillOnce(::testing::Return(false));\n\n    AppService service(feature);\n\n    EXPECT_EQ(service.run(), \"Feature OFF\");\n}"
+            },
+            {
+              "type": "code",
+              "title": "Mock liefert Daten → Verhalten hängt davon ab",
+              "language": "cpp",
+              "code": "// Interface\nclass IUserRepository {\npublic:\n    virtual ~IUserRepository() = default;\n    virtual int getUserCount() const = 0;\n};\n\n// Business Logik\nclass UserService {\npublic:\n    explicit UserService(const IUserRepository& repo) : repo_(repo) {}\n\n    bool hasUsers() const {\n        return repo_.getUserCount() > 0;\n    }\n\nprivate:\n    const IUserRepository& repo_;\n};\n\n// Mock\nclass MockUserRepository : public IUserRepository {\npublic:\n    MOCK_METHOD(int, getUserCount, (), (const, override));\n};\n\n// Test: Nutzer vorhanden\nTEST(UserServiceTest, ReturnsTrueWhenUsersExist) {\n    MockUserRepository repo;\n\n    EXPECT_CALL(repo, getUserCount())\n        .WillOnce(::testing::Return(5));\n\n    UserService service(repo);\n\n    EXPECT_TRUE(service.hasUsers());\n}\n\n// Test: keine Nutzer\nTEST(UserServiceTest, ReturnsFalseWhenNoUsersExist) {\n    MockUserRepository repo;\n\n    EXPECT_CALL(repo, getUserCount())\n        .WillOnce(::testing::Return(0));\n\n    UserService service(repo);\n\n    EXPECT_FALSE(service.hasUsers());\n}"
+            },
+            {
+              "type": "code",
+              "title": "Mock prüft, ob Methode aufgerufen wird (Interaktion testen)",
+              "language": "cpp",
+              "code": "// Interface\nclass ILogger {\npublic:\n    virtual ~ILogger() = default;\n    virtual void logError(const std::string& msg) = 0;\n};\n\n// Business Logik\nclass PaymentService {\npublic:\n    explicit PaymentService(ILogger& logger) : logger_(logger) {}\n\n    void process(bool success) {\n        if (!success) {\n            logger_.logError(\"Payment failed\");\n        }\n    }\n\nprivate:\n    ILogger& logger_;\n};\n\n// Mock\nclass MockLogger : public ILogger {\npublic:\n    MOCK_METHOD(void, logError, (const std::string&), (override));\n};\n\n// Test: Fehler wird geloggt\nTEST(PaymentServiceTest, LogsErrorOnFailure) {\n    MockLogger logger;\n\n    EXPECT_CALL(logger, logError(\"Payment failed\"))\n        .Times(1);\n\n    PaymentService service(logger);\n\n    service.process(false);\n}\n\n// Test: kein Fehler → kein Log\nTEST(PaymentServiceTest, DoesNotLogOnSuccess) {\n    MockLogger logger;\n\n    EXPECT_CALL(logger, logError(::testing::_))\n        .Times(0);\n\n    PaymentService service(logger);\n\n    service.process(true);\n}"
+            },
+            {
+              "type": "code",
+              "title": "Mock mit mehreren Rückgaben (Sequenz)",
+              "language": "cpp",
+              "code": "// Interface\nclass IRetryService {\npublic:\n    virtual ~IRetryService() = default;\n    virtual bool tryAction() = 0;\n};\n\n// Business Logik\nclass RetryHandler {\npublic:\n    explicit RetryHandler(IRetryService& service) : service_(service) {}\n\n    bool execute() {\n        // max 2 Versuche\n        if (service_.tryAction()) return true;\n        return service_.tryAction();\n    }\n\nprivate:\n    IRetryService& service_;\n};\n\n// Mock\nclass MockRetryService : public IRetryService {\npublic:\n    MOCK_METHOD(bool, tryAction, (), (override));\n};\n\n// Test: erster Versuch fail, zweiter erfolgreich\nTEST(RetryHandlerTest, SucceedsOnSecondTry) {\n    MockRetryService service;\n\n    EXPECT_CALL(service, tryAction())\n        .WillOnce(::testing::Return(false))\n        .WillOnce(::testing::Return(true));\n\n    RetryHandler handler(service);\n\n    EXPECT_TRUE(handler.execute());\n}"
+            },
+            {
+              "type": "definition",
+              "term": "Stub",
+              "text": "Ein Stub liefert feste Rückgabewerte, ohne zu überprüfen, wie er verwendet wird."
+            },
+            {
+              "type": "code",
+              "title": "Stub Beispiel (fester Rückgabewert, keine Überprüfung)",
+              "language": "cpp",
+              "code": "// Interface\nclass IUserRepository {\npublic:\n    virtual ~IUserRepository() = default;\n    virtual int getUserCount() const = 0;\n};\n\n// Stub (liefert immer denselben Wert)\nclass StubUserRepository : public IUserRepository {\npublic:\n    int getUserCount() const override {\n        return 10; // fester Wert, unabhängig vom Verhalten\n    }\n};\n\n// Business Logik\nclass UserService {\npublic:\n    explicit UserService(const IUserRepository& repo) : repo_(repo) {}\n\n    bool hasUsers() const {\n        return repo_.getUserCount() > 0;\n    }\n\nprivate:\n    const IUserRepository& repo_;\n};\n\n// Test\nTEST(UserServiceTest, ReturnsTrueWithStub) {\n    StubUserRepository repo;\n    UserService service(repo);\n\n    EXPECT_TRUE(service.hasUsers());\n}\n\n// Wichtig:\n// - Stub liefert nur Daten\n// - Kein EXPECT_CALL\n// - Keine Überprüfung, wie oft etwas aufgerufen wurde"
+            },
+            {
+              "type": "definition",
+              "term": "Fake",
+              "text": "Ein Fake ist eine vereinfachte, aber funktionale Implementierung einer Abhängigkeit."
+            },
+            {
+              "type": "code",
+              "title": "Fake Beispiel (vereinfachte echte Implementierung)",
+              "language": "cpp",
+              "code": "#include <vector>\n\n// Interface\nclass IUserRepository {\npublic:\n    virtual ~IUserRepository() = default;\n    virtual void addUser(int id) = 0;\n    virtual int getUserCount() const = 0;\n};\n\n// Fake (funktionale In-Memory Implementierung)\nclass FakeUserRepository : public IUserRepository {\npublic:\n    void addUser(int id) override {\n        users_.push_back(id);\n    }\n\n    int getUserCount() const override {\n        return users_.size();\n    }\n\nprivate:\n    std::vector<int> users_; // echte Logik, aber vereinfacht\n};\n\n// Business Logik\nclass UserService {\npublic:\n    explicit UserService(IUserRepository& repo) : repo_(repo) {}\n\n    void registerUser(int id) {\n        repo_.addUser(id);\n    }\n\n    int count() const {\n        return repo_.getUserCount();\n    }\n\nprivate:\n    IUserRepository& repo_;\n};\n\n// Test\nTEST(UserServiceTest, AddsUsersWithFake) {\n    FakeUserRepository repo;\n    UserService service(repo);\n\n    service.registerUser(1);\n    service.registerUser(2);\n\n    EXPECT_EQ(service.count(), 2);\n}\n\n// Wichtig:\n// - Fake enthält echte Logik\n// - Kein Mocking Framework nötig\n// - Sehr gut für einfache Integrationstests"
+            },
+            {
+              "type": "comparison",
+              "title": "Fake vs Stub vs Mock",
+              "columns": ["Fake", "Stub", "Mock"],
+              "rows": [
+                {
+                  "aspect": "Zweck",
+                  "values": ["Einfache Implementierung", "Feste Rückgaben", "Verhalten prüfen"]
+                },
+                {
+                  "aspect": "Logik",
+                  "values": ["Ja", "Nein", "Minimal"]
+                },
+                {
+                  "aspect": "Überprüfung von Aufrufen",
+                  "values": ["Nein", "Nein", "Ja"]
+                },
+                {
+                  "aspect": "Komplexität",
+                  "values": ["Mittel", "Niedrig", "Mittel"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wann welches verwenden",
+              "text": [
+                "Stub: Wenn nur ein Rückgabewert benötigt wird.",
+                "Fake: Wenn einfache Logik sinnvoll ist (z.B. In-Memory DB).",
+                "Mock: Wenn überprüft werden soll, wie eine Abhängigkeit verwendet wird."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wann Mocking sinnvoll ist",
+              "items": [
+                "Tests im application Layer",
+                "Trennung von Domain und Infrastructure",
+                "Vermeidung echter Datenbankzugriffe",
+                "Überprüfung von Interaktionen"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu viel Mocking",
+              "text": "Zu viele Mocks führen zu fragilen Tests, die stark an Implementierungsdetails gebunden sind."
+            },
+            {
+              "type": "pitfall",
+              "title": "Falsche Abstraktionen",
+              "text": "Mocking funktioniert nur sauber, wenn Interfaces korrekt designt sind."
+            },
+            {
+              "type": "important",
+              "text": "Mocking funktioniert nur mit guter Architektur (Interfaces und klare Abhängigkeiten)."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Mocks ersetzen externe Abhängigkeiten",
+                "GoogleMock ermöglicht Verhalten zu simulieren und zu prüfen",
+                "EXPECT_CALL definiert erwartete Interaktionen",
+                "Fake, Stub und Mock haben unterschiedliche Zwecke",
+                "Mocking ist zentral für professionelles Testing"
+              ]
+            }
           ]
         },
 
