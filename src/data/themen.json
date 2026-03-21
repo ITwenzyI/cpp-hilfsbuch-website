@@ -13147,9 +13147,182 @@
         },
 
         {
-          "title": "---",
+          "title": "Teststruktur im Projekt",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Teststruktur",
+              "text": "Die Teststruktur beschreibt, wie Testdateien, Testordner und Test Targets in einem Projekt organisiert werden, damit Tests übersichtlich, wartbar und skalierbar bleiben."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum eine saubere Teststruktur wichtig ist",
+              "text": [
+                "Am Anfang funktionieren Tests oft auch ohne klare Struktur.",
+                "Sobald ein Projekt wächst, werden ungeordnete Tests schnell unübersichtlich.",
+                "Eine saubere Teststruktur erleichtert Wartung, Navigation, Teamarbeit und spätere Erweiterungen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Tests sollten logisch zur Struktur des Produktivcodes passen.",
+                "Wer Layered Architecture nutzt, sollte diese Struktur auch im Testbereich widerspiegeln.",
+                "So erkennt man sofort, welche Schicht getestet wird und wo neue Tests hingehören."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel einer sauberen Projektstruktur",
+              "language": "cpp",
+              "code": "project/\n├── src/\n│   ├── domain/\n│   │   ├── event.cpp\n│   │   └── event.hpp\n│   ├── application/\n│   │   ├── event_service.cpp\n│   │   └── event_service.hpp\n│   ├── infrastructure/\n│   │   └── sqlite/\n│   │       ├── event_repository_sqlite.cpp\n│   │       └── event_repository_sqlite.hpp\n│   └── main.cpp\n│\n├── tests/\n│   ├── domain/\n│   │   └── event_test.cpp\n│   ├── application/\n│   │   └── event_service_test.cpp\n│   ├── infrastructure/\n│   │   └── sqlite/\n│   │       └── event_repository_sqlite_test.cpp\n│   └── main.cpp\n│\n└── CMakeLists.txt"
+            },
+            {
+              "type": "explanation",
+              "title": "Was an dieser Struktur gut ist",
+              "text": [
+                "Die Tests spiegeln die Struktur des Produktivcodes direkt wider.",
+                "Man findet schnell die passende Testdatei zur jeweiligen Komponente.",
+                "Neue Tests lassen sich ohne Chaos einordnen."
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Die beste Teststruktur orientiert sich fast immer an der Struktur des Produktivcodes."
+            },
+            {
+              "type": "explanation",
+              "title": "Ordnerstruktur für Tests",
+              "text": [
+                "Ein eigener tests Ordner trennt Testcode klar vom Produktivcode.",
+                "Innerhalb dieses Ordners werden die Layer oder Module nachgebildet.",
+                "Dadurch bleibt die Verantwortung jeder Testdatei klar."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Unklare vs saubere Teststruktur",
+              "columns": ["Unsauber", "Sauber"],
+              "rows": [
+                {
+                  "aspect": "Ablage",
+                  "values": ["Alle Tests in einem Ordner", "Tests nach Layer oder Modul getrennt"]
+                },
+                {
+                  "aspect": "Navigation",
+                  "values": ["Wird schnell unübersichtlich", "Schnell auffindbar"]
+                },
+                {
+                  "aspect": "Skalierbarkeit",
+                  "values": ["Schlecht", "Gut"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Naming von Testdateien",
+              "text": [
+                "Testdateien sollten klar zeigen, welche Klasse, Funktion oder Komponente sie testen.",
+                "Ein häufiger und guter Standard ist der Suffix _test.cpp.",
+                "Der Dateiname sollte zum Produktivcode passen und nur um _test ergänzt werden."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Gute Dateinamen",
+              "items": [
+                "event_test.cpp",
+                "event_service_test.cpp",
+                "event_repository_sqlite_test.cpp",
+                "birth_date_test.cpp"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Schwache Dateinamen",
+              "text": "Dateinamen wie test1.cpp, checks.cpp oder misc_test.cpp sagen fast nichts aus und werden in größeren Projekten schnell zum Problem."
+            },
+            {
+              "type": "explanation",
+              "title": "Trennung von Produktivcode und Testcode",
+              "text": [
+                "Produktivcode gehört in src oder passende Fachordner.",
+                "Tests gehören in tests.",
+                "Tests sollten nicht zwischen normalen Quelldateien verteilt werden.",
+                "Diese Trennung verbessert Übersicht und verhindert Vermischung von Verantwortlichkeiten."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Produktivcode vs Testcode",
+              "columns": ["Produktivcode", "Testcode"],
+              "rows": [
+                {
+                  "aspect": "Ziel",
+                  "values": ["Anwendung bereitstellen", "Verhalten prüfen"]
+                },
+                {
+                  "aspect": "Ordner",
+                  "values": ["src", "tests"]
+                },
+                {
+                  "aspect": "Nutzer",
+                  "values": ["Endanwender", "Entwickler und CI"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wie das zu Layered Architecture passt",
+              "text": [
+                "Domain Tests liegen im tests/domain Ordner.",
+                "Application Tests liegen im tests/application Ordner.",
+                "Infrastructure Tests liegen z.B. in tests/infrastructure/sqlite.",
+                "So folgt die Teststruktur direkt der fachlichen und technischen Architektur."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Best Practices",
+              "items": [
+                "Eigenen tests Ordner verwenden",
+                "Teststruktur an Produktivstruktur ausrichten",
+                "Klare und konsistente Dateinamen nutzen",
+                "Produktivcode und Tests strikt trennen",
+                "Tests pro Komponente oder Klasse bündeln"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu grobe Sammeltests",
+              "text": "Wenn viele Komponenten in einer einzigen Testdatei landen, werden Tests schwer lesbar und schlecht wartbar."
+            },
+            {
+              "type": "pitfall",
+              "title": "Tests an falscher Stelle",
+              "text": "Wenn Tests direkt in src liegen oder quer im Projekt verteilt sind, verliert man schnell den Überblick."
+            },
+            {
+              "type": "explanation",
+              "title": "Wann mehrere Test Targets sinnvoll sind",
+              "text": [
+                "In kleinen Projekten reicht oft ein einziges Test Executable.",
+                "In größeren Projekten kann man getrennte Test Targets pro Layer oder Modul anlegen.",
+                "Das ist besonders nützlich, wenn bestimmte Tests langsamer sind oder andere Abhängigkeiten brauchen."
+              ]
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Tests brauchen eine klare und skalierbare Struktur",
+                "Die Teststruktur sollte der Produktivstruktur folgen",
+                "Ein eigener tests Ordner trennt Testcode sauber vom Produktivcode",
+                "Konsistente Dateinamen wie _test.cpp sind wichtig",
+                "Saubere Testorganisation verbessert Wartbarkeit und Teamarbeit"
+              ]
+            }
           ]
         },
 
