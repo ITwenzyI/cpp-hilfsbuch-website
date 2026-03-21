@@ -13327,9 +13327,169 @@
         },
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Best Practices für gute Tests",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Guter Test",
+              "text": "Ein guter Test ist klar, klein, zuverlässig und prüft genau ein nachvollziehbares Verhalten."
+            },
+            {
+              "type": "explanation",
+              "title": "Was einen guten Test ausmacht",
+              "text": [
+                "Ein guter Test ist leicht lesbar und schnell verständlich.",
+                "Er prüft genau eine konkrete Erwartung an den Code.",
+                "Er schlägt nur dann fehl, wenn das tatsächlich getestete Verhalten falsch ist.",
+                "Ein guter Test hilft beim Debugging statt zusätzliche Verwirrung zu erzeugen."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Merkmale guter Tests",
+              "items": [
+                "Klarer Zweck",
+                "Kleine und fokussierte Struktur",
+                "Eindeutige Assertions",
+                "Unabhängigkeit von anderen Tests",
+                "Stabiles und reproduzierbares Verhalten"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "AAA Pattern",
+              "text": [
+                "Das AAA Pattern steht für Arrange, Act, Assert.",
+                "Arrange bedeutet: Testdaten und Voraussetzungen vorbereiten.",
+                "Act bedeutet: Die zu testende Funktion oder Methode ausführen.",
+                "Assert bedeutet: Das erwartete Ergebnis überprüfen.",
+                "Dieses Muster macht Tests lesbarer und verhindert chaotischen Testcode."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Test nach dem AAA Pattern",
+              "language": "cpp",
+              "code": "TEST(CalculatorTest, AddsTwoNumbers) {\n    // Arrange\n    int a = 2;\n    int b = 3;\n\n    // Act\n    int result = a + b;\n\n    // Assert\n    EXPECT_EQ(result, 5);\n}"
+            },
+            {
+              "type": "important",
+              "text": "Das AAA Pattern ist keine starre Regel, aber eine der einfachsten Methoden, Tests sauber und lesbar zu halten."
+            },
+            {
+              "type": "explanation",
+              "title": "Test Isolation",
+              "text": [
+                "Jeder Test muss unabhängig von allen anderen Tests funktionieren.",
+                "Die Reihenfolge der Testausführung darf keinen Einfluss auf das Ergebnis haben.",
+                "Ein Test darf nicht voraussetzen, dass ein anderer Test vorher etwas vorbereitet hat.",
+                "Isolierte Tests sind robuster, leichter debugbar und besser parallel ausführbar."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Isolierter Test vs abhängiger Test",
+              "columns": ["Isolierter Test", "Abhängiger Test"],
+              "rows": [
+                {
+                  "aspect": "Ausführungsreihenfolge",
+                  "values": ["Unwichtig", "Kritisch"]
+                },
+                {
+                  "aspect": "Fehlersuche",
+                  "values": ["Einfach", "Schwierig"]
+                },
+                {
+                  "aspect": "Stabilität",
+                  "values": ["Hoch", "Niedrig"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Tests hängen voneinander ab",
+              "text": "Wenn ein Test nur funktioniert, weil ein anderer Test vorher Daten erzeugt hat, ist die Teststruktur fehlerhaft."
+            },
+            {
+              "type": "explanation",
+              "title": "Keine Logik im Test",
+              "text": [
+                "Ein Test soll Verhalten prüfen, nicht selbst komplexe Logik enthalten.",
+                "Wenn ein Test voller if Bedingungen, Schleifen oder Berechnungen ist, wird er schwer nachvollziehbar.",
+                "Komplexe Testlogik kann selbst Fehler enthalten und das Ergebnis unzuverlässig machen.",
+                "Testcode sollte möglichst einfach und direkt bleiben."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Schlechter Test mit unnötiger Logik",
+              "language": "cpp",
+              "code": "TEST(ValueTest, Example) {\n    int result = calculateSomething();\n\n    if (result > 0) {\n        EXPECT_EQ(result, 10);\n    } else {\n        EXPECT_EQ(result, -10);\n    }\n}"
+            },
+            {
+              "type": "code",
+              "title": "Besser: klare und getrennte Tests",
+              "language": "cpp",
+              "code": "TEST(ValueTest, ReturnsPositiveResultForValidInput) {\n    int result = calculateSomething();\n    EXPECT_EQ(result, 10);\n}\n\nTEST(ValueTest, ReturnsNegativeResultForInvalidInput) {\n    int result = calculateSomethingWithInvalidInput();\n    EXPECT_EQ(result, -10);\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Deterministische Tests",
+              "text": [
+                "Ein deterministischer Test liefert bei gleichen Voraussetzungen immer dasselbe Ergebnis.",
+                "Tests dürfen nicht zufällig mal bestehen und mal fehlschlagen.",
+                "Zufall, Uhrzeit, Dateisystemzustand, Netzwerk oder globale Zustände machen Tests oft instabil.",
+                "Solche Tests nennt man häufig flaky tests und sie sind in professionellen Projekten ein ernstes Problem."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Ursachen für nicht deterministische Tests",
+              "items": [
+                "Zufallswerte ohne Kontrolle",
+                "Abhängigkeit von aktueller Uhrzeit",
+                "Gemeinsam genutzter globaler Zustand",
+                "Echte Netzwerkzugriffe",
+                "Seiteneffekte durch vorherige Tests"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Flaky Tests",
+              "text": "Ein Test, der manchmal besteht und manchmal fehlschlägt, ist fast so schlimm wie kein Test, weil man ihm nicht mehr vertraut."
+            },
+            {
+              "type": "explanation",
+              "title": "Wie Profis über Tests denken",
+              "text": [
+                "Ein Test ist kein formaler Pflichtpunkt, sondern ein Werkzeug zur Absicherung von Verhalten.",
+                "Gute Tests sind wartbar und helfen beim Refactoring.",
+                "Schlechte Tests bremsen Entwicklung, weil sie unklar, fragil oder unzuverlässig sind.",
+                "Nicht die Anzahl der Tests ist entscheidend, sondern ihre Qualität."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Best Practices im Überblick",
+              "items": [
+                "Genau ein Verhalten pro Test prüfen",
+                "AAA Pattern als Grundstruktur verwenden",
+                "Tests strikt isoliert halten",
+                "Keine unnötige Logik im Testcode",
+                "Tests deterministisch und stabil machen"
+              ]
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Ein guter Test ist klein, klar und zuverlässig",
+                "Das AAA Pattern gibt Tests eine saubere Struktur",
+                "Tests dürfen nicht voneinander abhängen",
+                "Komplexe Logik gehört nicht in Tests",
+                "Deterministische Tests sind essenziell für Vertrauen in die Testbasis"
+              ]
+            }
           ]
         },
 
