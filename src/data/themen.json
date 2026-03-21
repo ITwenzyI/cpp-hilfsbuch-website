@@ -12222,9 +12222,159 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Assertions im Detail",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Assertion",
+              "text": "Eine Assertion ist eine Überprüfung innerhalb eines Tests, die festlegt, ob ein bestimmtes Verhalten korrekt ist."
+            },
+            {
+              "type": "explanation",
+              "title": "Rolle von Assertions",
+              "text": [
+                "Assertions sind das Herz jedes Tests.",
+                "Sie definieren, was 'korrektes Verhalten' bedeutet.",
+                "Ohne Assertions ist ein Test wertlos."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "EXPECT vs ASSERT (entscheidend)",
+              "text": [
+                "EXPECT_* prüft eine Bedingung und lässt den Test weiterlaufen.",
+                "ASSERT_* prüft eine Bedingung und bricht den Test sofort ab, wenn sie fehlschlägt.",
+                "ASSERT wird verwendet, wenn nachfolgende Prüfungen ohne diese Bedingung keinen Sinn ergeben."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "EXPECT vs ASSERT",
+              "columns": ["EXPECT", "ASSERT"],
+              "rows": [
+                {
+                  "aspect": "Verhalten bei Fehler",
+                  "values": ["Test läuft weiter", "Test wird abgebrochen"]
+                },
+                {
+                  "aspect": "Einsatzgebiet",
+                  "values": ["Normale Checks", "Kritische Voraussetzungen"]
+                },
+                {
+                  "aspect": "Debugging",
+                  "values": ["Mehr Fehler sichtbar", "Stoppt früh"]
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Vergleichs-Assertions",
+              "items": [
+                "EXPECT_EQ(a, b) → a == b",
+                "EXPECT_NE(a, b) → a != b",
+                "EXPECT_LT(a, b) → a < b",
+                "EXPECT_LE(a, b) → a <= b",
+                "EXPECT_GT(a, b) → a > b",
+                "EXPECT_GE(a, b) → a >= b"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wann welche Assertion verwenden",
+              "text": [
+                "EXPECT_EQ ist Standard für Vergleiche.",
+                "ASSERT sollte nur für Voraussetzungen verwendet werden.",
+                "Zu viele ASSERTs machen Tests schwer analysierbar.",
+                "Zu viele EXPECTs können Folgefehler verursachen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel EXPECT vs ASSERT",
+              "language": "cpp",
+              "code": "int* ptr = getPointer();\n\nASSERT_NE(ptr, nullptr); // Voraussetzung\nEXPECT_EQ(*ptr, 42);     // eigentlicher Test"
+            },
+            {
+              "type": "explanation",
+              "title": "Floating Point Vergleiche",
+              "text": [
+                "Gleitkommazahlen sollten niemals mit EXPECT_EQ verglichen werden.",
+                "Rundungsfehler führen zu falschen Testergebnissen.",
+                "Stattdessen verwendet man Toleranzen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Floating Point korrekt testen",
+              "language": "cpp",
+              "code": "EXPECT_NEAR(result, 3.14, 0.001);"
+            },
+            {
+              "type": "pitfall",
+              "title": "Floating Point Fehler",
+              "text": "EXPECT_EQ bei float oder double führt oft zu fehlschlagenden Tests trotz korrekter Logik."
+            },
+            {
+              "type": "explanation",
+              "title": "String Assertions",
+              "text": [
+                "Strings können direkt mit EXPECT_EQ verglichen werden.",
+                "GoogleTest zeigt Unterschiede zwischen Strings sehr gut an.",
+                "Besonders hilfreich bei Fehlermeldungen oder Formatierungen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "String Vergleich",
+              "language": "cpp",
+              "code": "EXPECT_EQ(getName(), \"Kilian\");"
+            },
+            {
+              "type": "explanation",
+              "title": "Container Assertions",
+              "text": [
+                "Container wie Vektoren sollten elementweise verglichen werden.",
+                "Direkter Vergleich funktioniert nur, wenn operator== definiert ist.",
+                "Bei komplexen Typen muss oft manuell geprüft werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Container Vergleich",
+              "language": "cpp",
+              "code": "std::vector<int> expected{1, 2, 3};\nstd::vector<int> result = getValues();\n\nEXPECT_EQ(result, expected);"
+            },
+            {
+              "type": "list",
+              "title": "Best Practices für Assertions",
+              "items": [
+                "ASSERT nur für Voraussetzungen verwenden",
+                "EXPECT für eigentliche Tests nutzen",
+                "Floating Points immer mit Toleranz vergleichen",
+                "Jede Assertion sollte klar verständlich sein",
+                "Nicht mehrere Dinge gleichzeitig prüfen"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu viele Assertions",
+              "text": "Ein Test mit vielen Assertions wird unübersichtlich und schwer debugbar."
+            },
+            {
+              "type": "important",
+              "text": "Die Wahl der richtigen Assertion entscheidet darüber, ob ein Test zuverlässig oder irreführend ist."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Assertions definieren korrektes Verhalten",
+                "EXPECT und ASSERT haben unterschiedliche Rollen",
+                "Vergleichs-Assertions decken Standardfälle ab",
+                "Floating Points brauchen Toleranz",
+                "Saubere Assertions sind entscheidend für gute Tests"
+              ]
+            }
           ]
         },
 
