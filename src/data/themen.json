@@ -13016,11 +13016,133 @@
             }
           ]
         },
-
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "CMake integration",
+          "difficulty": "intermediate",
           "blocks": [
+            {
+              "type": "definition",
+              "term": "Test Integration mit CMake",
+              "text": "Bei der Test Integration mit CMake wird GoogleTest als Abhängigkeit eingebunden, ein Test Executable erstellt und dieses automatisiert über CTest ausgeführt."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum FetchContent verwenden",
+              "text": [
+                "FetchContent lädt Abhängigkeiten direkt während der Konfiguration.",
+                "Keine manuelle Installation von GoogleTest notwendig.",
+                "Alle Entwickler und CI verwenden exakt dieselbe Version.",
+                "Das macht Builds reproduzierbar und zuverlässig."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Komplettes Beispiel mit FetchContent",
+              "language": "cpp",
+              "code": "cmake_minimum_required(VERSION 3.20)\nproject(EventPlanner LANGUAGES CXX)\n\ninclude(FetchContent)\n\n# GoogleTest herunterladen\nFetchContent_Declare(\n  googletest\n  URL https://github.com/google/googletest/archive/refs/heads/main.zip\n)\n\n# Verhindert Probleme auf Windows\nset(gtest_force_shared_crt ON CACHE BOOL \"\" FORCE)\n\nFetchContent_MakeAvailable(googletest)\n\n# Testing aktivieren\nenable_testing()\n\n# ----------------------\n# Core Library\n# ----------------------\nadd_library(event_planer_core\n    src/domain/event.cpp\n    src/application/event_service.cpp\n    src/infrastructure/sqlite/event_repository_sqlite.cpp\n)\n\ntarget_include_directories(event_planer_core\n    PUBLIC src\n)\n\ntarget_compile_features(event_planer_core\n    PUBLIC cxx_std_20\n)\n\n# ----------------------\n# Main Executable\n# ----------------------\nadd_executable(event_planer\n    src/main.cpp\n)\n\ntarget_link_libraries(event_planer\n    PRIVATE event_planer_core\n)\n\n# ----------------------\n# Test Executable\n# ----------------------\nadd_executable(event_planer_tests\n    tests/main.cpp\n    tests/domain/event_test.cpp\n    tests/application/event_service_test.cpp\n)\n\ntarget_link_libraries(event_planer_tests\n    PRIVATE\n        event_planer_core\n        GTest::gtest\n        GTest::gtest_main\n)\n\n# ----------------------\n# Tests registrieren\n# ----------------------\nadd_test(NAME event_planer_tests COMMAND event_planer_tests)\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Was hier wichtig ist",
+              "text": [
+                "FetchContent lädt GoogleTest automatisch aus GitHub.",
+                "GTest::gtest und GTest::gtest_main stehen danach direkt als Targets zur Verfügung.",
+                "Keine Installation oder Systemabhängigkeit notwendig."
+              ]
+            },
+            {
+              "type": "important",
+              "text": "FetchContent macht dein Projekt sofort für andere buildbar ohne zusätzliche Setup-Schritte."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum die Core Library entscheidend ist",
+              "text": [
+                "Die gesamte Logik liegt in event_planer_core.",
+                "Sowohl das Hauptprogramm als auch die Tests nutzen diese Library.",
+                "Dadurch testest du exakt den echten Produktivcode."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Zentrale Verknüpfung",
+              "language": "cpp",
+              "code": "target_link_libraries(event_planer_tests\n    PRIVATE\n        event_planer_core\n        GTest::gtest\n        GTest::gtest_main\n)"
+            },
+            {
+              "type": "explanation",
+              "title": "Was hier passiert",
+              "text": [
+                "event_planer_core → dein Produktivcode",
+                "GTest::gtest → Assertions und Framework",
+                "GTest::gtest_main → liefert automatisch main() für Tests"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Eigenes main vs gtest_main",
+              "columns": ["Eigenes main", "gtest_main"],
+              "rows": [
+                {
+                  "aspect": "Kontrolle",
+                  "values": ["Vollständig", "Standard"]
+                },
+                {
+                  "aspect": "Setup Aufwand",
+                  "values": ["Mehr Code", "Minimal"]
+                },
+                {
+                  "aspect": "Empfehlung",
+                  "values": ["Für spezielle Fälle", "Für die meisten Projekte"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "CTest Integration",
+              "text": [
+                "enable_testing aktiviert die Testfunktion in CMake.",
+                "add_test registriert das Test Executable.",
+                "Danach können alle Tests über ctest ausgeführt werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Tests ausführen",
+              "language": "cpp",
+              "code": "cmake -S . -B build\ncmake --build build\nctest --test-dir build"
+            },
+            {
+              "type": "list",
+              "title": "Best Practices",
+              "items": [
+                "FetchContent für reproduzierbare Builds nutzen",
+                "Produktivlogik in Libraries auslagern",
+                "Tests in eigenes Executable packen",
+                "Tests über ctest ausführbar machen",
+                "target basiert arbeiten, keine globalen Einstellungen"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "GoogleTest manuell installieren müssen",
+              "text": "Wenn Entwickler zuerst Abhängigkeiten installieren müssen, wird das Setup unnötig kompliziert. FetchContent löst dieses Problem."
+            },
+            {
+              "type": "pitfall",
+              "title": "Tests nicht automatisiert ausführbar",
+              "text": "Wenn Tests nur manuell gestartet werden, fehlt ein sauberer Workflow für Team und CI."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "FetchContent lädt GoogleTest automatisch",
+                "Tests werden als eigenes Executable gebaut",
+                "Produktivcode wird als Library eingebunden",
+                "Tests werden mit add_test registriert",
+                "ctest führt alle Tests standardisiert aus"
+              ]
+            }
           ]
         },
 
