@@ -12297,149 +12297,194 @@
           ]
         },
         {
-          "title": "CMake",
-          "difficulty": "intermediate",
-          "blocks": [
-            {
-              "type": "definition",
-              "term": "CMake",
-              "text": "CMake ist ein plattformunabhängiges Build-System zur Generierung von Projektdateien für Compiler und IDEs."
-            },
-            {
-              "type": "explanation",
-              "title": "Grundidee von CMake",
-              "text": [
-                "CMake beschreibt, wie ein Projekt gebaut wird, nicht wie es konkret kompiliert wird.",
-                "Aus einer CMakeLists.txt erzeugt CMake Build-Dateien für Make, Ninja oder IDEs wie CLion oder Visual Studio."
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Warum CMake verwenden",
-              "text": [
-                "Ein Projekt kann auf Windows, Linux und macOS gleich konfiguriert werden.",
-                "Compiler, Flags und Abhängigkeiten werden zentral definiert."
-              ]
-            },
-            {
-              "type": "list",
-              "title": "Typische Einsatzgebiete",
-              "items": [
-                "C++ Projekte mit mehreren Quelldateien",
-                "Plattformübergreifende Builds",
-                "Bibliotheken und ausführbare Programme",
-                "Integration externer Abhängigkeiten"
-              ]
-            },
-            {
-              "type": "explanation",
-              "title": "Zentrale Datei: CMakeLists.txt",
-              "text": [
-                "Jedes CMake-Projekt besitzt mindestens eine CMakeLists.txt.",
-                "Sie beschreibt Projektname, Sprache, Targets und Build-Regeln."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Minimale CMakeLists.txt",
-              "language": "cpp",
-              "code": "cmake_minimum_required(VERSION 3.20)\n\nproject(MeinProjekt LANGUAGES CXX)\n\nadd_executable(MeinProgramm main.cpp)\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Wichtige Grundbefehle",
-              "text": [
-                "cmake_minimum_required legt die benötigte CMake-Version fest.",
-                "project definiert Projektname und verwendete Sprachen.",
-                "add_executable erzeugt ein ausführbares Target.",
-                "add_library erzeugt eine Bibliothek."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Projekt mit mehreren Quelldateien",
-              "language": "cpp",
-              "code": "cmake_minimum_required(VERSION 3.20)\n\nproject(MehrDateien LANGUAGES CXX)\n\nadd_executable(App\n    main.cpp\n    util.cpp\n    util.h\n)\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Target-basierter Ansatz",
-              "text": [
-                "In modernem CMake wird fast alles an Targets gebunden.",
-                "Compiler-Optionen und Includes gelten nur für das jeweilige Target."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Compiler-Standard setzen",
-              "language": "cpp",
-              "code": "add_executable(App main.cpp)\n\ntarget_compile_features(App PRIVATE cxx_std_20)\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Include-Verzeichnisse",
-              "text": [
-                "Include-Pfade werden pro Target definiert.",
-                "${CMAKE_CURRENT_SOURCE_DIR} ist der Ordner, in dem die aktuelle CMakeLists.txt liegt.",
-                "${CMAKE_CURRENT_SOURCE_DIR}/include bedeutet: Der Unterordner include relativ zu dieser CMakeLists.",
-                "PRIVATE, PUBLIC und INTERFACE steuern die Sichtbarkeit."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Include-Verzeichnisse setzen",
-              "language": "cpp",
-              "code": "target_include_directories(App\n    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include\n)\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Bibliotheken einbinden",
-              "text": [
-                "Eigene Bibliotheken werden mit add_library definiert.",
-                "Verknüpfung erfolgt mit target_link_libraries."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Eigene Bibliothek verwenden",
-              "language": "cpp",
-              "code": "add_library(util util.cpp util.h)\nadd_executable(App main.cpp)\n\ntarget_link_libraries(App PRIVATE util)\n"
-            },
-            {
-              "type": "explanation",
-              "title": "Build-Verzeichnis",
-              "text": [
-                "CMake trennt Quellcode und Build-Dateien.",
-                "Der Build erfolgt in einem separaten Ordner."
-              ]
-            },
-            {
-              "type": "code",
-              "title": "Typischer Build-Ablauf",
-              "language": "cpp",
-              "code": "mkdir build\ncd build\ncmake ..\ncmake --build .\n"
-            },
-            {
-              "type": "pitfall",
-              "title": "Globale Einstellungen",
-              "text": "Globale Compiler-Flags und include_directories führen zu unübersichtlichem und fehleranfälligem Build-Code."
-            },
-            {
-              "type": "important",
-              "text": "Modernes CMake arbeitet target-basiert und vermeidet globale Einstellungen."
-            },
-            {
-              "type": "summary",
-              "points": [
-                "CMake ist ein plattformunabhängiges Build-System",
-                "Zentrale Datei ist die CMakeLists.txt",
-                "Targets stehen im Mittelpunkt",
-                "Trennung von Source- und Build-Verzeichnis",
-                "Grundlage moderner C++ Projekte"
-              ]
-            }
-          ]
-        }
+        "title": "CMake",
+        "difficulty": "intermediate",
+        "blocks": [
+          {
+            "type": "definition",
+            "term": "CMake",
+            "text": "CMake ist ein plattformunabhängiges Build-System, das aus einer deklarativen Beschreibung (CMakeLists.txt) Build-Dateien für verschiedene Tools wie Make, Ninja oder IDEs generiert."
+          },
+          {
+            "type": "explanation",
+            "title": "Grundidee von CMake",
+            "text": [
+              "CMake beschreibt den Build-Prozess auf hoher Ebene und delegiert die eigentliche Kompilierung an Generatoren wie Make oder Ninja.",
+              "Man definiert Ziele (Targets) und deren Eigenschaften, nicht einzelne Compiler-Aufrufe."
+            ]
+          },
+          {
+            "type": "explanation",
+            "title": "Warum CMake in professionellen Projekten",
+            "text": [
+              "Einheitliche Build-Konfiguration für Windows, Linux und macOS.",
+              "Saubere Trennung von Code und Build-Logik.",
+              "Skalierbar für große Projekte mit vielen Modulen.",
+              "Standard in der C++ Industrie."
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Typische Einsatzgebiete",
+            "items": [
+              "Modulare C++ Projekte mit mehreren Bibliotheken",
+              "Plattformübergreifende Anwendungen",
+              "Integration von Third-Party Libraries",
+              "CI/CD Pipelines"
+            ]
+          },
+          {
+            "type": "explanation",
+            "title": "Zentrale Idee: Targets statt Dateien",
+            "text": [
+              "In modernem CMake arbeitet man nicht mit Dateien, sondern mit Targets.",
+              "Ein Target ist z.B. eine Library oder ein Executable.",
+              "Alle Eigenschaften (Includes, Flags, Dependencies) werden am Target definiert."
+            ]
+          },
+          {
+            "type": "code",
+            "title": "Minimales Target",
+            "language": "cpp",
+            "code": "add_executable(App main.cpp)\n\ntarget_compile_features(App PRIVATE cxx_std_20)"
+          },
+          {
+            "type": "explanation",
+            "title": "PRIVATE, PUBLIC, INTERFACE (sehr wichtig)",
+            "text": [
+              "PRIVATE: gilt nur für das Target selbst.",
+              "PUBLIC: gilt für das Target und alle, die es verwenden.",
+              "INTERFACE: gilt nur für Nutzer des Targets.",
+              "Das steuert, wie Abhängigkeiten und Includes weitergegeben werden."
+            ]
+          },
+          {
+            "type": "code",
+            "title": "Beispiel Sichtbarkeit",
+            "language": "cpp",
+            "code": "target_include_directories(core\n    PUBLIC include\n    PRIVATE src\n)"
+          },
+          {
+            "type": "explanation",
+            "title": "Library + Executable Struktur (Best Practice)",
+            "text": [
+              "Geschäftslogik wird in Libraries ausgelagert.",
+              "Executables sind nur Einstiegspunkte (z.B. CLI, GUI).",
+              "Das entspricht moderner Architektur (Layered Architecture)."
+            ]
+          },
+          {
+            "type": "code",
+            "title": "Typische Struktur",
+            "language": "cpp",
+            "code": "add_library(core\n    src/domain.cpp\n    src/application.cpp\n)\n\ntarget_include_directories(core PUBLIC src)\n\nadd_executable(app main.cpp)\n\ntarget_link_libraries(app PRIVATE core)"
+          },
+          {
+            "type": "explanation",
+            "title": "Projektstruktur mit add_subdirectory",
+            "text": [
+              "Große Projekte werden in mehrere CMakeLists.txt aufgeteilt.",
+              "Jeder Layer (domain, application, infrastructure) bekommt eigene Targets.",
+              "Die Haupt-CMakeLists bindet alles zusammen."
+            ]
+          },
+          {
+            "type": "code",
+            "title": "Top-Level Struktur",
+            "language": "cpp",
+            "code": "add_subdirectory(domain)\nadd_subdirectory(application)\nadd_subdirectory(infrastructure)\nadd_subdirectory(ui)"
+          },
+          {
+            "type": "explanation",
+            "title": "Abhängigkeiten zwischen Layern",
+            "text": [
+              "domain darf nichts kennen (keine Abhängigkeiten).",
+              "application hängt von domain ab.",
+              "infrastructure hängt von application und domain ab.",
+              "ui hängt von application ab.",
+              "Diese Struktur wird direkt über target_link_libraries abgebildet."
+            ]
+          },
+          {
+            "type": "code",
+            "title": "Layer-Verknüpfung",
+            "language": "cpp",
+            "code": "target_link_libraries(application PUBLIC domain)\n\ntarget_link_libraries(infrastructure PUBLIC application domain)\n\ntarget_link_libraries(ui PRIVATE application)"
+          },
+          {
+            "type": "explanation",
+            "title": "Externe Libraries einbinden",
+            "text": [
+              "Externe Abhängigkeiten werden mit find_package oder add_subdirectory eingebunden.",
+              "Moderne Libraries liefern eigene CMake Targets.",
+              "Diese Targets werden direkt gelinkt."
+            ]
+          },
+          {
+            "type": "code",
+            "title": "Beispiel SQLite",
+            "language": "cpp",
+            "code": "add_subdirectory(external/sqlite)\n\ntarget_link_libraries(core PUBLIC sqlite3)"
+          },
+          {
+            "type": "explanation",
+            "title": "Build-Typen",
+            "text": [
+              "Debug: mit Debug-Informationen, langsamer.",
+              "Release: optimiert, schneller.",
+              "Wird über -DCMAKE_BUILD_TYPE gesteuert."
+            ]
+          },
+          {
+            "type": "code",
+            "title": "Build mit Typ",
+            "language": "cpp",
+            "code": "cmake -B build -DCMAKE_BUILD_TYPE=Release\ncmake --build build"
+          },
+          {
+            "type": "explanation",
+            "title": "Out-of-Source Build (Best Practice)",
+            "text": [
+              "Build-Dateien gehören nicht in den Source-Ordner.",
+              "Das hält das Repository sauber.",
+              "Standard in professionellen Projekten."
+            ]
+          },
+          {
+            "type": "code",
+            "title": "Sauberer Build",
+            "language": "cpp",
+            "code": "cmake -S . -B build\ncmake --build build"
+          },
+          {
+            "type": "pitfall",
+            "title": "Globale Einstellungen vermeiden",
+            "text": "include_directories oder globale Compiler-Flags führen zu schwer wartbarem Code. Immer target-basiert arbeiten."
+          },
+          {
+            "type": "pitfall",
+            "title": "Falsche Sichtbarkeit",
+            "text": "Falsches Verwenden von PUBLIC/PRIVATE führt zu kaputten Abhängigkeiten oder unnötiger Kopplung."
+          },
+          {
+            "type": "important",
+            "text": "Modernes CMake = Target-basiert + klare Dependency-Struktur. Keine globalen Einstellungen."
+          },
+          {
+            "type": "summary",
+            "points": [
+              "CMake arbeitet mit Targets, nicht mit Dateien",
+              "PUBLIC, PRIVATE, INTERFACE sind zentral",
+              "Große Projekte werden in mehrere Subdirectories aufgeteilt",
+              "Layered Architecture lässt sich direkt abbilden",
+              "Externe Libraries werden über Targets eingebunden",
+              "Out-of-source Builds sind Standard"
+            ]
+          }
+        ]
+      }
+
+
         ]
       },
       {
