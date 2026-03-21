@@ -12087,9 +12087,136 @@
 
 
         {
-          "title": "---",
+          "title": "Erste Tests mit GoogleTest",
           "difficulty": "basic",
           "blocks": [
+            {
+              "type": "explanation",
+              "title": "Grundidee eines Tests",
+              "text": [
+                "Ein Test prüft, ob Code sich wie erwartet verhält.",
+                "Man gibt einen Input vor und überprüft das Ergebnis.",
+                "Tests werden automatisch ausgeführt und liefern sofort Feedback."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfachster GoogleTest",
+              "language": "cpp",
+              "code": "#include <gtest/gtest.h>\n\nint add(int a, int b) {\n    return a + b;\n}\n\nTEST(AddTest, AddsTwoNumbers) {\n    EXPECT_EQ(add(2, 3), 5);\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Aufbau eines Tests",
+              "text": [
+                "TEST(SuiteName, TestName) definiert einen Testfall.",
+                "SuiteName gruppiert zusammengehörige Tests.",
+                "TestName beschreibt, was genau getestet wird.",
+                "EXPECT_EQ überprüft das Ergebnis."
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "Assertion",
+              "text": "Eine Assertion überprüft eine Bedingung im Test und entscheidet, ob der Test erfolgreich ist."
+            },
+            {
+              "type": "explanation",
+              "title": "EXPECT vs ASSERT (sehr wichtig)",
+              "text": [
+                "EXPECT_* prüft eine Bedingung, der Test läuft danach weiter.",
+                "ASSERT_* prüft eine Bedingung und bricht den Test sofort ab, wenn sie fehlschlägt.",
+                "ASSERT wird verwendet, wenn der Rest des Tests ohne diese Bedingung keinen Sinn ergibt."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "EXPECT vs ASSERT",
+              "columns": ["EXPECT", "ASSERT"],
+              "rows": [
+                {
+                  "aspect": "Verhalten bei Fehler",
+                  "values": ["Test läuft weiter", "Test wird sofort abgebrochen"]
+                },
+                {
+                  "aspect": "Einsatz",
+                  "values": ["Normale Überprüfungen", "Kritische Voraussetzungen"]
+                },
+                {
+                  "aspect": "Fehlersuche",
+                  "values": ["Mehr Fehler sichtbar", "Stoppt früh"]
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Häufige Assertions",
+              "items": [
+                "EXPECT_EQ(a, b) → Gleichheit",
+                "EXPECT_NE(a, b) → Ungleichheit",
+                "EXPECT_TRUE(condition)",
+                "EXPECT_FALSE(condition)"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Testfälle strukturieren",
+              "text": [
+                "Ein Test sollte genau eine Sache prüfen.",
+                "Tests sollten klein und verständlich sein.",
+                "Jeder Test ist unabhängig von anderen Tests.",
+                "Keine komplexe Logik im Test selbst."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Test Suites und Naming",
+              "text": [
+                "SuiteName beschreibt die getestete Komponente (z.B. CalculatorTest).",
+                "TestName beschreibt das Verhalten (z.B. AddsPositiveNumbers).",
+                "Gute Namen ersetzen Kommentare.",
+                "Ein konsistentes Naming macht Tests lesbar und wartbar."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel mit mehreren Tests",
+              "language": "cpp",
+              "code": "TEST(CalculatorTest, AddsPositiveNumbers) {\n    EXPECT_EQ(add(2, 3), 5);\n}\n\nTEST(CalculatorTest, AddsNegativeNumbers) {\n    EXPECT_EQ(add(-2, -3), -5);\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Testausführung",
+              "text": [
+                "Tests werden als eigenes Executable gebaut.",
+                "Beim Start werden alle Tests automatisch ausgeführt.",
+                "GoogleTest zeigt an, welche Tests bestanden oder fehlgeschlagen sind."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu komplexe Tests",
+              "text": "Wenn ein Test mehrere Dinge gleichzeitig prüft, wird es schwer zu erkennen, warum er fehlschlägt."
+            },
+            {
+              "type": "pitfall",
+              "title": "Schlechtes Naming",
+              "text": "Unklare Namen wie Test1 oder CheckStuff machen Tests unlesbar und schwer wartbar."
+            },
+            {
+              "type": "important",
+              "text": "Ein guter Test ist klein, klar und testet genau ein Verhalten."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Tests bestehen aus TEST, Assertions und klaren Namen",
+                "EXPECT und ASSERT verhalten sich unterschiedlich",
+                "Tests sollten klein und unabhängig sein",
+                "Naming ist entscheidend für Lesbarkeit",
+                "Tests werden automatisch als Executable ausgeführt"
+              ]
+            }
           ]
         },
 
