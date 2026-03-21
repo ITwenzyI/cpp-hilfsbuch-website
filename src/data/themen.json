@@ -12379,6 +12379,189 @@
         },
 
         {
+          "title": "Fixtures und Setup",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Test Fixture",
+              "text": "Ein Test Fixture ist eine Klasse, die gemeinsamen Zustand und Setup für mehrere Tests bereitstellt."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum Fixtures existieren",
+              "text": [
+                "Viele Tests benötigen denselben Setup-Code (z.B. Objekte, Datenbanken, Services).",
+                "Ohne Fixtures würde dieser Code in jedem Test dupliziert werden.",
+                "Fixtures ermöglichen Wiederverwendung und saubere Struktur."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von Fixtures",
+              "text": [
+                "Ein Fixture ist eine Klasse, die von testing::Test erbt.",
+                "Diese Klasse enthält gemeinsamen Zustand für mehrere Tests.",
+                "Tests greifen über TEST_F auf diesen Zustand zu."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches Fixture Beispiel",
+              "language": "cpp",
+              "code": "#include <gtest/gtest.h>\n\nclass CalculatorTest : public ::testing::Test {\nprotected:\n    int a = 2;\n    int b = 3;\n};\n\nTEST_F(CalculatorTest, AddsNumbers) {\n    EXPECT_EQ(a + b, 5);\n}\n\nTEST_F(CalculatorTest, MultiplyNumbers) {\n    EXPECT_EQ(a * b, 6);\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "TEST vs TEST_F",
+              "text": [
+                "TEST wird für einfache Tests ohne gemeinsamen Zustand verwendet.",
+                "TEST_F wird verwendet, wenn ein Fixture genutzt wird.",
+                "TEST_F hat Zugriff auf Member der Fixture-Klasse."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "TEST vs TEST_F",
+              "columns": ["TEST", "TEST_F"],
+              "rows": [
+                {
+                  "aspect": "Gemeinsamer Zustand",
+                  "values": ["Nein", "Ja"]
+                },
+                {
+                  "aspect": "Verwendung",
+                  "values": ["Einfache Tests", "Komplexere Tests"]
+                },
+                {
+                  "aspect": "Zugriff auf Member",
+                  "values": ["Nein", "Ja"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "SetUp und TearDown",
+              "text": [
+                "SetUp wird vor jedem Test ausgeführt.",
+                "TearDown wird nach jedem Test ausgeführt.",
+                "Sie dienen zur Initialisierung und Aufräumarbeiten."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "SetUp und TearDown Beispiel",
+              "language": "cpp",
+              "code": "class DatabaseTest : public ::testing::Test {\nprotected:\n    void SetUp() override {\n        // Verbindung aufbauen\n    }\n\n    void TearDown() override {\n        // Verbindung schließen\n    }\n};"
+            },
+            {
+              "type": "explanation",
+              "title": "Shared Test State",
+              "text": [
+                "Jeder Test bekommt eine neue Instanz des Fixtures.",
+                "Zustand wird NICHT zwischen Tests geteilt.",
+                "Das verhindert Seiteneffekte und macht Tests unabhängig."
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Tests dürfen niemals voneinander abhängen. Jeder Test muss isoliert funktionieren."
+            },
+            {
+              "type": "explanation",
+              "title": "Wann Fixtures sinnvoll sind",
+              "text": [
+                "Wenn mehrere Tests denselben Setup-Code benötigen.",
+                "Bei komplexen Objekten (z.B. Services, Repositories).",
+                "Bei Datenbankverbindungen oder externen Ressourcen.",
+                "Wenn Tests sonst duplizierten Code enthalten würden."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Anwendungsfälle",
+              "items": [
+                "Datenbank-Verbindungen (z.B. SQLite)",
+                "Service-Objekte im application Layer",
+                "Initialisierte Domain-Objekte",
+                "Mock-Objekte für Tests"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu viel Logik im Fixture",
+              "text": "Wenn das Fixture zu komplex wird, werden Tests schwer verständlich und wartbar."
+            },
+            {
+              "type": "pitfall",
+              "title": "Versteckter Zustand",
+              "text": "Wenn Tests implizit auf Zustand im Fixture vertrauen, wird das Verhalten schwer nachvollziehbar."
+            },
+            {
+              "type": "pitfall",
+              "title": "Geteilte Zustände erzwingen",
+              "text": "Versuche, Zustand zwischen Tests zu teilen, führen zu instabilen und fehleranfälligen Tests."
+            },
+            {
+              "type": "list",
+              "title": "Best Practices",
+              "items": [
+                "Fixtures klein und verständlich halten",
+                "Nur wirklich gemeinsamen Code ins Fixture packen",
+                "Tests trotzdem klar und unabhängig schreiben",
+                "SetUp nur für Initialisierung verwenden",
+                "Keine versteckten Abhängigkeiten erzeugen"
+              ]
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Fixtures bündeln gemeinsamen Testzustand",
+                "TEST_F ermöglicht Zugriff auf Fixture-Daten",
+                "SetUp und TearDown strukturieren Initialisierung",
+                "Jeder Test bleibt isoliert",
+                "Fixtures sind wichtig für komplexe Systeme"
+              ]
+            }
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
+          "title": "---",
+          "difficulty": "basic",
+          "blocks": [
+          ]
+        },
+
+        {
           "title": "---",
           "difficulty": "basic",
           "blocks": [
