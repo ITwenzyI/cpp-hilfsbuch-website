@@ -13680,9 +13680,241 @@
 
 
         {
-          "title": "---",
-          "difficulty": "basic",
+          "title": "Fortgeschrittene Testing Themen",
+          "difficulty": "advanced",
           "blocks": [
+            {
+              "type": "explanation",
+              "title": "Einordnung",
+              "text": [
+                "Diese Themen sind erst relevant, wenn grundlegendes Testing sicher beherrscht wird.",
+                "Sie erweitern Testing um Automatisierung, Qualitätssicherung und systematische Teststrategien.",
+                "In professionellen Projekten sind sie oft Standard, aber nicht der Einstieg."
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "Code Coverage",
+              "text": "Code Coverage misst, welcher Anteil des Codes durch Tests ausgeführt wird."
+            },
+            {
+              "type": "explanation",
+              "title": "Was Code Coverage bringt",
+              "text": [
+                "Zeigt, welche Teile des Codes von Tests abgedeckt sind.",
+                "Hilft, ungetestete Bereiche zu identifizieren.",
+                "Kann als Qualitätsindikator verwendet werden."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Coverage ist nicht alles",
+              "text": "Hohe Coverage bedeutet nicht automatisch gute Tests. Auch schlechter oder bedeutungsloser Code kann vollständig abgedeckt sein."
+            },
+            {
+              "type": "comparison",
+              "title": "Hohe vs niedrige Coverage",
+              "columns": ["Hohe Coverage", "Niedrige Coverage"],
+              "rows": [
+                {
+                  "aspect": "Sichtbarkeit",
+                  "values": ["Viele Bereiche getestet", "Lücken im Code"]
+                },
+                {
+                  "aspect": "Aussagekraft",
+                  "values": ["Nur bedingt", "Hinweis auf fehlende Tests"]
+                },
+                {
+                  "aspect": "Ziel",
+                  "values": ["Nicht Selbstzweck", "Verbesserungsbedarf"]
+                }
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "CI Integration",
+              "text": "Continuous Integration bedeutet, dass Tests automatisch bei jedem Commit oder Pull Request ausgeführt werden."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum CI wichtig ist",
+              "text": [
+                "Tests laufen automatisch bei Änderungen im Code.",
+                "Fehler werden sofort erkannt.",
+                "Der Build bleibt stabil.",
+                "Teamarbeit wird sicherer."
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "GitLab CI/CD",
+              "text": "GitLab CI/CD führt Build und Tests automatisch über eine Pipeline aus, die in einer .gitlab-ci.yml Datei im Projekt konfiguriert wird."
+            },
+            {
+              "type": "explanation",
+              "title": "Wie CI in GitLab funktioniert",
+              "text": [
+                "In GitLab wird die CI Konfiguration normalerweise in einer .gitlab-ci.yml Datei im Root des Repositories definiert.",
+                "Darin beschreibt man Jobs wie configure, build und test.",
+                "Diese Jobs laufen in einer Pipeline automatisch z.B. bei Push oder Merge Request.",
+                "Der Pipeline Editor in GitLab kann die Konfiguration direkt validieren und visualisieren."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches Beispiel für GitLab CI mit CMake und CTest",
+              "language": "yaml",
+              "code": "stages:\n  - build\n  - test\n\nbuild:\n  stage: build\n  image: ubuntu:24.04\n  before_script:\n    - apt-get update\n    - apt-get install -y cmake g++ make\n  script:\n    - cmake -S . -B build\n    - cmake --build build\n  artifacts:\n    paths:\n      - build/\n\ntest:\n  stage: test\n  image: ubuntu:24.04\n  before_script:\n    - apt-get update\n    - apt-get install -y cmake g++ make\n  script:\n    - cmake -S . -B build\n    - cmake --build build\n    - ctest --test-dir build --output-on-failure\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Was in diesem GitLab Beispiel passiert",
+              "text": [
+                "stages definiert die Reihenfolge der Pipeline, hier build und test.",
+                "Jeder Job beschreibt, in welcher Stage er läuft und welche Befehle ausgeführt werden.",
+                "Mit artifacts können erzeugte Dateien wie der build Ordner zwischen Jobs weitergegeben werden.",
+                "CTest führt am Ende alle in CMake registrierten Tests aus."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel GitHub Actions Workflow",
+              "language": "yaml",
+              "code": "name: C++ Tests\n\non: [push, pull_request]\n\njobs:\n  build-and-test:\n    runs-on: ubuntu-latest\n\n    steps:\n      - uses: actions/checkout@v3\n\n      - name: Configure\n        run: cmake -S . -B build\n\n      - name: Build\n        run: cmake --build build\n\n      - name: Test\n        run: ctest --test-dir build"
+            },
+            {
+              "type": "comparison",
+              "title": "GitHub Actions vs GitLab CI",
+              "columns": ["GitHub Actions", "GitLab CI"],
+              "rows": [
+                {
+                  "aspect": "Konfigurationsdatei",
+                  "values": [".github/workflows/*.yml", ".gitlab-ci.yml"]
+                },
+                {
+                  "aspect": "Struktur",
+                  "values": ["Workflows und Jobs", "Stages und Jobs"]
+                },
+                {
+                  "aspect": "Testausführung",
+                  "values": ["z.B. cmake + ctest", "z.B. cmake + ctest"]
+                }
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Auch in GitLab gilt: Tests sollten automatisch bei Änderungen laufen, damit Fehler sofort sichtbar werden."
+            },
+            {
+              "type": "pitfall",
+              "title": "Build nur lokal ausführen",
+              "text": "Wenn Tests nur lokal laufen, fehlt die automatische Absicherung bei Pushes und Merge Requests. Genau dafür ist CI da."
+            },
+            {
+              "type": "important",
+              "text": "In professionellen Projekten werden Tests fast immer automatisch in CI ausgeführt."
+            },
+            {
+              "type": "definition",
+              "term": "Benchmarking",
+              "text": "Benchmarking misst die Performance von Code, z.B. Laufzeit oder Speicherverbrauch."
+            },
+            {
+              "type": "definition",
+              "term": "Testing",
+              "text": "Testing überprüft die Korrektheit von Verhalten, nicht die Geschwindigkeit."
+            },
+            {
+              "type": "comparison",
+              "title": "Benchmarking vs Testing",
+              "columns": ["Testing", "Benchmarking"],
+              "rows": [
+                {
+                  "aspect": "Ziel",
+                  "values": ["Korrektheit prüfen", "Performance messen"]
+                },
+                {
+                  "aspect": "Ergebnis",
+                  "values": ["Pass/Fail", "Messwerte"]
+                },
+                {
+                  "aspect": "Einsatz",
+                  "values": ["Standard", "Optional/gezielt"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wann Benchmarking sinnvoll ist",
+              "text": [
+                "Bei Performance kritischen Funktionen.",
+                "Bei Algorithmen und Datenstrukturen.",
+                "Wenn Optimierungen überprüft werden sollen.",
+                "Nicht für normalen Business Code notwendig."
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "Property-based Testing",
+              "text": "Property-based Testing prüft allgemeine Eigenschaften eines Programms mit vielen automatisch generierten Eingaben."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von Property-based Testing",
+              "text": [
+                "Statt einzelne Beispiele zu testen, definiert man Eigenschaften.",
+                "Das System wird mit vielen zufälligen Eingaben getestet.",
+                "So können unerwartete Edge Cases gefunden werden."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Beispiel für Properties",
+              "items": [
+                "Addition ist kommutativ (a + b == b + a)",
+                "Sortieren verändert die Anzahl der Elemente nicht",
+                "Eine Validierung akzeptiert nur gültige Daten"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Komplexität",
+              "text": "Property-based Testing ist deutlich komplexer und selten notwendig für typische Projekte."
+            },
+            {
+              "type": "explanation",
+              "title": "Wann diese Themen relevant werden",
+              "text": [
+                "Wenn das Projekt wächst und stabil bleiben muss.",
+                "Wenn mehrere Entwickler zusammenarbeiten.",
+                "Wenn Qualität systematisch gesichert werden soll.",
+                "Wenn Performance eine Rolle spielt."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Was du zuerst können solltest",
+              "items": [
+                "Saubere Unit Tests schreiben",
+                "Mocking verstehen",
+                "Tests strukturieren",
+                "CMake Integration sicher beherrschen"
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Fortgeschrittene Themen sind nur sinnvoll, wenn die Grundlagen wirklich sauber umgesetzt sind."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Code Coverage zeigt, was getestet wird, aber nicht wie gut",
+                "CI führt Tests automatisch aus",
+                "Benchmarking misst Performance, nicht Korrektheit",
+                "Property-based Testing testet allgemeine Eigenschaften",
+                "Diese Themen sind Erweiterungen, nicht Grundlagen"
+              ]
+            }
           ]
         }
 
