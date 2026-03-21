@@ -4559,20 +4559,50 @@
                 "text": "Der Header <string> stellt die Klasse std::string und zugehörige Funktionen für sichere und dynamische Zeichenketten bereit."
               },
               {
-                "type": "explanation",
-                "title": "Zweck des Headers",
-                "text": [
-                  "<string> bietet eine moderne Alternative zu C-Strings und kapselt Speicherverwaltung sowie Längenverwaltung vollständig.",
-                  "Strings können sicher kopiert, verglichen, erweitert und verändert werden."
-                ]
+                "type": "definition",
+                "term": "std::string",
+                "text": "std::string ist ein Standardcontainer zur sicheren und komfortablen Verarbeitung von Texten."
               },
               {
                 "type": "explanation",
-                "title": "std::string",
+                "title": "Grundidee von std::string",
                 "text": [
-                  "std::string repräsentiert eine veränderbare Folge von Zeichen mit bekannter Länge.",
-                  "Der Typ verwaltet seinen Speicher selbst und verhindert viele typische Fehler aus der C-Welt."
+                  "std::string verwaltet Speicher automatisch.",
+                  "Er kennt seine Länge und wächst dynamisch."
                 ]
+              },
+              {
+                "type": "definition",
+                "term": "Dynamische Länge",
+                "text": "Die Länge eines std::string kann sich zur Laufzeit ändern."
+              },
+              {
+                "type": "code",
+                "title": "Deklaration und Initialisierung",
+                "language": "cpp",
+                "code": "#include <string>\n\nstd::string name = \"Kilian\";"
+              },
+              {
+                "type": "definition",
+                "term": "Zugriff auf Zeichen",
+                "text": "Einzelne Zeichen können über einen Index gelesen oder verändert werden."
+              },
+              {
+                "type": "code",
+                "title": "Indexzugriff",
+                "language": "cpp",
+                "code": "char c = name[0]; // erstes Zeichen"
+              },
+              {
+                "type": "definition",
+                "term": "Konkatenation",
+                "text": "Zusammenfügen von Strings."
+              },
+              {
+                "type": "code",
+                "title": "Strings verketten",
+                "language": "cpp",
+                "code": "std::string a = \"Hallo\";\nstd::string b = \"Welt\";\nstd::string c = a + \" \" + b;"
               },
               {
                 "type": "list",
@@ -4598,25 +4628,6 @@
                 "title": "Zugriff und Teilstrings",
                 "language": "cpp",
                 "code": "#include <iostream>\n#include <string>\n\nint main() {\n    std::string text = \"Informatik\";\n\n    char c = text[0];                  // Zugriff ohne Bereichsprüfung\n    char d = text.at(1);               // Zugriff mit Prüfung\n\n    std::string sub = text.substr(0, 4); // \"Info\"\n\n    std::cout << c << \" \" << d << \" \" << sub << std::endl;\n}\n"
-              },
-              {
-                "type": "comparison",
-                "title": "std::string vs C-String",
-                "columns": ["std::string", "char*"],
-                "rows": [
-                  {
-                    "aspect": "Speicherverwaltung",
-                    "values": ["Automatisch", "Manuell"]
-                  },
-                  {
-                    "aspect": "Längeninformation",
-                    "values": ["Direkt verfügbar", "Nur durch strlen"]
-                  },
-                  {
-                    "aspect": "Sicherheit",
-                    "values": ["Hoch", "Fehleranfällig"]
-                  }
-                ]
               },
               {
                 "type": "pitfall",
