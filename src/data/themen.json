@@ -11944,6 +11944,1992 @@
 
 
 
+
+  {
+    "category": "Tests",
+    "icon": "🧪",
+    "subcategories": [
+      {
+        "name": "Google Tests",
+        "icon": "🥇",
+        "topics": [
+        {
+          "title": "Grundlagen des Testens",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Unit Testing",
+              "text": "Unit Testing ist das Testen der kleinsten isolierten Einheiten eines Programms, z.B. einzelner Funktionen oder Klassen, um sicherzustellen, dass sie korrekt funktionieren."
+            },
+            {
+              "type": "explanation",
+              "title": "Was ist Unit Testing wirklich?",
+              "text": [
+                "Beim Unit Testing wird Code isoliert getestet, ohne Abhängigkeiten wie Datenbanken oder externe Systeme.",
+                "Ziel ist es, eine einzelne Verantwortung (z.B. eine Funktion oder Methode) korrekt zu überprüfen.",
+                "Ein Test prüft: 'Wenn ich diesen Input gebe, bekomme ich den erwarteten Output?'"
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Vorteile von Unit Testing",
+              "items": [
+                "Frühes Erkennen von Fehlern",
+                "Sicheres Refactoring",
+                "Bessere Codequalität",
+                "Dokumentation des erwarteten Verhaltens"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Warum Testing besonders in C++ wichtig ist",
+              "text": [
+                "C++ hat keine Laufzeit-Sicherheitsmechanismen wie viele höhere Sprachen.",
+                "Fehler wie Speicherprobleme oder undefiniertes Verhalten sind schwer zu finden.",
+                "Compilerfehler erkennen keine Logikfehler.",
+                "Ohne Tests werden größere C++ Projekte schnell unwartbar."
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "Testarten",
+              "text": "Testarten unterscheiden sich darin, wie viel des Systems gleichzeitig getestet wird."
+            },
+            {
+              "type": "explanation",
+              "title": "Überblick Testarten",
+              "text": [
+                "Unit Tests: Testen einzelne Funktionen oder Klassen isoliert.",
+                "Integration Tests: Testen das Zusammenspiel mehrerer Komponenten.",
+                "End-to-End Tests (E2E): Testen das komplette System aus Sicht des Nutzers."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Vergleich der Testarten",
+              "columns": ["Unit Test", "Integration Test", "E2E Test"],
+              "rows": [
+                {
+                  "aspect": "Ziel",
+                  "values": ["Einzelne Einheit prüfen", "Zusammenspiel prüfen", "Gesamtsystem prüfen"]
+                },
+                {
+                  "aspect": "Geschwindigkeit",
+                  "values": ["Sehr schnell", "Mittel", "Langsam"]
+                },
+                {
+                  "aspect": "Komplexität",
+                  "values": ["Niedrig", "Mittel", "Hoch"]
+                },
+                {
+                  "aspect": "Fehlersuche",
+                  "values": ["Sehr einfach", "Mittel", "Schwierig"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Warum man Testarten kombiniert",
+              "text": [
+                "Unit Tests prüfen Logik im Detail.",
+                "Integration Tests erkennen Fehler zwischen Komponenten.",
+                "E2E Tests prüfen reale Nutzungsszenarien.",
+                "Nur eine Testart alleine reicht in echten Projekten nicht aus."
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "GoogleTest",
+              "text": "GoogleTest ist ein Framework für C++, mit dem automatisierte Tests geschrieben und ausgeführt werden können."
+            },
+            {
+              "type": "explanation",
+              "title": "Was ist GoogleTest",
+              "text": [
+                "GoogleTest ist ein weit verbreitetes Testframework für C++.",
+                "Es stellt Makros wie TEST, EXPECT und ASSERT bereit.",
+                "Tests werden automatisch ausgeführt und ausgewertet.",
+                "Es lässt sich nahtlos in CMake und professionelle Build-Systeme integrieren."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Warum ein Testframework verwenden",
+              "items": [
+                "Automatische Ausführung von Tests",
+                "Klare Struktur für Testfälle",
+                "Aussagekräftige Fehlermeldungen",
+                "Integration in CI/CD möglich"
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Testing ist kein optionales Extra, sondern ein zentraler Bestandteil professioneller Softwareentwicklung."
+            },
+            {
+              "type": "pitfall",
+              "title": "Typischer Anfängerfehler",
+              "text": "Tests werden erst am Ende oder gar nicht geschrieben. Dadurch entstehen instabile Systeme und schwer auffindbare Fehler."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Unit Testing prüft isolierte Code-Einheiten",
+                "Tests erhöhen Stabilität und Wartbarkeit",
+                "In C++ sind Tests besonders wichtig",
+                "Es gibt verschiedene Testarten mit unterschiedlichen Zielen",
+                "GoogleTest ist ein Standard-Framework für C++ Tests"
+              ]
+            }
+          ]
+        },
+
+
+        {
+          "title": "Erste Tests mit GoogleTest",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Grundidee eines Tests",
+              "text": [
+                "Ein Test prüft, ob Code sich wie erwartet verhält.",
+                "Man gibt einen Input vor und überprüft das Ergebnis.",
+                "Tests werden automatisch ausgeführt und liefern sofort Feedback."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfachster GoogleTest",
+              "language": "cpp",
+              "code": "#include <gtest/gtest.h>\n\nint add(int a, int b) {\n    return a + b;\n}\n\nTEST(AddTest, AddsTwoNumbers) {\n    EXPECT_EQ(add(2, 3), 5);\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Aufbau eines Tests",
+              "text": [
+                "TEST(SuiteName, TestName) definiert einen Testfall.",
+                "SuiteName gruppiert zusammengehörige Tests.",
+                "TestName beschreibt, was genau getestet wird.",
+                "EXPECT_EQ überprüft das Ergebnis."
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "Assertion",
+              "text": "Eine Assertion überprüft eine Bedingung im Test und entscheidet, ob der Test erfolgreich ist."
+            },
+            {
+              "type": "explanation",
+              "title": "EXPECT vs ASSERT (sehr wichtig)",
+              "text": [
+                "EXPECT_* prüft eine Bedingung, der Test läuft danach weiter.",
+                "ASSERT_* prüft eine Bedingung und bricht den Test sofort ab, wenn sie fehlschlägt.",
+                "ASSERT wird verwendet, wenn der Rest des Tests ohne diese Bedingung keinen Sinn ergibt."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "EXPECT vs ASSERT",
+              "columns": ["EXPECT", "ASSERT"],
+              "rows": [
+                {
+                  "aspect": "Verhalten bei Fehler",
+                  "values": ["Test läuft weiter", "Test wird sofort abgebrochen"]
+                },
+                {
+                  "aspect": "Einsatz",
+                  "values": ["Normale Überprüfungen", "Kritische Voraussetzungen"]
+                },
+                {
+                  "aspect": "Fehlersuche",
+                  "values": ["Mehr Fehler sichtbar", "Stoppt früh"]
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Häufige Assertions",
+              "items": [
+                "EXPECT_EQ(a, b) → Gleichheit",
+                "EXPECT_NE(a, b) → Ungleichheit",
+                "EXPECT_TRUE(condition)",
+                "EXPECT_FALSE(condition)"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Testfälle strukturieren",
+              "text": [
+                "Ein Test sollte genau eine Sache prüfen.",
+                "Tests sollten klein und verständlich sein.",
+                "Jeder Test ist unabhängig von anderen Tests.",
+                "Keine komplexe Logik im Test selbst."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Test Suites und Naming",
+              "text": [
+                "SuiteName beschreibt die getestete Komponente (z.B. CalculatorTest).",
+                "TestName beschreibt das Verhalten (z.B. AddsPositiveNumbers).",
+                "Gute Namen ersetzen Kommentare.",
+                "Ein konsistentes Naming macht Tests lesbar und wartbar."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel mit mehreren Tests",
+              "language": "cpp",
+              "code": "TEST(CalculatorTest, AddsPositiveNumbers) {\n    EXPECT_EQ(add(2, 3), 5);\n}\n\nTEST(CalculatorTest, AddsNegativeNumbers) {\n    EXPECT_EQ(add(-2, -3), -5);\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Testausführung",
+              "text": [
+                "Tests werden als eigenes Executable gebaut.",
+                "Beim Start werden alle Tests automatisch ausgeführt.",
+                "GoogleTest zeigt an, welche Tests bestanden oder fehlgeschlagen sind."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu komplexe Tests",
+              "text": "Wenn ein Test mehrere Dinge gleichzeitig prüft, wird es schwer zu erkennen, warum er fehlschlägt."
+            },
+            {
+              "type": "pitfall",
+              "title": "Schlechtes Naming",
+              "text": "Unklare Namen wie Test1 oder CheckStuff machen Tests unlesbar und schwer wartbar."
+            },
+            {
+              "type": "important",
+              "text": "Ein guter Test ist klein, klar und testet genau ein Verhalten."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Tests bestehen aus TEST, Assertions und klaren Namen",
+                "EXPECT und ASSERT verhalten sich unterschiedlich",
+                "Tests sollten klein und unabhängig sein",
+                "Naming ist entscheidend für Lesbarkeit",
+                "Tests werden automatisch als Executable ausgeführt"
+              ]
+            }
+          ]
+        },
+
+
+        {
+          "title": "Assertions im Detail",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Assertion",
+              "text": "Eine Assertion ist eine Überprüfung innerhalb eines Tests, die festlegt, ob ein bestimmtes Verhalten korrekt ist."
+            },
+            {
+              "type": "explanation",
+              "title": "Rolle von Assertions",
+              "text": [
+                "Assertions sind das Herz jedes Tests.",
+                "Sie definieren, was 'korrektes Verhalten' bedeutet.",
+                "Ohne Assertions ist ein Test wertlos."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "EXPECT vs ASSERT (entscheidend)",
+              "text": [
+                "EXPECT_* prüft eine Bedingung und lässt den Test weiterlaufen.",
+                "ASSERT_* prüft eine Bedingung und bricht den Test sofort ab, wenn sie fehlschlägt.",
+                "ASSERT wird verwendet, wenn nachfolgende Prüfungen ohne diese Bedingung keinen Sinn ergeben."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "EXPECT vs ASSERT",
+              "columns": ["EXPECT", "ASSERT"],
+              "rows": [
+                {
+                  "aspect": "Verhalten bei Fehler",
+                  "values": ["Test läuft weiter", "Test wird abgebrochen"]
+                },
+                {
+                  "aspect": "Einsatzgebiet",
+                  "values": ["Normale Checks", "Kritische Voraussetzungen"]
+                },
+                {
+                  "aspect": "Debugging",
+                  "values": ["Mehr Fehler sichtbar", "Stoppt früh"]
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wichtige Vergleichs-Assertions",
+              "items": [
+                "EXPECT_EQ(a, b) → a == b",
+                "EXPECT_NE(a, b) → a != b",
+                "EXPECT_LT(a, b) → a < b",
+                "EXPECT_LE(a, b) → a <= b",
+                "EXPECT_GT(a, b) → a > b",
+                "EXPECT_GE(a, b) → a >= b"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wann welche Assertion verwenden",
+              "text": [
+                "EXPECT_EQ ist Standard für Vergleiche.",
+                "ASSERT sollte nur für Voraussetzungen verwendet werden.",
+                "Zu viele ASSERTs machen Tests schwer analysierbar.",
+                "Zu viele EXPECTs können Folgefehler verursachen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel EXPECT vs ASSERT",
+              "language": "cpp",
+              "code": "int* ptr = getPointer();\n\nASSERT_NE(ptr, nullptr); // Voraussetzung\nEXPECT_EQ(*ptr, 42);     // eigentlicher Test"
+            },
+            {
+              "type": "explanation",
+              "title": "Floating Point Vergleiche",
+              "text": [
+                "Gleitkommazahlen sollten niemals mit EXPECT_EQ verglichen werden.",
+                "Rundungsfehler führen zu falschen Testergebnissen.",
+                "Stattdessen verwendet man Toleranzen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Floating Point korrekt testen",
+              "language": "cpp",
+              "code": "EXPECT_NEAR(result, 3.14, 0.001);"
+            },
+            {
+              "type": "pitfall",
+              "title": "Floating Point Fehler",
+              "text": "EXPECT_EQ bei float oder double führt oft zu fehlschlagenden Tests trotz korrekter Logik."
+            },
+            {
+              "type": "explanation",
+              "title": "String Assertions",
+              "text": [
+                "Strings können direkt mit EXPECT_EQ verglichen werden.",
+                "GoogleTest zeigt Unterschiede zwischen Strings sehr gut an.",
+                "Besonders hilfreich bei Fehlermeldungen oder Formatierungen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "String Vergleich",
+              "language": "cpp",
+              "code": "EXPECT_EQ(getName(), \"Kilian\");"
+            },
+            {
+              "type": "explanation",
+              "title": "Container Assertions",
+              "text": [
+                "Container wie Vektoren sollten elementweise verglichen werden.",
+                "Direkter Vergleich funktioniert nur, wenn operator== definiert ist.",
+                "Bei komplexen Typen muss oft manuell geprüft werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Container Vergleich",
+              "language": "cpp",
+              "code": "std::vector<int> expected{1, 2, 3};\nstd::vector<int> result = getValues();\n\nEXPECT_EQ(result, expected);"
+            },
+            {
+              "type": "list",
+              "title": "Best Practices für Assertions",
+              "items": [
+                "ASSERT nur für Voraussetzungen verwenden",
+                "EXPECT für eigentliche Tests nutzen",
+                "Floating Points immer mit Toleranz vergleichen",
+                "Jede Assertion sollte klar verständlich sein",
+                "Nicht mehrere Dinge gleichzeitig prüfen"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu viele Assertions",
+              "text": "Ein Test mit vielen Assertions wird unübersichtlich und schwer debugbar."
+            },
+            {
+              "type": "important",
+              "text": "Die Wahl der richtigen Assertion entscheidet darüber, ob ein Test zuverlässig oder irreführend ist."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Assertions definieren korrektes Verhalten",
+                "EXPECT und ASSERT haben unterschiedliche Rollen",
+                "Vergleichs-Assertions decken Standardfälle ab",
+                "Floating Points brauchen Toleranz",
+                "Saubere Assertions sind entscheidend für gute Tests"
+              ]
+            }
+          ]
+        },
+
+        {
+          "title": "Fixtures und Setup",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Test Fixture",
+              "text": "Ein Test Fixture ist eine Klasse, die gemeinsamen Zustand und Setup für mehrere Tests bereitstellt."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum Fixtures existieren",
+              "text": [
+                "Viele Tests benötigen denselben Setup-Code (z.B. Objekte, Datenbanken, Services).",
+                "Ohne Fixtures würde dieser Code in jedem Test dupliziert werden.",
+                "Fixtures ermöglichen Wiederverwendung und saubere Struktur."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von Fixtures",
+              "text": [
+                "Ein Fixture ist eine Klasse, die von testing::Test erbt.",
+                "Diese Klasse enthält gemeinsamen Zustand für mehrere Tests.",
+                "Tests greifen über TEST_F auf diesen Zustand zu."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches Fixture Beispiel",
+              "language": "cpp",
+              "code": "#include <gtest/gtest.h>\n\nclass CalculatorTest : public ::testing::Test {\nprotected:\n    int a = 2;\n    int b = 3;\n};\n\nTEST_F(CalculatorTest, AddsNumbers) {\n    EXPECT_EQ(a + b, 5);\n}\n\nTEST_F(CalculatorTest, MultiplyNumbers) {\n    EXPECT_EQ(a * b, 6);\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "TEST vs TEST_F",
+              "text": [
+                "TEST wird für einfache Tests ohne gemeinsamen Zustand verwendet.",
+                "TEST_F wird verwendet, wenn ein Fixture genutzt wird.",
+                "TEST_F hat Zugriff auf Member der Fixture-Klasse."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "TEST vs TEST_F",
+              "columns": ["TEST", "TEST_F"],
+              "rows": [
+                {
+                  "aspect": "Gemeinsamer Zustand",
+                  "values": ["Nein", "Ja"]
+                },
+                {
+                  "aspect": "Verwendung",
+                  "values": ["Einfache Tests", "Komplexere Tests"]
+                },
+                {
+                  "aspect": "Zugriff auf Member",
+                  "values": ["Nein", "Ja"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "SetUp und TearDown",
+              "text": [
+                "SetUp wird vor jedem Test ausgeführt.",
+                "TearDown wird nach jedem Test ausgeführt.",
+                "Sie dienen zur Initialisierung und Aufräumarbeiten."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "SetUp und TearDown Beispiel",
+              "language": "cpp",
+              "code": "class DatabaseTest : public ::testing::Test {\nprotected:\n    void SetUp() override {\n        // Verbindung aufbauen\n    }\n\n    void TearDown() override {\n        // Verbindung schließen\n    }\n};"
+            },
+            {
+              "type": "explanation",
+              "title": "Shared Test State",
+              "text": [
+                "Jeder Test bekommt eine neue Instanz des Fixtures.",
+                "Zustand wird NICHT zwischen Tests geteilt.",
+                "Das verhindert Seiteneffekte und macht Tests unabhängig."
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Tests dürfen niemals voneinander abhängen. Jeder Test muss isoliert funktionieren."
+            },
+            {
+              "type": "explanation",
+              "title": "Wann Fixtures sinnvoll sind",
+              "text": [
+                "Wenn mehrere Tests denselben Setup-Code benötigen.",
+                "Bei komplexen Objekten (z.B. Services, Repositories).",
+                "Bei Datenbankverbindungen oder externen Ressourcen.",
+                "Wenn Tests sonst duplizierten Code enthalten würden."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Anwendungsfälle",
+              "items": [
+                "Datenbank-Verbindungen (z.B. SQLite)",
+                "Service-Objekte im application Layer",
+                "Initialisierte Domain-Objekte",
+                "Mock-Objekte für Tests"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu viel Logik im Fixture",
+              "text": "Wenn das Fixture zu komplex wird, werden Tests schwer verständlich und wartbar."
+            },
+            {
+              "type": "pitfall",
+              "title": "Versteckter Zustand",
+              "text": "Wenn Tests implizit auf Zustand im Fixture vertrauen, wird das Verhalten schwer nachvollziehbar."
+            },
+            {
+              "type": "pitfall",
+              "title": "Geteilte Zustände erzwingen",
+              "text": "Versuche, Zustand zwischen Tests zu teilen, führen zu instabilen und fehleranfälligen Tests."
+            },
+            {
+              "type": "list",
+              "title": "Best Practices",
+              "items": [
+                "Fixtures klein und verständlich halten",
+                "Nur wirklich gemeinsamen Code ins Fixture packen",
+                "Tests trotzdem klar und unabhängig schreiben",
+                "SetUp nur für Initialisierung verwenden",
+                "Keine versteckten Abhängigkeiten erzeugen"
+              ]
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Fixtures bündeln gemeinsamen Testzustand",
+                "TEST_F ermöglicht Zugriff auf Fixture-Daten",
+                "SetUp und TearDown strukturieren Initialisierung",
+                "Jeder Test bleibt isoliert",
+                "Fixtures sind wichtig für komplexe Systeme"
+              ]
+            }
+          ]
+        },
+
+        {
+          "title": "Parameterisierte Tests",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Parameterisierte Tests",
+              "text": "Parameterisierte Tests ermöglichen es, denselben Test mit unterschiedlichen Eingabewerten mehrfach auszuführen."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum parameterisierte Tests wichtig sind",
+              "text": [
+                "Viele Funktionen müssen mit verschiedenen Eingaben getestet werden.",
+                "Ohne Parameterisierung würde man viele ähnliche Tests schreiben.",
+                "Parameterisierte Tests vermeiden Duplikation und verbessern Wartbarkeit."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Anwendungsfälle",
+              "items": [
+                "Mathematische Funktionen mit vielen Eingabewerten",
+                "Validierungslogik (z.B. verschiedene gültige und ungültige Inputs)",
+                "Edge Cases (Grenzwerte)",
+                "Parsing und Konvertierung"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Value-Parameterized Tests",
+              "text": [
+                "Der gleiche Test wird mit verschiedenen Werten ausgeführt.",
+                "Die Testdaten werden von außen bereitgestellt.",
+                "GoogleTest führt automatisch alle Varianten aus."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Value-Parameterized Beispiel",
+              "language": "cpp",
+              "code": "#include <gtest/gtest.h>\n\nclass AddTest : public ::testing::TestWithParam<std::tuple<int, int, int>> {};\n\nTEST_P(AddTest, HandlesVariousInputs) {\n    auto [a, b, expected] = GetParam();\n    EXPECT_EQ(a + b, expected);\n}\n\nINSTANTIATE_TEST_SUITE_P(\n    AdditionTests,\n    AddTest,\n    ::testing::Values(\n        std::make_tuple(1, 2, 3),\n        std::make_tuple(2, 3, 5),\n        std::make_tuple(-1, -1, -2)\n    )\n);"
+            },
+            {
+              "type": "explanation",
+              "title": "Was passiert hier",
+              "text": [
+                "TestWithParam definiert ein Fixture mit Parametern.",
+                "TEST_P definiert den Test, der mehrfach ausgeführt wird.",
+                "GetParam liefert die aktuellen Testdaten.",
+                "INSTANTIATE_TEST_SUITE_P definiert die Testfälle."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Typed Tests",
+              "text": [
+                "Typed Tests ermöglichen Tests für verschiedene Typen.",
+                "Der gleiche Test wird z.B. für int, float oder double ausgeführt.",
+                "Besonders nützlich für Templates oder generischen Code."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Typed Test Beispiel erklärt",
+              "language": "cpp",
+              "code": "#include <gtest/gtest.h>\n\n// 1. Template Fixture definieren\n// Diese Klasse wird später für verschiedene Typen instanziiert\ntemplate <typename T>\nclass MyTypedTest : public ::testing::Test {\nprotected:\n    // Beispiel: gemeinsamer Wert für alle Tests\n    T value{}; // default initialisiert (z.B. 0 für int, 0.0 für double)\n};\n\n// 2. Liste der Typen definieren, die getestet werden sollen\ntypedef ::testing::Types<int, double> MyTypes;\n\n// 3. GoogleTest mitteilen, dass diese Fixture mit diesen Typen verwendet wird\nTYPED_TEST_SUITE(MyTypedTest, MyTypes);\n\n// 4. Der eigentliche Test\n// Dieser Test wird automatisch für jeden Typ ausgeführt (int und double)\nTYPED_TEST(MyTypedTest, DefaultIsZero) {\n    // TypeParam ist der aktuelle Typ (hier: int oder double)\n    TypeParam value{};\n\n    // Für int → value = 0\n    // Für double → value = 0.0\n    EXPECT_EQ(value, 0);\n}\n\n// Ergebnis:\n// GoogleTest erzeugt intern zwei Tests:\n// - MyTypedTest<int>.DefaultIsZero\n// - MyTypedTest<double>.DefaultIsZero\n"
+            },
+            {
+              "type": "comparison",
+              "title": "Value vs Typed Tests",
+              "columns": ["Value-Parameterized", "Typed Tests"],
+              "rows": [
+                {
+                  "aspect": "Variation",
+                  "values": ["Unterschiedliche Werte", "Unterschiedliche Typen"]
+                },
+                {
+                  "aspect": "Einsatz",
+                  "values": ["Input-Kombinationen", "Generischer Code"]
+                },
+                {
+                  "aspect": "Komplexität",
+                  "values": ["Mittel", "Höher"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wann parameterisierte Tests sinnvoll sind",
+              "text": [
+                "Wenn viele ähnliche Tests mit unterschiedlichen Eingaben existieren.",
+                "Wenn Logik für verschiedene Fälle identisch ist.",
+                "Wenn man Edge Cases systematisch abdecken möchte.",
+                "Wenn Duplikation reduziert werden soll."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wann NICHT verwenden",
+              "items": [
+                "Wenn Tests sehr unterschiedlich sind",
+                "Wenn die Logik schwer lesbar wird",
+                "Wenn nur wenige Fälle existieren",
+                "Wenn Verständlichkeit leidet"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Unlesbare Tests",
+              "text": "Zu viele Parameter oder komplexe Strukturen machen Tests schwer verständlich."
+            },
+            {
+              "type": "pitfall",
+              "title": "Overengineering",
+              "text": "Parameterisierung für einfache Tests macht den Code unnötig kompliziert."
+            },
+            {
+              "type": "important",
+              "text": "Parameterisierte Tests sollen Duplikation reduzieren, nicht die Lesbarkeit verschlechtern."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Parameterisierte Tests führen denselben Test mit verschiedenen Daten aus",
+                "Value-Parameterized Tests variieren Eingaben",
+                "Typed Tests variieren Datentypen",
+                "Sie sind wichtig für skalierbare Tests",
+                "Lesbarkeit bleibt wichtiger als maximale Abstraktion"
+              ]
+            }
+          ]
+        },
+
+        {
+          "title": "Mocking mit GoogleMock",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Mock",
+              "text": "Ein Mock ist ein Testobjekt, das das Verhalten echter Abhängigkeiten simuliert und überprüft, wie es verwendet wird."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum Mocking notwendig ist",
+              "text": [
+                "Viele Klassen hängen von externen Komponenten ab (z.B. Datenbanken, APIs).",
+                "Diese Abhängigkeiten sind im Test schwer oder unzuverlässig nutzbar.",
+                "Mocking erlaubt es, diese Abhängigkeiten zu ersetzen und isoliert zu testen.",
+                "So testet man nur die eigene Logik und nicht das gesamte System."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Abhängigkeiten",
+              "items": [
+                "Datenbanken (z.B. SQLite)",
+                "Dateisystem",
+                "Netzwerk-APIs",
+                "Repositories im infrastructure Layer"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von Mocking",
+              "text": [
+                "Anstatt eine echte Implementierung zu verwenden, wird ein Mock eingesetzt.",
+                "Der Mock simuliert Verhalten und überprüft Aufrufe.",
+                "So kann man kontrollieren, wie Abhängigkeiten genutzt werden."
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "GoogleMock",
+              "text": "GoogleMock ist eine Erweiterung von GoogleTest, mit der Mock-Objekte erstellt und deren Verhalten überprüft werden können."
+            },
+            {
+              "type": "explanation",
+              "title": "GoogleMock Grundlagen",
+              "text": [
+                "Mocks basieren meist auf Interfaces (abstrakten Klassen).",
+                "Methoden werden mit MOCK_METHOD definiert.",
+                "Erwartungen werden mit EXPECT_CALL festgelegt.",
+                "GoogleMock überprüft automatisch, ob diese Erwartungen erfüllt wurden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Mock Beispiel",
+              "language": "cpp",
+              "code": "#include <gtest/gtest.h>\n#include <gmock/gmock.h>\n\n// 1. Interface (z.B. Repository)\nclass IUserRepository {\npublic:\n    virtual ~IUserRepository() = default;\n    virtual int getUserCount() const = 0;\n};\n\n// 2. Mock erstellen\nclass MockUserRepository : public IUserRepository {\npublic:\n    MOCK_METHOD(int, getUserCount, (), (const, override));\n};\n\n// 3. Test mit Mock\nTEST(UserServiceTest, ReturnsCorrectCount) {\n    MockUserRepository repo;\n\n    // Erwartung definieren\n    EXPECT_CALL(repo, getUserCount())\n        .WillOnce(::testing::Return(5));\n\n    // Nutzung\n    EXPECT_EQ(repo.getUserCount(), 5);\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "EXPECT_CALL (entscheidend)",
+              "text": [
+                "EXPECT_CALL definiert, welche Methode aufgerufen werden soll.",
+                "Man kann festlegen, wie oft sie aufgerufen wird.",
+                "Man definiert auch, was zurückgegeben wird.",
+                "Wenn die Erwartung nicht erfüllt wird, schlägt der Test fehl."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "EXPECT_CALL Varianten",
+              "language": "cpp",
+              "code": "EXPECT_CALL(repo, getUserCount())\n    .Times(1)\n    .WillOnce(::testing::Return(5));\n\nEXPECT_CALL(repo, getUserCount())\n    .Times(::testing::AtLeast(1));"
+            },
+            {
+              "type": "code",
+              "title": "Mock steuert Verhalten (true / false Entscheidung)",
+              "language": "cpp",
+              "code": "// Interface (Dependency)\nclass IFeatureService {\npublic:\n    virtual ~IFeatureService() = default;\n    virtual bool isFeatureEnabled() const = 0;\n};\n\n// Business Logik (zu testende Klasse)\nclass AppService {\npublic:\n    explicit AppService(const IFeatureService& feature) : feature_(feature) {}\n\n    std::string run() const {\n        if (feature_.isFeatureEnabled()) {\n            return \"Feature ON\";\n        }\n        return \"Feature OFF\";\n    }\n\nprivate:\n    const IFeatureService& feature_;\n};\n\n// Mock\nclass MockFeatureService : public IFeatureService {\npublic:\n    MOCK_METHOD(bool, isFeatureEnabled, (), (const, override));\n};\n\n// Test: Feature aktiviert\nTEST(AppServiceTest, ReturnsOnWhenFeatureEnabled) {\n    MockFeatureService feature;\n\n    EXPECT_CALL(feature, isFeatureEnabled())\n        .WillOnce(::testing::Return(true));\n\n    AppService service(feature);\n\n    EXPECT_EQ(service.run(), \"Feature ON\");\n}\n\n// Test: Feature deaktiviert\nTEST(AppServiceTest, ReturnsOffWhenFeatureDisabled) {\n    MockFeatureService feature;\n\n    EXPECT_CALL(feature, isFeatureEnabled())\n        .WillOnce(::testing::Return(false));\n\n    AppService service(feature);\n\n    EXPECT_EQ(service.run(), \"Feature OFF\");\n}"
+            },
+            {
+              "type": "code",
+              "title": "Mock liefert Daten → Verhalten hängt davon ab",
+              "language": "cpp",
+              "code": "// Interface\nclass IUserRepository {\npublic:\n    virtual ~IUserRepository() = default;\n    virtual int getUserCount() const = 0;\n};\n\n// Business Logik\nclass UserService {\npublic:\n    explicit UserService(const IUserRepository& repo) : repo_(repo) {}\n\n    bool hasUsers() const {\n        return repo_.getUserCount() > 0;\n    }\n\nprivate:\n    const IUserRepository& repo_;\n};\n\n// Mock\nclass MockUserRepository : public IUserRepository {\npublic:\n    MOCK_METHOD(int, getUserCount, (), (const, override));\n};\n\n// Test: Nutzer vorhanden\nTEST(UserServiceTest, ReturnsTrueWhenUsersExist) {\n    MockUserRepository repo;\n\n    EXPECT_CALL(repo, getUserCount())\n        .WillOnce(::testing::Return(5));\n\n    UserService service(repo);\n\n    EXPECT_TRUE(service.hasUsers());\n}\n\n// Test: keine Nutzer\nTEST(UserServiceTest, ReturnsFalseWhenNoUsersExist) {\n    MockUserRepository repo;\n\n    EXPECT_CALL(repo, getUserCount())\n        .WillOnce(::testing::Return(0));\n\n    UserService service(repo);\n\n    EXPECT_FALSE(service.hasUsers());\n}"
+            },
+            {
+              "type": "code",
+              "title": "Mock prüft, ob Methode aufgerufen wird (Interaktion testen)",
+              "language": "cpp",
+              "code": "// Interface\nclass ILogger {\npublic:\n    virtual ~ILogger() = default;\n    virtual void logError(const std::string& msg) = 0;\n};\n\n// Business Logik\nclass PaymentService {\npublic:\n    explicit PaymentService(ILogger& logger) : logger_(logger) {}\n\n    void process(bool success) {\n        if (!success) {\n            logger_.logError(\"Payment failed\");\n        }\n    }\n\nprivate:\n    ILogger& logger_;\n};\n\n// Mock\nclass MockLogger : public ILogger {\npublic:\n    MOCK_METHOD(void, logError, (const std::string&), (override));\n};\n\n// Test: Fehler wird geloggt\nTEST(PaymentServiceTest, LogsErrorOnFailure) {\n    MockLogger logger;\n\n    EXPECT_CALL(logger, logError(\"Payment failed\"))\n        .Times(1);\n\n    PaymentService service(logger);\n\n    service.process(false);\n}\n\n// Test: kein Fehler → kein Log\nTEST(PaymentServiceTest, DoesNotLogOnSuccess) {\n    MockLogger logger;\n\n    EXPECT_CALL(logger, logError(::testing::_))\n        .Times(0);\n\n    PaymentService service(logger);\n\n    service.process(true);\n}"
+            },
+            {
+              "type": "code",
+              "title": "Mock mit mehreren Rückgaben (Sequenz)",
+              "language": "cpp",
+              "code": "// Interface\nclass IRetryService {\npublic:\n    virtual ~IRetryService() = default;\n    virtual bool tryAction() = 0;\n};\n\n// Business Logik\nclass RetryHandler {\npublic:\n    explicit RetryHandler(IRetryService& service) : service_(service) {}\n\n    bool execute() {\n        // max 2 Versuche\n        if (service_.tryAction()) return true;\n        return service_.tryAction();\n    }\n\nprivate:\n    IRetryService& service_;\n};\n\n// Mock\nclass MockRetryService : public IRetryService {\npublic:\n    MOCK_METHOD(bool, tryAction, (), (override));\n};\n\n// Test: erster Versuch fail, zweiter erfolgreich\nTEST(RetryHandlerTest, SucceedsOnSecondTry) {\n    MockRetryService service;\n\n    EXPECT_CALL(service, tryAction())\n        .WillOnce(::testing::Return(false))\n        .WillOnce(::testing::Return(true));\n\n    RetryHandler handler(service);\n\n    EXPECT_TRUE(handler.execute());\n}"
+            },
+            {
+              "type": "definition",
+              "term": "Stub",
+              "text": "Ein Stub liefert feste Rückgabewerte, ohne zu überprüfen, wie er verwendet wird."
+            },
+            {
+              "type": "code",
+              "title": "Stub Beispiel (fester Rückgabewert, keine Überprüfung)",
+              "language": "cpp",
+              "code": "// Interface\nclass IUserRepository {\npublic:\n    virtual ~IUserRepository() = default;\n    virtual int getUserCount() const = 0;\n};\n\n// Stub (liefert immer denselben Wert)\nclass StubUserRepository : public IUserRepository {\npublic:\n    int getUserCount() const override {\n        return 10; // fester Wert, unabhängig vom Verhalten\n    }\n};\n\n// Business Logik\nclass UserService {\npublic:\n    explicit UserService(const IUserRepository& repo) : repo_(repo) {}\n\n    bool hasUsers() const {\n        return repo_.getUserCount() > 0;\n    }\n\nprivate:\n    const IUserRepository& repo_;\n};\n\n// Test\nTEST(UserServiceTest, ReturnsTrueWithStub) {\n    StubUserRepository repo;\n    UserService service(repo);\n\n    EXPECT_TRUE(service.hasUsers());\n}\n\n// Wichtig:\n// - Stub liefert nur Daten\n// - Kein EXPECT_CALL\n// - Keine Überprüfung, wie oft etwas aufgerufen wurde"
+            },
+            {
+              "type": "definition",
+              "term": "Fake",
+              "text": "Ein Fake ist eine vereinfachte, aber funktionale Implementierung einer Abhängigkeit."
+            },
+            {
+              "type": "code",
+              "title": "Fake Beispiel (vereinfachte echte Implementierung)",
+              "language": "cpp",
+              "code": "#include <vector>\n\n// Interface\nclass IUserRepository {\npublic:\n    virtual ~IUserRepository() = default;\n    virtual void addUser(int id) = 0;\n    virtual int getUserCount() const = 0;\n};\n\n// Fake (funktionale In-Memory Implementierung)\nclass FakeUserRepository : public IUserRepository {\npublic:\n    void addUser(int id) override {\n        users_.push_back(id);\n    }\n\n    int getUserCount() const override {\n        return users_.size();\n    }\n\nprivate:\n    std::vector<int> users_; // echte Logik, aber vereinfacht\n};\n\n// Business Logik\nclass UserService {\npublic:\n    explicit UserService(IUserRepository& repo) : repo_(repo) {}\n\n    void registerUser(int id) {\n        repo_.addUser(id);\n    }\n\n    int count() const {\n        return repo_.getUserCount();\n    }\n\nprivate:\n    IUserRepository& repo_;\n};\n\n// Test\nTEST(UserServiceTest, AddsUsersWithFake) {\n    FakeUserRepository repo;\n    UserService service(repo);\n\n    service.registerUser(1);\n    service.registerUser(2);\n\n    EXPECT_EQ(service.count(), 2);\n}\n\n// Wichtig:\n// - Fake enthält echte Logik\n// - Kein Mocking Framework nötig\n// - Sehr gut für einfache Integrationstests"
+            },
+            {
+              "type": "comparison",
+              "title": "Fake vs Stub vs Mock",
+              "columns": ["Fake", "Stub", "Mock"],
+              "rows": [
+                {
+                  "aspect": "Zweck",
+                  "values": ["Einfache Implementierung", "Feste Rückgaben", "Verhalten prüfen"]
+                },
+                {
+                  "aspect": "Logik",
+                  "values": ["Ja", "Nein", "Minimal"]
+                },
+                {
+                  "aspect": "Überprüfung von Aufrufen",
+                  "values": ["Nein", "Nein", "Ja"]
+                },
+                {
+                  "aspect": "Komplexität",
+                  "values": ["Mittel", "Niedrig", "Mittel"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wann welches verwenden",
+              "text": [
+                "Stub: Wenn nur ein Rückgabewert benötigt wird.",
+                "Fake: Wenn einfache Logik sinnvoll ist (z.B. In-Memory DB).",
+                "Mock: Wenn überprüft werden soll, wie eine Abhängigkeit verwendet wird."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Wann Mocking sinnvoll ist",
+              "items": [
+                "Tests im application Layer",
+                "Trennung von Domain und Infrastructure",
+                "Vermeidung echter Datenbankzugriffe",
+                "Überprüfung von Interaktionen"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu viel Mocking",
+              "text": "Zu viele Mocks führen zu fragilen Tests, die stark an Implementierungsdetails gebunden sind."
+            },
+            {
+              "type": "pitfall",
+              "title": "Falsche Abstraktionen",
+              "text": "Mocking funktioniert nur sauber, wenn Interfaces korrekt designt sind."
+            },
+            {
+              "type": "important",
+              "text": "Mocking funktioniert nur mit guter Architektur (Interfaces und klare Abhängigkeiten)."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Mocks ersetzen externe Abhängigkeiten",
+                "GoogleMock ermöglicht Verhalten zu simulieren und zu prüfen",
+                "EXPECT_CALL definiert erwartete Interaktionen",
+                "Fake, Stub und Mock haben unterschiedliche Zwecke",
+                "Mocking ist zentral für professionelles Testing"
+              ]
+            }
+          ]
+        },
+
+        {
+          "title": "Testing in Layered Architecture",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "In einer Layered Architecture hat jede Schicht eine klare Verantwortung.",
+                "Tests sollten diese Verantwortungen widerspiegeln.",
+                "Ziel ist es, jede Schicht isoliert und gezielt zu testen."
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "Domain Layer Testing",
+              "text": "Tests im Domain Layer prüfen reine Geschäftslogik ohne externe Abhängigkeiten."
+            },
+            {
+              "type": "list",
+              "title": "Was im Domain Layer getestet wird",
+              "items": [
+                "Value Objects (z.B. Validierung von Daten)",
+                "Business Regeln",
+                "Reine Funktionen",
+                "Invarianten"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Eigenschaften von Domain Tests",
+              "text": [
+                "Keine Mocks notwendig",
+                "Sehr schnell",
+                "Deterministisch",
+                "Einfach zu schreiben"
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Domain Tests sind die wichtigste und stabilste Testbasis eines Projekts."
+            },
+            {
+              "type": "definition",
+              "term": "Application Layer Testing",
+              "text": "Tests im Application Layer prüfen die Orchestrierung von Use Cases und die Interaktion mit Abhängigkeiten."
+            },
+            {
+              "type": "list",
+              "title": "Was im Application Layer getestet wird",
+              "items": [
+                "Use Cases",
+                "Service Logik",
+                "Interaktionen mit Repositories",
+                "Fehlerbehandlung"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wie Application Layer getestet wird",
+              "text": [
+                "Externe Abhängigkeiten werden gemockt.",
+                "Der Fokus liegt auf Verhalten, nicht Implementierung.",
+                "Man prüft, welche Methoden aufgerufen werden und was zurückkommt."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Application Test mit Mock",
+              "language": "cpp",
+              "code": "// Beispiel: Use Case nutzt Repository\nEXPECT_CALL(repo, getUserCount())\n    .WillOnce(::testing::Return(5));\n\nEXPECT_TRUE(service.hasUsers());"
+            },
+            {
+              "type": "definition",
+              "term": "Infrastructure Testing",
+              "text": "Tests im Infrastructure Layer prüfen konkrete Implementierungen wie Datenbanken oder externe Systeme."
+            },
+            {
+              "type": "list",
+              "title": "Was im Infrastructure Layer getestet wird",
+              "items": [
+                "SQLite Repositories",
+                "Dateizugriffe",
+                "API Clients",
+                "Persistenzlogik"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wie Infrastructure getestet wird",
+              "text": [
+                "Hier werden echte Implementierungen verwendet (keine Mocks).",
+                "Oft mit Testdatenbanken oder In-Memory Lösungen.",
+                "Tests sind langsamer, aber realistischer."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel SQLite Test",
+              "language": "cpp",
+              "code": "// echte DB verwenden\nrepo.addUser(1);\n\nEXPECT_EQ(repo.getUserCount(), 1);"
+            },
+            {
+              "type": "definition",
+              "term": "UI Testing",
+              "text": "UI Tests prüfen die Benutzeroberfläche und Interaktion mit dem Nutzer."
+            },
+            {
+              "type": "explanation",
+              "title": "UI testen oder nicht?",
+              "text": [
+                "UI Tests sind oft langsam und fragil.",
+                "In vielen Projekten wird UI nur minimal getestet.",
+                "Wichtige Logik gehört nicht ins UI, sondern in Application oder Domain.",
+                "Daher testet man primär die unteren Layer."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Testing nach Layer",
+              "columns": ["Layer", "Was testen?", "Mocking"],
+              "rows": [
+                {
+                  "aspect": "Domain",
+                  "values": ["Logik", "Regeln", "Nein"]
+                },
+                {
+                  "aspect": "Application",
+                  "values": ["Use Cases", "Interaktionen", "Ja"]
+                },
+                {
+                  "aspect": "Infrastructure",
+                  "values": ["Datenbank", "IO", "Nein"]
+                },
+                {
+                  "aspect": "UI",
+                  "values": ["Interaktion", "Selten", "Nein"]
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Fehler",
+              "items": [
+                "Alles nur mit echten Datenbanken testen",
+                "Domain Layer nicht testen",
+                "Mocks im Domain Layer verwenden",
+                "Zu viel Logik im UI lassen"
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Gute Tests folgen der Architektur. Schlechte Tests ignorieren sie."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Jede Schicht wird unterschiedlich getestet",
+                "Domain: ohne Mocks, reine Logik",
+                "Application: mit Mocks, Verhalten testen",
+                "Infrastructure: echte Implementierungen testen",
+                "UI: meist minimal testen"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "CMake integration",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Test Integration mit CMake",
+              "text": "Bei der Test Integration mit CMake wird GoogleTest als Abhängigkeit eingebunden, ein Test Executable erstellt und dieses automatisiert über CTest ausgeführt."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum FetchContent verwenden",
+              "text": [
+                "FetchContent lädt Abhängigkeiten direkt während der Konfiguration.",
+                "Keine manuelle Installation von GoogleTest notwendig.",
+                "Alle Entwickler und CI verwenden exakt dieselbe Version.",
+                "Das macht Builds reproduzierbar und zuverlässig."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Komplettes Beispiel mit FetchContent",
+              "language": "cpp",
+              "code": "cmake_minimum_required(VERSION 3.20)\nproject(EventPlanner LANGUAGES CXX)\n\ninclude(FetchContent)\n\n# GoogleTest herunterladen\nFetchContent_Declare(\n  googletest\n  URL https://github.com/google/googletest/archive/refs/heads/main.zip\n)\n\n# Verhindert Probleme auf Windows\nset(gtest_force_shared_crt ON CACHE BOOL \"\" FORCE)\n\nFetchContent_MakeAvailable(googletest)\n\n# Testing aktivieren\nenable_testing()\n\n# ----------------------\n# Core Library\n# ----------------------\nadd_library(event_planer_core\n    src/domain/event.cpp\n    src/application/event_service.cpp\n    src/infrastructure/sqlite/event_repository_sqlite.cpp\n)\n\ntarget_include_directories(event_planer_core\n    PUBLIC src\n)\n\ntarget_compile_features(event_planer_core\n    PUBLIC cxx_std_20\n)\n\n# ----------------------\n# Main Executable\n# ----------------------\nadd_executable(event_planer\n    src/main.cpp\n)\n\ntarget_link_libraries(event_planer\n    PRIVATE event_planer_core\n)\n\n# ----------------------\n# Test Executable\n# ----------------------\nadd_executable(event_planer_tests\n    tests/main.cpp\n    tests/domain/event_test.cpp\n    tests/application/event_service_test.cpp\n)\n\ntarget_link_libraries(event_planer_tests\n    PRIVATE\n        event_planer_core\n        GTest::gtest\n        GTest::gtest_main\n)\n\n# ----------------------\n# Tests registrieren\n# ----------------------\nadd_test(NAME event_planer_tests COMMAND event_planer_tests)\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Was hier wichtig ist",
+              "text": [
+                "FetchContent lädt GoogleTest automatisch aus GitHub.",
+                "GTest::gtest und GTest::gtest_main stehen danach direkt als Targets zur Verfügung.",
+                "Keine Installation oder Systemabhängigkeit notwendig."
+              ]
+            },
+            {
+              "type": "important",
+              "text": "FetchContent macht dein Projekt sofort für andere buildbar ohne zusätzliche Setup-Schritte."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum die Core Library entscheidend ist",
+              "text": [
+                "Die gesamte Logik liegt in event_planer_core.",
+                "Sowohl das Hauptprogramm als auch die Tests nutzen diese Library.",
+                "Dadurch testest du exakt den echten Produktivcode."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Zentrale Verknüpfung",
+              "language": "cpp",
+              "code": "target_link_libraries(event_planer_tests\n    PRIVATE\n        event_planer_core\n        GTest::gtest\n        GTest::gtest_main\n)"
+            },
+            {
+              "type": "explanation",
+              "title": "Was hier passiert",
+              "text": [
+                "event_planer_core → dein Produktivcode",
+                "GTest::gtest → Assertions und Framework",
+                "GTest::gtest_main → liefert automatisch main() für Tests"
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Eigenes main vs gtest_main",
+              "columns": ["Eigenes main", "gtest_main"],
+              "rows": [
+                {
+                  "aspect": "Kontrolle",
+                  "values": ["Vollständig", "Standard"]
+                },
+                {
+                  "aspect": "Setup Aufwand",
+                  "values": ["Mehr Code", "Minimal"]
+                },
+                {
+                  "aspect": "Empfehlung",
+                  "values": ["Für spezielle Fälle", "Für die meisten Projekte"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "CTest Integration",
+              "text": [
+                "enable_testing aktiviert die Testfunktion in CMake.",
+                "add_test registriert das Test Executable.",
+                "Danach können alle Tests über ctest ausgeführt werden."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Tests ausführen",
+              "language": "cpp",
+              "code": "cmake -S . -B build\ncmake --build build\nctest --test-dir build"
+            },
+            {
+              "type": "list",
+              "title": "Best Practices",
+              "items": [
+                "FetchContent für reproduzierbare Builds nutzen",
+                "Produktivlogik in Libraries auslagern",
+                "Tests in eigenes Executable packen",
+                "Tests über ctest ausführbar machen",
+                "target basiert arbeiten, keine globalen Einstellungen"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "GoogleTest manuell installieren müssen",
+              "text": "Wenn Entwickler zuerst Abhängigkeiten installieren müssen, wird das Setup unnötig kompliziert. FetchContent löst dieses Problem."
+            },
+            {
+              "type": "pitfall",
+              "title": "Tests nicht automatisiert ausführbar",
+              "text": "Wenn Tests nur manuell gestartet werden, fehlt ein sauberer Workflow für Team und CI."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "FetchContent lädt GoogleTest automatisch",
+                "Tests werden als eigenes Executable gebaut",
+                "Produktivcode wird als Library eingebunden",
+                "Tests werden mit add_test registriert",
+                "ctest führt alle Tests standardisiert aus"
+              ]
+            }
+          ]
+        },
+
+        {
+          "title": "Teststruktur im Projekt",
+          "difficulty": "basic",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Teststruktur",
+              "text": "Die Teststruktur beschreibt, wie Testdateien, Testordner und Test Targets in einem Projekt organisiert werden, damit Tests übersichtlich, wartbar und skalierbar bleiben."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum eine saubere Teststruktur wichtig ist",
+              "text": [
+                "Am Anfang funktionieren Tests oft auch ohne klare Struktur.",
+                "Sobald ein Projekt wächst, werden ungeordnete Tests schnell unübersichtlich.",
+                "Eine saubere Teststruktur erleichtert Wartung, Navigation, Teamarbeit und spätere Erweiterungen."
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee",
+              "text": [
+                "Tests sollten logisch zur Struktur des Produktivcodes passen.",
+                "Wer Layered Architecture nutzt, sollte diese Struktur auch im Testbereich widerspiegeln.",
+                "So erkennt man sofort, welche Schicht getestet wird und wo neue Tests hingehören."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel einer sauberen Projektstruktur",
+              "language": "cpp",
+              "code": "project/\n├── src/\n│   ├── domain/\n│   │   ├── event.cpp\n│   │   └── event.hpp\n│   ├── application/\n│   │   ├── event_service.cpp\n│   │   └── event_service.hpp\n│   ├── infrastructure/\n│   │   └── sqlite/\n│   │       ├── event_repository_sqlite.cpp\n│   │       └── event_repository_sqlite.hpp\n│   └── main.cpp\n│\n├── tests/\n│   ├── domain/\n│   │   └── event_test.cpp\n│   ├── application/\n│   │   └── event_service_test.cpp\n│   ├── infrastructure/\n│   │   └── sqlite/\n│   │       └── event_repository_sqlite_test.cpp\n│   └── main.cpp\n│\n└── CMakeLists.txt"
+            },
+            {
+              "type": "explanation",
+              "title": "Was an dieser Struktur gut ist",
+              "text": [
+                "Die Tests spiegeln die Struktur des Produktivcodes direkt wider.",
+                "Man findet schnell die passende Testdatei zur jeweiligen Komponente.",
+                "Neue Tests lassen sich ohne Chaos einordnen."
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Die beste Teststruktur orientiert sich fast immer an der Struktur des Produktivcodes."
+            },
+            {
+              "type": "explanation",
+              "title": "Ordnerstruktur für Tests",
+              "text": [
+                "Ein eigener tests Ordner trennt Testcode klar vom Produktivcode.",
+                "Innerhalb dieses Ordners werden die Layer oder Module nachgebildet.",
+                "Dadurch bleibt die Verantwortung jeder Testdatei klar."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Unklare vs saubere Teststruktur",
+              "columns": ["Unsauber", "Sauber"],
+              "rows": [
+                {
+                  "aspect": "Ablage",
+                  "values": ["Alle Tests in einem Ordner", "Tests nach Layer oder Modul getrennt"]
+                },
+                {
+                  "aspect": "Navigation",
+                  "values": ["Wird schnell unübersichtlich", "Schnell auffindbar"]
+                },
+                {
+                  "aspect": "Skalierbarkeit",
+                  "values": ["Schlecht", "Gut"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Naming von Testdateien",
+              "text": [
+                "Testdateien sollten klar zeigen, welche Klasse, Funktion oder Komponente sie testen.",
+                "Ein häufiger und guter Standard ist der Suffix _test.cpp.",
+                "Der Dateiname sollte zum Produktivcode passen und nur um _test ergänzt werden."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Gute Dateinamen",
+              "items": [
+                "event_test.cpp",
+                "event_service_test.cpp",
+                "event_repository_sqlite_test.cpp",
+                "birth_date_test.cpp"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Schwache Dateinamen",
+              "text": "Dateinamen wie test1.cpp, checks.cpp oder misc_test.cpp sagen fast nichts aus und werden in größeren Projekten schnell zum Problem."
+            },
+            {
+              "type": "explanation",
+              "title": "Trennung von Produktivcode und Testcode",
+              "text": [
+                "Produktivcode gehört in src oder passende Fachordner.",
+                "Tests gehören in tests.",
+                "Tests sollten nicht zwischen normalen Quelldateien verteilt werden.",
+                "Diese Trennung verbessert Übersicht und verhindert Vermischung von Verantwortlichkeiten."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Produktivcode vs Testcode",
+              "columns": ["Produktivcode", "Testcode"],
+              "rows": [
+                {
+                  "aspect": "Ziel",
+                  "values": ["Anwendung bereitstellen", "Verhalten prüfen"]
+                },
+                {
+                  "aspect": "Ordner",
+                  "values": ["src", "tests"]
+                },
+                {
+                  "aspect": "Nutzer",
+                  "values": ["Endanwender", "Entwickler und CI"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wie das zu Layered Architecture passt",
+              "text": [
+                "Domain Tests liegen im tests/domain Ordner.",
+                "Application Tests liegen im tests/application Ordner.",
+                "Infrastructure Tests liegen z.B. in tests/infrastructure/sqlite.",
+                "So folgt die Teststruktur direkt der fachlichen und technischen Architektur."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Best Practices",
+              "items": [
+                "Eigenen tests Ordner verwenden",
+                "Teststruktur an Produktivstruktur ausrichten",
+                "Klare und konsistente Dateinamen nutzen",
+                "Produktivcode und Tests strikt trennen",
+                "Tests pro Komponente oder Klasse bündeln"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu grobe Sammeltests",
+              "text": "Wenn viele Komponenten in einer einzigen Testdatei landen, werden Tests schwer lesbar und schlecht wartbar."
+            },
+            {
+              "type": "pitfall",
+              "title": "Tests an falscher Stelle",
+              "text": "Wenn Tests direkt in src liegen oder quer im Projekt verteilt sind, verliert man schnell den Überblick."
+            },
+            {
+              "type": "explanation",
+              "title": "Wann mehrere Test Targets sinnvoll sind",
+              "text": [
+                "In kleinen Projekten reicht oft ein einziges Test Executable.",
+                "In größeren Projekten kann man getrennte Test Targets pro Layer oder Modul anlegen.",
+                "Das ist besonders nützlich, wenn bestimmte Tests langsamer sind oder andere Abhängigkeiten brauchen."
+              ]
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Tests brauchen eine klare und skalierbare Struktur",
+                "Die Teststruktur sollte der Produktivstruktur folgen",
+                "Ein eigener tests Ordner trennt Testcode sauber vom Produktivcode",
+                "Konsistente Dateinamen wie _test.cpp sind wichtig",
+                "Saubere Testorganisation verbessert Wartbarkeit und Teamarbeit"
+              ]
+            }
+          ]
+        },
+
+        {
+          "title": "Best Practices für gute Tests",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "definition",
+              "term": "Guter Test",
+              "text": "Ein guter Test ist klar, klein, zuverlässig und prüft genau ein nachvollziehbares Verhalten."
+            },
+            {
+              "type": "explanation",
+              "title": "Was einen guten Test ausmacht",
+              "text": [
+                "Ein guter Test ist leicht lesbar und schnell verständlich.",
+                "Er prüft genau eine konkrete Erwartung an den Code.",
+                "Er schlägt nur dann fehl, wenn das tatsächlich getestete Verhalten falsch ist.",
+                "Ein guter Test hilft beim Debugging statt zusätzliche Verwirrung zu erzeugen."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Merkmale guter Tests",
+              "items": [
+                "Klarer Zweck",
+                "Kleine und fokussierte Struktur",
+                "Eindeutige Assertions",
+                "Unabhängigkeit von anderen Tests",
+                "Stabiles und reproduzierbares Verhalten"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "AAA Pattern",
+              "text": [
+                "Das AAA Pattern steht für Arrange, Act, Assert.",
+                "Arrange bedeutet: Testdaten und Voraussetzungen vorbereiten.",
+                "Act bedeutet: Die zu testende Funktion oder Methode ausführen.",
+                "Assert bedeutet: Das erwartete Ergebnis überprüfen.",
+                "Dieses Muster macht Tests lesbarer und verhindert chaotischen Testcode."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Test nach dem AAA Pattern",
+              "language": "cpp",
+              "code": "TEST(CalculatorTest, AddsTwoNumbers) {\n    // Arrange\n    int a = 2;\n    int b = 3;\n\n    // Act\n    int result = a + b;\n\n    // Assert\n    EXPECT_EQ(result, 5);\n}"
+            },
+            {
+              "type": "important",
+              "text": "Das AAA Pattern ist keine starre Regel, aber eine der einfachsten Methoden, Tests sauber und lesbar zu halten."
+            },
+            {
+              "type": "explanation",
+              "title": "Test Isolation",
+              "text": [
+                "Jeder Test muss unabhängig von allen anderen Tests funktionieren.",
+                "Die Reihenfolge der Testausführung darf keinen Einfluss auf das Ergebnis haben.",
+                "Ein Test darf nicht voraussetzen, dass ein anderer Test vorher etwas vorbereitet hat.",
+                "Isolierte Tests sind robuster, leichter debugbar und besser parallel ausführbar."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Isolierter Test vs abhängiger Test",
+              "columns": ["Isolierter Test", "Abhängiger Test"],
+              "rows": [
+                {
+                  "aspect": "Ausführungsreihenfolge",
+                  "values": ["Unwichtig", "Kritisch"]
+                },
+                {
+                  "aspect": "Fehlersuche",
+                  "values": ["Einfach", "Schwierig"]
+                },
+                {
+                  "aspect": "Stabilität",
+                  "values": ["Hoch", "Niedrig"]
+                }
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Tests hängen voneinander ab",
+              "text": "Wenn ein Test nur funktioniert, weil ein anderer Test vorher Daten erzeugt hat, ist die Teststruktur fehlerhaft."
+            },
+            {
+              "type": "explanation",
+              "title": "Keine Logik im Test",
+              "text": [
+                "Ein Test soll Verhalten prüfen, nicht selbst komplexe Logik enthalten.",
+                "Wenn ein Test voller if Bedingungen, Schleifen oder Berechnungen ist, wird er schwer nachvollziehbar.",
+                "Komplexe Testlogik kann selbst Fehler enthalten und das Ergebnis unzuverlässig machen.",
+                "Testcode sollte möglichst einfach und direkt bleiben."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Schlechter Test mit unnötiger Logik",
+              "language": "cpp",
+              "code": "TEST(ValueTest, Example) {\n    int result = calculateSomething();\n\n    if (result > 0) {\n        EXPECT_EQ(result, 10);\n    } else {\n        EXPECT_EQ(result, -10);\n    }\n}"
+            },
+            {
+              "type": "code",
+              "title": "Besser: klare und getrennte Tests",
+              "language": "cpp",
+              "code": "TEST(ValueTest, ReturnsPositiveResultForValidInput) {\n    int result = calculateSomething();\n    EXPECT_EQ(result, 10);\n}\n\nTEST(ValueTest, ReturnsNegativeResultForInvalidInput) {\n    int result = calculateSomethingWithInvalidInput();\n    EXPECT_EQ(result, -10);\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Deterministische Tests",
+              "text": [
+                "Ein deterministischer Test liefert bei gleichen Voraussetzungen immer dasselbe Ergebnis.",
+                "Tests dürfen nicht zufällig mal bestehen und mal fehlschlagen.",
+                "Zufall, Uhrzeit, Dateisystemzustand, Netzwerk oder globale Zustände machen Tests oft instabil.",
+                "Solche Tests nennt man häufig flaky tests und sie sind in professionellen Projekten ein ernstes Problem."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Ursachen für nicht deterministische Tests",
+              "items": [
+                "Zufallswerte ohne Kontrolle",
+                "Abhängigkeit von aktueller Uhrzeit",
+                "Gemeinsam genutzter globaler Zustand",
+                "Echte Netzwerkzugriffe",
+                "Seiteneffekte durch vorherige Tests"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Flaky Tests",
+              "text": "Ein Test, der manchmal besteht und manchmal fehlschlägt, ist fast so schlimm wie kein Test, weil man ihm nicht mehr vertraut."
+            },
+            {
+              "type": "explanation",
+              "title": "Wie Profis über Tests denken",
+              "text": [
+                "Ein Test ist kein formaler Pflichtpunkt, sondern ein Werkzeug zur Absicherung von Verhalten.",
+                "Gute Tests sind wartbar und helfen beim Refactoring.",
+                "Schlechte Tests bremsen Entwicklung, weil sie unklar, fragil oder unzuverlässig sind.",
+                "Nicht die Anzahl der Tests ist entscheidend, sondern ihre Qualität."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Best Practices im Überblick",
+              "items": [
+                "Genau ein Verhalten pro Test prüfen",
+                "AAA Pattern als Grundstruktur verwenden",
+                "Tests strikt isoliert halten",
+                "Keine unnötige Logik im Testcode",
+                "Tests deterministisch und stabil machen"
+              ]
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Ein guter Test ist klein, klar und zuverlässig",
+                "Das AAA Pattern gibt Tests eine saubere Struktur",
+                "Tests dürfen nicht voneinander abhängen",
+                "Komplexe Logik gehört nicht in Tests",
+                "Deterministische Tests sind essenziell für Vertrauen in die Testbasis"
+              ]
+            }
+          ]
+        },
+
+
+        {
+          "title": "Typische Fehler beim Testen",
+          "difficulty": "intermediate",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Warum typische Fehler wichtig sind",
+              "text": [
+                "Viele Probleme beim Testen entstehen nicht durch fehlendes Wissen, sondern durch falsche Gewohnheiten.",
+                "Diese Fehler führen dazu, dass Tests unzuverlässig, schwer verständlich oder nutzlos werden.",
+                "Wer diese Fehler kennt, kann sie bewusst vermeiden und deutlich bessere Tests schreiben."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Die häufigsten Fehler",
+              "items": [
+                "Zu große Tests",
+                "Zu viele Assertions in einem Test",
+                "Abhängigkeiten nicht mocken",
+                "Tests hängen voneinander ab",
+                "Nicht deterministische Tests",
+                "Schlechtes Naming",
+                "Logik im Testcode"
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Zu große Tests",
+              "text": [
+                "Ein Test prüft mehrere Dinge gleichzeitig.",
+                "Wenn der Test fehlschlägt, ist unklar, welcher Teil das Problem verursacht.",
+                "Große Tests sind schwer zu lesen und schwer zu debuggen."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Schlechter Test (zu viele Dinge gleichzeitig)",
+              "language": "cpp",
+              "code": "TEST(UserServiceTest, EverythingWorks) {\n    EXPECT_EQ(createUser(\"Max\"), true);\n    EXPECT_EQ(getUserCount(), 1);\n    EXPECT_EQ(getUserName(0), \"Max\");\n}"
+            },
+            {
+              "type": "code",
+              "title": "Besser: aufteilen in einzelne Tests",
+              "language": "cpp",
+              "code": "TEST(UserServiceTest, CreatesUserSuccessfully) {\n    EXPECT_TRUE(createUser(\"Max\"));\n}\n\nTEST(UserServiceTest, IncreasesUserCount) {\n    createUser(\"Max\");\n    EXPECT_EQ(getUserCount(), 1);\n}"
+            },
+            {
+              "type": "explanation",
+              "title": "Zu viele Assertions",
+              "text": [
+                "Viele Assertions in einem Test machen ihn unübersichtlich.",
+                "Ein Fehler kann mehrere Folgefehler erzeugen.",
+                "Der eigentliche Grund für den Fehler ist schwer erkennbar."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Zu viele EXPECTs",
+              "text": "Wenn ein Test viele EXPECTs enthält, verliert man schnell den Überblick, welche Assertion wirklich relevant ist."
+            },
+            {
+              "type": "explanation",
+              "title": "Abhängigkeiten nicht mocken",
+              "text": [
+                "Tests greifen auf echte Datenbanken, Dateien oder APIs zu.",
+                "Dadurch werden sie langsam und unzuverlässig.",
+                "Fehler in externen Systemen verfälschen die Testergebnisse."
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Application Layer sollte fast immer mit Mocks getestet werden, nicht mit echten Abhängigkeiten."
+            },
+            {
+              "type": "explanation",
+              "title": "Tests hängen voneinander ab",
+              "text": [
+                "Ein Test funktioniert nur, wenn ein anderer Test vorher gelaufen ist.",
+                "Das führt zu instabilen und schwer debugbaren Tests.",
+                "Tests müssen unabhängig voneinander sein."
+              ]
+            },
+            {
+              "type": "comparison",
+              "title": "Unabhängige vs abhängige Tests",
+              "columns": ["Unabhängig", "Abhängig"],
+              "rows": [
+                {
+                  "aspect": "Reihenfolge",
+                  "values": ["egal", "entscheidend"]
+                },
+                {
+                  "aspect": "Stabilität",
+                  "values": ["hoch", "niedrig"]
+                },
+                {
+                  "aspect": "Debugging",
+                  "values": ["einfach", "schwierig"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Nicht deterministische Tests",
+              "text": [
+                "Tests liefern nicht immer das gleiche Ergebnis.",
+                "Ursachen sind oft Zeit, Zufall oder externe Systeme.",
+                "Solche Tests nennt man flaky und sie zerstören Vertrauen in das Testsystem."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Typische Ursachen für flaky Tests",
+              "items": [
+                "Zufallswerte ohne Kontrolle",
+                "Abhängigkeit von aktueller Zeit",
+                "Gemeinsamer globaler Zustand",
+                "Netzwerk oder externe Systeme",
+                "Race Conditions"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Flaky Tests",
+              "text": "Ein Test, der manchmal besteht und manchmal fehlschlägt, ist gefährlich, weil man ihm nicht mehr vertrauen kann."
+            },
+            {
+              "type": "explanation",
+              "title": "Schlechtes Naming",
+              "text": [
+                "Testnamen wie Test1 oder CheckStuff sagen nichts aus.",
+                "Gute Namen beschreiben das Verhalten.",
+                "Ein Testname sollte klar machen, was erwartet wird."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Schlechter vs guter Name",
+              "language": "cpp",
+              "code": "TEST(UserTest, Test1) {}\n\nTEST(UserServiceTest, ReturnsTrueWhenUserExists) {}"
+            },
+            {
+              "type": "explanation",
+              "title": "Logik im Testcode",
+              "text": [
+                "Tests enthalten Bedingungen, Schleifen oder komplexe Berechnungen.",
+                "Dadurch wird der Test schwer verständlich.",
+                "Fehler können im Test selbst entstehen, nicht nur im Produktivcode."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Test enthält eigene Logik",
+              "text": "Wenn ein Test selbst komplexe Entscheidungen trifft, wird er schwer nachvollziehbar und verliert an Aussagekraft."
+            },
+            {
+              "type": "explanation",
+              "title": "Der größte Fehler insgesamt",
+              "text": [
+                "Viele schreiben Tests nur, um Tests zu haben.",
+                "Die Qualität der Tests ist aber entscheidend, nicht die Anzahl.",
+                "Schlechte Tests bremsen Entwicklung mehr, als sie helfen."
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Ein schlechter Test ist oft gefährlicher als kein Test, weil er falsche Sicherheit vermittelt."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Zu große Tests sind schwer zu debuggen",
+                "Zu viele Assertions machen Tests unübersichtlich",
+                "Mocks sind wichtig für isolierte Tests",
+                "Tests müssen unabhängig sein",
+                "Deterministische Tests sind entscheidend",
+                "Gutes Naming verbessert Verständlichkeit",
+                "Testcode sollte keine eigene Logik enthalten"
+              ]
+            }
+          ]
+        },
+
+
+        {
+          "title": "Fortgeschrittene Testing Themen",
+          "difficulty": "advanced",
+          "blocks": [
+            {
+              "type": "explanation",
+              "title": "Einordnung",
+              "text": [
+                "Diese Themen sind erst relevant, wenn grundlegendes Testing sicher beherrscht wird.",
+                "Sie erweitern Testing um Automatisierung, Qualitätssicherung und systematische Teststrategien.",
+                "In professionellen Projekten sind sie oft Standard, aber nicht der Einstieg."
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "Code Coverage",
+              "text": "Code Coverage misst, welcher Anteil des Codes durch Tests ausgeführt wird."
+            },
+            {
+              "type": "explanation",
+              "title": "Was Code Coverage bringt",
+              "text": [
+                "Zeigt, welche Teile des Codes von Tests abgedeckt sind.",
+                "Hilft, ungetestete Bereiche zu identifizieren.",
+                "Kann als Qualitätsindikator verwendet werden."
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Coverage ist nicht alles",
+              "text": "Hohe Coverage bedeutet nicht automatisch gute Tests. Auch schlechter oder bedeutungsloser Code kann vollständig abgedeckt sein."
+            },
+            {
+              "type": "comparison",
+              "title": "Hohe vs niedrige Coverage",
+              "columns": ["Hohe Coverage", "Niedrige Coverage"],
+              "rows": [
+                {
+                  "aspect": "Sichtbarkeit",
+                  "values": ["Viele Bereiche getestet", "Lücken im Code"]
+                },
+                {
+                  "aspect": "Aussagekraft",
+                  "values": ["Nur bedingt", "Hinweis auf fehlende Tests"]
+                },
+                {
+                  "aspect": "Ziel",
+                  "values": ["Nicht Selbstzweck", "Verbesserungsbedarf"]
+                }
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "CI Integration",
+              "text": "Continuous Integration bedeutet, dass Tests automatisch bei jedem Commit oder Pull Request ausgeführt werden."
+            },
+            {
+              "type": "explanation",
+              "title": "Warum CI wichtig ist",
+              "text": [
+                "Tests laufen automatisch bei Änderungen im Code.",
+                "Fehler werden sofort erkannt.",
+                "Der Build bleibt stabil.",
+                "Teamarbeit wird sicherer."
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "GitLab CI/CD",
+              "text": "GitLab CI/CD führt Build und Tests automatisch über eine Pipeline aus, die in einer .gitlab-ci.yml Datei im Projekt konfiguriert wird."
+            },
+            {
+              "type": "explanation",
+              "title": "Wie CI in GitLab funktioniert",
+              "text": [
+                "In GitLab wird die CI Konfiguration normalerweise in einer .gitlab-ci.yml Datei im Root des Repositories definiert.",
+                "Darin beschreibt man Jobs wie configure, build und test.",
+                "Diese Jobs laufen in einer Pipeline automatisch z.B. bei Push oder Merge Request.",
+                "Der Pipeline Editor in GitLab kann die Konfiguration direkt validieren und visualisieren."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Einfaches Beispiel für GitLab CI mit CMake und CTest",
+              "language": "yaml",
+              "code": "stages:\n  - build\n  - test\n\nbuild:\n  stage: build\n  image: ubuntu:24.04\n  before_script:\n    - apt-get update\n    - apt-get install -y cmake g++ make\n  script:\n    - cmake -S . -B build\n    - cmake --build build\n  artifacts:\n    paths:\n      - build/\n\ntest:\n  stage: test\n  image: ubuntu:24.04\n  before_script:\n    - apt-get update\n    - apt-get install -y cmake g++ make\n  script:\n    - cmake -S . -B build\n    - cmake --build build\n    - ctest --test-dir build --output-on-failure\n"
+            },
+            {
+              "type": "explanation",
+              "title": "Was in diesem GitLab Beispiel passiert",
+              "text": [
+                "stages definiert die Reihenfolge der Pipeline, hier build und test.",
+                "Jeder Job beschreibt, in welcher Stage er läuft und welche Befehle ausgeführt werden.",
+                "Mit artifacts können erzeugte Dateien wie der build Ordner zwischen Jobs weitergegeben werden.",
+                "CTest führt am Ende alle in CMake registrierten Tests aus."
+              ]
+            },
+            {
+              "type": "code",
+              "title": "Beispiel GitHub Actions Workflow",
+              "language": "yaml",
+              "code": "name: C++ Tests\n\non: [push, pull_request]\n\njobs:\n  build-and-test:\n    runs-on: ubuntu-latest\n\n    steps:\n      - uses: actions/checkout@v3\n\n      - name: Configure\n        run: cmake -S . -B build\n\n      - name: Build\n        run: cmake --build build\n\n      - name: Test\n        run: ctest --test-dir build"
+            },
+            {
+              "type": "comparison",
+              "title": "GitHub Actions vs GitLab CI",
+              "columns": ["GitHub Actions", "GitLab CI"],
+              "rows": [
+                {
+                  "aspect": "Konfigurationsdatei",
+                  "values": [".github/workflows/*.yml", ".gitlab-ci.yml"]
+                },
+                {
+                  "aspect": "Struktur",
+                  "values": ["Workflows und Jobs", "Stages und Jobs"]
+                },
+                {
+                  "aspect": "Testausführung",
+                  "values": ["z.B. cmake + ctest", "z.B. cmake + ctest"]
+                }
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Auch in GitLab gilt: Tests sollten automatisch bei Änderungen laufen, damit Fehler sofort sichtbar werden."
+            },
+            {
+              "type": "pitfall",
+              "title": "Build nur lokal ausführen",
+              "text": "Wenn Tests nur lokal laufen, fehlt die automatische Absicherung bei Pushes und Merge Requests. Genau dafür ist CI da."
+            },
+            {
+              "type": "important",
+              "text": "In professionellen Projekten werden Tests fast immer automatisch in CI ausgeführt."
+            },
+            {
+              "type": "definition",
+              "term": "Benchmarking",
+              "text": "Benchmarking misst die Performance von Code, z.B. Laufzeit oder Speicherverbrauch."
+            },
+            {
+              "type": "definition",
+              "term": "Testing",
+              "text": "Testing überprüft die Korrektheit von Verhalten, nicht die Geschwindigkeit."
+            },
+            {
+              "type": "comparison",
+              "title": "Benchmarking vs Testing",
+              "columns": ["Testing", "Benchmarking"],
+              "rows": [
+                {
+                  "aspect": "Ziel",
+                  "values": ["Korrektheit prüfen", "Performance messen"]
+                },
+                {
+                  "aspect": "Ergebnis",
+                  "values": ["Pass/Fail", "Messwerte"]
+                },
+                {
+                  "aspect": "Einsatz",
+                  "values": ["Standard", "Optional/gezielt"]
+                }
+              ]
+            },
+            {
+              "type": "explanation",
+              "title": "Wann Benchmarking sinnvoll ist",
+              "text": [
+                "Bei Performance kritischen Funktionen.",
+                "Bei Algorithmen und Datenstrukturen.",
+                "Wenn Optimierungen überprüft werden sollen.",
+                "Nicht für normalen Business Code notwendig."
+              ]
+            },
+            {
+              "type": "definition",
+              "term": "Property-based Testing",
+              "text": "Property-based Testing prüft allgemeine Eigenschaften eines Programms mit vielen automatisch generierten Eingaben."
+            },
+            {
+              "type": "explanation",
+              "title": "Grundidee von Property-based Testing",
+              "text": [
+                "Statt einzelne Beispiele zu testen, definiert man Eigenschaften.",
+                "Das System wird mit vielen zufälligen Eingaben getestet.",
+                "So können unerwartete Edge Cases gefunden werden."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Beispiel für Properties",
+              "items": [
+                "Addition ist kommutativ (a + b == b + a)",
+                "Sortieren verändert die Anzahl der Elemente nicht",
+                "Eine Validierung akzeptiert nur gültige Daten"
+              ]
+            },
+            {
+              "type": "pitfall",
+              "title": "Komplexität",
+              "text": "Property-based Testing ist deutlich komplexer und selten notwendig für typische Projekte."
+            },
+            {
+              "type": "explanation",
+              "title": "Wann diese Themen relevant werden",
+              "text": [
+                "Wenn das Projekt wächst und stabil bleiben muss.",
+                "Wenn mehrere Entwickler zusammenarbeiten.",
+                "Wenn Qualität systematisch gesichert werden soll.",
+                "Wenn Performance eine Rolle spielt."
+              ]
+            },
+            {
+              "type": "list",
+              "title": "Was du zuerst können solltest",
+              "items": [
+                "Saubere Unit Tests schreiben",
+                "Mocking verstehen",
+                "Tests strukturieren",
+                "CMake Integration sicher beherrschen"
+              ]
+            },
+            {
+              "type": "important",
+              "text": "Fortgeschrittene Themen sind nur sinnvoll, wenn die Grundlagen wirklich sauber umgesetzt sind."
+            },
+            {
+              "type": "summary",
+              "points": [
+                "Code Coverage zeigt, was getestet wird, aber nicht wie gut",
+                "CI führt Tests automatisch aus",
+                "Benchmarking misst Performance, nicht Korrektheit",
+                "Property-based Testing testet allgemeine Eigenschaften",
+                "Diese Themen sind Erweiterungen, nicht Grundlagen"
+              ]
+            }
+          ]
+        }
+
+
+
+        ]
+      }
+
+      
+    ]
+  },
+
+
+
+
   {
     "category": "Extras",
     "icon": "⭐",
